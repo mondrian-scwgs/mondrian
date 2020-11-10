@@ -1,0 +1,2 @@
+include versioneer.py
+include mondrian/_version.py
