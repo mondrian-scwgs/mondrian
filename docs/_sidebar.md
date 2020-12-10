@@ -9,3 +9,4 @@
 - [Contribute](contribute/README.md)
   - [wdl conventions](contribute/wdl_conventions.md)
   - [python conventions](contribute/python_conventions.md) 
+  - [issue tracker](contribute/issue_tracker.md)
