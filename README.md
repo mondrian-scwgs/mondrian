@@ -1,5 +1,7 @@
 # mondrian: A modular, extensible platform for scWGS informatics
 
+[![Join the chat at https://gitter.im/mondrianscwgs/community](https://badges.gitter.im/mondrianscwgs/community.svg)](https://gitter.im/mondrianscwgs/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [Changelog](CHANGELOG.md)
 
