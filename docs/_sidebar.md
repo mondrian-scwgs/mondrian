@@ -1,4 +1,2 @@
-
-* [Home](/)
-* [Getting Started](install/getting_started.md)
-
+* [Home](/ "main")
+* [Getting Started](install/getting_started.md "getting started")
