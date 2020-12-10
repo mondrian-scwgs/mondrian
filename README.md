@@ -10,23 +10,20 @@ Mondrian is a proposed suite of workflows for analysing the single cell data gen
 
 ## Where to get it
 The source code is currently hosted on GitHub at:
-https://github.com/shahcompbio/mondrian
+https://github.com/mondrian-scdna/mondrian
 
 docker containers are available at
 https://hub.docker.com/orgs/mondrian
-
-conda packages are available at
-https://anaconda.org/mondrian
 
 ## License
 [GPL v3.0](LICENSE)
 
 ## Documentation
-The official documentation is hosted on https://mondrian.readthedocs.io/en/latest/
+The official documentation is hosted on https://mondrian-scdna.github.io/mondrian/
 
 ## Getting Help
 
-For usage questions, the best place to go to is [Google Groups](https://groups.google.com/forum/#!forum/mondrianscdna).
+For usage questions, the best place to go to is [Gitter channel](https://gitter.im/mondrianscdna)
 
 ## Discussion and Development
 Most development discussions take place on github in this repo.
@@ -34,14 +31,14 @@ Most development discussions take place on github in this repo.
 
 ## Contributing to mondrian
 
-The code is hosted on [GitHub](https://www.github.com/shahcompbio/mondrian), so you will need to use [Git](https://git-scm.com/) to clone the project and make changes to the codebase. Once you have obtained a copy of the code, you should create a development environment that is separate from your existing Python environment so that you can make and test changes without compromising your own work environment.
+The code is hosted on [GitHub](https://www.github.com/mondrian-scdna/mondrian), so you will need to use [Git](https://git-scm.com/) to clone the project and make changes to the codebase. Once you have obtained a copy of the code, you should create a development environment that is separate from your existing Python environment so that you can make and test changes without compromising your own work environment.
 
 Before submitting your changes for review, make sure to check that your changes do not break any tests.
 
 Once your changes are ready to be submitted, make sure to push your changes to GitHub before creating a pull request. We will review your changes, and you will most likely be asked to make additional changes before it is finally ready to merge. However, once it's ready, we will merge it, and you will have successfully contributed to the codebase!
 
 
-As contributors and maintainers to this project, you are expected to abide by mondrian' code of conduct. More information can be found at: [Contributor Code of Conduct](https://github.com/shahcompbio/mondrian/blob/master/.github/CODE_OF_CONDUCT.md).
+As contributors and maintainers to this project, you are expected to abide by mondrian' code of conduct. More information can be found at: [Contributor Code of Conduct](https://github.com/mondrian-scdna/mondrian/blob/master/.github/CODE_OF_CONDUCT.md).
 
 Feel free to ask questions on the mailing list or on Gitter.
 
