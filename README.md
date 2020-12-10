@@ -12,24 +12,24 @@ Mondrian is a proposed suite of workflows for analysing the single cell data gen
 
 ## Where to get it
 The source code is currently hosted on GitHub at:
-https://github.com/mondrian-scdna/mondrian
+https://github.com/mondrian-scwgs/mondrian
 
 docker containers are available at
-https://hub.docker.com/orgs/mondrian
+https://quay.io/organization/mondrianscwgs
 
 ## License
 [GPL v3.0](LICENSE)
 
 ## Documentation
-The official documentation is hosted on https://mondrian-scdna.github.io/mondrian/
+The official documentation is hosted on https://mondrian-scwgs.github.io/mondrian/
 
 ## Getting Help
 
-For usage questions, the best place to go to is [Gitter channel](https://gitter.im/mondrianscdna)
+For usage questions, the best place to go to is [Gitter channel](https://gitter.im/mondrianscwgs)
 
 ## Discussion and Development
 Most development discussions take place on github in this repo.
- and a [Gitter channel](https://gitter.im/mondrianscdna) is available for quick development related questions.
+ and a [Gitter channel](https://gitter.im/mondrianscwgs) is available for quick development related questions.
 
 ## Contributing to mondrian
 
@@ -42,6 +42,6 @@ Once your changes are ready to be submitted, make sure to push your changes to G
 
 As contributors and maintainers to this project, you are expected to abide by mondrian' code of conduct. More information can be found at: [Contributor Code of Conduct](https://github.com/mondrian-scdna/mondrian/blob/master/.github/CODE_OF_CONDUCT.md).
 
-Feel free to ask questions on the mailing list or on Gitter.
+Feel free to ask questions on Gitter.
 
 As contributors and maintainers to this project, you are expected to abide by mondrian's code of conduct. More information can be found at: Contributor Code of Conduct
