@@ -1,5 +1,7 @@
 # Python conventions and style guide
 
+
+
 ## typing
 
 all python code must have type hints. 
@@ -85,13 +87,13 @@ x = confusing_function()  # type: ignore
 ## Comments:
 
 - always add a space after `#`
-	```
+```
 	for i in range(0, 10):
     # Loop over i ten times and print out the value of i, followed by a
     # new line character
         print(i, '\n')
     x: int = 5  # This is an inline comment
-	```
+```
 
 
 ## line breaks
@@ -104,7 +106,6 @@ age: Dict[str, int] = {
     'Bob': 28,
     'Ann': 26,
 }
-
 def function(
         arg_one: int,
         arg_two: int,
@@ -168,12 +169,9 @@ def get_read_tag(fastq_read: str):
 ```
 
 
-*Class docstrings:*
+**Class docstrings:**
 
-PEP 257 states:
-```
 The docstring for a class should summarize its behavior and list the public methods and instance variables. If the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be listed separately (in the docstring). The class constructor should be documented in the docstring for its __init__ method. Individual methods should be documented by their own docstring.
-```
 
 ```
 class Person:
@@ -233,10 +231,7 @@ class Person:
         print(f'My name is {self.name} {self.surname}. I am {self.age} years old.' + additional)
 ```
 
+## Guides
+- always follow [PEP-8](https://www.python.org/dev/peps/pep-0008/)
+- refer to [mypy](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html) for type hints
 
-
-## cliffnotes:
-- always follow pep-8 style guidelines
-- line length under 100
-- explicit is better than implicit
-- never use single variable names (except for common ones like i,j for index when iterating)
