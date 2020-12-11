@@ -1,9 +1,5 @@
 # Python conventions and style guide
 
-- Always use a linting tool. 
-
-
-
 ## typing
 
 all python code must have type hints. 
@@ -70,23 +66,23 @@ x = confusing_function()  # type: ignore
 
 ```
 
-#### naming:
+## naming:
 - function: lowercase word(s). underscore separated
 - variable: lowercase word(s). underscore separated
 - class: CamelCase (camelCase is not acceptable)
 - constant: UPPERCASE
 - module: lowercase word(s). underscore separated
 
-#### blank lines:
+## blank lines:
 - surround top level functions with 2 lines
 - surround method definitions inside classes with a single blank line
 - use blank line in function to separate code when necessary
 
-#### Indent:
+## Indent:
 4 spaces. no exceptions.
 
 
-#### Comments:
+## Comments:
 
 - always add a space after `#`
 	```
@@ -98,7 +94,7 @@ x = confusing_function()  # type: ignore
 	```
 
 
-#### line breaks
+## line breaks
 
 - line length under 80
 - use hanging indents.
@@ -126,9 +122,9 @@ total = (first_variable
 
 
 
-#### imports
+## imports
 
-ok:
+yes:
 ```
 from mypkg import example1, \
     example2, example3
@@ -142,7 +138,6 @@ from mypkg import example4
 
 ```
 
-
 no:
 ```
 import sys, os
@@ -151,7 +146,7 @@ import sys, os
 from sys import *
 ```
 
-#### Doc strings
+## Doc strings
 
 are required. 
 
