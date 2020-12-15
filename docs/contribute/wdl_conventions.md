@@ -122,31 +122,10 @@ required keys:
 - 
 
 
-## Modularization
-
-
-### Tasks 
-- All tasks should go in the `mondrian/wdl/tasks/` folder
-- each wdl file must only contain tasks corresponding to a certain tool
-- Any tasks related to handling inputs and output files must go in `mondrian/wdl/tasks/`
-
-### Workflows
-- All workflows that contain tasks must go in `mondrian/wdl/workflows/` 
-- each wdl file must only contain tasks corresponding to a certain tool
-- workflows can contain workflows and structs
-
-### Analyses
-- Analyses are higher level workflows that string together multiple worflows that all do the same kind of computation.
-- All analyses should go into `mondrian/wdl/analyses/`
-- 
-
-## Imports
-- use `as` format
-- order alphabetically
-
-
-
 ### Empty lines
 
-- one empty line after each subsection of a task or workflow 
-- 2 empty lines after each task or workflow
+- one empty line after each subsection of a task or workflow
+- 2 empty lines after each task or workflow(base) MacBook-Pro-3:docs grewald$
+
+
+
