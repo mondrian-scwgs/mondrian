@@ -40,8 +40,9 @@ where:
 
 Additionally, Each read in the bam file will contain the following tag:
 
+```
 FS:Z:mm10_0,salmon_0,grch37_1
-
+```
 
 to specify which genome the read matches to. 
 

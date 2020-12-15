@@ -13,7 +13,7 @@
 
 - [Data Formats](data_formats/README.md)
   - [Cell Fastqs](data_formats/cell_fastqs.md)
-  - [Cell Bam](data_formats/per_cell_bam.md)
+  - [Cell Bam](data_formats/per_cell_bams.md)
   - [Merged Bam](data_formats/merged_library_bam.md)
 
 - [Contribute](contribute/README.md)
