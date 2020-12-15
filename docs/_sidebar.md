@@ -6,10 +6,10 @@
   - [singularity](quickstart/singularity.md)
   - [lsf](quickstart/lsf.md)
 
-- [Workflows](workflows/README.md)
-  - [alignment](workflows/alignment.md)
-  - [variant calling](workflows/variant_calling.md)
-  - [breakpoint calling](workflows/breakpoint_calling.md)
+- [Analyses](analyses/README.md)
+  - [alignment](analyses/alignment.md)
+  - [variant calling](analyses/variant_calling.md)
+  - [breakpoint calling](analyses/breakpoint_calling.md)
 
 - [Data Formats](data_formats/README.md)
   - [Cell Fastqs](data_formats/cell_fastqs.md)
