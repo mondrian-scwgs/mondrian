@@ -6,8 +6,9 @@ Variant calling analysis runs the following workflows:
 - Strelka
 - Mutect
 
-The analysis takes in tumour and normal bam files as input and generates a set of high confidence breakpoints that can be used for downstream analyses. 
+The analysis takes in one or more tumour files and a single normal bam file as input.  The above tools are used to predict somatic SNVs and InDels, with the output being a set of variant calls.  Multiple tumour bam inputs are provided as a way of allowing for the input of sequencing from multiple scWGS runs, or as a way to split very large datasets into managable sets of bams.  The workflow outputs a vcf per tumour bam input, per analysis type.  In addition, vcfs are merged and converted to maf to produce a single somatic high confidence maf of SNVs and InDels.
 
+> Note that currently only one bam input is supported.
 
 ## Input Data Format:
 
@@ -33,3 +34,4 @@ A normal Bam file:
 - strelka_snv.csv
 - strelka_indel.vcf
 - high_confidence.csv.gz
+- somatic.maf (future)
