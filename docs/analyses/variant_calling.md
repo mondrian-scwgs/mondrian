@@ -10,6 +10,8 @@ The analysis takes in one or more tumour files and a single normal bam file as i
 
 > Note that currently only one bam input is supported.
 
+![](https://lucid.app/publicSegments/view/d681122f-8d6c-4eec-8316-2dab52aa4396/image.png)
+
 ## Input Data Format:
 
 ### Tumour:
