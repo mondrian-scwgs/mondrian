@@ -1,10 +1,10 @@
-version 1.0
+version development
 
 
 task runGridss{
     input{
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
         Int numThreads
         File reference
         File reference_fai
@@ -15,7 +15,7 @@ task runGridss{
         File reference_pac
     }
 #    command{
-#        gridss.sh --assembly assembly/assembly.bam --reference ~{reference} --output calls.vcf.gz --threads ~{numThreads} --workingdir workingdir --jvmheap 30g --steps All --labels tumour,normal ~{tumourBam} ~{normalBam}
+#        gridss.sh --assembly assembly/assembly.bam --reference ~{reference} --output calls.vcf.gz --threads ~{numThreads} --workingdir workingdir --jvmheap 30g --steps All --labels tumour,normal ~{tumour_bam} ~{normal_bam}
 #    }
     command{
         touch calls.vcf.gz

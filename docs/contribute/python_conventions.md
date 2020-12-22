@@ -94,6 +94,16 @@ x = confusing_function()  # type: ignore
         print(i, '\n')
     x: int = 5  # This is an inline comment
 ```
+## Strings
+
+- all strings should use `"`quotes
+- always use fstrings
+- when using fstrings, key access should use `'`
+
+Example:
+```
+f"here is {mydict['key']}"
+```
 
 
 ## line breaks

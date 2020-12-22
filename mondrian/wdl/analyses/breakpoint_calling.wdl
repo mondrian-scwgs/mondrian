@@ -1,17 +1,17 @@
-version 1.0
+version development
 
 
-import "breakpoint_calling/destruct.wdl" as destruct
-import "breakpoint_calling/lumpy.wdl" as lumpy
-import "breakpoint_calling/gridss.wdl" as gridss
-import "breakpoint_calling/svaba.wdl" as svaba
+import "../workflows/breakpoint_calling/destruct.wdl" as destruct
+import "../workflows/breakpoint_calling/lumpy.wdl" as lumpy
+import "../workflows/breakpoint_calling/gridss.wdl" as gridss
+import "../workflows/breakpoint_calling/svaba.wdl" as svaba
 
 
 
 workflow BreakpointWorkflow {
     input {
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
         String refDir
         Int numThreads
         File reference
@@ -36,14 +36,14 @@ workflow BreakpointWorkflow {
 
     call lumpy.LumpyWorkflow as lumpy{
         input:
-            normalBam = normalBam,
-            tumourBam = tumourBam
+            normal_bam = normal_bam,
+            tumour_bam = tumour_bam
     }
 
     call destruct.DestructWorkflow as destruct{
         input:
-            normalBam = normalBam,
-            tumourBam = tumourBam,
+            normal_bam = normal_bam,
+            tumour_bam = tumour_bam,
             reference = reference,
             reference_fai = reference_fai,
             reference_amb = reference_amb,
@@ -66,8 +66,8 @@ workflow BreakpointWorkflow {
 
 #    call gridss.GridssWorkflow as gridss{
 #        input:
-#            normalBam = normalBam,
-#            tumourBam = tumourBam,
+#            normal_bam = normal_bam,
+#            tumour_bam = tumour_bam,
 #            numThreads = numThreads,
 #            reference = reference,
 #            reference_fai = reference_fai,
@@ -79,8 +79,8 @@ workflow BreakpointWorkflow {
 #    }
     call svaba.SvabaWorkflow as svaba{
         input:
-            normalBam = normalBam,
-            tumourBam = tumourBam,
+            normal_bam = normal_bam,
+            tumour_bam = tumour_bam,
             numThreads = numThreads,
             reference = reference,
             reference_fai = reference_fai,

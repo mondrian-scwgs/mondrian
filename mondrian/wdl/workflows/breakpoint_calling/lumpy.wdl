@@ -1,4 +1,4 @@
-version 1.0
+version development
 
 import "../../tasks/io/bam/samtools.wdl" as samtools
 import "../../tasks/breakpoint_calling/lumpy.wdl" as lumpy
@@ -7,13 +7,13 @@ import "../../tasks/breakpoint_calling/lumpy.wdl" as lumpy
 
 workflow LumpyWorkflow {
     input {
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
     }
 
     call samtools.viewBam as normal_discordant_bam {
         input:
-            inputBam = normalBam,
+            inputBam = normal_bam,
             outputBam = "normal_discordant.bam",
             flag = 1294
     }
@@ -26,7 +26,7 @@ workflow LumpyWorkflow {
 
     call lumpy.extractSplitReads as normal_split_bam{
         input:
-            inputBam = normalBam,
+            inputBam = normal_bam,
             outputBam = "normal_split.bam"
     }
 
@@ -40,7 +40,7 @@ workflow LumpyWorkflow {
 
     call samtools.viewBam as tumour_discordant_bam {
         input:
-            inputBam = tumourBam,
+            inputBam = tumour_bam,
             outputBam = "tumour_discordant.bam",
             flag = 1294
     }
@@ -53,7 +53,7 @@ workflow LumpyWorkflow {
 
     call lumpy.extractSplitReads as tumour_split_bam{
         input:
-            inputBam = tumourBam,
+            inputBam = tumour_bam,
             outputBam = "tumour_split.bam"
     }
 
@@ -69,8 +69,8 @@ workflow LumpyWorkflow {
             tumourSplitBam = sort_tumour_split_bam.sortedBam,
             normalDiscBam = sort_normal_discordant_bam.sortedBam,
             tumourDiscBam = sort_tumour_discordant_bam.sortedBam,
-            normalBam = normalBam,
-            tumourBam = tumourBam
+            normal_bam = normal_bam,
+            tumour_bam = tumour_bam
     }
     output{
         File lumpyVcf = lumpyexpress.lumpyVcf

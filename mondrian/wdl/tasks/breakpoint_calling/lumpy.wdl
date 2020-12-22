@@ -1,4 +1,4 @@
-version 1.0
+version development
 
 
 task extractSplitReads{
@@ -24,11 +24,11 @@ task lumpyExpress{
         File tumourSplitBam
         File normalDiscBam
         File tumourDiscBam
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
     }
     command{
-        lumpyexpress -B ~{normalBam} ~{tumourBam} -S ~{normalSplitBam} ~{tumourSplitBam} -D ~{normalDiscBam} ~{tumourDiscBam}
+        lumpyexpress -B ~{normal_bam} ~{tumour_bam} -S ~{normalSplitBam} ~{tumourSplitBam} -D ~{normalDiscBam} ~{tumourDiscBam}
         mv *vcf lumpy.vcf
 
     }

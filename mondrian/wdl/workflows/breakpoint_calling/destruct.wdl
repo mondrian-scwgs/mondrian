@@ -1,12 +1,12 @@
-version 1.0
+version development
 
 import "../../tasks/breakpoint_calling/destruct.wdl" as destruct
 
 
 workflow DestructWorkflow{
     input{
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
         File reference
         File reference_fai
         File reference_amb
@@ -29,8 +29,8 @@ workflow DestructWorkflow{
 
     call destruct.runDestruct as run_destruct{
         input:
-            normalBam = normalBam,
-            tumourBam = tumourBam,
+            normal_bam = normal_bam,
+            tumour_bam = tumour_bam,
             reference = reference,
             reference_fai = reference_fai,
             reference_amb = reference_amb,

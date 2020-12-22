@@ -1,10 +1,10 @@
-version 1.0
+version development
 
 
 task runSvaba{
     input{
-        File normalBam
-        File tumourBam
+        File normal_bam
+        File tumour_bam
         Int numThreads
         File reference
         File reference_fai
@@ -15,7 +15,7 @@ task runSvaba{
         File reference_pac
     }
     command{
-        svaba run -t ~{tumourBam} -n ~{normalBam} -G ~{reference} -z -p ~{numThreads} -a output
+        svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{reference} -z -p ~{numThreads} -a output
     }
     output{
         File OutputBam = "output.svaba.somatic.sv.vcf.gz"
