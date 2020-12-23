@@ -16,6 +16,7 @@ Alignment also runs the following to collect metrics about the aligned data:
 
 The analysis takes in per cell (per lane) fastq files as input and generates one bam file per cell.
 
+![](https://lucid.app/publicSegments/view/a0884cb4-a4ff-4696-990f-53c28276a254/image.png)
 
 ## Input Data Format:
 
