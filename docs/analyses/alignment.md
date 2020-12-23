@@ -21,7 +21,7 @@ The analysis takes in per cell (per lane) fastq files as input and generates one
 
 The input to the pipeline will be a directory with all fastq files for the library. A metadata yaml file is also expected in the directory with the metadata for each cell.
 
-Please see [Cell Fastq](data_formats/cell_fastqs.md) for detailed explanation. 
+Please see [Cell Fastq](../data_formats/cell_fastqs.md) for detailed explanation. 
 
 
 
@@ -30,6 +30,6 @@ Please see [Cell Fastq](data_formats/cell_fastqs.md) for detailed explanation.
 The pipeline will generate one bam file per cell, the outputs will be stored in the output directory provided at run time. 
 
 
-Please see [Cell Bams](data_formats/per_cell_bams.md) for detailed explanation. 
+Please see [Cell Bams](../data_formats/per_cell_bams.md) for detailed explanation. 
 
 
