@@ -117,6 +117,10 @@ meta:
 
 ## BAM Files
 
+### File naming
+
+BAM files should be named as `{cell_id}.bam` and exist in the root directory of the dataset.
+
 ### Read Groups
 
 The Bams should have the following read group format:
