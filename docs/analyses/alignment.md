@@ -34,3 +34,5 @@ The pipeline will generate one bam file per cell, the outputs will be stored in 
 Please see [Cell Bams](../data_formats/per_cell_bams.md) for detailed explanation. 
 
 
+TODO: tabular outputs and their filenames
+
