@@ -32,8 +32,6 @@ A normal Bam file:
 - adapters must be trimmed.
 - ideally, no secondary alignments in bam files
 
-
-
 ### Output Data Format:
 
 - Gridss.vcf
@@ -41,3 +39,6 @@ A normal Bam file:
 - destruct.csv
 - lumpy.vcf
 - high_confidence.csv.gz
+
+TODO: filenames with identifiers?
+
