@@ -34,3 +34,5 @@ A normal BAM file:
 - {sample}/somatic.vcf
 - high_confidence.csv.gz
 - somatic.maf
+
+TODO: filenames with metadata?
