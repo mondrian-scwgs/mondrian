@@ -1,6 +1,6 @@
 # Cell FASTQ Specification
 
-The cell fastq format consists of a set of cell / lane specific fastq files and a `metadata.yaml` file.  The format conforms to the generic format described in [](generic_f).
+The cell fastq format consists of a set of cell / lane specific fastq files and a `metadata.yaml` file.  The format conforms to the generic format described in [generic_dataset.md](generic_dataset.md).
 
 ## Metadata file
 
