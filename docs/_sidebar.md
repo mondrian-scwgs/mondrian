@@ -21,3 +21,4 @@
   - [python conventions](contribute/python_conventions.md) 
   - [issue tracker](contribute/issue_tracker.md)
   - [code structure](contribute/structure.md)
+  - [git](contribute/git_conventions.md)
