@@ -4,9 +4,13 @@ version development
 task runConsensusCalling{
     input{
         File museq_vcf
+        File museq_vcf_tbi
         File strelka_snv
+        File strelka_snv_tbi
         File strelka_indel
+        File strelka_indel_tbi
         File mutect_vcf
+        File mutect_vcf_tbi
         Array[String] chromosomes
     }
     command<<<

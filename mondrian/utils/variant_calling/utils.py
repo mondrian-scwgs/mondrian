@@ -3,6 +3,7 @@ import gzip
 import argparse
 import numpy as np
 import pysam
+import pandas as pd
 
 from . import consensus
 
@@ -82,7 +83,7 @@ def _get_sample_id(bamfile):
     return list(samples)[0]
 
 
-def vcf_reheader_id(infile, outfile, tumour_bam, normal_bam):
+def vcf_reheader_id(infile, outfile, tumour_bam, normal_bam, vcf_normal_id, vcf_tumour_id):
     tumour_id = _get_sample_id(tumour_bam)
     normal_id = _get_sample_id(normal_bam)
 
@@ -95,10 +96,82 @@ def vcf_reheader_id(infile, outfile, tumour_bam, normal_bam):
                 if line.startswith('#CHROM'):
                     outdata.write('##tumor_sample={}\n'.format(tumour_id))
                     outdata.write('##normal_sample={}\n'.format(normal_id))
-                    line = line.replace('TUMOR', tumour_id).replace('NORMAL', normal_id)
+                    line = line.replace(vcf_tumour_id, tumour_id).replace(vcf_normal_id, normal_id)
                     outdata.write(line)
                 else:
                     outdata.write(line)
+
+
+def update_maf_ids(infile, output, tumour_id, normal_id):
+    with open(infile) as infile_read:
+        maf_header = infile_read.readline()
+    assert maf_header.startswith('#version 2.4')
+
+    df = pd.read_csv(infile, skiprows=1, sep='\t')
+
+    assert len(df['Tumor_Sample_Barcode'].unique()) == 1
+    assert df['Tumor_Sample_Barcode'].unique()[0] == 'TUMOR'
+
+    assert len(df['Matched_Norm_Sample_Barcode'].unique()) == 1
+    assert df['Matched_Norm_Sample_Barcode'].unique()[0] == 'NORMAL'
+
+    df['Matched_Norm_Sample_Barcode'] = normal_id
+
+    # for germlines tumour will be none
+    if tumour_id is None:
+        tumour_id = 'NA'
+    df['Tumor_Sample_Barcode'] = tumour_id
+
+    with open(output, 'wt') as outfile:
+        outfile.write(maf_header)
+
+        df.to_csv(outfile, sep='\t', index=False)
+
+
+def update_maf_counts(input_maf, counts_file, output_maf):
+    counts = {}
+    with open(counts_file) as infile:
+        for line in infile:
+            line = line.strip().split()
+            chrom, pos, id, na, nr, nd = line
+            counts[(chrom, pos, id)] = (na, nr, nd)
+
+    with open(input_maf) as infile, open(output_maf, 'wt') as outfile:
+        header = infile.readline()
+        assert header.startswith('#')
+        outfile.write(header)
+
+        header = infile.readline()
+        outfile.write(header)
+
+        header = {v: i for i, v in enumerate(header.strip().split('\t'))}
+        n_dp = header['n_depth']
+        n_ref = header['n_alt_count']
+        n_alt = header['n_ref_count']
+
+        chrom = header['Chromosome']
+        pos = header['vcf_pos']
+        vcfid = header['vcf_id']
+
+        for line in infile:
+            line = line.strip().split('\t')
+
+            try:
+                na, nr, nd = counts[(line[chrom], line[pos], line[vcfid])]
+            except:
+                print(line)
+                print(chrom, pos)
+                print(line[chrom])
+                print(line[pos])
+                raise
+
+            line[n_dp] = nd
+            line[n_ref] = nr
+            line[n_alt] = na
+
+            line = '\t'.join(line) + '\n'
+
+            outfile.write(line)
 
 
 def parse_args():
@@ -166,7 +239,7 @@ def parse_args():
     consensus.add_argument('--strelka_snv', required=True)
     consensus.add_argument('--consensus_output', required=True)
     consensus.add_argument('--counts_output', required=True)
-    consensus.add_argument('--chromosomes', default=[str(v) for v in range(1, 23)] + ['X', 'Y'])
+    consensus.add_argument('--chromosomes', default=[str(v) for v in range(1, 23)] + ['X', 'Y'], nargs='*')
 
     vcf_reheader_id = subparsers.add_parser('vcf_reheader_id')
     vcf_reheader_id.set_defaults(which='vcf_reheader_id')
@@ -174,6 +247,21 @@ def parse_args():
     vcf_reheader_id.add_argument('--output', required=True)
     vcf_reheader_id.add_argument('--tumour', required=True)
     vcf_reheader_id.add_argument('--normal', required=True)
+    vcf_reheader_id.add_argument('--vcf_normal_id', required=True)
+    vcf_reheader_id.add_argument('--vcf_tumour_id', required=True)
+
+    update_maf_id = subparsers.add_parser('update_maf_ids')
+    update_maf_id.set_defaults(which='update_maf_ids')
+    update_maf_id.add_argument('--input', required=True)
+    update_maf_id.add_argument('--output', required=True)
+    update_maf_id.add_argument('--tumour_id')
+    update_maf_id.add_argument('--normal_id')
+
+    update_maf_id = subparsers.add_parser('update_maf_counts')
+    update_maf_id.set_defaults(which='update_maf_counts')
+    update_maf_id.add_argument('--input', required=True)
+    update_maf_id.add_argument('--counts', required=True)
+    update_maf_id.add_argument('--output', required=True)
 
     args = vars(parser.parse_args())
 
@@ -192,10 +280,14 @@ def utils():
     elif args['which'] == 'get_sample_id_bam':
         get_sample_id_bam(args['input'])
     elif args['which'] == 'vcf_reheader_id':
-        vcf_reheader_id(args['input'], args['output'], args['tumour'], args['normal'])
+        vcf_reheader_id(args['input'], args['output'], args['tumour'], args['normal'], args['vcf_normal_id'], args['vcf_tumour_id'])
+    elif args['which'] == 'update_maf_ids':
+        update_maf_ids(args['input'], args['output'], args['tumour_id'], args['normal_id'])
+    elif args['which'] == 'update_maf_counts':
+        update_maf_counts(args['input'], args['counts'], args['output'])
     elif args['which'] == 'consensus':
         consensus.main(
-            args['museq_vcf'], args['strelka_snv'], args['strelka_indel'],
-            args['mutect_vcf'], args['consensus_output'], args['counts_output'],
+            args['museq_vcf'], args['strelka_snv'], args['mutect_vcf'], args['strelka_indel'],
+            args['consensus_output'], args['counts_output'],
             args['chromosomes']
         )

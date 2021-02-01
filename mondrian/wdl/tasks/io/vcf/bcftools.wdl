@@ -6,13 +6,15 @@ task mergeVcf{
     }
     command<<<
         bcftools concat -O z -o merged.vcf.gz ~{sep=" " vcf_files}
-        tabix -f -p vcf merged.vcf.gz
-        bcftools index merged.vcf.gz
+        vcf-sort merged.vcf.gz > merged_sorted.vcf
+        bgzip merged_sorted.vcf -c > merged_sorted.vcf.gz
+        tabix -f -p vcf merged_sorted.vcf.gz
+        bcftools index merged_sorted.vcf.gz
     >>>
     output{
-        File merged_vcf = 'merged.vcf.gz'
-        File merged_vcf_csi = 'merged.vcf.gz.csi'
-        File merged_vcf_tbi = 'merged.vcf.gz.tbi'
+        File merged_vcf = 'merged_sorted.vcf.gz'
+        File merged_vcf_csi = 'merged_sorted.vcf.gz.csi'
+        File merged_vcf_tbi = 'merged_sorted.vcf.gz.tbi'
     }
 }
 

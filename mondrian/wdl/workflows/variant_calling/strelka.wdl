@@ -76,7 +76,9 @@ workflow StrelkaWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = filter_indel_vcf.filtered_vcf
+            input_vcf = filter_indel_vcf.filtered_vcf,
+            vcf_normal_id = 'NORMAL',
+            vcf_tumour_id = 'TUMOR'
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_indel{
@@ -101,7 +103,9 @@ workflow StrelkaWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = filter_snv_vcf.filtered_vcf
+            input_vcf = filter_snv_vcf.filtered_vcf,
+            vcf_normal_id = 'NORMAL',
+            vcf_tumour_id = 'TUMOR'
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_snv{

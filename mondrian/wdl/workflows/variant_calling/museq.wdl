@@ -15,7 +15,6 @@ workflow MuseqWorkflow{
         File tumour_bai
         File reference
         File reference_fai
-        Directory vep_ref
         Array[String] chromosomes
         Int numThreads
         String tumour_id
@@ -49,7 +48,9 @@ workflow MuseqWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = merge_vcf.merged_vcf
+            input_vcf = merge_vcf.merged_vcf,
+            vcf_normal_id = 'NORMAL',
+            vcf_tumour_id = 'TUMOUR'
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{

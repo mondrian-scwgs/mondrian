@@ -53,7 +53,9 @@ workflow MutectWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = merge_vcf.merged_vcf
+            input_vcf = merge_vcf.merged_vcf,
+            vcf_normal_id = 'NORMAL',
+            vcf_tumour_id = 'TUMOR'
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{
