@@ -6,10 +6,15 @@ task GetSampleId{
     }
     command<<<
 
-    variant_utils get_sample_id_bam --input ~{input_bam}
+    variant_utils get_sample_id_bam --input ~{input_bam} > sampleid.txt
     >>>
     output{
-        String sample_id = read_string(stdout())
+        String sample_id = read_string("sampleid.txt")
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }
 
@@ -43,9 +48,13 @@ task runMutect{
             done
         parallel --jobs ~{cores} < filtered_commands.txt
     >>>
-
     output{
         Array[File] vcf_files = glob("*.filtered.vcf")
+    }
+    runtime{
+        memory: "8G"
+        cpu: 8
+        walltime: "48:00"
     }
 }
 
@@ -62,6 +71,11 @@ task filterMutect{
     >>>
     output{
         File filtered_vcf = "filtered.vcf"
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }
 

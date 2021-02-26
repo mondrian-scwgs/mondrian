@@ -12,7 +12,8 @@ setup(
     entry_points={
         'console_scripts': [
             'mondrian = mondrian.run:main',
-            'variant_utils = mondrian.utils.variant_calling.utils:utils'
+            'variant_utils = mondrian.utils.variant_calling.utils:utils',
+            'breakpoint_utils = mondrian.utils.breakpoint_calling.utils:utils'
         ]
     },
     package_data={'': ['scripts/*.py', 'scripts/*.R', 'scripts/*.npz', "config/*.yaml", "data/*"]}

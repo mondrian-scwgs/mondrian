@@ -5,26 +5,27 @@ task runGridss{
     input{
         File normal_bam
         File tumour_bam
-        Int numThreads
-        File reference
-        File reference_fai
-        File reference_amb
-        File reference_sa
-        File reference_bwt
-        File reference_ann
-        File reference_pac
+        Int num_threads
+        Directory ref_dir
     }
-#    command{
-#        gridss.sh --assembly assembly/assembly.bam --reference ~{reference} --output calls.vcf.gz --threads ~{numThreads} --workingdir workingdir --jvmheap 30g --steps All --labels tumour,normal ~{tumour_bam} ~{normal_bam}
-#    }
     command{
-        touch calls.vcf.gz
+        gridss.sh \
+        --jar /juno/work/shah/users/grewald/CROMWELL/breakpoint/gridss.jar \
+        --assembly assembly/assembly.bam \
+        --reference ~{ref_dir}/GRCh37-lite.fa \
+        --output calls.vcf.gz \
+        --threads ~{num_threads} \
+        --workingdir workingdir \
+        --jvmheap 30g \
+        --steps All \
+        --labels tumour,normal ~{tumour_bam} ~{normal_bam}
     }
     output{
-        File outputBam = "calls.vcf.gz"
+        File output_vcf = "calls.vcf.gz"
     }
     runtime{
-        docker: "quay.io/wgspipeline/gridss:v0.0.1"
+        memory: "8G"
+        cpu: 8
+        walltime: "48:00"
     }
-
 }

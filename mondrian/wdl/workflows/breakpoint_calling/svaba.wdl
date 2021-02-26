@@ -6,32 +6,24 @@ import "../../tasks/breakpoint_calling/svaba.wdl" as svaba
 workflow SvabaWorkflow{
     input{
         File normal_bam
+        File normal_bai
         File tumour_bam
-        Int numThreads
-        File reference
-        File reference_fai
-        File reference_amb
-        File reference_sa
-        File reference_bwt
-        File reference_ann
-        File reference_pac
+        File tumour_bai
+        Int num_threads
+        Directory ref_dir
     }
 
 
     call svaba.runSvaba as run_svaba{
         input:
             normal_bam = normal_bam,
+            normal_bai = normal_bai,
             tumour_bam = tumour_bam,
-            numThreads = numThreads,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_amb = reference_amb,
-            reference_sa = reference_sa,
-            reference_bwt = reference_bwt,
-            reference_ann = reference_ann,
-            reference_pac = reference_pac
+            tumour_bai = tumour_bai,
+            num_threads = num_threads,
+            ref_dir = ref_dir,
     }
     output{
-        File OutputBam = run_svaba.OutputBam
+        File output_vcf = run_svaba.output_vcf
     }
 }

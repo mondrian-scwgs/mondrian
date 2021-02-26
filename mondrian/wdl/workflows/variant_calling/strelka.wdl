@@ -62,7 +62,7 @@ workflow StrelkaWorkflow{
     #################
     # indel
     ##############
-    call bcftools.mergeVcf as merge_indel_vcf{
+    call bcftools.concatVcf as merge_indel_vcf{
         input:
             vcf_files = run_strelka.indels
     }
@@ -83,13 +83,14 @@ workflow StrelkaWorkflow{
 
     call bcftools.FinalizeVcf as finalize_vcf_indel{
         input:
-            vcf_file = reheader_indel.output_file
+            vcf_file = reheader_indel.output_file,
+            filename_prefix = 'strelka_indel'
     }
 
     #############
     # SNV
     #############
-    call bcftools.mergeVcf as merge_snv_vcf{
+    call bcftools.concatVcf as merge_snv_vcf{
         input:
             vcf_files = run_strelka.snvs
     }
@@ -110,7 +111,9 @@ workflow StrelkaWorkflow{
 
     call bcftools.FinalizeVcf as finalize_vcf_snv{
         input:
-            vcf_file = reheader_snv.output_file
+            vcf_file = reheader_snv.output_file,
+            filename_prefix = 'strelka_snv'
+
     }
 
     output{

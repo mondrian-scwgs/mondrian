@@ -23,5 +23,10 @@ task runConsensusCalling{
         File consensus_output = 'consensus.vcf'
         File counts_output = 'counts.csv'
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
+    }
 }
 

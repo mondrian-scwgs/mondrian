@@ -15,8 +15,10 @@ task bwaMemPairedEnd {
         File markdups = "aligned.bam"
         File bai = "aligned.bam.bai"
     }
-    runtime {
-        docker: "quay.io/singlecellpipeline/bwa:v0.0.2"
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
     }
 }
 
@@ -33,8 +35,10 @@ task SamToBam{
     output{
         File samfile = outputSam
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "48:00"
     }
 }
 
@@ -50,8 +54,10 @@ task indexBam{
     output{
         File indexfile = outputBai
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "12:00"
     }
 }
 
@@ -67,8 +73,10 @@ task flagstatBam{
     output{
         File flagstatFile = outputFlagstat
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "24:00"
     }
 }
 
@@ -84,8 +92,10 @@ task mergeBams{
     output{
         File mergedBam = outputFile
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "48:00"
     }
 }
 
@@ -101,8 +111,10 @@ task viewBam{
     output{
         File bamFile = outputBam
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "48:00"
     }
 }
 
@@ -117,7 +129,9 @@ task sortBam{
     output {
         File sortedBam = outputBam
     }
-    runtime {
-        docker : "quay.io/singlecellpipeline/samtools:v0.0.3"
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
     }
 }

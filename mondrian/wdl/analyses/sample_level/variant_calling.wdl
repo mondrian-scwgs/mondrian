@@ -6,6 +6,7 @@ import "../../workflows/variant_calling/strelka.wdl" as strelka
 import "../../workflows/variant_calling/mutect.wdl" as mutect
 import "../../workflows/variant_calling/consensus.wdl" as consensus
 import "../../workflows/variant_calling/vcf2maf.wdl" as vcf2maf
+import "../../tasks/io/vcf/bcftools.wdl" as bcftools
 
 
 
@@ -83,10 +84,20 @@ workflow SampleVariantWorkflow {
             input_counts =  consensus.counts_output,
             normal_id = normal_id,
             tumour_id = tumour_id,
-            reference = vep_ref
+            reference = vep_ref,
+            filename_prefix = tumour_id
+    }
+
+    call bcftools.FinalizeVcf as finalize_vcf{
+        input:
+            vcf_file = consensus.consensus_output,
+            filename_prefix = tumour_id
     }
 
     output{
+        File vcf_output = finalize_vcf.vcf
+        File vcf_csi_output = finalize_vcf.vcf_csi
+        File vcf_tbi_output = finalize_vcf.vcf_tbi
         File maf_output = vcf2maf.output_maf
     }
 

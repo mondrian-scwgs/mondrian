@@ -21,4 +21,9 @@ task vcf_reheader_id{
     output{
         File output_file = "output.vcf.gz"
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
+    }
 }

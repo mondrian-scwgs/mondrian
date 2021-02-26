@@ -6,10 +6,15 @@ task GetGenomeSize{
         Array[String] chromosomes
     }
     command<<<
-        variant_utils genome_size --reference ~{reference} --chromosomes ~{sep=" "  chromosomes}
+        variant_utils genome_size --reference ~{reference} --chromosomes ~{sep=" "  chromosomes} > genome_size.txt
     >>>
     output{
-        Int genome_size = read_int(stdout())
+        Int genome_size = read_int('genome_size.txt')
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }
 
@@ -33,6 +38,11 @@ task GenerateChromDepth{
     output{
         Array[File] chrom_depths = glob("*.chrom_depth.txt")
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
+    }
 }
 
 
@@ -45,6 +55,11 @@ task merge_chrom_depths{
     >>>
     output{
         File merged = "output.txt"
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }
 
@@ -118,5 +133,10 @@ task run_strelka{
         Array[File] indels = glob("*.indels.vcf")
         Array[File] snvs = glob("*.snv.vcf")
         Array[File] stats = glob("*stats.txt")
+    }
+    runtime{
+        memory: "8G"
+        cpu: 8
+        walltime: "48:00"
     }
 }

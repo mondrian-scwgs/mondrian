@@ -73,7 +73,7 @@ workflow LumpyWorkflow {
             tumour_bam = tumour_bam
     }
     output{
-        File lumpyVcf = lumpyexpress.lumpyVcf
+        File lumpy_vcf = lumpyexpress.lumpy_vcf
     }
 }
 

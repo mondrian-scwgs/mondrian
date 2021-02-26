@@ -39,7 +39,7 @@ workflow MuseqWorkflow{
             intervals = gen_int.intervals
     }
 
-    call bcftools.mergeVcf as merge_vcf{
+    call bcftools.concatVcf as merge_vcf{
         input:
             vcf_files = run_museq.vcf_files
     }
@@ -55,7 +55,8 @@ workflow MuseqWorkflow{
 
     call bcftools.FinalizeVcf as finalize_vcf{
         input:
-            vcf_file = reheader.output_file
+            vcf_file = reheader.output_file,
+            filename_prefix = 'museq'
     }
 
     output{

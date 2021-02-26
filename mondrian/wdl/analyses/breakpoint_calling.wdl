@@ -1,93 +1,42 @@
 version development
 
+import "sample_level/breakpoint_calling.wdl" as breakpoint_calling
+#import "../tasks/io/vcf/bcftools.wdl" as bcftools
+import "../tasks/io/csverve/csverve.wdl" as csverve
+#import "../workflows/variant_calling/vcf2maf.wdl" as vcf2maf
 
-import "../workflows/breakpoint_calling/destruct.wdl" as destruct
-import "../workflows/breakpoint_calling/lumpy.wdl" as lumpy
-import "../workflows/breakpoint_calling/gridss.wdl" as gridss
-import "../workflows/breakpoint_calling/svaba.wdl" as svaba
-
-
-
-workflow BreakpointWorkflow {
-    input {
+workflow BreakpointWorkflow{
+    input{
         File normal_bam
-        File tumour_bam
-        String refDir
-        Int numThreads
-        File reference
-        File reference_fai
-        File reference_amb
-        File reference_sa
-        File reference_bwt
-        File reference_ann
-        File reference_pac
-        File reference_dict
-        File reference_ebwt_1
-        File reference_ebwt_2
-        File reference_ebwt_3
-        File reference_ebwt_4
-        File reference_rev_ebwt_1
-        File reference_rev_ebwt_2
-        File repeats_regions
-        File satellite_regions
-        File dgv_filename
-        File gtf
+        File normal_bai
+        String normal_id
+        File tumour_bams_tsv
+        Array[Array[File]] tumour_bams = read_tsv(tumour_bams_tsv)
+        Directory ref_dir
+        Int num_threads
     }
 
-    call lumpy.LumpyWorkflow as lumpy{
-        input:
-            normal_bam = normal_bam,
-            tumour_bam = tumour_bam
+    scatter (tbam in tumour_bams){
+        String tumour_id = tbam[0]
+        File bam = tbam[1]
+        File bai = tbam[2]
+
+        call breakpoint_calling.SampleBreakpointWorkflow as breakpoint_wf{
+            input:
+                normal_bam = normal_bam,
+                normal_bai = normal_bai,
+                tumour_bam = bam,
+                tumour_bai = bai,
+                ref_dir = ref_dir,
+                num_threads=num_threads,
+                normal_id = normal_id,
+                tumour_id=tumour_id
+        }
     }
 
-    call destruct.DestructWorkflow as destruct{
+    call csverve.concatenate_csv as concat_csv{
         input:
-            normal_bam = normal_bam,
-            tumour_bam = tumour_bam,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_amb = reference_amb,
-            reference_sa = reference_sa,
-            reference_bwt = reference_bwt,
-            reference_ann = reference_ann,
-            reference_pac = reference_pac,
-            reference_dict = reference_dict,
-            reference_ebwt_1 = reference_ebwt_1,
-            reference_ebwt_2 = reference_ebwt_2,
-            reference_ebwt_3 = reference_ebwt_3,
-            reference_ebwt_4 = reference_ebwt_4,
-            reference_rev_ebwt_1 = reference_rev_ebwt_1,
-            reference_rev_ebwt_2 = reference_rev_ebwt_2,
-            repeats_regions = repeats_regions,
-            satellite_regions = satellite_regions,
-            dgv_filename = dgv_filename,
-            gtf = gtf,
+            inputfile = breakpoint_wf.consensus,
     }
 
-#    call gridss.GridssWorkflow as gridss{
-#        input:
-#            normal_bam = normal_bam,
-#            tumour_bam = tumour_bam,
-#            numThreads = numThreads,
-#            reference = reference,
-#            reference_fai = reference_fai,
-#            reference_amb = reference_amb,
-#            reference_sa = reference_sa,
-#            reference_bwt = reference_bwt,
-#            reference_ann = reference_ann,
-#            reference_pac = reference_pac,
-#    }
-    call svaba.SvabaWorkflow as svaba{
-        input:
-            normal_bam = normal_bam,
-            tumour_bam = tumour_bam,
-            numThreads = numThreads,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_amb = reference_amb,
-            reference_sa = reference_sa,
-            reference_bwt = reference_bwt,
-            reference_ann = reference_ann,
-            reference_pac = reference_pac,
-    }
 }

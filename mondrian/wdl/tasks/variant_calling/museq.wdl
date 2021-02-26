@@ -25,6 +25,11 @@ task runMuseq{
     output{
         Array[File] vcf_files = glob("*.vcf")
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "48:00"
+    }
 }
 
 

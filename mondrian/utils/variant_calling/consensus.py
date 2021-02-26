@@ -1,10 +1,45 @@
+import os
 from collections import defaultdict
 
 import vcf
 
 
+def consensus_vcf_header(tumor_id=None, normal_id=None):
+    tumor_id = tumor_id if tumor_id else 'TUMOR'
+    normal_id = normal_id if normal_id else 'NORMAL'
+
+    header = '##fileformat=VCFv4.2\n'
+    header += '##FORMAT=<ID=RC,Number=1,Type=Integer,Description="Count with reference to REF">\n'
+    header += '##FORMAT=<ID=AC,Number=1,Type=Integer,Description="Count with reference to ALT">\n'
+    header += '##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth after filtering ' \
+              'for Failed, duplicate and low quality reads">\n'
+    header += '#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{}\t{}\n'.format(tumor_id, normal_id)
+    return header
+
+
 def get_reader(filename):
     return vcf.Reader(filename=filename)
+
+
+def get_sample_ids(museq, strelka_snv, strelka_indel, mutect):
+    def _get_ids(filename):
+        vcf_reader = get_reader(filename)
+
+        tumor_sample = vcf_reader.metadata['tumor_sample']
+        assert len(set(tumor_sample)) == 1, tumor_sample
+
+        normal_sample = vcf_reader.metadata['normal_sample']
+        assert len(set(normal_sample)) == 1
+
+        return tumor_sample[0], normal_sample[0]
+
+    museq_ids = _get_ids(museq)
+
+    assert museq_ids == _get_ids(strelka_snv)
+    assert museq_ids == _get_ids(strelka_indel)
+    assert museq_ids == _get_ids(mutect)
+
+    return museq_ids
 
 
 def get_counts(record, caller, tumor_id, normal_id, ref, alts):
@@ -78,7 +113,6 @@ def fetch_vcf(filename, chromosome, caller):
         vcf_filter = record.FILTER
 
         if vcf_filter:
-            print (record)
             continue
         elif vcf_filter is None:
             vcf_filter = '.'
@@ -194,13 +228,14 @@ def indel_consensus(strelka_indel, mutect_indel):
     return consensus
 
 
-def write_vcf(consensus, vcf_output, counts_output):
+def write_vcf(consensus, vcf_output, counts_output, normal_id, tumor_id):
     with open(vcf_output, 'a') as outfile, open(counts_output, 'a') as count_file:
-        outfile.write("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\n")
+        outfile.write(consensus_vcf_header(tumor_id=tumor_id, normal_id=normal_id))
         count_file.write("chrom\tpos\tID\tTR\tTA\tTD\tNR\tNA\tND\n")
 
         for call in consensus:
-            outstr = [call[0], str(call[1]), str(call[4]), call[2], call[3], str(call[5]), call[6], '.']
+            outstr = [call[0], str(call[1]), str(call[4]), call[2], call[3], str(call[5]), call[6], '.', 'RC:AC:DP',
+                      '{}:{}:{}'.format(call[7], call[8], call[9]), '{}:{}:{}'.format(call[10], call[11], call[12])]
             outstr = '\t'.join(outstr) + '\n'
             outfile.write(outstr)
 
@@ -221,6 +256,15 @@ def main(
         counts_output,
         chromosomes,
 ):
+    if os.path.exists(consensus_vcf):
+        os.remove(consensus_vcf)
+    if os.path.exists(counts_output):
+        os.remove(counts_output)
+
+    tumor_id, normal_id = get_sample_ids(
+        museq_snv_vcf, strelka_snv_vcf, strelka_indel_vcf, mutect_snv_vcf
+    )
+
     for chromosome in chromosomes:
         museq_calls, _ = fetch_vcf(museq_snv_vcf, chromosome, 'museq_snv')
         strelka_snv, _ = fetch_vcf(strelka_snv_vcf, chromosome, 'strelka_snv')
@@ -230,4 +274,4 @@ def main(
         consensus = snv_consensus(museq_calls, strelka_snv, mutect_snv)
         consensus += indel_consensus(strelka_indel, mutect_indel)
 
-        write_vcf(consensus, consensus_vcf, counts_output)
+        write_vcf(consensus, consensus_vcf, counts_output, normal_id, tumor_id)

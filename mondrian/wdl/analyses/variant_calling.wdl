@@ -1,6 +1,9 @@
 version development
 
 import "sample_level/variant_calling.wdl" as variant_calling
+import "../tasks/io/vcf/bcftools.wdl" as bcftools
+import "../tasks/io/csverve/csverve.wdl" as csverve
+import "../tasks/io/utilities/bash.wdl"  as bash
 import "../tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 
 workflow VariantWorkflow{
@@ -42,9 +45,14 @@ workflow VariantWorkflow{
         }
     }
 
+    call bcftools.mergeVcf as merge_vcf{
+        input:
+            vcf_files = variant_workflow.vcf_output,
+            csi_files = variant_workflow.vcf_csi_output,
+            tbi_files = variant_workflow.vcf_tbi_output
+    }
     call vcf2maf.MergeMafs as merge_mafs{
         input:
-            input_mafs = variant_workflow.maf_output,
+            input_mafs = variant_workflow.maf_output
     }
-
 }

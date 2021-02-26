@@ -2,8 +2,8 @@ import gzip
 
 import argparse
 import numpy as np
-import pysam
 import pandas as pd
+import pysam
 
 from . import consensus
 
@@ -133,8 +133,8 @@ def update_maf_counts(input_maf, counts_file, output_maf):
     with open(counts_file) as infile:
         for line in infile:
             line = line.strip().split()
-            chrom, pos, id, na, nr, nd = line
-            counts[(chrom, pos, id)] = (na, nr, nd)
+            chrom, pos, id, ta, tr, td, na, nr, nd = line
+            counts[(chrom, pos, id)] = (ta, tr, td, na, nr, nd)
 
     with open(input_maf) as infile, open(output_maf, 'wt') as outfile:
         header = infile.readline()
@@ -145,6 +145,9 @@ def update_maf_counts(input_maf, counts_file, output_maf):
         outfile.write(header)
 
         header = {v: i for i, v in enumerate(header.strip().split('\t'))}
+        t_dp = header['t_depth']
+        t_ref = header['t_alt_count']
+        t_alt = header['t_ref_count']
         n_dp = header['n_depth']
         n_ref = header['n_alt_count']
         n_alt = header['n_ref_count']
@@ -154,24 +157,36 @@ def update_maf_counts(input_maf, counts_file, output_maf):
         vcfid = header['vcf_id']
 
         for line in infile:
-            line = line.strip().split('\t')
+            line_split = line.strip().split('\t')
 
-            try:
-                na, nr, nd = counts[(line[chrom], line[pos], line[vcfid])]
-            except:
-                print(line)
-                print(chrom, pos)
-                print(line[chrom])
-                print(line[pos])
-                raise
+            if (line_split[chrom], line_split[pos], line_split[vcfid]) in counts:
+                ta, tr, td, na, nr, nd = counts[(line_split[chrom], line_split[pos], line_split[vcfid])]
 
-            line[n_dp] = nd
-            line[n_ref] = nr
-            line[n_alt] = na
+                line_split[t_dp] = td
+                line_split[t_ref] = tr
+                line_split[t_alt] = ta
 
-            line = '\t'.join(line) + '\n'
+                line_split[n_dp] = nd
+                line_split[n_ref] = nr
+                line_split[n_alt] = na
+
+                line = '\t'.join(line_split) + '\n'
 
             outfile.write(line)
+
+
+
+def concatenate_csv(inputs, output):
+    header = open(inputs[0]).readline()
+
+    with open(output, 'wt') as outfile:
+        outfile.write(header)
+        for inputfile in inputs:
+            with open(inputfile, 'rt') as infile:
+                for line in infile:
+                    if line.startswith('chrom'):
+                        continue
+                    outfile.write(line)
 
 
 def parse_args():
@@ -263,6 +278,11 @@ def parse_args():
     update_maf_id.add_argument('--counts', required=True)
     update_maf_id.add_argument('--output', required=True)
 
+    concat_csv_parser = subparsers.add_parser('concat_csv')
+    concat_csv_parser.set_defaults(which='concat_csv')
+    concat_csv_parser.add_argument('--inputs', nargs='*', required=True)
+    concat_csv_parser.add_argument('--output', required=True)
+
     args = vars(parser.parse_args())
 
     return args
@@ -280,11 +300,14 @@ def utils():
     elif args['which'] == 'get_sample_id_bam':
         get_sample_id_bam(args['input'])
     elif args['which'] == 'vcf_reheader_id':
-        vcf_reheader_id(args['input'], args['output'], args['tumour'], args['normal'], args['vcf_normal_id'], args['vcf_tumour_id'])
+        vcf_reheader_id(args['input'], args['output'], args['tumour'], args['normal'], args['vcf_normal_id'],
+                        args['vcf_tumour_id'])
     elif args['which'] == 'update_maf_ids':
         update_maf_ids(args['input'], args['output'], args['tumour_id'], args['normal_id'])
     elif args['which'] == 'update_maf_counts':
         update_maf_counts(args['input'], args['counts'], args['output'])
+    elif args['which'] == 'concat_csv':
+        concatenate_csv(args['inputs'], args['output'])
     elif args['which'] == 'consensus':
         consensus.main(
             args['museq_vcf'], args['strelka_snv'], args['mutect_vcf'], args['strelka_indel'],

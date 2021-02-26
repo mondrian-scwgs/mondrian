@@ -44,7 +44,7 @@ workflow MutectWorkflow{
             normal_sample_id = get_sample_id.sample_id
     }
 
-    call bcftools.mergeVcf as merge_vcf{
+    call bcftools.concatVcf as merge_vcf{
         input:
             vcf_files = run_mutect.vcf_files
     }
@@ -60,7 +60,9 @@ workflow MutectWorkflow{
 
     call bcftools.FinalizeVcf as finalize_vcf{
         input:
-            vcf_file = reheader.output_file
+            vcf_file = reheader.output_file,
+            filename_prefix = 'mutect'
+
     }
 
     output{

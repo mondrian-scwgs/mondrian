@@ -25,4 +25,9 @@ task RunVcf2Maf{
     output{
         File maf = 'annotated.maf'
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "48:00"
+    }
 }

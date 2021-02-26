@@ -10,6 +10,7 @@ workflow Vcf2mafWorkflow{
         String normal_id
         String tumour_id
         Directory reference
+        String filename_prefix
     }
 
     call vcf2maf.RunVcf2Maf as vcf2maf{
@@ -29,6 +30,7 @@ workflow Vcf2mafWorkflow{
         input:
             input_maf = update_id.output_maf,
             input_counts = input_counts,
+            filename_prefix = filename_prefix,
     }
 
     output{

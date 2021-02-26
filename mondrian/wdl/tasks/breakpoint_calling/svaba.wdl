@@ -4,24 +4,22 @@ version development
 task runSvaba{
     input{
         File normal_bam
+        File normal_bai
         File tumour_bam
-        Int numThreads
-        File reference
-        File reference_fai
-        File reference_amb
-        File reference_sa
-        File reference_bwt
-        File reference_ann
-        File reference_pac
+        File tumour_bai
+        Int num_threads
+        Directory ref_dir
     }
     command{
-        svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{reference} -z -p ~{numThreads} -a output
+        svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{ref_dir}/GRCh37-lite.fa -z -p ~{num_threads} -a output
     }
     output{
-        File OutputBam = "output.svaba.somatic.sv.vcf.gz"
+        File output_vcf = "output.svaba.somatic.sv.vcf.gz"
     }
     runtime{
-        docker: "docker.io/wgspipeline/svaba:v0.0.1"
+        memory: "8G"
+        cpu: 8
+        walltime: "48:00"
     }
 
 }

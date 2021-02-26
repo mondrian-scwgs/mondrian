@@ -22,6 +22,11 @@ task RunVcf2Maf{
     output{
         File output_maf = 'output.maf'
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "24:00"
+    }
 }
 
 
@@ -37,18 +42,29 @@ task UpdateMafId{
     output{
         File output_maf = 'updated_id.maf'
     }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
+    }
 }
 
 task UpdateMafCounts{
     input{
         File input_maf
         File input_counts
+        String filename_prefix
     }
     command<<<
-        variant_utils update_maf_counts --input ~{input_maf} --counts ~{input_counts} --output updated_counts.maf
+        variant_utils update_maf_counts --input ~{input_maf} --counts ~{input_counts} --output ~{filename_prefix}_updated_counts.maf
     >>>
     output{
-        File output_maf = 'updated_counts.maf'
+        File output_maf = filename_prefix + '_updated_counts.maf'
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }
 
@@ -62,5 +78,10 @@ task MergeMafs{
     >>>
     output{
         File output_maf = "merged.maf"
+    }
+    runtime{
+        memory: "8G"
+        cpu: 1
+        walltime: "6:00"
     }
 }

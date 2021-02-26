@@ -12,8 +12,10 @@ task extractSplitReads{
     output {
         File bamFile = outputBam
     }
-    runtime {
-        docker : "quay.io/wgspipeline/lumpy:v0.0.1"
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "24:00"
     }
 }
 
@@ -33,9 +35,11 @@ task lumpyExpress{
 
     }
     output{
-        File lumpyVcf = 'lumpy.vcf'
+        File lumpy_vcf = 'lumpy.vcf'
     }
-    runtime {
-        docker : "quay.io/wgspipeline/lumpy:v0.0.1"
+    runtime{
+        memory: "12G"
+        cpu: 8
+        walltime: "48:00"
     }
 }
