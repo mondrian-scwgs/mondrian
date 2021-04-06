@@ -1,28 +1,5 @@
 version development
 
-task bwaMemPairedEnd {
-    input {
-        File fastq1
-        File fastq2
-        File reference
-        String readgroup
-    }
-    command {
-        bwa mem -C -M -R '${readgroup}' '${reference}' '${fastq1}' '${fastq2}' | samtools view -bSh - > aligned.bam
-        samtools index aligned.bam
-    }
-    output {
-        File markdups = "aligned.bam"
-        File bai = "aligned.bam.bai"
-    }
-    runtime{
-        memory: "12G"
-        cpu: 1
-        walltime: "48:00"
-    }
-}
-
-
 task SamToBam{
     input{
         File inputBam
@@ -61,17 +38,16 @@ task indexBam{
     }
 }
 
-task flagstatBam{
+task Flagstat{
     input{
-        File inputBam
-        String outputFlagstat
+        File input_bam
     }
 
     command{
-        samtools flagstat ${inputBam} ${outputFlagstat}
+        samtools flagstat ~{input_bam} > flagstat.txt
     }
     output{
-        File flagstatFile = outputFlagstat
+        File flagstat_txt = 'flagstat.txt'
     }
     runtime{
         memory: "8G"
@@ -121,13 +97,12 @@ task viewBam{
 task sortBam{
     input {
         File inputBam
-        String outputBam
     }
     command {
-        samtools sort ${inputBam} -o ${outputBam}
+        samtools sort ${inputBam} -o sorted.bam
     }
     output {
-        File sortedBam = outputBam
+        File sortedBam = 'sorted.bam'
     }
     runtime{
         memory: "12G"

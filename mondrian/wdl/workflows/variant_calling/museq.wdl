@@ -39,9 +39,20 @@ workflow MuseqWorkflow{
             intervals = gen_int.intervals
     }
 
+    scatter (museq_vcf_file in run_museq.vcf_files){
+        call museq.fixMuseqVcf as fix_museq{
+            input:
+                vcf_file = museq_vcf_file
+        }
+    }
+
+
     call bcftools.concatVcf as merge_vcf{
         input:
-            vcf_files = run_museq.vcf_files
+            vcf_files = fix_museq.output_vcf,
+            csi_files = fix_museq.output_csi,
+            tbi_files = fix_museq.output_tbi
+
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -53,7 +64,7 @@ workflow MuseqWorkflow{
             vcf_tumour_id = 'TUMOUR'
     }
 
-    call bcftools.FinalizeVcf as finalize_vcf{
+    call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = 'museq'

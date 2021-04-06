@@ -62,9 +62,19 @@ workflow StrelkaWorkflow{
     #################
     # indel
     ##############
+    scatter (indel_vcf_file in run_strelka.indels){
+        call bcftools.finalizeVcf as finalize_indels{
+            input:
+                vcf_file = indel_vcf_file,
+                filename_prefix = 'strelka_indels'
+        }
+    }
+
     call bcftools.concatVcf as merge_indel_vcf{
         input:
-            vcf_files = run_strelka.indels
+            vcf_files = finalize_indels.vcf,
+            csi_files = finalize_indels.vcf_csi,
+            tbi_files = finalize_indels.vcf_tbi
     }
 
     call bcftools.filterVcf as filter_indel_vcf{
@@ -81,7 +91,7 @@ workflow StrelkaWorkflow{
             vcf_tumour_id = 'TUMOR'
     }
 
-    call bcftools.FinalizeVcf as finalize_vcf_indel{
+    call bcftools.finalizeVcf as finalize_vcf_indel{
         input:
             vcf_file = reheader_indel.output_file,
             filename_prefix = 'strelka_indel'
@@ -90,9 +100,20 @@ workflow StrelkaWorkflow{
     #############
     # SNV
     #############
+    scatter (snv_vcf_file in run_strelka.snvs){
+        call bcftools.finalizeVcf as finalize_snv{
+            input:
+                vcf_file = snv_vcf_file,
+                filename_prefix = 'strelka_snv'
+        }
+    }
+
+
     call bcftools.concatVcf as merge_snv_vcf{
         input:
-            vcf_files = run_strelka.snvs
+            vcf_files = finalize_snv.vcf,
+            csi_files = finalize_snv.vcf_csi,
+            tbi_files = finalize_snv.vcf_tbi
     }
 
     call bcftools.filterVcf as filter_snv_vcf{
@@ -109,7 +130,7 @@ workflow StrelkaWorkflow{
             vcf_tumour_id = 'TUMOR'
     }
 
-    call bcftools.FinalizeVcf as finalize_vcf_snv{
+    call bcftools.finalizeVcf as finalize_vcf_snv{
         input:
             vcf_file = reheader_snv.output_file,
             filename_prefix = 'strelka_snv'

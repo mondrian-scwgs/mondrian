@@ -44,9 +44,19 @@ workflow MutectWorkflow{
             normal_sample_id = get_sample_id.sample_id
     }
 
+    scatter (mutect_vcf_file in run_mutect.vcf_files){
+        call bcftools.finalizeVcf as finalize_region_vcf{
+            input:
+                vcf_file = mutect_vcf_file,
+                filename_prefix = 'mutect_calls'
+        }
+    }
+
     call bcftools.concatVcf as merge_vcf{
         input:
-            vcf_files = run_mutect.vcf_files
+            vcf_files = finalize_region_vcf.vcf,
+            csi_files = finalize_region_vcf.vcf_csi,
+            tbi_files = finalize_region_vcf.vcf_tbi
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -58,7 +68,7 @@ workflow MutectWorkflow{
             vcf_tumour_id = 'TUMOR'
     }
 
-    call bcftools.FinalizeVcf as finalize_vcf{
+    call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = 'mutect'

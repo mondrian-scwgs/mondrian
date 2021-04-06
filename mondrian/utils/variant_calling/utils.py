@@ -175,7 +175,6 @@ def update_maf_counts(input_maf, counts_file, output_maf):
             outfile.write(line)
 
 
-
 def concatenate_csv(inputs, output):
     header = open(inputs[0]).readline()
 
@@ -187,6 +186,14 @@ def concatenate_csv(inputs, output):
                     if line.startswith('chrom'):
                         continue
                     outfile.write(line)
+
+
+def fix_museq_vcf(infile, output):
+    with open(infile, 'rt') as reader, open(output, 'wt') as writer:
+        for line in reader:
+            if line.startswith('#'):
+                line = line.replace('##FORMAT=<ID=PL,Number=3', '##FORMAT=<ID=PL,Number=G')
+            writer.write(line)
 
 
 def parse_args():
@@ -283,6 +290,11 @@ def parse_args():
     concat_csv_parser.add_argument('--inputs', nargs='*', required=True)
     concat_csv_parser.add_argument('--output', required=True)
 
+    fix_museq_vcf = subparsers.add_parser('fix_museq_vcf')
+    fix_museq_vcf.set_defaults(which='fix_museq_vcf')
+    fix_museq_vcf.add_argument('--input', required=True)
+    fix_museq_vcf.add_argument('--output', required=True)
+
     args = vars(parser.parse_args())
 
     return args
@@ -308,6 +320,8 @@ def utils():
         update_maf_counts(args['input'], args['counts'], args['output'])
     elif args['which'] == 'concat_csv':
         concatenate_csv(args['inputs'], args['output'])
+    elif args['which'] == 'fix_museq_vcf':
+        fix_museq_vcf(args['input'], args['output'])
     elif args['which'] == 'consensus':
         consensus.main(
             args['museq_vcf'], args['strelka_snv'], args['mutect_vcf'], args['strelka_indel'],

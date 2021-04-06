@@ -88,7 +88,7 @@ workflow SampleVariantWorkflow {
             filename_prefix = tumour_id
     }
 
-    call bcftools.FinalizeVcf as finalize_vcf{
+    call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
             filename_prefix = tumour_id

@@ -137,6 +137,6 @@ task run_strelka{
     runtime{
         memory: "8G"
         cpu: 8
-        walltime: "48:00"
+        walltime: "96:00"
     }
 }

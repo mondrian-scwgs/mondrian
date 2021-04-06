@@ -19,7 +19,6 @@ task runMuseq{
                 --out ${interval}.vcf --log ${interval}.log -v -i ${interval} ">> commands.txt
             done
         parallel --jobs ~{cores} < commands.txt
-
     >>>
 
     output{
@@ -28,7 +27,25 @@ task runMuseq{
     runtime{
         memory: "8G"
         cpu: 1
-        walltime: "48:00"
+        walltime: "96:00"
+    }
+}
+
+
+task fixMuseqVcf{
+    input{
+        File vcf_file
+    }
+    command<<<
+        variant_utils fix_museq_vcf --input ~{vcf_file} --output output.vcf
+        bgzip output.vcf -c > output.vcf.gz
+        bcftools index output.vcf.gz
+        tabix -f -p vcf output.vcf.gz
+    >>>
+    output{
+        File output_vcf = 'output.vcf.gz'
+        File output_csi = 'output.vcf.gz.csi'
+        File output_tbi = 'output.vcf.gz.tbi'
     }
 }
 

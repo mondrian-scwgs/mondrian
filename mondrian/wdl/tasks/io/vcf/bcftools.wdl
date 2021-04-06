@@ -3,9 +3,11 @@ version development
 task concatVcf{
     input{
         Array[File] vcf_files
+        Array[File] csi_files
+        Array[File] tbi_files
     }
     command<<<
-        bcftools concat -O z -o merged.vcf.gz ~{sep=" " vcf_files}
+        bcftools concat -a -O z -o merged.vcf.gz ~{sep=" " vcf_files}
         vcf-sort merged.vcf.gz > merged_sorted.vcf
         bgzip merged_sorted.vcf -c > merged_sorted.vcf.gz
         tabix -f -p vcf merged_sorted.vcf.gz
@@ -30,7 +32,14 @@ task mergeVcf{
         Array[File] tbi_files
     }
     command<<<
-        bcftools merge -O z -o merged.vcf.gz ~{sep=" " vcf_files} --force-samples
+        all_vcfs_string=~{sep=" " vcf_files}
+        IFS=' ' read -r -a all_vcfs <<< "$all_vcfs_string"
+
+        if [ "${#all_vcfs[@]}" -eq 1 ]; then
+            cp -r ${all_vcfs[0]} merged.vcf.gz
+        else
+            bcftools merge -O z -o merged.vcf.gz ~{sep=" " vcf_files} --force-samples
+        fi
         vcf-sort merged.vcf.gz > merged_sorted.vcf
         bgzip merged_sorted.vcf -c > merged_sorted.vcf.gz
         tabix -f -p vcf merged_sorted.vcf.gz
@@ -71,7 +80,7 @@ task filterVcf{
 }
 
 
-task FinalizeVcf{
+task finalizeVcf{
     input{
         File vcf_file
         String filename_prefix

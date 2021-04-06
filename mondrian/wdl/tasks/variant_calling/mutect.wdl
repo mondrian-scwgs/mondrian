@@ -34,30 +34,29 @@ task runMutect{
         String normal_sample_id
     }
     command<<<
+        mkdir raw_data
+        mkdir filtered_data
         for interval in ~{sep=" "intervals}
             do
                 echo "gatk Mutect2 --input ~{normal_bam} --input ~{tumour_bam} --normal ~{normal_sample_id} \
-                -R ~{reference} -O ${interval}.vcf  --intervals ${interval} ">> commands.txt
+                -R ~{reference} -O raw_data/${interval}.vcf  --intervals ${interval} ">> commands.txt
             done
         parallel --jobs ~{cores} < commands.txt
-
-
         for interval in ~{sep=" "intervals}
             do
-                echo "gatk FilterMutectCalls -R ~{reference} -V ${interval}.vcf -O ${interval}.filtered.vcf" >> filtered_commands.txt
+                echo "gatk FilterMutectCalls -R ~{reference} -V raw_data/${interval}.vcf -O filtered_data/${interval}.vcf " >> filter_commands.txt
             done
-        parallel --jobs ~{cores} < filtered_commands.txt
+        parallel --jobs ~{cores} < filter_commands.txt
     >>>
     output{
-        Array[File] vcf_files = glob("*.filtered.vcf")
+        Array[File] vcf_files = glob("filtered_data/*.vcf")
     }
     runtime{
         memory: "8G"
-        cpu: 8
-        walltime: "48:00"
+        cpu: 24
+        walltime: "96:00"
     }
 }
-
 
 task filterMutect{
     input{
