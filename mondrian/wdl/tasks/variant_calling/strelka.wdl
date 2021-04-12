@@ -9,7 +9,7 @@ task GetGenomeSize{
         variant_utils genome_size --reference ~{reference} --chromosomes ~{sep=" "  chromosomes} > genome_size.txt
     >>>
     output{
-        Int genome_size = read_int('genome_size.txt')
+        String genome_size = read_string('genome_size.txt')
     }
     runtime{
         memory: "8G"
@@ -73,7 +73,7 @@ task run_strelka{
         Array[String] intervals
         File reference
         File reference_fai
-        Int genome_size
+        String genome_size
         String chrom_depth_file
         Int max_indel_size = 50
         Int min_qscore = 0

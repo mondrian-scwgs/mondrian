@@ -42,7 +42,9 @@ task merge_fastqscreen_counts{
     >>>
     output{
         File merged_detailed = "detailed.csv.gz"
+        File merged_detailed_yaml = "detailed.csv.gz.yaml"
         File merged_summary = "summary.csv.gz"
+        File merged_summary_yaml = "summary.csv.gz.yaml"
     }
 
 }

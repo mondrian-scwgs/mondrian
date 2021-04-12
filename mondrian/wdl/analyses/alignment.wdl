@@ -91,8 +91,24 @@ workflow AlignmentWorkflow{
         }
     }
 
-    call csverve.concatenate_csv as concat_csv{
+    call csverve.concatenate_csv as concat_metrics{
         input:
-            inputfile = collect_metrics.output_csv
+            inputfile = collect_metrics.output_csv,
+            inputyaml = collect_metrics.output_csv_yaml
     }
+
+    call csverve.concatenate_csv as concat_fastqscreen_summary{
+        input:
+            inputfile = merge_fq.merged_summary,
+            inputyaml = merge_fq.merged_summary_yaml
+    }
+
+    call csverve.merge_csv as merge_csv{
+        input:
+            how = 'outer',
+            on = 'cell_id',
+            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
+            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml]
+    }
+
 }
