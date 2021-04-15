@@ -25,6 +25,7 @@ task fastqScreen{
         memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -46,5 +47,10 @@ task merge_fastqscreen_counts{
         File merged_summary = "summary.csv.gz"
         File merged_summary_yaml = "summary.csv.gz.yaml"
     }
-
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }

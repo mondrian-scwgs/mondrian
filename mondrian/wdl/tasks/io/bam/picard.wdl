@@ -21,9 +21,10 @@ task MarkDuplicates{
         File metrics_txt = 'metrics.txt'
     }
     runtime{
-        memory: "8G"
+        memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -46,6 +47,12 @@ task CollectGcBiasMetrics{
     >>>
     output{
         File metrics_txt="metrics.txt"
+    }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -70,6 +77,12 @@ task CollectWgsMetrics{
     output{
         File metrics_txt="metrics.txt"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 
@@ -92,6 +105,12 @@ task CollectInsertSizeMetrics{
         File metrics_txt='metrics.txt'
         File histogram_pdf='histogram.pdf'
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 
@@ -112,6 +131,12 @@ task SortSam{
         File output_bam="markdups.bam"
         File metrics_txt="metrics.txt"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 task MergeSamFiles{
@@ -129,6 +154,12 @@ task MergeSamFiles{
     >>>
     output{
         File output_bam="merged.bam"
+    }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 

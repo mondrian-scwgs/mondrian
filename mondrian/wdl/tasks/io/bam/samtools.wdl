@@ -17,6 +17,12 @@ task SamToBam{
         cpu: 1
         walltime: "48:00"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 task indexBam{
@@ -36,6 +42,12 @@ task indexBam{
         cpu: 1
         walltime: "12:00"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 task Flagstat{
@@ -54,6 +66,12 @@ task Flagstat{
         cpu: 1
         walltime: "24:00"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
 
 
@@ -69,9 +87,10 @@ task mergeBams{
         File mergedBam = outputFile
     }
     runtime{
-        memory: "8G"
+        memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -88,9 +107,10 @@ task viewBam{
         File bamFile = outputBam
     }
     runtime{
-        memory: "8G"
+        memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -108,5 +128,6 @@ task sortBam{
         memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }

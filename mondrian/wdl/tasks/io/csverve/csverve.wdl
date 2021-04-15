@@ -14,9 +14,10 @@ task concatenate_csv {
         File outfile_yaml = "concat.csv.gz.yaml"
     }
     runtime{
-        memory: "8G"
+        memory: "12G"
         cpu: 1
-        walltime: "6:00"
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }
 
@@ -48,8 +49,9 @@ task finalize_csv {
         File outfile = "concat.csv"
     }
     runtime{
-        memory: "8G"
+        memory: "12G"
         cpu: 1
-        walltime: "6:00"
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
     }
 }

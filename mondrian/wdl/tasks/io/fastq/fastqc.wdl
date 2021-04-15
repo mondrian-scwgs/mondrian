@@ -15,5 +15,10 @@ task RunFastqc{
         File fastqc_zip = "output_fastqc.zip"
         File fastqc_html = "output_fastqc.html"
     }
-
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }

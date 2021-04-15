@@ -21,4 +21,10 @@ task CollectMetrics{
         File output_csv = "output.csv.gz"
         File output_csv_yaml = "output.csv.gz.yaml"
     }
+    runtime{
+        memory: "12G"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+    }
 }
