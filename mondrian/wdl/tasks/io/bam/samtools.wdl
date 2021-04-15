@@ -13,11 +13,6 @@ task SamToBam{
         File samfile = outputSam
     }
     runtime{
-        memory: "8G"
-        cpu: 1
-        walltime: "48:00"
-    }
-    runtime{
         memory: "12G"
         cpu: 1
         walltime: "48:00"
@@ -38,11 +33,6 @@ task indexBam{
         File indexfile = outputBai
     }
     runtime{
-        memory: "8G"
-        cpu: 1
-        walltime: "12:00"
-    }
-    runtime{
         memory: "12G"
         cpu: 1
         walltime: "48:00"
@@ -60,11 +50,6 @@ task Flagstat{
     }
     output{
         File flagstat_txt = 'flagstat.txt'
-    }
-    runtime{
-        memory: "8G"
-        cpu: 1
-        walltime: "24:00"
     }
     runtime{
         memory: "12G"
