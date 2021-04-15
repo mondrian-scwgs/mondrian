@@ -10,13 +10,16 @@ task consensus{
         String sample_id
     }
     command<<<
+        mkdir tempdir
         breakpoint_utils consensus \
         --destruct ~{destruct} \
         --lumpy ~{lumpy} --svaba ~{svaba} \
-        --gridss ~{gridss} --consensus ~{filename_prefix}_consensus.csv --sample_id ~{sample_id}
+        --gridss ~{gridss} --consensus ~{filename_prefix}_consensus.csv --sample_id ~{sample_id} \
+        --tempdir tempdir
     >>>
     output{
-        File consensus = "~{filename_prefix}_consensus.csv"
+        File consensus = "~{filename_prefix}_consensus.csv.gz"
+        File consensus_yaml = "~{filename_prefix}_consensus.csv.gz.yaml"
     }
     runtime{
         memory: "12G"

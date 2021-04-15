@@ -25,5 +25,6 @@ workflow ConsensusWorkflow{
 
     output{
         File consensus = run_consensus.consensus
+        File consensus_yaml = run_consensus.consensus_yaml
     }
 }

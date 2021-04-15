@@ -20,8 +20,7 @@ workflow LumpyWorkflow {
 
     call samtools.sortBam as sort_normal_discordant_bam{
         input:
-            inputBam = normal_discordant_bam.bamFile,
-            outputBam = "normal_discordant_sorted.bam"
+            inputBam = normal_discordant_bam.bamFile
     }
 
     call lumpy.extractSplitReads as normal_split_bam{
@@ -32,8 +31,7 @@ workflow LumpyWorkflow {
 
     call samtools.sortBam as sort_normal_split_bam{
         input:
-            inputBam = normal_split_bam.bamFile,
-            outputBam = "normal_split_sorted.bam"
+            inputBam = normal_split_bam.bamFile
     }
 
     ##### tumour
@@ -47,8 +45,7 @@ workflow LumpyWorkflow {
 
     call samtools.sortBam as sort_tumour_discordant_bam{
         input:
-            inputBam = tumour_discordant_bam.bamFile,
-            outputBam = "tumour_discordant_sorted.bam"
+            inputBam = tumour_discordant_bam.bamFile
     }
 
     call lumpy.extractSplitReads as tumour_split_bam{
@@ -59,8 +56,7 @@ workflow LumpyWorkflow {
 
     call samtools.sortBam as sort_tumour_split_bam{
         input:
-            inputBam = tumour_split_bam.bamFile,
-            outputBam = "tumour_split_sorted.bam"
+            inputBam = tumour_split_bam.bamFile
     }
 
     call lumpy.lumpyExpress as lumpyexpress{

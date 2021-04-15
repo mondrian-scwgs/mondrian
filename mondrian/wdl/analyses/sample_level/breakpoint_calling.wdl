@@ -63,6 +63,7 @@ workflow SampleBreakpointWorkflow {
     }
     output{
         File consensus = cons.consensus
+        File consensus_yaml = cons.consensus_yaml
     }
 
 
