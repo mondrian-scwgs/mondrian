@@ -1,11 +1,11 @@
 version development
 
-import "sample_level/alignment.wdl" as sample_alignment
-import "../tasks/alignment/fastq_screen.wdl" as fastq_screen
-import "../tasks/io/bam/picard.wdl" as picard
-import "../tasks/io/bam/samtools.wdl" as samtools
-import "../tasks/alignment/metrics.wdl" as metrics
-import "../tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/analyses/sample_level/alignment.wdl" as sample_alignment
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/fastq_screen.wdl" as fastq_screen
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/bam/picard.wdl" as picard
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/metrics.wdl" as metrics
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
 
 
 struct Lane{

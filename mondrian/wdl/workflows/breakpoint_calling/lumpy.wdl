@@ -1,7 +1,7 @@
 version development
 
-import "../../tasks/io/bam/samtools.wdl" as samtools
-import "../../tasks/breakpoint_calling/lumpy.wdl" as lumpy
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/breakpoint_calling/lumpy.wdl" as lumpy
 
 
 

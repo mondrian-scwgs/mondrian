@@ -1,6 +1,6 @@
 version development
 
-import "../../tasks/variant_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/variant_calling/consensus.wdl" as consensus
 
 
 workflow ConsensusWorkflow{

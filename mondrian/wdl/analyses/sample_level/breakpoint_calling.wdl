@@ -1,11 +1,11 @@
 version development
 
 
-import "../../workflows/breakpoint_calling/destruct.wdl" as destruct
-import "../../workflows/breakpoint_calling/lumpy.wdl" as lumpy
-import "../../workflows/breakpoint_calling/gridss.wdl" as gridss
-import "../../workflows/breakpoint_calling/svaba.wdl" as svaba
-import "../../workflows/breakpoint_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/destruct.wdl" as destruct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/lumpy.wdl" as lumpy
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/gridss.wdl" as gridss
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/svaba.wdl" as svaba
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/consensus.wdl" as consensus
 
 
 

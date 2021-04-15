@@ -1,6 +1,6 @@
 version development
 
-import "../../tasks/breakpoint_calling/gridss.wdl" as gridss
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/breakpoint_calling/gridss.wdl" as gridss
 
 
 workflow GridssWorkflow{

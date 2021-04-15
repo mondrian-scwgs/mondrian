@@ -1,9 +1,9 @@
 version development
 
-import "../../tasks/variant_calling/strelka.wdl" as strelka
-import "../../tasks/io/fasta/pysam.wdl" as pysam
-import "../../tasks/io/vcf/bcftools.wdl" as bcftools
-import "../../tasks/io/vcf/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/variant_calling/strelka.wdl" as strelka
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/fasta/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
 
 
 workflow StrelkaWorkflow{

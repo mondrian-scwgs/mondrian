@@ -1,9 +1,7 @@
 version development
 
-import "sample_level/breakpoint_calling.wdl" as breakpoint_calling
-#import "../tasks/io/vcf/bcftools.wdl" as bcftools
-import "../tasks/io/csverve/csverve.wdl" as csverve
-#import "../workflows/variant_calling/vcf2maf.wdl" as vcf2maf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/analyses/sample_level/breakpoint_calling.wdl" as breakpoint_calling
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
 
 workflow BreakpointWorkflow{
     input{

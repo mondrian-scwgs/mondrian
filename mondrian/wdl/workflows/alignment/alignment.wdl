@@ -1,9 +1,9 @@
 version development
 
-import "../../tasks/alignment/bwa.wdl" as bwa
-import "../../tasks/alignment/fastq_screen.wdl" as fastq_screen
-import "../../tasks/io/fastq/fastqc.wdl" as fastqc
-import "../../tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/bwa.wdl" as bwa
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/fastq_screen.wdl" as fastq_screen
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/fastq/fastqc.wdl" as fastqc
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
 
 
 workflow AlignFastqs{

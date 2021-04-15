@@ -1,7 +1,7 @@
 version development
 
 
-import "../../workflows/alignment/alignment.wdl" as alignment
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/alignment/alignment.wdl" as alignment
 
 workflow LaneAlignment {
     input {

@@ -16,5 +16,6 @@ task BwaMemPaired {
         memory: "12G"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrian/alignment'
     }
 }
