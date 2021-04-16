@@ -38,6 +38,12 @@ class SvVcfData(object):
                 'filter': record.FILTER,
             }
 
+            # if data['filter'] == []:
+            #     data['filter'] = None
+            #
+            # if data['filter'] is not None:
+            #     continue
+
             info = record.INFO
 
             for k, v in info.items():
@@ -56,12 +62,18 @@ class SvVcfData(object):
 
             yield data
 
-    @staticmethod
-    def _group_bnds(calls):
+    def _group_bnds(self, calls):
         bnds = {}
 
         for record in calls:
-            if record['SVTYPE'] == 'BND':
+            if self.caller == 'lumpy' and record['SVTYPE'] == 'INV':
+                strands = record['STRANDS'].split(';')
+
+                record['STRANDS'] = strands[0]
+                yield (record,)
+                record['STRANDS'] = strands[1]
+                yield (record,)
+            elif record['SVTYPE'] == 'BND':
                 if 'MATEID' not in record:
                     continue
 
