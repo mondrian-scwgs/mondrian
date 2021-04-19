@@ -23,6 +23,7 @@ def parse_args():
     consensus.add_argument('--svaba', required=True)
     consensus.add_argument('--sample_id', required=True)
     consensus.add_argument('--consensus', required=True)
+    consensus.add_argument('--tempdir', required=True)
 
     args = vars(parser.parse_args())
 
@@ -35,7 +36,7 @@ def utils():
     if args['which'] == 'consensus':
         consensus.consensus(
             args['destruct'], args['lumpy'], args['svaba'], args['gridss'],
-            args['consensus'], args['sample_id']
+            args['consensus'], args['sample_id'], args['tempdir']
         )
     else:
         raise Exception()

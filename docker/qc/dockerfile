@@ -5,4 +5,4 @@ RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/ap
 
 RUN conda install --file /app/align_requirements.yml
 
-RUN cd /app/mondrian && python setup.py install
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian.git@mondrian
