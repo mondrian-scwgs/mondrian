@@ -1,8 +1,8 @@
 import argparse
 
-from .collect_metrics import CollectMetrics
-from .fastqscreen import merge_fastq_screen_counts
-from .fastqscreen import organism_filter
+from mondrian.utils.alignment.collect_metrics import CollectMetrics
+from mondrian.utils.alignment.fastqscreen import merge_fastq_screen_counts
+from mondrian.utils.alignment.fastqscreen import organism_filter
 
 
 def parse_args():
