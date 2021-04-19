@@ -1,6 +1,6 @@
 import argparse
 
-from .collect_metrics import collect_metrics
+from .collect_metrics import CollectMetrics
 from .fastqscreen import merge_fastq_screen_counts
 from .fastqscreen import organism_filter
 
@@ -108,7 +108,7 @@ def utils():
             args['merged_detailed'], args['merged_summary']
         )
     elif args['which'] == 'collect_metrics':
-        collect_metrics(
+        CollectMetrics(
             args['wgs_metrics'], args['insert_metrics'],
             args['flagstat'], args['markdups_metrics'], args['output'],
             args['cell_id']
