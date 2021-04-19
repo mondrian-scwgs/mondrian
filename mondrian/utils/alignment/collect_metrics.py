@@ -6,8 +6,8 @@ from __future__ import division
 
 import os
 import pandas as pd
-from single_cell.utils import csvutils
 from .dtypes import dtypes
+import csverve
 
 class CollectMetrics(object):
     def __init__(
@@ -197,7 +197,7 @@ class CollectMetrics(object):
         # replace empty vals with NA
         data = [v if v != '' else 'NA' for v in data]
 
-        csvout = csvutils.CsvOutput(
+        csvout = csverve.CsverveOutput(
             self.output, self.dtypes, header=True, columns=header
         )
 

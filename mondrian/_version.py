@@ -42,7 +42,7 @@ def get_config():
     cfg.style = "pep440"
     cfg.tag_prefix = "v"
     cfg.parentdir_prefix = "None"
-    cfg.versionfile_source = "single_cell/_version.py"
+    cfg.versionfile_source = "mondrian/_version.py"
     cfg.verbose = False
     return cfg
 
