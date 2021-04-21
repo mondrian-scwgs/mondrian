@@ -26,8 +26,9 @@ task RunVcf2Maf{
         File maf = 'annotated.maf'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }

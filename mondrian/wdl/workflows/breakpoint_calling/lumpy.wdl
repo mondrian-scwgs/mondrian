@@ -15,7 +15,8 @@ workflow LumpyWorkflow {
         input:
             inputBam = normal_bam,
             outputBam = "normal_discordant.bam",
-            flag = 1294
+            bam_flag = 1294,
+            samtools_flags = '-bh'
     }
 
     call samtools.sortBam as sort_normal_discordant_bam{
@@ -40,7 +41,8 @@ workflow LumpyWorkflow {
         input:
             inputBam = tumour_bam,
             outputBam = "tumour_discordant.bam",
-            flag = 1294
+            bam_flag = 1294,
+            samtools_flags = '-bh'
     }
 
     call samtools.sortBam as sort_tumour_discordant_bam{

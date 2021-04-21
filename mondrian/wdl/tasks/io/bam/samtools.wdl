@@ -13,10 +13,10 @@ task SamToBam{
         File samfile = outputSam
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -33,10 +33,10 @@ task indexBam{
         File indexfile = outputBai
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -52,10 +52,10 @@ task Flagstat{
         File flagstat_txt = 'flagstat.txt'
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -72,10 +72,10 @@ task mergeBams{
         File mergedBam = outputFile
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -83,19 +83,20 @@ task viewBam{
     input{
         File inputBam
         String outputBam
-        Int? flag
+        Int? bam_flag
+        String samtools_flags
     }
     command{
-        samtools view -b  ~{"-F " + flag} '${inputBam}' > '${outputBam}'
+        samtools view ~{samtools_flags}  ~{"-F " + bam_flag} '${inputBam}' > '${outputBam}'
     }
     output{
         File bamFile = outputBam
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -110,9 +111,9 @@ task sortBam{
         File sortedBam = 'sorted.bam'
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }

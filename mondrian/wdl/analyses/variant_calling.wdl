@@ -6,20 +6,25 @@ import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondr
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/utilities/bash.wdl"  as bash
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
+
 workflow VariantWorkflow{
     input{
         File normal_bam
         File normal_bai
-        File reference
-        File reference_fai
-        File reference_dict
+        String ref_dir
         Int numThreads
         Array[String] chromosomes
-        Directory vep_ref
-        String tumour_id
         String normal_id
         File tumour_bams_tsv
         Array[Array[File]] tumour_bams = read_tsv(tumour_bams_tsv)
+    }
+
+    VariantRefdata ref = {
+        "reference": ref_dir+'/human/GRCh37-lite.fa',
+        "reference_dict": ref_dir+'/human/GRCh37-lite.dict',
+        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
+        'vep': ref_dir + '/vep'
     }
 
 
@@ -34,12 +39,12 @@ workflow VariantWorkflow{
                 normal_bai = normal_bai,
                 tumour_bam = bam,
                 tumour_bai = bai,
-                reference = reference,
-                reference_fai = reference_fai,
-                reference_dict = reference_dict,
+                reference = ref.reference,
+                reference_fai = ref.reference_fa_fai,
+                reference_dict = ref.reference_dict,
                 numThreads=numThreads,
                 chromosomes = chromosomes,
-                vep_ref = vep_ref,
+                vep_ref = ref.vep,
                 tumour_id = tumour_id,
                 normal_id = normal_id
         }

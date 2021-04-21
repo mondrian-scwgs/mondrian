@@ -212,16 +212,16 @@ def re_tag_reads(infile, outfile):
 def organism_filter(
         fastq_r1, fastq_r2, filtered_fastq_r1, filtered_fastq_r2,
         detailed_metrics, summary_metrics, tempdir, cell_id,
-        reference_dir
+        human_reference, mouse_reference, salmon_reference
 ):
     params = {
         'strict_validation': True,
         'filter_contaminated_reads': False,
         'aligner': 'bwa',
         'genomes': [
-            {'name': 'grch37', 'path': os.path.join(reference_dir, 'human', 'GRCh37-lite.fa')},
-            {'name': 'mm10', 'path': os.path.join(reference_dir, 'mouse', 'mm10_build38_mouse.fasta')},
-            {'name': 'salmon', 'path': os.path.join(reference_dir, 'salmon', 'GCF_002021735.1_Okis_V1_genomic.fna')}
+            {'name': 'grch37', 'path': human_reference},
+            {'name': 'mm10', 'path': mouse_reference},
+            {'name': 'salmon', 'path': salmon_reference}
         ]
     }
 

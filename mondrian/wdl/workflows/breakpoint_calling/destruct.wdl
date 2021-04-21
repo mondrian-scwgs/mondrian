@@ -1,13 +1,14 @@
 version development
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/breakpoint_calling/destruct.wdl" as destruct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 workflow DestructWorkflow{
     input{
         File normal_bam
         File tumour_bam
-        Directory ref_dir
+        BreakpointRefdata ref
         String num_threads
     }
 
@@ -15,7 +16,17 @@ workflow DestructWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            ref_dir = ref_dir,
+            reference = ref.reference,
+            reference_fai = ref.reference_fa_fai,
+            reference_gtf = ref.reference_gtf,
+            reference_fa_1_ebwt = ref.reference_fa_1_ebwt,
+            reference_fa_2_ebwt = ref.reference_fa_2_ebwt,
+            reference_fa_3_ebwt = ref.reference_fa_3_ebwt,
+            reference_fa_4_ebwt = ref.reference_fa_4_ebwt,
+            reference_fa_rev_1_ebwt = ref.reference_fa_rev_1_ebwt,
+            reference_fa_rev_2_ebwt = ref.reference_fa_rev_2_ebwt,
+            dgv = ref.dgv,
+            repeats_satellite_regions = ref.repeats_satellite_regions,
             num_threads = num_threads,
     }
 

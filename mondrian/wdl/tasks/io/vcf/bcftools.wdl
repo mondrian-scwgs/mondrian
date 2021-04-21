@@ -19,9 +19,10 @@ task concatVcf{
         File merged_vcf_tbi = 'merged_sorted.vcf.gz.tbi'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -51,9 +52,10 @@ task mergeVcf{
         File merged_vcf_tbi = 'merged_sorted.vcf.gz.tbi'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -73,9 +75,10 @@ task filterVcf{
         File filtered_vcf_tbi = 'filtered.vcf.gz.tbi'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -97,8 +100,9 @@ task finalizeVcf{
         File vcf_tbi = '~{filename_prefix}_compressed.vcf.gz.tbi'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }

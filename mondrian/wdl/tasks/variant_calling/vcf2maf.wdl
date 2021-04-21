@@ -23,9 +23,10 @@ task RunVcf2Maf{
         File output_maf = 'output.maf'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
         walltime: "24:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -43,9 +44,10 @@ task UpdateMafId{
         File output_maf = 'updated_id.maf'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -62,9 +64,10 @@ task UpdateMafCounts{
         File output_maf = filename_prefix + '_updated_counts.maf'
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -80,8 +83,9 @@ task MergeMafs{
         File output_maf = "merged.maf"
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }

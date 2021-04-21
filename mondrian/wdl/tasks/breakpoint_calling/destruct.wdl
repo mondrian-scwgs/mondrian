@@ -1,16 +1,29 @@
 version development
 
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+
+
 task runDestruct{
     input{
         File normal_bam
         File tumour_bam
-        Directory ref_dir
+        File reference
+        File reference_fai
+        File reference_gtf
+        File reference_fa_1_ebwt
+        File reference_fa_2_ebwt
+        File reference_fa_3_ebwt
+        File reference_fa_4_ebwt
+        File reference_fa_rev_1_ebwt
+        File reference_fa_rev_2_ebwt
+        File dgv
+        File repeats_satellite_regions
         String num_threads
     }
     command<<<
-        echo "genome_fasta = '~{ref_dir}/GRCh37-lite.fa'; genome_fai = '~{ref_dir}/GRCh37-lite.fa.fai'; gtf_filename = '~{ref_dir}/Homo_sapiens.GRCh37.73.gtf'" > config.py
+        echo "genome_fasta = '~{reference}'; genome_fai = '~{reference_fai}'; gtf_filename = '~{reference_gtf}'" > config.py
 
-        destruct run ~{ref_dir} \
+        destruct run $(dirname ~{reference}) \
         breakpoint_table.csv breakpoint_library_table.csv \
         breakpoint_read_table.csv \
         --bam_files ~{tumour_bam} ~{normal_bam} \
@@ -23,7 +36,7 @@ task runDestruct{
         File read_table = "breakpoint_read_table.csv"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'

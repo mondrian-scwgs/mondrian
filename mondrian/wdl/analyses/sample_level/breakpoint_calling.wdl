@@ -6,6 +6,7 @@ import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondr
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/gridss.wdl" as gridss
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/svaba.wdl" as svaba
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/workflows/breakpoint_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 
@@ -15,7 +16,7 @@ workflow SampleBreakpointWorkflow {
         File normal_bai
         File tumour_bam
         File tumour_bai
-        Directory ref_dir
+        BreakpointRefdata ref
         Int num_threads
         String tumour_id
         String normal_id
@@ -31,7 +32,7 @@ workflow SampleBreakpointWorkflow {
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            ref_dir = ref_dir,
+            ref = ref,
             num_threads = num_threads,
     }
 
@@ -40,7 +41,7 @@ workflow SampleBreakpointWorkflow {
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
             num_threads = num_threads,
-            ref_dir = ref_dir,
+            ref = ref,
     }
     call svaba.SvabaWorkflow as svaba{
         input:
@@ -49,7 +50,7 @@ workflow SampleBreakpointWorkflow {
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
             num_threads = num_threads,
-            ref_dir = ref_dir,
+            ref = ref,
     }
 
     call consensus.ConsensusWorkflow as cons{
@@ -64,7 +65,8 @@ workflow SampleBreakpointWorkflow {
     output{
         File consensus = cons.consensus
         File consensus_yaml = cons.consensus_yaml
+        File destruct_outfile = destruct.breakpoint_table
+        File gridss_outfile = gridss.output_vcf
+        File svaba_outfile = svaba.output_vcf
     }
-
-
 }

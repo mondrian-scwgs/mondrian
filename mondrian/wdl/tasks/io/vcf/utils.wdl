@@ -22,8 +22,9 @@ task vcf_reheader_id{
         File output_file = "output.vcf.gz"
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }

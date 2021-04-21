@@ -12,9 +12,10 @@ task GetSampleId{
         String sample_id = read_string("sampleid.txt")
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -52,9 +53,10 @@ task runMutect{
         Array[File] vcf_files = glob("filtered_data/*.vcf")
     }
     runtime{
-        memory: "8G"
-        cpu: 24
-        walltime: "96:00"
+        memory: "12 GB"
+        cpu: 1
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -72,9 +74,10 @@ task filterMutect{
         File filtered_vcf = "filtered.vcf"
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 

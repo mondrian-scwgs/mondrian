@@ -1,5 +1,6 @@
 version development
 
+
 task MarkDuplicates{
     input{
         File input_bam
@@ -21,7 +22,7 @@ task MarkDuplicates{
         File metrics_txt = 'metrics.txt'
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -32,7 +33,8 @@ task MarkDuplicates{
 task CollectGcBiasMetrics{
     input{
         File input_bam
-        Directory ref_dir
+        File reference
+        File reference_fai
     }
     command<<<
         picard -Xmx12G -Xms12G CollectGcBiasMetrics \
@@ -40,7 +42,7 @@ task CollectGcBiasMetrics{
         OUTPUT=metrics.txt \
         S=summary.txt \
         CHART_OUTPUT= chart.pdf \
-        REFERENCE_SEQUENCE=~{ref_dir}/human/GRCh37-lite.fa \
+        REFERENCE_SEQUENCE=~{reference} \
         VALIDATION_STRINGENCY=LENIENT \
         TMP_DIR=tempdir \
         MAX_RECORDS_IN_RAM=150000
@@ -49,7 +51,7 @@ task CollectGcBiasMetrics{
         File metrics_txt="metrics.txt"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -60,13 +62,14 @@ task CollectGcBiasMetrics{
 task CollectWgsMetrics{
     input{
         File input_bam
-        Directory ref_dir
+        File reference
+        File reference_fai
     }
     command<<<
         picard -Xmx12G -Xms12G CollectWgsMetrics \
         INPUT=~{input_bam} \
         OUTPUT=metrics.txt \
-        REFERENCE_SEQUENCE=~{ref_dir}/human/GRCh37-lite.fa \
+        REFERENCE_SEQUENCE=~{reference} \
         MINIMUM_BASE_QUALITY=0 \
         MINIMUM_MAPPING_QUALITY=0 \
         COVERAGE_CAP=500 \
@@ -78,7 +81,7 @@ task CollectWgsMetrics{
         File metrics_txt="metrics.txt"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -106,7 +109,7 @@ task CollectInsertSizeMetrics{
         File histogram_pdf='histogram.pdf'
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -132,7 +135,7 @@ task SortSam{
         File metrics_txt="metrics.txt"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -156,7 +159,7 @@ task MergeSamFiles{
         File output_bam="merged.bam"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'

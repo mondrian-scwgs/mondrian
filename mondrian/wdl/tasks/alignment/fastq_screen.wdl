@@ -1,10 +1,34 @@
 version development
 
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
+
+
+
 task fastqScreen{
     input {
         File fastq1
         File fastq2
-        Directory ref_dir
+        File human_reference
+        File human_reference_fa_fai
+        File human_reference_fa_amb
+        File human_reference_fa_ann
+        File human_reference_fa_bwt
+        File human_reference_fa_pac
+        File human_reference_fa_sa
+        File mouse_reference
+        File mouse_reference_fa_fai
+        File mouse_reference_fa_amb
+        File mouse_reference_fa_ann
+        File mouse_reference_fa_bwt
+        File mouse_reference_fa_pac
+        File mouse_reference_fa_sa
+        File salmon_reference
+        File salmon_reference_fa_fai
+        File salmon_reference_fa_amb
+        File salmon_reference_fa_ann
+        File salmon_reference_fa_bwt
+        File salmon_reference_fa_pac
+        File salmon_reference_fa_sa
         String cell_id
     }
     command {
@@ -13,7 +37,10 @@ task fastqScreen{
         --detailed_metrics detailed_metrics.csv.gz \
         --summary_metrics summary_metrics.csv.gz \
         --tempdir `pwd`/tempout \
-        --cell_id ~{cell_id} --reference_dir ~{ref_dir}
+        --cell_id ~{cell_id} \
+        --human_reference ~{human_reference} \
+        --mouse_reference ~{mouse_reference} \
+        --salmon_reference ~{salmon_reference} \
     }
     output {
         File tagged_fastq1 = "tagged.r1.fastq.gz"
@@ -22,7 +49,7 @@ task fastqScreen{
         File summary_metrics = "summary_metrics.csv.gz"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
@@ -48,7 +75,7 @@ task merge_fastqscreen_counts{
         File merged_summary_yaml = "summary.csv.gz.yaml"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/qc:v0.0.1'

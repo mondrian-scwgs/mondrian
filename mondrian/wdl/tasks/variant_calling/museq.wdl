@@ -13,6 +13,8 @@ task runMuseq{
         Int cores
     }
     command<<<
+        mkdir pythonegg
+        export PYTHON_EGG_CACHE=$PWD/pythonegg
         for interval in ~{sep=" "intervals}
             do
                 echo "museq normal:~{normal_bam} tumour:~{tumour_bam} reference:~{reference} \
@@ -25,9 +27,10 @@ task runMuseq{
         Array[File] vcf_files = glob("*.vcf")
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
         walltime: "96:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -46,6 +49,12 @@ task fixMuseqVcf{
         File output_vcf = 'output.vcf.gz'
         File output_csi = 'output.vcf.gz.csi'
         File output_tbi = 'output.vcf.gz.tbi'
+    }
+    runtime{
+        memory: "12 GB"
+        cpu: 1
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 

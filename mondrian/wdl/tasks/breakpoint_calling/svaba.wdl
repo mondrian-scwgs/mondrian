@@ -1,4 +1,5 @@
 version development
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 task runSvaba{
@@ -8,16 +9,22 @@ task runSvaba{
         File tumour_bam
         File tumour_bai
         Int num_threads
-        Directory ref_dir
+        File reference
+        File reference_fa_fai
+        File reference_fa_amb
+        File reference_fa_ann
+        File reference_fa_bwt
+        File reference_fa_pac
+        File reference_fa_sa
     }
     command{
-        svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{ref_dir}/GRCh37-lite.fa -z -p ~{num_threads} -a output
+        svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{reference} -z -p ~{num_threads} -a output
     }
     output{
         File output_vcf = "output.svaba.somatic.sv.vcf.gz"
     }
     runtime{
-        memory: "12G"
+        memory: "12 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'

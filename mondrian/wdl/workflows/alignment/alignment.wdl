@@ -4,6 +4,8 @@ import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondr
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/fastq_screen.wdl" as fastq_screen
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/fastq/fastqc.wdl" as fastqc
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/tasks/alignment/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
 
 
 workflow AlignFastqs{
@@ -11,8 +13,12 @@ workflow AlignFastqs{
     input{
         File fastq1
         File fastq2
-        Directory ref_dir
+        AlignRefdata ref
         String cell_id
+        String library_id
+        String sample_id
+        String center
+        String lane_id
     }
 
 
@@ -30,7 +36,27 @@ workflow AlignFastqs{
         input:
             fastq1 = fastq1,
             fastq2 = fastq2,
-            ref_dir = ref_dir,
+            human_reference = ref.reference,
+            human_reference_fa_fai = ref.reference_fa_fai,
+            human_reference_fa_amb = ref.reference_fa_amb,
+            human_reference_fa_ann = ref.reference_fa_ann,
+            human_reference_fa_bwt = ref.reference_fa_bwt,
+            human_reference_fa_pac = ref.reference_fa_pac,
+            human_reference_fa_sa = ref.reference_fa_sa,
+            mouse_reference = ref.mouse_reference,
+            mouse_reference_fa_fai = ref.mouse_reference_fa_fai,
+            mouse_reference_fa_amb = ref.mouse_reference_fa_amb,
+            mouse_reference_fa_ann = ref.mouse_reference_fa_ann,
+            mouse_reference_fa_bwt = ref.mouse_reference_fa_bwt,
+            mouse_reference_fa_pac = ref.mouse_reference_fa_pac,
+            mouse_reference_fa_sa = ref.mouse_reference_fa_sa,
+            salmon_reference = ref.salmon_reference,
+            salmon_reference_fa_fai = ref.salmon_reference_fa_fai,
+            salmon_reference_fa_amb = ref.salmon_reference_fa_amb,
+            salmon_reference_fa_ann = ref.salmon_reference_fa_ann,
+            salmon_reference_fa_bwt = ref.salmon_reference_fa_bwt,
+            salmon_reference_fa_pac = ref.salmon_reference_fa_pac,
+            salmon_reference_fa_sa = ref.salmon_reference_fa_sa,
             cell_id = cell_id
     }
 
@@ -38,15 +64,29 @@ workflow AlignFastqs{
         input:
             fastq1 = run_fastqscreen.tagged_fastq1,
             fastq2 = run_fastqscreen.tagged_fastq2,
-            ref_dir = ref_dir
+            reference = ref.reference,
+            reference_fa_fai = ref.reference_fa_fai,
+            reference_fa_amb = ref.reference_fa_amb,
+            reference_fa_ann = ref.reference_fa_ann,
+            reference_fa_bwt = ref.reference_fa_bwt,
+            reference_fa_pac = ref.reference_fa_pac,
+            reference_fa_sa = ref.reference_fa_sa,
+            library_id = library_id,
+            sample_id = sample_id,
+            center = center,
+            lane_id = lane_id
+    }
+
+    call utils.TagBamWithCellid as tag_bam{
+        input:
+            infile = bwa_mem.bam,
+            cell_id = cell_id
     }
 
     call samtools.sortBam as sort_bam{
         input:
-            inputBam = bwa_mem.bam
+            inputBam = tag_bam.outfile
     }
-
-
 
 
     output{

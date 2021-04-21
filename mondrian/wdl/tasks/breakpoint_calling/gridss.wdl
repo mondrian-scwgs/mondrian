@@ -1,18 +1,24 @@
 version development
 
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/mondrian/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 task runGridss{
     input{
         File normal_bam
         File tumour_bam
         Int num_threads
-        Directory ref_dir
+        File reference
+        File reference_fa_fai
+        File reference_fa_amb
+        File reference_fa_ann
+        File reference_fa_bwt
+        File reference_fa_pac
+        File reference_fa_sa
     }
     command{
         gridss.sh \
-        --jar /juno/work/shah/users/grewald/CROMWELL/breakpoint/gridss.jar \
         --assembly assembly/assembly.bam \
-        --reference ~{ref_dir}/GRCh37-lite.fa \
+        --reference ~{reference} \
         --output calls.vcf.gz \
         --threads ~{num_threads} \
         --workingdir workingdir \
@@ -24,9 +30,9 @@ task runGridss{
         File output_vcf = "calls.vcf.gz"
     }
     runtime{
-        memory: "12G"
-        cpu: 1
-        walltime: "48:00"
+        memory: "12 GB"
+        cpu: num_threads
+        walltime: "96:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }

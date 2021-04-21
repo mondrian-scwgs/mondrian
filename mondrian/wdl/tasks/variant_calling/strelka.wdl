@@ -12,9 +12,10 @@ task GetGenomeSize{
         String genome_size = read_string('genome_size.txt')
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -39,9 +40,10 @@ task GenerateChromDepth{
         Array[File] chrom_depths = glob("*.chrom_depth.txt")
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -57,9 +59,10 @@ task merge_chrom_depths{
         File merged = "output.txt"
     }
     runtime{
-        memory: "8G"
+        memory: "12 GB"
         cpu: 1
-        walltime: "6:00"
+        walltime: "8:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
 
@@ -135,8 +138,9 @@ task run_strelka{
         Array[File] stats = glob("*stats.txt")
     }
     runtime{
-        memory: "8G"
-        cpu: 8
+        memory: "12 GB"
+        cpu: 1
         walltime: "96:00"
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
     }
 }
