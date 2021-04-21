@@ -3,12 +3,12 @@ import shutil
 from collections import defaultdict
 
 import pandas as pd
-import pypeliner
 from mondrian.utils import helpers
 from mondrian.utils.alignment import fastq_utils
 from mondrian.utils.alignment.dtypes import dtypes
 
 import csverve
+from subprocess import Popen, PIPE
 
 
 def merge_fastq_screen_counts(
@@ -52,6 +52,26 @@ def merge_fastq_screen_counts(
     csverve.write_dataframe_to_csv_and_yaml(
         df, merged_summary_counts, dtypes()['metrics'], write_header=True
     )
+
+
+def run_cmd(cmd, output=None):
+    stdout = PIPE
+    if output:
+        stdout = open(output, "w")
+
+    p = Popen(cmd, stdout=stdout, stderr=PIPE)
+
+    cmdout, cmderr = p.communicate()
+    retc = p.returncode
+
+    if retc:
+        raise Exception(
+            "command failed. stderr:{}, stdout:{}".format(
+                cmdout,
+                cmderr))
+
+    if output:
+        stdout.close()
 
 
 def run_fastq_screen_paired_end(fastq_r1, fastq_r2, tempdir, params):
@@ -102,7 +122,7 @@ def run_fastq_screen_paired_end(fastq_r1, fastq_r2, tempdir, params):
         fastq_r2,
     ]
 
-    pypeliner.commandline.execute(*cmd)
+    run_cmd(cmd)
 
     return tagged_fastq_r1, tagged_fastq_r2
 
