@@ -24,8 +24,9 @@ task runGridss{
         File output_vcf = "calls.vcf.gz"
     }
     runtime{
-        memory: "8G"
-        cpu: 8
+        memory: "12G"
+        cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }

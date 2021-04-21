@@ -15,7 +15,8 @@ task extractSplitReads{
     runtime{
         memory: "12G"
         cpu: 1
-        walltime: "24:00"
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
 
@@ -39,7 +40,8 @@ task lumpyExpress{
     }
     runtime{
         memory: "12G"
-        cpu: 8
+        cpu: 1
         walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }

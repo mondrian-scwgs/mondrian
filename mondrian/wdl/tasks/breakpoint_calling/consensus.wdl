@@ -24,6 +24,7 @@ task consensus{
     runtime{
         memory: "12G"
         cpu: 1
-        walltime: "24:00"
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
