@@ -12,6 +12,29 @@ import tarfile
 
 import pandas as pd
 import yaml
+from subprocess import Popen, PIPE
+
+
+
+def run_cmd(cmd, output=None):
+    stdout = PIPE
+    if output:
+        stdout = open(output, "w")
+
+    p = Popen(cmd, stdout=stdout, stderr=PIPE)
+
+    cmdout, cmderr = p.communicate()
+    retc = p.returncode
+
+    if retc:
+        raise Exception(
+            "command failed. stderr:{}, stdout:{}".format(
+                cmdout,
+                cmderr))
+
+    if output:
+        stdout.close()
+
 
 
 class InputException(Exception):

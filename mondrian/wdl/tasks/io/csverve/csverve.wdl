@@ -1,23 +1,46 @@
 version development
 
+
+task rewrite_csv{
+    input{
+        File infile
+        String dtypes
+    }
+    command<<<
+        csverve_utils rewrite_csv --infile ~{infile} --outfile outfile.csv.gz --dtypes ~{dtypes}
+    >>>
+    output{
+        File outfile = 'outfile.csv.gz'
+        File outfile_yaml = 'outfile.csv.gz.yaml'
+    }
+    runtime{
+        memory: "8 GB"
+        cpu: 1
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+    }
+}
+
+
 task concatenate_csv {
     input {
         Array[File] inputfile
         Array[File] inputyaml
+        String filename_prefix
     }
     command {
-        csverve concat --in_f ~{sep=" --in_f " inputfile} --out_f concat.csv.gz --write_header
+        csverve concat --in_f ~{sep=" --in_f " inputfile} --out_f ~{filename_prefix}.csv.gz --write_header
 
     }
     output {
-        File outfile = "concat.csv.gz"
-        File outfile_yaml = "concat.csv.gz.yaml"
+        File outfile = "~{filename_prefix}.csv.gz"
+        File outfile_yaml = "~{filename_prefix}.csv.gz.yaml"
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
-        walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
     }
 }
 
@@ -37,10 +60,10 @@ task merge_csv{
         File outfile_yaml = 'merged.csv.gz.yaml'
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
-        walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
     }
 }
 
@@ -58,9 +81,9 @@ task finalize_csv {
         File outfile = "concat.csv"
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
-        walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
     }
 }

@@ -14,8 +14,11 @@ setup(
             'mondrian = mondrian.run:main',
             'variant_utils = mondrian.utils.variant_calling.utils:utils',
             'breakpoint_utils = mondrian.utils.breakpoint_calling.utils:utils',
-            'alignment_utils = mondrian.utils.alignment.utils:utils'
+            'alignment_utils = mondrian.utils.alignment.utils:utils',
+            'hmmcopy_utils = mondrian.utils.hmmcopy.utils:utils',
+            'csverve_utils = mondrian.utils.io.csverve:utils',
+            'pdf_utils = mondrian.utils.io.pdf:utils',
         ]
     },
-    package_data={'': ['scripts/*.py', 'scripts/*.R', 'scripts/*.npz', "config/*.yaml", "data/*"]}
+    package_data={'': ['*.py', '*.R', '*.npz', "*.yaml", "data/*"]}
 )

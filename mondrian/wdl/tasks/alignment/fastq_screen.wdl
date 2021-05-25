@@ -52,7 +52,7 @@ task fastqScreen{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
     }
 }
 
@@ -78,6 +78,6 @@ task merge_fastqscreen_counts{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/qc:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
     }
 }
