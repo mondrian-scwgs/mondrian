@@ -95,3 +95,13 @@ wget https://github.com/broadinstitute/cromwell/releases/download/54/cromwell-54
 module load java
 java -Dconfig.file=run.config -jar cromwell-54.jar run https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/analyses/alignment.wdl -i input.json  -o options.json
 ```
+
+
+server:
+```
+curl -X POST --header "Accept: application/json"\
+    -v "localhost:8000/api/workflows/v1" \
+    -F workflowUrl=https://github.com/mondrian-scwgs/mondrian/blob/mondrian/mondrian/wdl/analyses/breakpoint_calling.wdl \
+    -F workflowInputs=input.json
+    -F workflowOptions=options.json
+```
