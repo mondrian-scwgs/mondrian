@@ -26,7 +26,7 @@ task concatenate_csv {
     input {
         Array[File] inputfile
         Array[File] inputyaml
-        String filename_prefix
+        String filename_prefix = 'output'
     }
     command {
         csverve concat --in_f ~{sep=" --in_f " inputfile} --out_f ~{filename_prefix}.csv.gz --write_header

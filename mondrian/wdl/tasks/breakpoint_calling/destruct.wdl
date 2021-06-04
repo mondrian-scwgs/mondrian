@@ -1,6 +1,6 @@
 version development
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 task runDestruct{
@@ -37,8 +37,8 @@ task runDestruct{
     }
     runtime{
         memory: "12 GB"
-        cpu: 24
-        walltime: "72:00"
+        cpu: 1
+        walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
 }
