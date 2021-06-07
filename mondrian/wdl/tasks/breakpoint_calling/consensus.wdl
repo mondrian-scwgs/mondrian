@@ -14,7 +14,7 @@ task consensus{
         breakpoint_utils consensus \
         --destruct ~{destruct} \
         --lumpy ~{lumpy} --svaba ~{svaba} \
-        --gridss ~{gridss} --consensus ~{filename_prefix}_consensus.csv --sample_id ~{sample_id} \
+        --gridss ~{gridss} --consensus ~{filename_prefix}_consensus.csv.gz --sample_id ~{sample_id} \
         --tempdir tempdir
     >>>
     output{
