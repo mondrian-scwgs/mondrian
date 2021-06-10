@@ -19,7 +19,7 @@ import matplotlib.gridspec as gridspec
 
 from matplotlib.colors import rgb2hex
 
-from csverve import csverve
+import csverve.api as csverve
 
 import numpy as np
 

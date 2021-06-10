@@ -1,6 +1,6 @@
 import pandas as pd
 from .breakpoint_db import BreakpointDatabase
-from csverve import csverve
+import csverve.api as csverve
 from .vcf_sv_parser import SvVcfData
 import os
 

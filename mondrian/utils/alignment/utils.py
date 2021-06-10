@@ -1,7 +1,7 @@
 import argparse
 import pysam
 import subprocess
-from csverve import csverve
+import csverve.api as csverve
 from mondrian.utils.alignment.collect_metrics import collect_metrics
 from mondrian.utils.alignment.dtypes import dtypes
 from mondrian.utils.alignment.fastqscreen import merge_fastq_screen_counts

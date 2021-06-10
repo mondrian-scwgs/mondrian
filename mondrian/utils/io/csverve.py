@@ -1,5 +1,5 @@
 import argparse
-from csverve import csverve
+import csverve.api as csverve
 from mondrian.utils.dtypes import hmmcopy_metrics
 from mondrian.utils.dtypes import hmmcopy_params
 from mondrian.utils.dtypes import hmmcopy_reads
