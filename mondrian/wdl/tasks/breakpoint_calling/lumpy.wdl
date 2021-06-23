@@ -7,7 +7,7 @@ task extractSplitReads{
         String outputBam
     }
     command {
-        samtools view -h ~{inputBam} | extractSplitReads_BwaMem -i stdin | samtools view -Sb - > ~{outputBam}
+        samtools view -h ~{inputBam} | lumpy_extractSplitReads_BwaMem -i stdin | samtools view -Sb - > ~{outputBam}
     }
     output {
         File bamFile = outputBam
