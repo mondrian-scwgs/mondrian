@@ -7,7 +7,7 @@ from __future__ import division
 import os
 import pandas as pd
 from .dtypes import dtypes
-import csverve.api as csverve
+import csverve.core.csverve_output as csverve
 
 class CollectMetrics(object):
     def __init__(
