@@ -7,7 +7,7 @@ from __future__ import division
 import os
 import pandas as pd
 from .dtypes import dtypes
-import csverve.core.csverve_output as csverve
+import csverve.api as csverve
 
 class CollectMetrics(object):
     def __init__(
@@ -193,17 +193,10 @@ class CollectMetrics(object):
         """
         write to the output
         """
-        assert len(header) == len(data)
-        # replace empty vals with NA
-        data = [v if v != '' else 'NA' for v in data]
+        df = pd.DataFrame(columns=header)
+        df.loc[0] = data
 
-        csvout = csverve.CsverveOutput(
-            self.output, self.dtypes, header=True, columns=header
-        )
-
-        csvout.write_text([','.join([str(v) for v in data])])
-
-        # print(os.path.exists(self.output+'.yaml'))
+        csverve.write_dataframe_to_csv_and_yaml(df, self.output, self.dtypes, write_header=True)
 
     # =========================================================================
     # Run script
