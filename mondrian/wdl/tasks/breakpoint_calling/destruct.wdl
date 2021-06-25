@@ -37,7 +37,7 @@ task runDestruct{
     }
     runtime{
         memory: "12 GB"
-        cpu: 1
+        cpu: num_threads
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
     }
