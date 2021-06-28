@@ -146,7 +146,7 @@ workflow HmmcopyWorkflow{
     call csverve.merge_csv as merge_cell_cycle{
         input:
             inputfiles = [concat_metrics.outfile, cell_cycle_classifier.outfile],
-            inputfiles_yaml = [concat_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
+            inputyamls = [concat_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
             on = 'cell_id',
             how = 'outer'
     }
