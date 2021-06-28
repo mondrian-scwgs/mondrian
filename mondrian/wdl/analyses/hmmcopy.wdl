@@ -10,6 +10,7 @@ workflow HmmcopyWorkflow{
     input{
         File bam
         File bai
+        File alignment_metrics
         String ref_dir
         Array[String] chromosomes
     }
@@ -129,9 +130,34 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_bias"
     }
 
+    call utils.addMappability as add_mappability{
+        input:
+            infile = concat_reads.outfile,
+            infile_yaml = concat_reads.outfile_yaml
+    }
+
+    call utils.cellCycleClassifier as cell_cycle_classifier{
+        input:
+            hmmcopy_reads = add_mappability.outfile,
+            hmmcopy_metrics = concat_metrics.outfile,
+            alignment_metrics = alignment_metrics
+    }
+
+    call csverve.merge_csv as merge_cell_cycle{
+        input:
+            inputfiles = [concat_metrics.outfile, cell_cycle_classifier.outfile],
+            inputfiles_yaml = [concat_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
+            on = 'cell_id',
+            how = 'outer'
+    }
+
+
+
+
+
     output{
-        File reads = concat_reads.outfile
-        File reads_yaml = concat_reads.outfile_yaml
+        File reads = add_mappability.outfile
+        File reads_yaml = add_mappability.outfile_yaml
         File segs = concat_segs.outfile
         File segs_yaml = concat_segs.outfile_yaml
         File metrics = concat_metrics.outfile

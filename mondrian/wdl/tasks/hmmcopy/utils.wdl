@@ -120,3 +120,40 @@ task PlotHmmcopy{
         docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
     }
 }
+
+
+task addMappability{
+    input{
+        File infile
+        File infile_yaml
+    }
+    command<<<
+    hmmcopy_utils add_mappability --infile ~{infile} --outfile output.csv.gz
+    >>>
+    output{
+        File outfile = 'output.csv.gz'
+        File outfile_yaml = 'output.csv.gz.yaml'
+    }
+}
+
+
+task cellCycleClassifier{
+    input{
+        File hmmcopy_reads
+        File hmmcopy_metrics
+        File alignment_metrics
+    }
+    command<<<
+    cell_cycle_classifier train-classify ~{hmmcopy_reads} ~{hmmcopy_metrics} ~{alignment_metrics} output.csv.gz
+
+    echo "is_s_phase: bool" > dtypes.yaml
+    echo "is_s_phase_prob: float" > dtypes.yaml
+
+    csverve rewrite_csv --in_f output.csv.gz --out_f rewrite.csv.gz --dtypes dtypes.yaml --write_header
+
+    >>>
+    output{
+        File outfile = 'rewrite.csv.gz'
+        File outfile_yaml = 'rewrite.csv.gz.yaml'
+    }
+}

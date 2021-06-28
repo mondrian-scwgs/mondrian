@@ -1,6 +1,9 @@
 import argparse
+import csverve.api as csverve
+import mondrian.utils.dtypes.hmmcopy_reads as reads_dtypes
 import mondrian.utils.helpers as helpers
 import os
+import pandas as pd
 from mondrian.utils.hmmcopy.correct_read_count import CorrectReadCount
 from mondrian.utils.hmmcopy.plot_hmmcopy import GenHmmPlots
 from mondrian.utils.hmmcopy.readcounter import ReadCounter
@@ -59,6 +62,21 @@ def run_hmmcopy(
     cmd.append('--param_multiplier=' + ','.join(map(str, multipliers)))
 
     helpers.run_cmd(cmd)
+
+
+def add_mappability(reads, annotated_reads):
+    reads = csverve.read_csv_and_yaml(reads, chunksize=100)
+
+    alldata = []
+    for read_data in reads:
+        read_data['is_low_mappability'] = (read_data['map'] <= 0.9)
+        alldata.append(read_data)
+
+    alldata = pd.concat(alldata)
+
+    csverve.write_dataframe_to_csv_and_yaml(
+        alldata, annotated_reads, reads_dtypes.dtypes, write_header=True
+    )
 
 
 def parse_args():
@@ -162,6 +180,15 @@ def parse_args():
         '--cell_id'
     )
 
+    add_mappability = subparsers.add_parser('add_mappability')
+    add_mappability.set_defaults(which='add_mappability')
+    add_mappability.add_argument(
+        '--infile'
+    )
+    add_mappability.add_argument(
+        '--outfile'
+    )
+
     args = vars(parser.parse_args())
 
     return args
@@ -191,6 +218,8 @@ def utils():
         run_hmmcopy(
             args['corrected_reads'], args['tempdir'], args['cell_id']
         )
+    elif args['which'] == 'add_mappability':
+        add_mappability(args['infile'], args['outfile'])
 
     else:
         raise Exception()
