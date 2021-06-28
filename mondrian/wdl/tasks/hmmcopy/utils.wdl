@@ -134,6 +134,13 @@ task addMappability{
         File outfile = 'output.csv.gz'
         File outfile_yaml = 'output.csv.gz.yaml'
     }
+    runtime{
+        memory: "8 GB"
+        cpu: 1
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+    }
+
 }
 
 
@@ -156,4 +163,11 @@ task cellCycleClassifier{
         File outfile = 'rewrite.csv.gz'
         File outfile_yaml = 'rewrite.csv.gz.yaml'
     }
+    runtime{
+        memory: "8 GB"
+        cpu: 1
+        walltime: "6:00"
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+    }
+
 }
