@@ -18,7 +18,7 @@ def rewrite_csv(infile, outfile, dtypes):
     else:
         raise Exception()
 
-    csverve.rewrite_csv_file(infile, outfile, dtypes=dtypes)
+    csverve.rewrite_csv_file(infile, outfile, dtypes=dtypes, write_header=False)
 
 
 def parse_args():
