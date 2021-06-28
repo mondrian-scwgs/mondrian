@@ -24,7 +24,7 @@ task runSvaba{
         File output_vcf = "output.svaba.somatic.sv.vcf.gz"
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: num_threads
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'

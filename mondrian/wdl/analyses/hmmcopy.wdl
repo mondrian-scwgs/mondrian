@@ -87,8 +87,6 @@ workflow HmmcopyWorkflow{
                 reference = ref.reference,
                 reference_fai = ref.reference_fai
         }
-
-
     }
     call csverve.concatenate_csv as concat_metrics{
         input:

@@ -13,7 +13,7 @@ task extractSplitReads{
         File bamFile = outputBam
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
@@ -40,7 +40,7 @@ task lumpyExpress{
         File lumpy_vcf = 'lumpy.vcf'
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'

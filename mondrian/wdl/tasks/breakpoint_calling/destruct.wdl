@@ -36,7 +36,7 @@ task runDestruct{
         File read_table = "breakpoint_read_table.csv"
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: num_threads
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
