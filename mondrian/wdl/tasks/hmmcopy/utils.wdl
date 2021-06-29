@@ -186,7 +186,6 @@ task addQuality{
     >>>
     output{
         File outfile = "output.csv.gz"
-        File outfile_yaml = "output.csv.gz.yaml"
     }
     runtime{
         memory: "8 GB"
