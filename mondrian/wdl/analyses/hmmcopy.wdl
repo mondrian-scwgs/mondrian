@@ -162,6 +162,12 @@ workflow HmmcopyWorkflow{
             classifier_training_data = ref.classifier_training_data,
     }
 
+    call csverve.rewrite_csv as rewrite_metrics{
+        input:
+            infile = add_quality.outfile,
+            dtypes = 'hmmcopy_metrics'
+    }
+
 
 
 
