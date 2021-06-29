@@ -32,9 +32,6 @@ task lumpyExpress{
     }
     command{
         lumpyexpress -B ~{normal_bam},~{tumour_bam} -S ~{normalSplitBam},~{tumourSplitBam} -D ~{normalDiscBam},~{tumourDiscBam} -o lumpy.vcf
-        if [ ! -f lumpy.vcf ]; then
-            touch lumpy.vcf
-        fi
     }
     output{
         File lumpy_vcf = 'lumpy.vcf'
