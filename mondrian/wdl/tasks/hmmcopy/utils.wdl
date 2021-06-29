@@ -182,7 +182,7 @@ task addQuality{
         File classifier_training_data
     }
     command<<<
-    hmmcopy_utils --hmmcopy_metrics ~{hmmcopy_metrics} --alignment_metrics ~{alignment_metrics} --training_data ~{classifier_training_data} --output output.csv.gz
+    hmmcopy_utils add_quality --hmmcopy_metrics ~{hmmcopy_metrics} --alignment_metrics ~{alignment_metrics} --training_data ~{classifier_training_data} --output output.csv.gz
     >>>
     output{
         File outfile = "output.csv.gz"
