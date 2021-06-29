@@ -154,7 +154,7 @@ task cellCycleClassifier{
     cell_cycle_classifier train-classify ~{hmmcopy_reads} ~{hmmcopy_metrics} ~{alignment_metrics} output.csv.gz
 
     echo "is_s_phase: bool" > dtypes.yaml
-    echo "is_s_phase_prob: float" > dtypes.yaml
+    echo "is_s_phase_prob: float" >> dtypes.yaml
 
     csverve rewrite --in_f output.csv.gz --out_f rewrite.csv.gz --dtypes dtypes.yaml --write_header
 

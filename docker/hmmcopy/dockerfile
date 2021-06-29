@@ -4,3 +4,4 @@ RUN conda install --file /app/requirements.yml
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian.git@dev
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@command_line
+RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@v0.0.3
