@@ -3,15 +3,11 @@ Created on Jun 26, 2018
 
 @author: dgrewal
 '''
-import argparse
-import pandas as pd
 import numpy as np
-import single_cell.utils.helpers
-import shutil
-
+import pandas as pd
+from mondrian.utils import helpers
 from sklearn.ensemble import RandomForestClassifier
-
-from single_cell.utils import csvutils
+import csverve.api as csverve
 
 def read_from_h5(filename, tablename):
     with pd.HDFStore(filename) as h5store:
@@ -19,16 +15,15 @@ def read_from_h5(filename, tablename):
     return data
 
 
-
 def read_data(filename, tablename, gzipped=True):
-    fileformat = single_cell.utils.helpers.get_file_format(filename)
+    fileformat = helpers.get_file_format(filename)
 
     if fileformat == 'h5':
         data = read_from_h5(filename, tablename)
     elif fileformat == 'csv':
-        data = csvutils.read_csv_and_yaml(filename)
+        data = csverve.read_csv_and_yaml(filename)
     elif fileformat == 'gzip':
-        data = csvutils.read_csv_and_yaml(filename)
+        data = csverve.read_csv_and_yaml(filename)
     else:
         raise Exception("unknown file format")
 
@@ -54,9 +49,8 @@ def train_classifier(filename):
 
 def load_data(hmmcopy_filename, alignment_filename,
               colnames):
-
-    hmmcopy_data = csvutils.read_csv_and_yaml(hmmcopy_filename)
-    alignment_data = csvutils.read_csv_and_yaml(alignment_filename)
+    hmmcopy_data = csverve.read_csv_and_yaml(hmmcopy_filename)
+    alignment_data = csverve.read_csv_and_yaml(alignment_filename)
 
     hmmcopy_data = hmmcopy_data.set_index('cell_id')
     alignment_data = alignment_data.set_index('cell_id')
@@ -80,6 +74,7 @@ def load_data(hmmcopy_filename, alignment_filename,
     data = data.fillna(0)
 
     return data
+
 
 def classify(model, data):
     predictions = model.predict_proba(data)
@@ -108,12 +103,12 @@ def write_to_csv(output, data, gzipped=False):
 
 
 def write_to_output(hmmcopy_filename, output, predictions):
-    data = csvutils.read_csv_and_yaml(hmmcopy_filename)
+    data = csverve.read_csv_and_yaml(hmmcopy_filename)
 
     data['quality'] = data['cell_id'].map(predictions)
     data.quality = data.quality.astype(float)
 
-    fileformat = single_cell.utils.helpers.get_file_format(output)
+    fileformat = helpers.get_file_format(output)
 
     if fileformat == 'csv':
         write_to_csv(output, data)
