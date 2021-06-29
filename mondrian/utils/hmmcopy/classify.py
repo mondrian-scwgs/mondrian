@@ -3,11 +3,11 @@ Created on Jun 26, 2018
 
 @author: dgrewal
 '''
+import csverve.api as csverve
 import numpy as np
 import pandas as pd
-from mondrian.utils import helpers
 from sklearn.ensemble import RandomForestClassifier
-import csverve.api as csverve
+
 
 def read_from_h5(filename, tablename):
     with pd.HDFStore(filename) as h5store:
@@ -15,14 +15,12 @@ def read_from_h5(filename, tablename):
     return data
 
 
-def read_data(filename, tablename, gzipped=True):
-    fileformat = helpers.get_file_format(filename)
-
-    if fileformat == 'h5':
+def read_data(filename, tablename):
+    if filename.endswith('.h5'):
         data = read_from_h5(filename, tablename)
-    elif fileformat == 'csv':
+    elif filename.endswith('.csv'):
         data = csverve.read_csv_and_yaml(filename)
-    elif fileformat == 'gzip':
+    elif filename.endswith('.csv.gz'):
         data = csverve.read_csv_and_yaml(filename)
     else:
         raise Exception("unknown file format")
@@ -108,11 +106,9 @@ def write_to_output(hmmcopy_filename, output, predictions):
     data['quality'] = data['cell_id'].map(predictions)
     data.quality = data.quality.astype(float)
 
-    fileformat = helpers.get_file_format(output)
-
-    if fileformat == 'csv':
+    if output.endswith('.csv'):
         write_to_csv(output, data)
-    elif fileformat == "gzip":
+    elif output.endswith('.csv.gz'):
         write_to_csv(output, data, gzipped=True)
     else:
         raise Exception("unknown file format")
