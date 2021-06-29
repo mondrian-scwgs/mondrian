@@ -155,6 +155,7 @@ task cellCycleClassifier{
 
     echo "is_s_phase: bool" > dtypes.yaml
     echo "is_s_phase_prob: float" >> dtypes.yaml
+    echo "cell_id: str" >> dtypes.yaml
 
     csverve rewrite --in_f output.csv.gz --out_f rewrite.csv.gz --dtypes dtypes.yaml --write_header
 
