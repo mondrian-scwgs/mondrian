@@ -11,6 +11,7 @@ workflow HmmcopyWorkflow{
         File bam
         File bai
         File alignment_metrics
+        File alignment_metrics_yaml
         String ref_dir
         Array[String] chromosomes
     }
@@ -20,6 +21,7 @@ workflow HmmcopyWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
+        "classifier_training_data": ref_dir + 'human/classifier_training_data.h5'
     }
 
     call utils.RunReadCounter as readcounter{
@@ -151,6 +153,14 @@ workflow HmmcopyWorkflow{
             how = 'outer'
     }
 
+    call utils.addQuality as add_quality{
+        input:
+            hmmcopy_metrics = merge_cell_cycle.outfile,
+            hmmcopy_metrics_yaml = merge_cell_cycle.outfile_yaml,
+            alignment_metrics = alignment_metrics,
+            alignment_metrics_yaml = alignment_metrics_yaml,
+            classifier_training_data = ref.classifier_training_data,
+    }
 
 
 

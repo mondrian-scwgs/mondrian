@@ -172,3 +172,21 @@ task cellCycleClassifier{
     }
 
 }
+
+task addQuality{
+    input{
+        File hmmcopy_metrics
+        File hmmcopy_metrics_yaml
+        File alignment_metrics
+        File alignment_metrics_yaml
+        File classifier_training_data
+    }
+    command<<<
+    hmmcopy_utils --hmmcopy_metrics ~{hmmcopy_metrics} --alignment_metrics ~{alignment_metrics} --training_data ~{classifier_training_data} --output output.csv.gz
+    >>>
+    output{
+        File outfile = "output.csv.gz"
+        File outfile_yaml = "output.csv.gz.yaml"
+    }
+}
+
