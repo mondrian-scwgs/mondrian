@@ -6,7 +6,6 @@ import os
 
 
 def read_destruct(destruct_calls):
-    # df = csverve.CsverveInput(destruct_calls).read_csv()
     df = pd.read_csv(destruct_calls, sep='\t', dtype={'chromosome_1': str, 'chromosome_2': str})
 
     df = df[
@@ -92,4 +91,4 @@ def consensus(destruct_calls, lumpy_calls, svaba_calls, gridss_calls, consensus_
 
 
     dtypes={col:'str' for col in list(outdata.columns)}
-    csverve.csverve.rewrite_csv_file(temp_consensus_output, consensus_calls, dtypes=dtypes)
+    csverve.rewrite_csv_file(temp_consensus_output, consensus_calls, dtypes=dtypes)
