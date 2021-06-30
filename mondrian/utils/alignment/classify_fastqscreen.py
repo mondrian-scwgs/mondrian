@@ -1,8 +1,11 @@
+import csverve.api as csverve
+import numpy as np
 import pandas as pd
+from mondrian.utils.alignment.dtypes import dtypes
 from single_cell.utils import csvutils
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import *
-import numpy as np
+
 
 def train(training_data_path):
     '''
@@ -50,4 +53,6 @@ def classify_fastqscreen(training_data_path, metrics_path, metrics_output):
         df["species"] = model.predict(scaled_features)
         df["species"].replace(label_to_species, inplace=True)
 
-    df.to_csv(metrics_output, index=False)
+    csverve.write_dataframe_to_csv_and_yaml(
+        df, metrics_output, dtypes()['metrics']
+    )

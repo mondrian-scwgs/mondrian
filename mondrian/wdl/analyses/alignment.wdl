@@ -164,7 +164,7 @@ workflow AlignmentWorkflow{
 
     call utils.ClassifyFastqscreen as classify{
         input:
-            metrics = annotate_with_fastqscreen.outfile,
+            metrics = contaminated.output_csv,
             training_data = ref.fastqscreen_classifier_training_data
     }
 
@@ -173,16 +173,16 @@ workflow AlignmentWorkflow{
         input:
             input_bams = markdups.output_bam,
             cell_ids = cellid,
-            metrics = contaminated.output_csv,
-            metrics_yaml = contaminated.output_yaml,
+            metrics = classify.output_csv,
+            metrics_yaml = classify.output_yaml,
     }
 
     call csverve.merge_csv as merge_csv{
         input:
             how = 'outer',
             on = 'cell_id',
-            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml]
+            inputfiles = [concat_fastqscreen_summary.outfile, classify.output_csv],
+            inputyamls = [concat_fastqscreen_summary.outfile_yaml, classify.output_yaml]
     }
 
     output{

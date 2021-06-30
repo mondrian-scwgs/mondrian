@@ -72,10 +72,11 @@ task ClassifyFastqscreen{
         File metrics
     }
     command<<<
-        alignment_utils classify_fastqscreen --training_data ~{training_data} --metrics ~{metrics} --output output.csv
+        alignment_utils classify_fastqscreen --training_data ~{training_data} --metrics ~{metrics} --output output.csv.gz
     >>>
     output{
-        File output_csv = "output.csv"
+        File output_csv = "output.csv.gz"
+        File output_yaml = "output.csv.gz.yaml"
     }
     runtime{
         memory: "12 GB"
