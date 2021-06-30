@@ -65,3 +65,22 @@ task AddContaminationStatus{
         docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
     }
 }
+
+task ClassifyFastqscreen{
+    input{
+        File training_data
+        File metrics
+    }
+    command<<<
+        alignment_utils classify_fastqscreen --training_data ~{training_data} --metrics ~{metrics} --output output.csv
+    >>>
+    output{
+        File output_csv = "output.csv"
+    }
+    runtime{
+        memory: "12 GB"
+        cpu: 1
+        walltime: "48:00"
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+    }
+}

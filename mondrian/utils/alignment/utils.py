@@ -6,7 +6,7 @@ from mondrian.utils.alignment.collect_metrics import collect_metrics
 from mondrian.utils.alignment.dtypes import dtypes
 from mondrian.utils.alignment.fastqscreen import merge_fastq_screen_counts
 from mondrian.utils.alignment.fastqscreen import organism_filter
-
+from mondrian.utils.alignment.classify_fastqscreen import classify_fastqscreen
 
 def get_cell_id_from_bam(infile):
     infile = pysam.AlignmentFile(infile, "rb")
@@ -95,6 +95,7 @@ def add_contamination_status(
     csverve.write_dataframe_to_csv_and_yaml(
         data, outfile, dtypes()['metrics']
     )
+
 
 
 def parse_args():
@@ -229,6 +230,19 @@ def parse_args():
         '--metrics',
     )
 
+    classifier = subparsers.add_parser('classify_fastqscreen')
+    classifier.set_defaults(which='classify_fastqscreen')
+    classifier.add_argument(
+        '--training_data'
+    )
+    classifier.add_argument(
+        '--metrics'
+    )
+    classifier.add_argument(
+        '--output',
+    )
+
+
     args = vars(parser.parse_args())
 
     return args
@@ -268,6 +282,10 @@ def utils():
         merge_cells(
             args['infiles'], args['cell_ids'], args['outfile'],
             args['metrics']
+        )
+    elif args['which'] == 'classify_fastqscreen':
+        classify_fastqscreen(
+            args['training_data'], args['metrics'], args['output']
         )
     else:
         raise Exception()
