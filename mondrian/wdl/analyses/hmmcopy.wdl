@@ -173,8 +173,8 @@ workflow HmmcopyWorkflow{
         File reads_yaml = add_mappability.outfile_yaml
         File segs = concat_segs.outfile
         File segs_yaml = concat_segs.outfile_yaml
-        File metrics = concat_metrics.outfile
-        File metrics_yaml = concat_metrics.outfile_yaml
+        File metrics = rewrite_metrics_quality.outfile
+        File metrics_yaml = rewrite_metrics_quality.outfile_yaml
         File bias_pdf = merge_bias.merged
         File segs_pdf = merge_segs.merged
     }
