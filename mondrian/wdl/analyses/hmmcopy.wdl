@@ -1,9 +1,9 @@
 version development
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/pdf/pdf.wdl" as pdf
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/hmmcopy/utils.wdl" as utils
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/types/hmmcopy_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/pdf/pdf.wdl" as pdf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/hmmcopy/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/hmmcopy_refdata.wdl" as refdata_struct
 
 
 workflow HmmcopyWorkflow{
