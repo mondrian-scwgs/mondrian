@@ -38,7 +38,12 @@ def dtypes():
         'is_contaminated': 'bool',
         'trim': 'bool',
         'library_id': 'str',
-        'sample_id':'str'
+        'sample_id':'str',
+        'fastqscreen_nohit_ratio': float,
+        'fastqscreen_grch37_ratio': float,
+        'fastqscreen_mm10_ratio': float,
+        'fastqscreen_salmon_ratio': float,
+        'species': 'str',
     }
 
     gc = {str(i): 'float' for i in range(0,101)}

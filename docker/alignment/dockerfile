@@ -5,6 +5,6 @@ RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/ap
 
 RUN conda install --file /app/align_requirements.yml
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian.git@mondrian
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@command_line
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian.git@dev
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@refactor
 

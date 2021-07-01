@@ -1,0 +1,34 @@
+FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
+
+ADD . /app
+
+RUN apt-get update && apt-get install -y parallel samtools && rm -rf /var/lib/apt/lists/*
+RUN conda install -c bioconda -c conda-forge bcftools cryptography
+RUN conda install -c bioconda gatk4
+RUN cp /app/run_strelka /opt/conda/bin && chmod 777 /opt/conda/bin/run_strelka
+RUN conda install -c shahcompbio -c bioconda vcf2maf_shahcompbio
+
+RUN conda create --name museq python=2.7
+SHELL ["conda", "run", "-n", "museq", "/bin/bash", "-c"]
+RUN conda install -c shahcompbio museq -y
+RUN pip install intervaltree
+RUN conda install -c shahcompbio museqportrait==0.99.13 -y
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+
+RUN conda create --name strelka python=2.7
+SHELL ["conda", "run", "-n", "strelka", "/bin/bash", "-c"]
+RUN conda install -c aroth85 strelka
+RUN conda install -c conda-forge intervaltree
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+
+
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian.git@mondrian
+RUN pip install pandas numpy pysam matplotlib seaborn pyvcf
+RUN conda install -c bioconda vcftools tabix bcftools snpeff
+RUN conda install -c bioconda perl-vcftools-vcf==0.1.15
+RUN rm /opt/conda/bin/samtools
+
+ENV PATH="${PATH}:/opt/conda/envs/museq/bin:/opt/conda/envs/strelka/share/strelka-2.8.2-0/libexec/"
+ENV STRELKA_SHARE_DIR '/opt/conda/envs/strelka/share/strelka-2.8.2-0/'
+

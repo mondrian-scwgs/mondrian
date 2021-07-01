@@ -1,10 +1,13 @@
 import argparse
+import csverve.api as csverve
+import mondrian.utils.dtypes.hmmcopy_reads as reads_dtypes
 import mondrian.utils.helpers as helpers
 import os
+import pandas as pd
 from mondrian.utils.hmmcopy.correct_read_count import CorrectReadCount
 from mondrian.utils.hmmcopy.plot_hmmcopy import GenHmmPlots
 from mondrian.utils.hmmcopy.readcounter import ReadCounter
-
+import mondrian.utils.hmmcopy.classify as classify
 
 def plot_hmmcopy(
         reads, segments, params, metrics, ref_genome, segs_out,
@@ -59,6 +62,38 @@ def run_hmmcopy(
     cmd.append('--param_multiplier=' + ','.join(map(str, multipliers)))
 
     helpers.run_cmd(cmd)
+
+
+def add_mappability(reads, annotated_reads):
+    reads = csverve.read_csv_and_yaml(reads, chunksize=100)
+
+    alldata = []
+    for read_data in reads:
+        read_data['is_low_mappability'] = (read_data['map'] <= 0.9)
+        alldata.append(read_data)
+
+    alldata = pd.concat(alldata)
+
+    csverve.write_dataframe_to_csv_and_yaml(
+        alldata, annotated_reads, reads_dtypes.dtypes, write_header=True
+    )
+
+
+
+def add_quality(hmmcopy_metrics, alignment_metrics, output, training_data):
+    model = classify.train_classifier(training_data)
+
+    feature_names = model.feature_names_
+
+    data = classify.load_data(hmmcopy_metrics, alignment_metrics,
+                              feature_names)
+
+    predictions = classify.classify(model, data)
+
+    classify.write_to_output(
+        hmmcopy_metrics,
+        output,
+        predictions)
 
 
 def parse_args():
@@ -162,6 +197,31 @@ def parse_args():
         '--cell_id'
     )
 
+    add_mappability = subparsers.add_parser('add_mappability')
+    add_mappability.set_defaults(which='add_mappability')
+    add_mappability.add_argument(
+        '--infile'
+    )
+    add_mappability.add_argument(
+        '--outfile'
+    )
+
+    add_quality = subparsers.add_parser('add_quality')
+    add_quality.set_defaults(which='add_quality')
+    add_quality.add_argument(
+        '--hmmcopy_metrics'
+    )
+    add_quality.add_argument(
+        '--alignment_metrics'
+    )
+    add_quality.add_argument(
+        '--training_data'
+    )
+    add_quality.add_argument(
+        '--output'
+    )
+
+
     args = vars(parser.parse_args())
 
     return args
@@ -191,7 +251,10 @@ def utils():
         run_hmmcopy(
             args['corrected_reads'], args['tempdir'], args['cell_id']
         )
-
+    elif args['which'] == 'add_mappability':
+        add_mappability(args['infile'], args['outfile'])
+    elif args['which'] == 'add_quality':
+        add_quality(args['hmmcopy_metrics'], args['alignment_metrics'], args['output'], args['training_data'])
     else:
         raise Exception()
 

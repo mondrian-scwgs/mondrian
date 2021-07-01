@@ -28,5 +28,6 @@ struct AlignRefdata{
     File salmon_reference_fa_fai
     File salmon_reference_fa_pac
     File salmon_reference_fa_sa
+    File fastqscreen_classifier_training_data
 }
 

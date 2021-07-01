@@ -60,6 +60,7 @@ workflow AlignmentWorkflow{
         "salmon_reference_fa_fai": ref_dir+'/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai',
         "salmon_reference_fa_pac": ref_dir+'/salmon/GCF_002021735.1_Okis_V1_genomic.fna.pac',
         "salmon_reference_fa_sa": ref_dir+'/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa',
+        "fastqscreen_classifier_training_data": ref_dir+'/human/fastqscreen_training_data.csv'
     }
 
     scatter(cellinfo in fastq_files){
@@ -161,20 +162,28 @@ workflow AlignmentWorkflow{
             input_yaml = annotate_with_fastqscreen.outfile_yaml,
     }
 
+    call utils.ClassifyFastqscreen as classify{
+        input:
+            metrics = contaminated.output_csv,
+            metrics_yaml = contaminated.output_yaml,
+            training_data = ref.fastqscreen_classifier_training_data
+    }
+
+
     call utils.bamMerge as merge_bam_files{
         input:
             input_bams = markdups.output_bam,
             cell_ids = cellid,
-            metrics = contaminated.output_csv,
-            metrics_yaml = contaminated.output_yaml,
+            metrics = classify.output_csv,
+            metrics_yaml = classify.output_yaml,
     }
 
     call csverve.merge_csv as merge_csv{
         input:
             how = 'outer',
             on = 'cell_id',
-            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml]
+            inputfiles = [concat_fastqscreen_summary.outfile, classify.output_csv],
+            inputyamls = [concat_fastqscreen_summary.outfile_yaml, classify.output_yaml]
     }
 
     output{

@@ -87,7 +87,7 @@ task viewBam{
         String samtools_flags
     }
     command{
-        samtools view ~{samtools_flags}  ~{"-F " + bam_flag} '${inputBam}' > '${outputBam}'
+        samtools view ~{samtools_flags}  ~{"-F " + bam_flag} ${inputBam} > ${outputBam}
     }
     output{
         File bamFile = outputBam

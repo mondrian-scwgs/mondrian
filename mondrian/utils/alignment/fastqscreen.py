@@ -1,13 +1,11 @@
+import csverve.api as csverve
 import os
+import pandas as pd
 import shutil
 from collections import defaultdict
-
-import pandas as pd
 from mondrian.utils import helpers
 from mondrian.utils.alignment import fastq_utils
 from mondrian.utils.alignment.dtypes import dtypes
-
-import csverve
 from subprocess import Popen, PIPE
 
 

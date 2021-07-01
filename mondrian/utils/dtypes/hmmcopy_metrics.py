@@ -35,5 +35,8 @@ dtypes = {
     'index_i7': 'str',
     'order': 'int',
     'row': 'int',
-    'trim': 'bool'
+    'trim': 'bool',
+    'is_s_phase_prob': 'bool',
+    'is_s_phase': 'float',
+    'quality': 'float'
 }

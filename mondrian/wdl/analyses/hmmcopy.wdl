@@ -10,6 +10,8 @@ workflow HmmcopyWorkflow{
     input{
         File bam
         File bai
+        File alignment_metrics
+        File alignment_metrics_yaml
         String ref_dir
         Array[String] chromosomes
     }
@@ -19,6 +21,7 @@ workflow HmmcopyWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
+        "classifier_training_data": ref_dir + 'human/classifier_training_data.h5'
     }
 
     call utils.RunReadCounter as readcounter{
@@ -87,8 +90,6 @@ workflow HmmcopyWorkflow{
                 reference = ref.reference,
                 reference_fai = ref.reference_fai
         }
-
-
     }
     call csverve.concatenate_csv as concat_metrics{
         input:
@@ -131,13 +132,49 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_bias"
     }
 
+    call utils.addMappability as add_mappability{
+        input:
+            infile = concat_reads.outfile,
+            infile_yaml = concat_reads.outfile_yaml
+    }
+
+    call utils.cellCycleClassifier as cell_cycle_classifier{
+        input:
+            hmmcopy_reads = add_mappability.outfile,
+            hmmcopy_metrics = concat_metrics.outfile,
+            alignment_metrics = alignment_metrics
+    }
+
+    call csverve.merge_csv as merge_cell_cycle{
+        input:
+            inputfiles = [concat_metrics.outfile, cell_cycle_classifier.outfile],
+            inputyamls = [concat_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
+            on = 'cell_id',
+            how = 'outer'
+    }
+
+    call utils.addQuality as add_quality{
+        input:
+            hmmcopy_metrics = merge_cell_cycle.outfile,
+            hmmcopy_metrics_yaml = merge_cell_cycle.outfile_yaml,
+            alignment_metrics = alignment_metrics,
+            alignment_metrics_yaml = alignment_metrics_yaml,
+            classifier_training_data = ref.classifier_training_data,
+    }
+
+    call csverve.rewrite_csv as rewrite_metrics_quality{
+        input:
+            infile = add_quality.outfile,
+            dtypes = 'hmmcopy_metrics'
+    }
+
     output{
-        File reads = concat_reads.outfile
-        File reads_yaml = concat_reads.outfile_yaml
+        File reads = add_mappability.outfile
+        File reads_yaml = add_mappability.outfile_yaml
         File segs = concat_segs.outfile
         File segs_yaml = concat_segs.outfile_yaml
-        File metrics = concat_metrics.outfile
-        File metrics_yaml = concat_metrics.outfile_yaml
+        File metrics = rewrite_metrics_quality.outfile
+        File metrics_yaml = rewrite_metrics_quality.outfile_yaml
         File bias_pdf = merge_bias.merged
         File segs_pdf = merge_segs.merged
     }

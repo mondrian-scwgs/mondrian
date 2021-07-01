@@ -85,7 +85,7 @@ class SvVcfData(object):
             else:
                 yield record,
 
-        assert len(bnds) == 0
+        # assert len(bnds) == 0, bnds
 
     def _get_mates(self, records):
         ends_with_val = {

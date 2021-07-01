@@ -1,12 +1,11 @@
 import pandas as pd
 from .breakpoint_db import BreakpointDatabase
-from csverve import csverve
+import csverve.api as csverve
 from .vcf_sv_parser import SvVcfData
 import os
 
 
 def read_destruct(destruct_calls):
-    # df = csverve.CsverveInput(destruct_calls).read_csv()
     df = pd.read_csv(destruct_calls, sep='\t', dtype={'chromosome_1': str, 'chromosome_2': str})
 
     df = df[

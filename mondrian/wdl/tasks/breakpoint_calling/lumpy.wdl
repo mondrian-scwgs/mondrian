@@ -7,13 +7,13 @@ task extractSplitReads{
         String outputBam
     }
     command {
-        samtools view -h ~{inputBam} | extractSplitReads_BwaMem -i stdin | samtools view -Sb - > ~{outputBam}
+        samtools view -h ~{inputBam} | lumpy_extractSplitReads_BwaMem -i stdin | samtools view -Sb - > ~{outputBam}
     }
     output {
         File bamFile = outputBam
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
@@ -32,15 +32,12 @@ task lumpyExpress{
     }
     command{
         lumpyexpress -B ~{normal_bam},~{tumour_bam} -S ~{normalSplitBam},~{tumourSplitBam} -D ~{normalDiscBam},~{tumourDiscBam} -o lumpy.vcf
-        if [ ! -f lumpy.vcf ]; then
-            touch lumpy.vcf
-        fi
     }
     output{
         File lumpy_vcf = 'lumpy.vcf'
     }
     runtime{
-        memory: "12 GB"
+        memory: "8 GB"
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
