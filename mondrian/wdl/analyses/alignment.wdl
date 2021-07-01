@@ -165,6 +165,7 @@ workflow AlignmentWorkflow{
     call utils.ClassifyFastqscreen as classify{
         input:
             metrics = contaminated.output_csv,
+            metrics_yaml = contaminated.output_yaml,
             training_data = ref.fastqscreen_classifier_training_data
     }
 

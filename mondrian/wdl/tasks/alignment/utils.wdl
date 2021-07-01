@@ -70,6 +70,7 @@ task ClassifyFastqscreen{
     input{
         File training_data
         File metrics
+        File metrics_yaml
     }
     command<<<
         alignment_utils classify_fastqscreen --training_data ~{training_data} --metrics ~{metrics} --output output.csv.gz
