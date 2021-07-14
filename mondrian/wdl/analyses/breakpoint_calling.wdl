@@ -4,6 +4,12 @@ import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
+struct Sample{
+    String sample_id
+    File tumour
+    File tumour_bai
+}
+
 
 
 workflow BreakpointWorkflow{
@@ -11,8 +17,7 @@ workflow BreakpointWorkflow{
         File normal_bam
         File normal_bai
         String normal_id
-        File tumour_bams_tsv
-        Array[Array[File]] tumour_bams = read_tsv(tumour_bams_tsv)
+        Array[Sample] samples
         String ref_dir
         Int num_threads
     }
@@ -35,10 +40,10 @@ workflow BreakpointWorkflow{
         "dgv": ref_dir + '/human/dgv.txt',
     }
 
-    scatter (tbam in tumour_bams){
-        String tumour_id = tbam[0]
-        File bam = tbam[1]
-        File bai = tbam[2]
+    scatter (sample in samples){
+        String tumour_id = sample.sample_id
+        File bam = sample.tumour
+        File bai = sample.tumour_bai
 
         call breakpoint_calling.SampleBreakpointWorkflow as breakpoint_wf{
             input:
