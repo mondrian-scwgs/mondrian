@@ -157,7 +157,11 @@ def write_detailed_counts(counts, outfile, cell_id, fastqscreen_params):
 def write_summary_counts(counts, outfile, cell_id, fastqscreen_params):
     genomes = [genome['name'] for genome in fastqscreen_params['genomes']]
 
-    summary_counts = defaultdict(int)
+    summary_counts = {'nohit': 0}
+    for genome in genomes:
+        summary_counts[genome] = 0
+        summary_counts['{}_multihit'.format(genome)] = 0
+
     for read_end, read_end_counts in counts.items():
         for flags, count in read_end_counts.items():
             hit_orgs = [v[0] for v in flags if v[1] > 0]
