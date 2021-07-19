@@ -11,7 +11,7 @@ import mondrian.utils.hmmcopy.classify as classify
 
 def plot_hmmcopy(
         reads, segments, params, metrics, ref_genome, segs_out,
-        bias_out, cell_id, num_states=12,
+        bias_out, num_states=12,
         annotation_cols=None, sample_info=None, max_cn=None
 ):
     if not annotation_cols:
@@ -20,14 +20,14 @@ def plot_hmmcopy(
                            'total_mapped_reads_hmmcopy']
 
     with GenHmmPlots(reads, segments, params, metrics, ref_genome, segs_out,
-                     bias_out, cell_id, num_states=num_states,
+                     bias_out, num_states=num_states,
                      annotation_cols=annotation_cols,
                      sample_info=sample_info, max_cn=max_cn) as plot:
         plot.main()
 
 
 def run_hmmcopy(
-        corrected_reads, tempdir, cell_id,
+        corrected_reads, tempdir,
         multipliers=tuple(range(1, 7)),
         strength=1000,
         e=0.999999,
@@ -40,6 +40,12 @@ def run_hmmcopy(
         g=3,
         s=1
 ):
+
+    df = pd.read_csv(corrected_reads)
+    cell_id = list(df['cell_id'].unique())
+    assert len(cell_id) == 1
+    cell_id = cell_id[0]
+
     scripts_directory = os.path.realpath(os.path.dirname(__file__))
     run_hmmcopy_rscript = os.path.join(scripts_directory, 'hmmcopy_single_cell.R')
     cmd = [run_hmmcopy_rscript]
@@ -153,6 +159,9 @@ def parse_args():
         '--outfile'
     )
     correct_readcount.add_argument(
+        '--cell_id'
+    )
+    correct_readcount.add_argument(
         '--map_cutoff',
         default=0.9,
         type=float,
@@ -192,9 +201,6 @@ def parse_args():
     )
     run_hmmcopy.add_argument(
         '--tempdir'
-    )
-    run_hmmcopy.add_argument(
-        '--cell_id'
     )
 
     add_mappability = subparsers.add_parser('add_mappability')
@@ -240,16 +246,16 @@ def utils():
                          args['map_wig_file'],
                          args['infile'],
                          args['outfile'],
+                         args['cell_id'],
                          mappability=args['map_cutoff']).main()
     elif args['which'] == 'plot_hmmcopy':
         plot_hmmcopy(
             args['reads'], args['segs'], args['params'], args['metrics'],
-            args['reference'], args['segs_output'], args['bias_output'],
-            args['cell_id'],
+            args['reference'], args['segs_output'], args['bias_output']
         )
     elif args['which'] == 'run_hmmcopy':
         run_hmmcopy(
-            args['corrected_reads'], args['tempdir'], args['cell_id']
+            args['corrected_reads'], args['tempdir']
         )
     elif args['which'] == 'add_mappability':
         add_mappability(args['infile'], args['outfile'])

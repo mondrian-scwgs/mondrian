@@ -31,6 +31,9 @@ def run_cmd(cmd, output=None):
     if output:
         stdout.close()
 
+    print(cmdout)
+    print(cmderr)
+
 
 class getFileHandle(object):
     def __init__(self, filename, mode='rt'):

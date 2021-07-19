@@ -92,15 +92,13 @@ class GenHmmPlots(object):
     """
 
     def __init__(self, reads, segments, params, metrics,
-                 ref_genome, segs_out, bias_out,
-                 sample_id, **kwargs):
+                 ref_genome, segs_out, bias_out, **kwargs):
 
         self.reads = reads
         self.segments = segments
         self.params = params
         self.metrics = metrics
         self.ref_genome = ref_genome
-        self.sample_id = sample_id
 
         self.num_states = kwargs.get('num_states')
         if not self.num_states:
@@ -135,6 +133,12 @@ class GenHmmPlots(object):
         """
         metrics_file = self.metrics
         return self.read_csv(metrics_file)
+
+    def get_sample_id(self, metrics):
+        sid = metrics['cell_id'].unique()
+        sid = list(sid)
+        assert len(sid) == 1
+        return sid[0]
 
     def read_params(self):
         """
@@ -275,7 +279,7 @@ class GenHmmPlots(object):
                 rasterized=True)
 
         self.add_annotations(fig, annotations, fontsize=8)
-        fig.suptitle(self.sample_id, fontsize=12)
+        fig.suptitle(self.get_sample_id(metrics), fontsize=12)
         sns.despine(offset=10, trim=True)
 
         plt.tight_layout(rect=(0, 0.05, 1, 0.95))
@@ -417,7 +421,7 @@ class GenHmmPlots(object):
 
         utl.add_open_grid_lines(ax)
 
-        fig.suptitle(self.sample_id, x=0.5, y=0.97)
+        fig.suptitle(self.get_sample_id(metrics), x=0.5, y=0.97)
         plt.tight_layout(rect=(0, 0.05, 1, 0.95))
         # fig.text(0.85,0.02,"maximum copy number is 40, higher values are set to 40")
 

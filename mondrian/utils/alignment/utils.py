@@ -1,12 +1,14 @@
 import argparse
+import csverve.api as csverve
+import os
 import pysam
 import subprocess
-import csverve.api as csverve
+from mondrian.utils.alignment.classify_fastqscreen import classify_fastqscreen
 from mondrian.utils.alignment.collect_metrics import collect_metrics
 from mondrian.utils.alignment.dtypes import dtypes
 from mondrian.utils.alignment.fastqscreen import merge_fastq_screen_counts
 from mondrian.utils.alignment.fastqscreen import organism_filter
-from mondrian.utils.alignment.classify_fastqscreen import classify_fastqscreen
+
 
 def get_cell_id_from_bam(infile):
     infile = pysam.AlignmentFile(infile, "rb")
@@ -16,7 +18,13 @@ def get_cell_id_from_bam(infile):
         return read.get_tag('CB')
 
 
-def merge_cells(infiles, cell_ids, outfile, metrics):
+def merge_cells(infiles, cell_ids, outfile, metrics, tempdir):
+    if not os.path.exists(tempdir):
+        os.makedirs(tempdir)
+
+    merge_output = os.path.join(tempdir, 'merged.bam')
+    new_header = os.path.join(tempdir, 'header.sam')
+
     metrics = csverve.read_csv_and_yaml(metrics)
     all_cells = set(list(metrics.cell_id))
     metrics = metrics[metrics['is_contaminated']]
@@ -24,15 +32,17 @@ def merge_cells(infiles, cell_ids, outfile, metrics):
 
     command = [
         'picard',
-        '-Xmx12G',
-        '-Xms12G',
+        '-Xmx2G',
+        '-Xms2G',
         'MergeSamFiles',
-        'OUTPUT={}'.format(outfile),
+        'OUTPUT={}'.format(merge_output),
         'SORT_ORDER=coordinate',
         'ASSUME_SORTED=true',
         'VALIDATION_STRINGENCY=LENIENT',
         'MAX_RECORDS_IN_RAM=150000'
     ]
+
+    merged_cells = []
 
     for cell_id, infile in zip(cell_ids, infiles):
 
@@ -47,9 +57,22 @@ def merge_cells(infiles, cell_ids, outfile, metrics):
 
         if cell_id in cells_to_skip:
             continue
+
+        merged_cells.append(cell_id)
         command.append('I={}'.format(infile))
 
     subprocess.run(command)
+
+    subprocess.run(['samtools', 'view', '-H', merge_output, '-o', new_header])
+    with open(new_header, 'at') as header:
+        for cell in merged_cells:
+            header.write('@CO\tCB:{}\n'.format(cell))
+
+    subprocess.run(
+        ['picard', 'ReplaceSamHeader', 'I={}'.format(merge_output),
+         'HEADER={}'.format(new_header), 'O={}'.format(outfile)
+         ]
+    )
 
 
 def tag_bam_with_cellid(infile, outfile, cell_id):
@@ -95,7 +118,6 @@ def add_contamination_status(
     csverve.write_dataframe_to_csv_and_yaml(
         data, outfile, dtypes()['metrics']
     )
-
 
 
 def parse_args():
@@ -229,6 +251,9 @@ def parse_args():
     merge_cells.add_argument(
         '--metrics',
     )
+    merge_cells.add_argument(
+        '--tempdir',
+    )
 
     classifier = subparsers.add_parser('classify_fastqscreen')
     classifier.set_defaults(which='classify_fastqscreen')
@@ -241,7 +266,6 @@ def parse_args():
     classifier.add_argument(
         '--output',
     )
-
 
     args = vars(parser.parse_args())
 
@@ -281,7 +305,7 @@ def utils():
     elif args['which'] == 'merge_cells':
         merge_cells(
             args['infiles'], args['cell_ids'], args['outfile'],
-            args['metrics']
+            args['metrics'], args['tempdir']
         )
     elif args['which'] == 'classify_fastqscreen':
         classify_fastqscreen(

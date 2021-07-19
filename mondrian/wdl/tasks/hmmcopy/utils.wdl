@@ -51,7 +51,8 @@ task CorrectReadCount{
     }
     command<<<
         hmmcopy_utils correct_readcount --infile ~{infile} --outfile output.wig \
-        --map_cutoff ~{map_cutoff} --gc_wig_file ~{gc_wig} --map_wig_file ~{map_wig}
+        --map_cutoff ~{map_cutoff} --gc_wig_file ~{gc_wig} --map_wig_file ~{map_wig}  \
+        --cell_id $(basename ~{infile} .wig) \
     >>>
     output{
         File wig = 'output.wig'
@@ -68,13 +69,11 @@ task CorrectReadCount{
 task RunHmmcopy{
     input{
         File corrected_wig
-        String cell_id
     }
     command<<<
     hmmcopy_utils run_hmmcopy \
         --corrected_reads ~{corrected_wig} \
-        --tempdir output \
-        --cell_id ~{cell_id} \
+        --tempdir output
     >>>
     output{
         File reads = 'output/0/reads.csv'
@@ -103,11 +102,10 @@ task PlotHmmcopy{
         File metrics_yaml
         File reference
         File reference_fai
-        String cell_id
     }
     command<<<
         hmmcopy_utils plot_hmmcopy --reads ~{reads} --segs ~{segs} --params ~{params} --metrics ~{metrics} \
-        --reference ~{reference} --segs_output segs.pdf --bias_output bias.pdf --cell_id ~{cell_id}
+        --reference ~{reference} --segs_output segs.pdf --bias_output bias.pdf
      >>>
     output{
         File segs_pdf = 'segs.pdf'

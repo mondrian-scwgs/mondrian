@@ -20,15 +20,18 @@ class CorrectReadCount(object):
     values
     """
 
-    def __init__(self, gc, mapp, wig, output, mappability=0.9,
-                 smoothing_function='lowess',
-                 polynomial_degree=2):
+    def __init__(
+            self, gc, mapp, wig, output, cell_id, mappability=0.9,
+            smoothing_function='lowess',
+            polynomial_degree=2
+    ):
         self.mappability = mappability
 
         self.gc = gc
         self.mapp = mapp
         self.wig = wig
         self.output = output
+        self.cell_id = cell_id
 
     def read_wig(self, infile, counts=False):
         """read wiggle files
@@ -219,7 +222,7 @@ class CorrectReadCount(object):
 
         # map results back to full data frame
         df_regression = df_regression[['chr', 'start', 'end', 'modal_quantile', 'modal_curve', 'modal_corrected']]
-        df = df.merge(df_regression, on=['chr', 'start', 'end'])
+        df = df.merge(df_regression, on=['chr', 'start', 'end'], how='outer')
 
         # filter by mappability
         df['copy'] = df['modal_corrected']
@@ -228,6 +231,8 @@ class CorrectReadCount(object):
         df = df.rename(columns=({"modal_corrected": "cor_gc"}))
 
         df["cor_map"] = float("NaN")
+
+        df['cell_id'] = self.cell_id
 
         # save
         self.write(df)
@@ -261,6 +266,10 @@ def parse_args():
                         type=float,
                         help='specify mappability threshold')
 
+    parser.add_argument('--cell_id',
+                        help='cell  id'
+                        )
+
     args = parser.parse_args()
 
     return args
@@ -269,7 +278,7 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    corr = CorrectReadCount(args.gc, args.map, args.reads, args.output,
+    corr = CorrectReadCount(args.gc, args.map, args.reads, args.output, args.cell_id,
                             mappability=args.mappability,
                             )
 

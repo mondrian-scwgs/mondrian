@@ -1,9 +1,9 @@
 version development
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/pdf/pdf.wdl" as pdf
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/hmmcopy/utils.wdl" as utils
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/hmmcopy_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/tasks/io/pdf/pdf.wdl" as pdf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/tasks/hmmcopy/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/types/hmmcopy_refdata.wdl" as refdata_struct
 
 
 workflow HmmcopyWorkflow{
@@ -33,11 +33,6 @@ workflow HmmcopyWorkflow{
 
     scatter(wigfile in readcounter.wigs){
 
-        call utils.GetCellId as cell{
-            input:
-                infile = wigfile
-        }
-
         call utils.CorrectReadCount as correction{
             input:
                 infile = wigfile,
@@ -48,8 +43,7 @@ workflow HmmcopyWorkflow{
 
         call utils.RunHmmcopy as hmmcopy{
             input:
-                corrected_wig = correction.wig,
-                cell_id = cell.cellid
+                corrected_wig = correction.wig
         }
 
         call csverve.rewrite_csv as rewrite_reads{
@@ -86,7 +80,6 @@ workflow HmmcopyWorkflow{
                 params_yaml = rewrite_params.outfile_yaml,
                 metrics = rewrite_metrics.outfile,
                 metrics_yaml = rewrite_metrics.outfile_yaml,
-                cell_id = cell.cellid,
                 reference = ref.reference,
                 reference_fai = ref.reference_fai
         }
