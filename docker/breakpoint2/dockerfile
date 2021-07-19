@@ -13,7 +13,7 @@ RUN pip install -e git+https://github.com/amcpherson/blossomv.git#egg=blossomv
 RUN pip install networkx==2.1
 RUN conda install -c bioconda svaba
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@command_line
-
+RUN pip install git+https://github.com/mondrian-scwgs/mondrianutils.git@main
 
 RUN conda install -c bioconda gridss
 RUN cp /app/gridss* /opt/conda/bin/
