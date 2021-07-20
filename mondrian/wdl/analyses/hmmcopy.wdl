@@ -21,7 +21,7 @@ workflow HmmcopyWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
-        "classifier_training_data": ref_dir + 'human/classifier_training_data.h5'
+        "classifier_training_data": ref_dir + '/human/classifier_training_data.h5'
     }
 
     call utils.RunReadCounter as readcounter{

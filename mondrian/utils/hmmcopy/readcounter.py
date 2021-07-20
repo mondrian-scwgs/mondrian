@@ -4,12 +4,11 @@ Created on Oct 10, 2017
 @author: dgrewal
 '''
 import argparse
+import glob
 import numpy as np
 import os
 import pandas as pd
 import pysam
-import glob
-
 from collections import defaultdict
 
 
@@ -39,6 +38,7 @@ class ReadCounter(object):
         self.mapq_threshold = mapq
 
         self.seg = seg
+        self.cells = self.get_cells()
 
         if excluded is not None:
             self.excluded = pd.read_csv(excluded, sep="\t", )
@@ -48,6 +48,18 @@ class ReadCounter(object):
 
     def __get_bam_header(self):
         return self.bam.header
+
+    def get_cells(self):
+        header = self.__get_bam_header()
+        cells = []
+        for line in str(header).split('\n'):
+            if not line.startswith("@CO"):
+                continue
+            line = line.strip().split()
+            cb = line[1]
+            cell = cb.split(':')[1]
+            cells.append(cell)
+        return cells
 
     def __get_chrom_excluded(self, chrom):
         # chrom_excluded = np.zeros(chrom_length, dtype=np.uint8)
@@ -173,7 +185,7 @@ class ReadCounter(object):
         :param outfile: output file object
         """
 
-        data = {}
+        data = {cell: defaultdict(int) for cell in self.cells}
 
         bins = self.get_all_bins(chrom)
         bins = set(bins)
@@ -187,9 +199,6 @@ class ReadCounter(object):
                 continue
 
             cell_id = pileupobj.get_tag('CB')
-
-            if cell_id not in data:
-                data[cell_id] = defaultdict(int)
 
             binval = self.get_overlapping_bin(pileupobj.pos, chrom)
             assert binval in bins, (binval, bins)
@@ -219,7 +228,7 @@ class ReadCounter(object):
                     self.write_header(chrom, outfile)
                     for binval in bins:
                         self.write(data[cell][binval], outfile)
-
+                        
 
 def parse_args():
     parser = argparse.ArgumentParser()

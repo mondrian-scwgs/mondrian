@@ -7,6 +7,14 @@ import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
 
+
+struct Sample{
+    String sample_id
+    File tumour
+    File tumour_bai
+}
+
+
 workflow VariantWorkflow{
     input{
         File normal_bam
@@ -15,8 +23,7 @@ workflow VariantWorkflow{
         Int numThreads
         Array[String] chromosomes
         String normal_id
-        File tumour_bams_tsv
-        Array[Array[File]] tumour_bams = read_tsv(tumour_bams_tsv)
+        Array[Sample] samples
     }
 
     VariantRefdata ref = {
@@ -27,10 +34,11 @@ workflow VariantWorkflow{
     }
 
 
-    scatter (tbam in tumour_bams){
-        String tumour_id = tbam[0]
-        File bam = tbam[1]
-        File bai = tbam[2]
+    scatter (sample in samples){
+        String tumour_id = sample.sample_id
+        File bam = sample.tumour
+        File bai = sample.tumour_bai
+
 
         call variant_calling.SampleVariantWorkflow as variant_workflow{
             input:
