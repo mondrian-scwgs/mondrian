@@ -93,7 +93,7 @@ wget https://github.com/broadinstitute/cromwell/releases/download/54/cromwell-54
 6. run the pipeline on test dataset
 ```
 module load java
-java -Dconfig.file=run.config -jar cromwell-54.jar run https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/analyses/breakpoint_calling.wdl -i input.json  -o options.json
+java -Dconfig.file=run.config -jar cromwell-54.jar run https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/analyses/breakpoint_calling.wdl -i input.json  -o options.json
 ```
 
 
