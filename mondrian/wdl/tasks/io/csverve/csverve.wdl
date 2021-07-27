@@ -17,7 +17,7 @@ task rewrite_csv{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -40,7 +40,7 @@ task concatenate_csv {
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -63,7 +63,7 @@ task merge_csv{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -84,6 +84,6 @@ task finalize_csv {
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }

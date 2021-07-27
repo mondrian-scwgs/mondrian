@@ -15,7 +15,7 @@ task GetSampleId{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -56,7 +56,7 @@ task runMutect{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -77,7 +77,7 @@ task filterMutect{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 

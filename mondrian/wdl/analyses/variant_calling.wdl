@@ -1,11 +1,11 @@
 version development
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/analyses/sample_level/variant_calling.wdl" as variant_calling
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/utilities/bash.wdl"  as bash
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/analyses/sample_level/variant_calling.wdl" as variant_calling
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/utilities/bash.wdl"  as bash
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
 
 
 struct Sample{

@@ -15,7 +15,7 @@ task GetCellId{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 
 }
@@ -37,7 +37,7 @@ task RunReadCounter{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -61,7 +61,7 @@ task CorrectReadCount{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -85,7 +85,7 @@ task RunHmmcopy{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -115,7 +115,7 @@ task PlotHmmcopy{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 
@@ -136,7 +136,7 @@ task addMappability{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 
 }
@@ -166,7 +166,7 @@ task cellCycleClassifier{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 
 }
@@ -189,7 +189,7 @@ task addQuality{
         memory: "8 GB"
         cpu: 1
         walltime: "6:00"
-        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/hmmcopy:v0.0.2'
     }
 }
 

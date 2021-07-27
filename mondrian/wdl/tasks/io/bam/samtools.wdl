@@ -16,7 +16,7 @@ task SamToBam{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }
 
@@ -36,7 +36,7 @@ task indexBam{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }
 
@@ -55,7 +55,7 @@ task Flagstat{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }
 
@@ -75,7 +75,7 @@ task mergeBams{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }
 
@@ -96,7 +96,7 @@ task viewBam{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }
 
@@ -114,6 +114,6 @@ task sortBam{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
     }
 }

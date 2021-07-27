@@ -25,7 +25,7 @@ task MarkDuplicates{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 
@@ -54,7 +54,7 @@ task CollectGcBiasMetrics{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 
@@ -84,7 +84,7 @@ task CollectWgsMetrics{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 
@@ -112,7 +112,7 @@ task CollectInsertSizeMetrics{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 
@@ -138,7 +138,7 @@ task SortSam{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 
@@ -162,7 +162,7 @@ task MergeSamFiles{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
     }
 }
 

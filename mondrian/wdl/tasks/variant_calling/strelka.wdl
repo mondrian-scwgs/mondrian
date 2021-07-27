@@ -15,7 +15,7 @@ task GetGenomeSize{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -43,7 +43,7 @@ task GenerateChromDepth{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -62,7 +62,7 @@ task merge_chrom_depths{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -141,6 +141,6 @@ task run_strelka{
         memory: "12 GB"
         cpu: 1
         walltime: "96:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }

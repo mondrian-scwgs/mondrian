@@ -22,7 +22,7 @@ task concatVcf{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -55,7 +55,7 @@ task mergeVcf{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -78,7 +78,7 @@ task filterVcf{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
 
@@ -103,6 +103,6 @@ task finalizeVcf{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.1'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
     }
 }
