@@ -1,6 +1,6 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/hmm_run/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
 
 
 task BwaMemPaired {
