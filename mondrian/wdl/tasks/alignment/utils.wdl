@@ -30,7 +30,7 @@ task bamMerge{
         File metrics_yaml
     }
     command <<<
-        alignment_utils merge_cells --metrics ~{metrics} --outfile merged.bam --infile ~{sep=" "input_bams} --cell_id ~{sep=" "cell_ids}
+        alignment_utils merge_cells --metrics ~{metrics} --outfile merged.bam --infile ~{sep=" "input_bams} --cell_id ~{sep=" "cell_ids} --tempdir temp
         samtools index merged.bam
     >>>
     output{
