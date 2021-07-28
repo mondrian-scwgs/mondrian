@@ -21,7 +21,7 @@ workflow HmmcopyWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
-        "classifier_training_data": ref_dir + '/human/classifier_training_data.h5'
+        "classifier_training_data": ref_dir + 'human/classifier_training_data.h5'
     }
 
     call utils.RunReadCounter as readcounter{
@@ -33,6 +33,11 @@ workflow HmmcopyWorkflow{
 
     scatter(wigfile in readcounter.wigs){
 
+        call utils.GetCellId as cell{
+            input:
+                infile = wigfile
+        }
+
         call utils.CorrectReadCount as correction{
             input:
                 infile = wigfile,
@@ -43,7 +48,8 @@ workflow HmmcopyWorkflow{
 
         call utils.RunHmmcopy as hmmcopy{
             input:
-                corrected_wig = correction.wig
+                corrected_wig = correction.wig,
+                cell_id = cell.cellid
         }
 
         call csverve.rewrite_csv as rewrite_reads{
@@ -80,6 +86,7 @@ workflow HmmcopyWorkflow{
                 params_yaml = rewrite_params.outfile_yaml,
                 metrics = rewrite_metrics.outfile,
                 metrics_yaml = rewrite_metrics.outfile_yaml,
+                cell_id = cell.cellid,
                 reference = ref.reference,
                 reference_fai = ref.reference_fai
         }

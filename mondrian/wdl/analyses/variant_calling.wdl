@@ -15,14 +15,6 @@ struct Sample{
 }
 
 
-
-struct Sample{
-    String sample_id
-    File tumour
-    File tumour_bai
-}
-
-
 workflow VariantWorkflow{
     input{
         File normal_bam

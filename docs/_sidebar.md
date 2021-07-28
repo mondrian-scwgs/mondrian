@@ -1,10 +1,10 @@
 - [Mondrian](README.md)
 
 - [quickstart](quickstart/README.md)
-  - [Alignment](quickstart/alignment.md)
-  - [hmmcopy](quickstart/hmmcopy.md)
-  - [variant_calling](quickstart/variant_calling.md)
-  - [breakpoint_calling](quickstart/breakpoint_calling.md)
+  - [docker](quickstart/docker.md)
+  - [udocker](quickstart/udocker.md)
+  - [singularity](quickstart/singularity.md)
+  - [lsf](quickstart/lsf.md)
 
 - [Analyses](analyses/README.md)
   - [alignment](analyses/alignment.md)
