@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/variant_calling/consensus.wdl" as consensus
 

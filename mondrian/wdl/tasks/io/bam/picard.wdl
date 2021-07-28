@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 
 task MarkDuplicates{

@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/museq.wdl" as museq
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam

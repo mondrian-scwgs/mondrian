@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/workflows/variant_calling/museq.wdl" as museq

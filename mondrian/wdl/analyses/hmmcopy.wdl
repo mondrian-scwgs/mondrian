@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/pdf/pdf.wdl" as pdf

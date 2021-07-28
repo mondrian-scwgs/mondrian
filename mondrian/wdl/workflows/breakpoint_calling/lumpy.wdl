@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/breakpoint_calling/lumpy.wdl" as lumpy

@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/analyses/sample_level/breakpoint_calling.wdl" as breakpoint_calling
 import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/dev/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve

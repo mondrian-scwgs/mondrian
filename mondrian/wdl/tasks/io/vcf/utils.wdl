@@ -1,4 +1,4 @@
-version development
+version 1.0
 
 
 task vcf_reheader_id{
