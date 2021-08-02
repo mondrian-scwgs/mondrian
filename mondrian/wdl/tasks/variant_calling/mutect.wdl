@@ -3,6 +3,7 @@ version 1.0
 task GetSampleId{
     input{
         File input_bam
+        String singularity_dir
     }
     command<<<
 
@@ -16,6 +17,7 @@ task GetSampleId{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -57,6 +59,7 @@ task runMutect{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -78,6 +81,7 @@ task filterMutect{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 

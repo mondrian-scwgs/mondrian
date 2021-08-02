@@ -8,6 +8,7 @@ task consensus{
         File gridss
         String filename_prefix
         String sample_id
+        String singularity_dir
     }
     command<<<
         mkdir tempdir
@@ -26,5 +27,6 @@ task consensus{
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
+        singularity: '~{singularity_dir}/breakpoint_v0.0.2.sif'
     }
 }

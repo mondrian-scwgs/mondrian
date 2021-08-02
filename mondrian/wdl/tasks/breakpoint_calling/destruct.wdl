@@ -19,6 +19,7 @@ task runDestruct{
         File dgv
         File repeats_satellite_regions
         String num_threads
+        String singularity_dir
     }
     command<<<
         echo "genome_fasta = '~{reference}'; genome_fai = '~{reference_fai}'; gtf_filename = '~{reference_gtf}'" > config.py
@@ -40,5 +41,6 @@ task runDestruct{
         cpu: num_threads
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
+        singularity: '~{singularity_dir}/breakpoint_v0.0.2.sif'
     }
 }

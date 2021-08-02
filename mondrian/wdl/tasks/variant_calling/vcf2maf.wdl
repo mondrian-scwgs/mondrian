@@ -4,6 +4,7 @@ task RunVcf2Maf{
     input{
         File input_vcf
         Directory reference
+        String singularity_dir
     }
     command<<<
         if (file ~{input_vcf} | grep -q compressed ) ; then
@@ -27,6 +28,7 @@ task RunVcf2Maf{
         cpu: 1
         walltime: "24:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -36,6 +38,7 @@ task UpdateMafId{
         File input_maf
         String normal_id
         String tumour_id
+        String singularity_dir
     }
     command<<<
         variant_utils update_maf_ids --input ~{input_maf} --tumour_id ~{tumour_id} --normal_id ~{normal_id} --output updated_id.maf
@@ -48,6 +51,7 @@ task UpdateMafId{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -56,6 +60,7 @@ task UpdateMafCounts{
         File input_maf
         File input_counts
         String filename_prefix
+        String singularity_dir
     }
     command<<<
         variant_utils update_maf_counts --input ~{input_maf} --counts ~{input_counts} --output ~{filename_prefix}_updated_counts.maf
@@ -68,6 +73,7 @@ task UpdateMafCounts{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -75,6 +81,7 @@ task UpdateMafCounts{
 task MergeMafs{
     input{
         Array[File] input_mafs
+        String singularity_dir
     }
     command<<<
         touch merged.maf
@@ -87,5 +94,6 @@ task MergeMafs{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }

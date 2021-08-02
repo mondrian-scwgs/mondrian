@@ -11,6 +11,7 @@ task runMuseq{
         File reference_fai
         Array[String] intervals
         Int cores
+        String singularity_dir
     }
     command<<<
         mkdir pythonegg
@@ -31,6 +32,7 @@ task runMuseq{
         cpu: 1
         walltime: "96:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -38,6 +40,7 @@ task runMuseq{
 task fixMuseqVcf{
     input{
         File vcf_file
+        String singularity_dir
     }
     command<<<
         variant_utils fix_museq_vcf --input ~{vcf_file} --output output.vcf
@@ -55,6 +58,7 @@ task fixMuseqVcf{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 

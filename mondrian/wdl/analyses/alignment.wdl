@@ -30,6 +30,7 @@ workflow AlignmentWorkflow{
         String sample_id
         String library_id
         String center
+        String singularity_dir
     }
 
     AlignRefdata ref = {
@@ -82,45 +83,54 @@ workflow AlignmentWorkflow{
                     sample_id = sample_id,
                     center = center,
                     lane_id = lane_id,
+                    singularity_dir = singularity_dir
             }
         }
         call fastq_screen.merge_fastqscreen_counts as merge_fq{
             input:
                 detailed_counts = lane_alignment.fastqscreen_detailed_metrics,
-                summary_counts = lane_alignment.fastqscreen_summary_metrics
+                summary_counts = lane_alignment.fastqscreen_summary_metrics,
+                singularity_dir = singularity_dir
+
         }
 
         call picard.MergeSamFiles as merge_sams{
             input:
-                input_bams = lane_alignment.bam
+                input_bams = lane_alignment.bam,
+                singularity_dir = singularity_dir
         }
 
         call picard.MarkDuplicates as markdups{
             input:
-                input_bam = merge_sams.output_bam
+                input_bam = merge_sams.output_bam,
+                singularity_dir = singularity_dir
         }
 
         call picard.CollectWgsMetrics  as wgs_metrics{
             input:
                 input_bam = markdups.output_bam,
                 reference = ref.reference,
-                reference_fai = ref.reference_fa_fai
+                reference_fai = ref.reference_fa_fai,
+                singularity_dir = singularity_dir
         }
 
         call picard.CollectInsertSizeMetrics  as insert_metrics{
             input:
                 input_bam = markdups.output_bam,
+                singularity_dir = singularity_dir
         }
 
         call picard.CollectGcBiasMetrics as gc_metrics{
             input:
                 input_bam=markdups.output_bam,
                 reference = ref.reference,
-                reference_fai = ref.reference_fa_fai
+                reference_fai = ref.reference_fa_fai,
+                singularity_dir = singularity_dir
         }
         call samtools.Flagstat as flagstat{
             input:
-                input_bam=markdups.output_bam
+                input_bam=markdups.output_bam,
+                singularity_dir = singularity_dir
         }
 
         call metrics.CollectMetrics as collect_metrics{
@@ -129,21 +139,24 @@ workflow AlignmentWorkflow{
                 markdups_metrics = markdups.metrics_txt,
                 insert_metrics = insert_metrics.metrics_txt,
                 flagstat = flagstat.flagstat_txt,
-                cell_id = cellid
+                cell_id = cellid,
+                singularity_dir = singularity_dir
         }
     }
 
     call csverve.concatenate_csv as concat_fastqscreen_summary{
         input:
             inputfile = merge_fq.merged_summary,
-            inputyaml = merge_fq.merged_summary_yaml
+            inputyaml = merge_fq.merged_summary_yaml,
+            singularity_dir = singularity_dir
     }
 
 
     call csverve.concatenate_csv as concat_metrics{
         input:
             inputfile = collect_metrics.output_csv,
-            inputyaml = collect_metrics.output_csv_yaml
+            inputyaml = collect_metrics.output_csv_yaml,
+            singularity_dir = singularity_dir
     }
 
 
@@ -152,7 +165,8 @@ workflow AlignmentWorkflow{
             inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
             inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
             how='outer',
-            on='cell_id'
+            on='cell_id',
+            singularity_dir = singularity_dir
     }
 
 
@@ -160,13 +174,15 @@ workflow AlignmentWorkflow{
         input:
             input_csv = annotate_with_fastqscreen.outfile,
             input_yaml = annotate_with_fastqscreen.outfile_yaml,
+            singularity_dir = singularity_dir
     }
 
     call utils.ClassifyFastqscreen as classify{
         input:
             metrics = contaminated.output_csv,
             metrics_yaml = contaminated.output_yaml,
-            training_data = ref.fastqscreen_classifier_training_data
+            training_data = ref.fastqscreen_classifier_training_data,
+            singularity_dir = singularity_dir
     }
 
 
@@ -176,6 +192,7 @@ workflow AlignmentWorkflow{
             cell_ids = cellid,
             metrics = classify.output_csv,
             metrics_yaml = classify.output_yaml,
+            singularity_dir = singularity_dir
     }
 
     call csverve.merge_csv as merge_csv{
@@ -183,7 +200,8 @@ workflow AlignmentWorkflow{
             how = 'outer',
             on = 'cell_id',
             inputfiles = [concat_fastqscreen_summary.outfile, classify.output_csv],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, classify.output_yaml]
+            inputyamls = [concat_fastqscreen_summary.outfile_yaml, classify.output_yaml],
+            singularity_dir = singularity_dir
     }
 
     output{

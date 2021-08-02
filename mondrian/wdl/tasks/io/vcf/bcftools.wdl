@@ -5,6 +5,7 @@ task concatVcf{
         Array[File] vcf_files
         Array[File] csi_files
         Array[File] tbi_files
+        String singularity_dir
     }
     command<<<
         bcftools concat -a -O z -o merged.vcf.gz ~{sep=" " vcf_files}
@@ -23,6 +24,7 @@ task concatVcf{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -31,6 +33,7 @@ task mergeVcf{
         Array[File] vcf_files
         Array[File] csi_files
         Array[File] tbi_files
+        String singularity_dir
     }
     command<<<
         all_vcfs_string=~{sep=" " vcf_files}
@@ -56,6 +59,7 @@ task mergeVcf{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -63,6 +67,7 @@ task mergeVcf{
 task filterVcf{
     input{
         File vcf_file
+        String singularity_dir
     }
     command<<<
         bcftools view -O z -f .,PASS -o filtered.vcf.gz ~{vcf_file}
@@ -79,6 +84,7 @@ task filterVcf{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }
 
@@ -87,6 +93,7 @@ task finalizeVcf{
     input{
         File vcf_file
         String filename_prefix
+        String singularity_dir
     }
     command<<<
         vcf-sort ~{vcf_file} > vcf_uncompressed.vcf
@@ -104,5 +111,6 @@ task finalizeVcf{
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
+        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
     }
 }

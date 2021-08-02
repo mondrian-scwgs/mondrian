@@ -18,6 +18,7 @@ task BwaMemPaired {
         String lane_id
         String sample_id
         String center
+        String singularity_dir
     }
     command {
         bwa mem \
@@ -35,5 +36,6 @@ task BwaMemPaired {
         cpu: 1
         walltime: "8:00"
         docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
+        singularity: '~{singularity_dir}/alignment_v0.0.2.sif'
     }
 }

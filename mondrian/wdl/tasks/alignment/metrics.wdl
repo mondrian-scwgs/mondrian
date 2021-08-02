@@ -7,6 +7,7 @@ task CollectMetrics{
         File flagstat
         File markdups_metrics
         String cell_id
+        String singularity_dir
     }
     command<<<
         alignment_utils collect_metrics \
@@ -26,5 +27,6 @@ task CollectMetrics{
         cpu: 1
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
+        singularity: '~{singularity_dir}/alignment_v0.0.2.sif'
     }
 }

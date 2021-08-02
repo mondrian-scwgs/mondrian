@@ -14,6 +14,7 @@ task runGridss{
         File reference_fa_bwt
         File reference_fa_pac
         File reference_fa_sa
+        String singularity_dir
     }
     command{
         gridss.sh \
@@ -34,5 +35,6 @@ task runGridss{
         cpu: num_threads
         walltime: "96:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
+        singularity: '~{singularity_dir}/breakpoint_v0.0.2.sif'
     }
 }

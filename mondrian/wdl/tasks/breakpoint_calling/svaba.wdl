@@ -16,6 +16,7 @@ task runSvaba{
         File reference_fa_bwt
         File reference_fa_pac
         File reference_fa_sa
+        String singularity_dir
     }
     command{
         svaba run -t ~{tumour_bam} -n ~{normal_bam} -G ~{reference} -z -p ~{num_threads} -a output
@@ -28,6 +29,7 @@ task runSvaba{
         cpu: num_threads
         walltime: "48:00"
         docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
+        singularity: '~{singularity_dir}/breakpoint_v0.0.2.sif'
     }
 
 }

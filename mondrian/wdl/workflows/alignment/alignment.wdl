@@ -19,17 +19,20 @@ workflow AlignFastqs{
         String sample_id
         String center
         String lane_id
+        String singularity_dir
     }
 
 
     call fastqc.RunFastqc as fastqc_r1{
         input:
-            fastq=fastq1
+            fastq=fastq1,
+            singularity_dir = singularity_dir
     }
 
     call fastqc.RunFastqc as fastqc_r2{
         input:
-            fastq=fastq2
+            fastq=fastq2,
+            singularity_dir = singularity_dir
     }
 
     call fastq_screen.fastqScreen as run_fastqscreen{
@@ -57,7 +60,8 @@ workflow AlignFastqs{
             salmon_reference_fa_bwt = ref.salmon_reference_fa_bwt,
             salmon_reference_fa_pac = ref.salmon_reference_fa_pac,
             salmon_reference_fa_sa = ref.salmon_reference_fa_sa,
-            cell_id = cell_id
+            cell_id = cell_id,
+            singularity_dir = singularity_dir
     }
 
     call bwa.BwaMemPaired as bwa_mem{
@@ -74,18 +78,21 @@ workflow AlignFastqs{
             library_id = library_id,
             sample_id = sample_id,
             center = center,
-            lane_id = lane_id
+            lane_id = lane_id,
+            singularity_dir = singularity_dir
     }
 
     call utils.TagBamWithCellid as tag_bam{
         input:
             infile = bwa_mem.bam,
-            cell_id = cell_id
+            cell_id = cell_id,
+            singularity_dir = singularity_dir
     }
 
     call samtools.sortBam as sort_bam{
         input:
-            inputBam = tag_bam.outfile
+            inputBam = tag_bam.outfile,
+            singularity_dir = singularity_dir
     }
 
 
