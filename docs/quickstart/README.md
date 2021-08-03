@@ -75,7 +75,7 @@ backend {
         """
         submit = "bsub -n ${cpu} -W ${walltime} -R 'rusage[mem=${memory_gb}]span[ptile=${cpu}]' -J ${job_name} -cwd ${cwd} -o ${out} -e ${err} /usr/bin/env bash ${script}"
         kill = "bkill ${job_id}"
-        check-alive = "bjobs ${job_id}"
+        check-alive = "bjobs -w ${job_id} |& egrep -qvw 'not found|EXIT|JOBID'"
         job-id-regex = "Job <(\\d+)>.*"
         exit-code-timeout-seconds = 120
       }
