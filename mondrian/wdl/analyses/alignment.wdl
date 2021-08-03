@@ -1,13 +1,13 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/alignment/fastq_screen.wdl" as fastq_screen
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/bam/picard.wdl" as picard
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/alignment/metrics.wdl" as metrics
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/alignment/utils.wdl" as utils
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/alignment/alignment.wdl" as alignment
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/alignment/fastq_screen.wdl" as fastq_screen
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/bam/picard.wdl" as picard
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/alignment/metrics.wdl" as metrics
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/alignment/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/alignment/alignment.wdl" as alignment
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
 
 
 struct Lane{
@@ -30,7 +30,7 @@ workflow AlignmentWorkflow{
         String sample_id
         String library_id
         String center
-        String singularity_dir
+        String? singularity_dir = ""
     }
 
     AlignRefdata ref = {
@@ -122,14 +122,14 @@ workflow AlignmentWorkflow{
 
         call picard.CollectGcBiasMetrics as gc_metrics{
             input:
-                input_bam=markdups.output_bam,
+                input_bam = markdups.output_bam,
                 reference = ref.reference,
                 reference_fai = ref.reference_fa_fai,
                 singularity_dir = singularity_dir
         }
         call samtools.Flagstat as flagstat{
             input:
-                input_bam=markdups.output_bam,
+                input_bam = markdups.output_bam,
                 singularity_dir = singularity_dir
         }
 
@@ -142,12 +142,29 @@ workflow AlignmentWorkflow{
                 cell_id = cellid,
                 singularity_dir = singularity_dir
         }
+
     }
 
     call csverve.concatenate_csv as concat_fastqscreen_summary{
         input:
             inputfile = merge_fq.merged_summary,
             inputyaml = merge_fq.merged_summary_yaml,
+            singularity_dir = singularity_dir
+    }
+
+    call utils.AddContaminationStatus as contaminated{
+        input:
+            input_csv = concat_fastqscreen_summary.outfile,
+            input_yaml = concat_fastqscreen_summary.outfile_yaml,
+            singularity_dir = singularity_dir
+    }
+
+    call utils.bamMerge as merge_bam_files{
+        input:
+            input_bams = markdups.output_bam,
+            cell_ids = cellid,
+            metrics = contaminated.output_csv,
+            metrics_yaml = contaminated.output_yaml,
             singularity_dir = singularity_dir
     }
 
@@ -162,52 +179,25 @@ workflow AlignmentWorkflow{
 
     call csverve.merge_csv as annotate_with_fastqscreen{
         input:
-            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
+            inputfiles = [contaminated.output_csv, concat_metrics.outfile],
+            inputyamls = [contaminated.output_yaml, concat_metrics.outfile_yaml],
             how='outer',
             on='cell_id',
             singularity_dir = singularity_dir
     }
 
-
-    call utils.AddContaminationStatus as contaminated{
-        input:
-            input_csv = annotate_with_fastqscreen.outfile,
-            input_yaml = annotate_with_fastqscreen.outfile_yaml,
-            singularity_dir = singularity_dir
-    }
-
     call utils.ClassifyFastqscreen as classify{
         input:
-            metrics = contaminated.output_csv,
-            metrics_yaml = contaminated.output_yaml,
+            metrics = annotate_with_fastqscreen.outfile,
+            metrics_yaml = annotate_with_fastqscreen.outfile_yaml,
             training_data = ref.fastqscreen_classifier_training_data,
-            singularity_dir = singularity_dir
-    }
-
-
-    call utils.bamMerge as merge_bam_files{
-        input:
-            input_bams = markdups.output_bam,
-            cell_ids = cellid,
-            metrics = classify.output_csv,
-            metrics_yaml = classify.output_yaml,
-            singularity_dir = singularity_dir
-    }
-
-    call csverve.merge_csv as merge_csv{
-        input:
-            how = 'outer',
-            on = 'cell_id',
-            inputfiles = [concat_fastqscreen_summary.outfile, classify.output_csv],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, classify.output_yaml],
             singularity_dir = singularity_dir
     }
 
     output{
         File bam = merge_bam_files.outfile
         File bai = merge_bam_files.outfile_bai
-        File metrics = merge_csv.outfile
-        File metrics_yaml = merge_csv.outfile_yaml
+        File metrics = classify.output_csv
+        File metrics_yaml = classify.output_yaml
     }
 }

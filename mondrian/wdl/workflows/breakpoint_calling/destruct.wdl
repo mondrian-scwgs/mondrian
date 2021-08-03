@@ -1,7 +1,7 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/breakpoint_calling/destruct.wdl" as destruct
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/breakpoint_calling/destruct.wdl" as destruct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 workflow DestructWorkflow{
@@ -10,6 +10,7 @@ workflow DestructWorkflow{
         File tumour_bam
         BreakpointRefdata ref
         String num_threads
+        String? singularity_dir
     }
 
     call destruct.runDestruct as run_destruct{
@@ -28,6 +29,7 @@ workflow DestructWorkflow{
             dgv = ref.dgv,
             repeats_satellite_regions = ref.repeats_satellite_regions,
             num_threads = num_threads,
+            singularity_dir = singularity_dir
     }
 
     output{

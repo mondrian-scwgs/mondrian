@@ -1,7 +1,7 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/breakpoint_calling/gridss.wdl" as gridss
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/breakpoint_calling/gridss.wdl" as gridss
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 workflow GridssWorkflow{
@@ -10,6 +10,7 @@ workflow GridssWorkflow{
         File tumour_bam
         Int num_threads
         BreakpointRefdata ref
+        String? singularity_dir
     }
     call gridss.runGridss as run_gridss{
         input:
@@ -23,6 +24,7 @@ workflow GridssWorkflow{
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
+            singularity_dir = singularity_dir
     }
     output{
         File output_vcf = run_gridss.output_vcf

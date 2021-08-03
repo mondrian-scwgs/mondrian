@@ -3,7 +3,7 @@ version 1.0
 task GetSampleId{
     input{
         File input_bam
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
 
@@ -16,8 +16,8 @@ task GetSampleId{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 
@@ -35,6 +35,7 @@ task runMutect{
         Array[String] intervals
         Int cores
         String normal_sample_id
+        String? singularity_dir
     }
     command<<<
         mkdir raw_data
@@ -58,8 +59,8 @@ task runMutect{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 
@@ -69,6 +70,7 @@ task filterMutect{
         File reference_fai
         File reference_dict
         File vcf_file
+        String? singularity_dir
     }
     command<<<
             gatk FilterMutectCalls -R ~{reference} -V ~{vcf_file} -O filtered.vcf
@@ -80,8 +82,8 @@ task filterMutect{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 

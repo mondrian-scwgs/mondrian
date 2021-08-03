@@ -1,13 +1,13 @@
 version 1.0
 
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/variant_calling/museq.wdl" as museq
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/variant_calling/strelka.wdl" as strelka
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/variant_calling/mutect.wdl" as mutect
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/variant_calling/consensus.wdl" as consensus
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/variant_calling/vcf2maf.wdl" as vcf2maf
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/variant_calling/museq.wdl" as museq
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/variant_calling/strelka.wdl" as strelka
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/variant_calling/mutect.wdl" as mutect
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/variant_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/variant_calling/vcf2maf.wdl" as vcf2maf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/variant_refdata.wdl" as refdata_struct
 
 
 workflow SampleVariantWorkflow {
@@ -21,9 +21,10 @@ workflow SampleVariantWorkflow {
         File reference_dict
         Int numThreads
         Array[String] chromosomes
-        Directory vep_ref
+        File vep_ref
         String tumour_id
         String normal_id
+        String? singularity_dir
     }
 
     call museq.MuseqWorkflow as museq{
@@ -37,7 +38,8 @@ workflow SampleVariantWorkflow {
             numThreads = numThreads,
             chromosomes = chromosomes,
             tumour_id = tumour_id,
-            normal_id = normal_id
+            normal_id = normal_id,
+            singularity_dir = singularity_dir
     }
 
     call strelka.StrelkaWorkflow as strelka{
@@ -49,7 +51,8 @@ workflow SampleVariantWorkflow {
             reference = reference,
             reference_fai = reference_fai,
             numThreads = numThreads,
-            chromosomes = chromosomes
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call mutect.MutectWorkflow as mutect{
@@ -62,7 +65,8 @@ workflow SampleVariantWorkflow {
             reference_fai = reference_fai,
             reference_dict = reference_dict,
             numThreads = numThreads,
-            chromosomes = chromosomes
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call consensus.ConsensusWorkflow as consensus{
@@ -75,7 +79,8 @@ workflow SampleVariantWorkflow {
             strelka_snv_tbi = strelka.snv_vcffile_tbi,
             strelka_indel = strelka.indel_vcffile,
             strelka_indel_tbi = strelka.indel_vcffile_tbi,
-            chromosomes = chromosomes
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call vcf2maf.Vcf2mafWorkflow as vcf2maf{
@@ -84,14 +89,16 @@ workflow SampleVariantWorkflow {
             input_counts =  consensus.counts_output,
             normal_id = normal_id,
             tumour_id = tumour_id,
-            reference = vep_ref,
-            filename_prefix = tumour_id
+            vep_ref = vep_ref,
+            filename_prefix = tumour_id,
+            singularity_dir = singularity_dir
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            singularity_dir = singularity_dir
     }
 
     output{

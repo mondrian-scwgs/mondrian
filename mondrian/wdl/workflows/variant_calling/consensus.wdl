@@ -1,6 +1,6 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/variant_calling/consensus.wdl" as consensus
 
 
 workflow ConsensusWorkflow{
@@ -14,6 +14,7 @@ workflow ConsensusWorkflow{
         File strelka_indel
         File strelka_indel_tbi
         Array[String] chromosomes
+        String? singularity_dir
     }
 
     call consensus.runConsensusCalling as consensus{
@@ -27,6 +28,7 @@ workflow ConsensusWorkflow{
             strelka_indel = strelka_indel,
             strelka_indel_tbi = strelka_indel_tbi,
             chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     output{

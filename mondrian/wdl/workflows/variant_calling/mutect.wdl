@@ -1,9 +1,9 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/mutect.wdl" as mutect
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/variant_calling/mutect.wdl" as mutect
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
 
 
 workflow MutectWorkflow{
@@ -17,17 +17,20 @@ workflow MutectWorkflow{
         File reference_dict
         Array[String] chromosomes
         Int numThreads
+        String? singularity_dir
      }
 
     call pysam.generateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call mutect.GetSampleId  as get_sample_id{
         input:
-            input_bam = normal_bam
+            input_bam = normal_bam,
+            singularity_dir = singularity_dir
     }
 
     call mutect.runMutect as run_mutect{
@@ -41,14 +44,16 @@ workflow MutectWorkflow{
             reference_dict = reference_dict,
             cores = numThreads,
             intervals = gen_int.intervals,
-            normal_sample_id = get_sample_id.sample_id
+            normal_sample_id = get_sample_id.sample_id,
+            singularity_dir = singularity_dir
     }
 
     scatter (mutect_vcf_file in run_mutect.vcf_files){
         call bcftools.finalizeVcf as finalize_region_vcf{
             input:
                 vcf_file = mutect_vcf_file,
-                filename_prefix = 'mutect_calls'
+                filename_prefix = 'mutect_calls',
+                singularity_dir = singularity_dir
         }
     }
 
@@ -56,7 +61,8 @@ workflow MutectWorkflow{
         input:
             vcf_files = finalize_region_vcf.vcf,
             csi_files = finalize_region_vcf.vcf_csi,
-            tbi_files = finalize_region_vcf.vcf_tbi
+            tbi_files = finalize_region_vcf.vcf_tbi,
+            singularity_dir = singularity_dir
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -65,14 +71,15 @@ workflow MutectWorkflow{
             tumour_bam = tumour_bam,
             input_vcf = merge_vcf.merged_vcf,
             vcf_normal_id = 'NORMAL',
-            vcf_tumour_id = 'TUMOR'
+            vcf_tumour_id = 'TUMOR',
+            singularity_dir = singularity_dir
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
-            filename_prefix = 'mutect'
-
+            filename_prefix = 'mutect',
+            singularity_dir = singularity_dir
     }
 
     output{

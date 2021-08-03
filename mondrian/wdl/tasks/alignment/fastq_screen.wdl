@@ -1,6 +1,6 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/align_refdata.wdl" as refdata_struct
 
 
 
@@ -30,7 +30,7 @@ task fastqScreen{
         File salmon_reference_fa_pac
         File salmon_reference_fa_sa
         String cell_id
-        String singularity_dir
+        String? singularity_dir
     }
     command {
         alignment_utils fastqscreen --r1 ~{fastq1} --r2 ~{fastq2} \
@@ -53,8 +53,8 @@ task fastqScreen{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
-        singularity: '~{singularity_dir}/alignment_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.3'
+        singularity: '~{singularity_dir}/alignment_v0.0.3.sif'
     }
 }
 
@@ -62,7 +62,7 @@ task merge_fastqscreen_counts{
     input{
         Array[File] detailed_counts
         Array[File] summary_counts
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         alignment_utils merge_fastqscreen_counts \
@@ -81,7 +81,7 @@ task merge_fastqscreen_counts{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/alignment:v0.0.2'
-        singularity: '~{singularity_dir}/alignment_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/alignment:v0.0.3'
+        singularity: '~{singularity_dir}/alignment_v0.0.3.sif'
     }
 }

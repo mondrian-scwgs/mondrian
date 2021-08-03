@@ -1,6 +1,6 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 task runDestruct{
@@ -19,7 +19,7 @@ task runDestruct{
         File dgv
         File repeats_satellite_regions
         String num_threads
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         echo "genome_fasta = '~{reference}'; genome_fai = '~{reference_fai}'; gtf_filename = '~{reference_gtf}'" > config.py
@@ -40,7 +40,7 @@ task runDestruct{
         memory: "8 GB"
         cpu: num_threads
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.2'
-        singularity: '~{singularity_dir}/breakpoint_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/breakpoint:v0.0.3'
+        singularity: '~{singularity_dir}/breakpoint_v0.0.3.sif'
     }
 }

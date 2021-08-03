@@ -12,16 +12,21 @@ mkdir mondrian && cd mondrian
 
 2. Download the reference data
 
+we'll start with this smaller dataset for our quickstart guide. 
 ```
 wget https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz
 tar -xvf mondrian-ref-20-22.tar.gz
 ```
 
+the full grch37 reference data is available at
+```
+https://mondriantestdata.s3.amazonaws.com/mondrian-ref.tar.gz
+```
 
 2. Download Cromwell
 
 ```
-wget https://github.com/broadinstitute/cromwell/releases/download/54/cromwell-54.jar
+wget https://github.com/broadinstitute/cromwelvl/releases/download/66/cromwell-66.jar
 ```
 
 
@@ -43,7 +48,26 @@ wget https://github.com/broadinstitute/cromwell/releases/download/54/cromwell-54
 
 4. Create `run.config` - choose one of the following config options based on your environment:
 
-**Option 1: LSF + Singularity**
+**Option 1: Singularity**
+create the singularity_dir
+
+```
+mkdir singularity_dir
+cd singularity_dir
+
+singularity build alignment_v0.0.3.sif docker://quay.io/mondrianscwgs/alignment:v0.0.3
+singularity build hmmcopy_v0.0.3.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.3
+singularity build variant_v0.0.3.sif docker://quay.io/mondrianscwgs/variant:v0.0.3
+singularity build breakpoint_v0.0.3.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.3
+
+cd ../
+```
+
+Please note down the absolute path to this directory, it'll be used later.
+
+
+*LSF*:
+
 ```
 include required(classpath("application"))
 
@@ -59,19 +83,13 @@ backend {
       config {
         runtime-attributes = """
                   String docker
+                  String singularity
                   Int cpu
                   String walltime
                   Int memory_gb
                 """
         submit-docker = """
-            if [ -z $SINGULARITY_CACHEDIR ];
-                then CACHE_DIR=$HOME/.singularity/cache
-                else CACHE_DIR=$SINGULARITY_CACHEDIR
-            fi
-            mkdir -p $CACHE_DIR
-            LOCK_FILE=$CACHE_DIR/singularity_pull_flock
-            flock --exclusive --timeout 900 $LOCK_FILE singularity exec --containall docker://${docker} echo "successfully pulled ${docker}!"
-            bsub -n ${cpu} -W ${walltime} -R 'rusage[mem=${memory_gb}]span[ptile=${cpu}]' -J ${job_name} -cwd ${cwd} -o ${out} -e ${err} --wrap "singularity exec --containall --bind /juno/work/shah --bind ${cwd}:${docker_cwd} docker://${docker} ${job_shell} ${docker_script}"
+            bsub -n ${cpu} -W ${walltime} -R 'rusage[mem=${memory_gb}]span[ptile=${cpu}]' -J ${job_name} -cwd ${cwd} -o ${out} -e ${err} --wrap "singularity exec --containall --bind ${cwd}:${docker_cwd} ${singularity} ${job_shell} ${docker_script}"
         """
         submit = "bsub -n ${cpu} -W ${walltime} -R 'rusage[mem=${memory_gb}]span[ptile=${cpu}]' -J ${job_name} -cwd ${cwd} -o ${out} -e ${err} /usr/bin/env bash ${script}"
         kill = "bkill ${job_id}"
@@ -85,7 +103,7 @@ backend {
 backend.default = LSF
 ```
 
-**Option 2: Singularity**
+*Local:*
 
 ```
 include required(classpath("application"))

@@ -4,7 +4,7 @@ task GetGenomeSize{
     input{
         File reference
         Array[String] chromosomes
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         variant_utils genome_size --reference ~{reference} --chromosomes ~{sep=" "  chromosomes} > genome_size.txt
@@ -16,8 +16,8 @@ task GetGenomeSize{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 
@@ -30,7 +30,7 @@ task GenerateChromDepth{
         File reference_fai
         Int cores
         Array[String] chromosomes
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         for interval in ~{sep=" "chromosomes}
@@ -46,8 +46,8 @@ task GenerateChromDepth{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 
@@ -55,7 +55,7 @@ task GenerateChromDepth{
 task merge_chrom_depths{
     input{
         Array[File] inputs
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         variant_utils merge_chromosome_depths_strelka --inputs ~{sep=" " inputs} --output output.txt
@@ -67,8 +67,8 @@ task merge_chrom_depths{
         memory: "12 GB"
         cpu: 1
         walltime: "8:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }
 
@@ -83,7 +83,7 @@ task run_strelka{
         File reference
         File reference_fai
         String genome_size
-        String chrom_depth_file
+        File chrom_depth_file
         Int max_indel_size = 50
         Int min_qscore = 0
         Array[Int] max_window_mismatch = [3,20]
@@ -106,7 +106,7 @@ task run_strelka{
         Float ssnv_contam_tolerance=0.15
         Float indel_contam_tolerance=0.15
         Int cores
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         for interval in ~{sep=" "intervals}
@@ -148,7 +148,7 @@ task run_strelka{
         memory: "12 GB"
         cpu: 1
         walltime: "96:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }

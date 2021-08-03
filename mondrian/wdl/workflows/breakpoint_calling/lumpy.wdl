@@ -1,7 +1,7 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/breakpoint_calling/lumpy.wdl" as lumpy
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/breakpoint_calling/lumpy.wdl" as lumpy
 
 
 
@@ -9,6 +9,7 @@ workflow LumpyWorkflow {
     input {
         File normal_bam
         File tumour_bam
+        String? singularity_dir
     }
 
     call samtools.viewBam as normal_discordant_bam {
@@ -16,23 +17,27 @@ workflow LumpyWorkflow {
             inputBam = normal_bam,
             outputBam = "normal_discordant.bam",
             bam_flag = 1294,
-            samtools_flags = '-bh'
+            samtools_flags = '-bh',
+            singularity_dir = singularity_dir
     }
 
     call samtools.sortBam as sort_normal_discordant_bam{
         input:
-            inputBam = normal_discordant_bam.bamFile
+            inputBam = normal_discordant_bam.bamFile,
+            singularity_dir = singularity_dir
     }
 
     call lumpy.extractSplitReads as normal_split_bam{
         input:
             inputBam = normal_bam,
-            outputBam = "normal_split.bam"
+            outputBam = "normal_split.bam",
+            singularity_dir = singularity_dir
     }
 
     call samtools.sortBam as sort_normal_split_bam{
         input:
-            inputBam = normal_split_bam.bamFile
+            inputBam = normal_split_bam.bamFile,
+            singularity_dir = singularity_dir
     }
 
     ##### tumour
@@ -42,23 +47,27 @@ workflow LumpyWorkflow {
             inputBam = tumour_bam,
             outputBam = "tumour_discordant.bam",
             bam_flag = 1294,
-            samtools_flags = '-bh'
+            samtools_flags = '-bh',
+            singularity_dir = singularity_dir
     }
 
     call samtools.sortBam as sort_tumour_discordant_bam{
         input:
-            inputBam = tumour_discordant_bam.bamFile
+            inputBam = tumour_discordant_bam.bamFile,
+            singularity_dir = singularity_dir
     }
 
     call lumpy.extractSplitReads as tumour_split_bam{
         input:
             inputBam = tumour_bam,
-            outputBam = "tumour_split.bam"
+            outputBam = "tumour_split.bam",
+            singularity_dir = singularity_dir
     }
 
     call samtools.sortBam as sort_tumour_split_bam{
         input:
-            inputBam = tumour_split_bam.bamFile
+            inputBam = tumour_split_bam.bamFile,
+            singularity_dir = singularity_dir
     }
 
     call lumpy.lumpyExpress as lumpyexpress{
@@ -68,7 +77,8 @@ workflow LumpyWorkflow {
             normalDiscBam = sort_normal_discordant_bam.sortedBam,
             tumourDiscBam = sort_tumour_discordant_bam.sortedBam,
             normal_bam = normal_bam,
-            tumour_bam = tumour_bam
+            tumour_bam = tumour_bam,
+            singularity_dir = singularity_dir
     }
     output{
         File lumpy_vcf = lumpyexpress.lumpy_vcf

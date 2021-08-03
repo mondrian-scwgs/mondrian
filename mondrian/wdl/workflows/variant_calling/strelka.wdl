@@ -1,9 +1,9 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/strelka.wdl" as strelka
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/variant_calling/strelka.wdl" as strelka
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
 
 
 workflow StrelkaWorkflow{
@@ -16,12 +16,14 @@ workflow StrelkaWorkflow{
         File reference_fai
         Array[String] chromosomes
         Int numThreads
+        String? singularity_dir
      }
 
     call pysam.generateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call strelka.GenerateChromDepth as generate_chrom_depth{
@@ -31,18 +33,21 @@ workflow StrelkaWorkflow{
             reference = reference,
             reference_fai = reference_fai,
             cores = numThreads,
-            chromosomes = chromosomes
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call strelka.merge_chrom_depths as merge_chrom_depths{
         input:
-            inputs = generate_chrom_depth.chrom_depths
+            inputs = generate_chrom_depth.chrom_depths,
+            singularity_dir = singularity_dir
     }
 
     call strelka.GetGenomeSize as get_genome_size{
         input:
             reference = reference,
-            chromosomes = chromosomes
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call strelka.run_strelka as run_strelka{
@@ -56,7 +61,8 @@ workflow StrelkaWorkflow{
             reference_fai = reference_fai,
             genome_size = get_genome_size.genome_size,
             chrom_depth_file = merge_chrom_depths.merged,
-            cores = numThreads
+            cores = numThreads,
+            singularity_dir = singularity_dir
     }
 
     #################
@@ -66,7 +72,8 @@ workflow StrelkaWorkflow{
         call bcftools.finalizeVcf as finalize_indels{
             input:
                 vcf_file = indel_vcf_file,
-                filename_prefix = 'strelka_indels'
+                filename_prefix = 'strelka_indels',
+                singularity_dir = singularity_dir
         }
     }
 
@@ -74,12 +81,14 @@ workflow StrelkaWorkflow{
         input:
             vcf_files = finalize_indels.vcf,
             csi_files = finalize_indels.vcf_csi,
-            tbi_files = finalize_indels.vcf_tbi
+            tbi_files = finalize_indels.vcf_tbi,
+            singularity_dir = singularity_dir
     }
 
     call bcftools.filterVcf as filter_indel_vcf{
         input:
-            vcf_file = merge_indel_vcf.merged_vcf
+            vcf_file = merge_indel_vcf.merged_vcf,
+            singularity_dir = singularity_dir
     }
 
     call utils.vcf_reheader_id as reheader_indel{
@@ -88,13 +97,15 @@ workflow StrelkaWorkflow{
             tumour_bam = tumour_bam,
             input_vcf = filter_indel_vcf.filtered_vcf,
             vcf_normal_id = 'NORMAL',
-            vcf_tumour_id = 'TUMOR'
+            vcf_tumour_id = 'TUMOR',
+            singularity_dir = singularity_dir
     }
 
     call bcftools.finalizeVcf as finalize_vcf_indel{
         input:
             vcf_file = reheader_indel.output_file,
-            filename_prefix = 'strelka_indel'
+            filename_prefix = 'strelka_indel',
+            singularity_dir = singularity_dir
     }
 
     #############
@@ -104,7 +115,8 @@ workflow StrelkaWorkflow{
         call bcftools.finalizeVcf as finalize_snv{
             input:
                 vcf_file = snv_vcf_file,
-                filename_prefix = 'strelka_snv'
+                filename_prefix = 'strelka_snv',
+                singularity_dir = singularity_dir
         }
     }
 
@@ -113,12 +125,14 @@ workflow StrelkaWorkflow{
         input:
             vcf_files = finalize_snv.vcf,
             csi_files = finalize_snv.vcf_csi,
-            tbi_files = finalize_snv.vcf_tbi
+            tbi_files = finalize_snv.vcf_tbi,
+            singularity_dir = singularity_dir
     }
 
     call bcftools.filterVcf as filter_snv_vcf{
         input:
-            vcf_file = merge_snv_vcf.merged_vcf
+            vcf_file = merge_snv_vcf.merged_vcf,
+            singularity_dir = singularity_dir
     }
 
     call utils.vcf_reheader_id as reheader_snv{
@@ -127,14 +141,15 @@ workflow StrelkaWorkflow{
             tumour_bam = tumour_bam,
             input_vcf = filter_snv_vcf.filtered_vcf,
             vcf_normal_id = 'NORMAL',
-            vcf_tumour_id = 'TUMOR'
+            vcf_tumour_id = 'TUMOR',
+            singularity_dir = singularity_dir
     }
 
     call bcftools.finalizeVcf as finalize_vcf_snv{
         input:
             vcf_file = reheader_snv.output_file,
-            filename_prefix = 'strelka_snv'
-
+            filename_prefix = 'strelka_snv',
+            singularity_dir = singularity_dir
     }
 
     output{

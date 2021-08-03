@@ -23,6 +23,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
+"HmmcopyWorkflow.singularity_dir": "<insert path to singularity dir>",
 "HmmcopyWorkflow.bam": "hmmcopy_testdata/merged.bam",
 "HmmcopyWorkflow.bai": "hmmcopy_testdata//merged.bam.bai",
 "HmmcopyWorkflow.ref_dir": "<insert ref dir path>",
@@ -32,20 +33,22 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 }
 ```
 
+you can skip line 2 of this file if you're not using singularity 
+
 
 3. run the pipeline on test dataset
 
 Ensure java and sigularity/docker are installed and on PATH. On juno you can load  java and singularity by running:
 
 ```
-module load java
-module load singularity
+module load java/jdk-11.0.11
+module load singularity/3.6.2
 ```
 
 Launch the pipeline with the follosing command (replace the file paths):
 
 ```
 java -Dconfig.file=<path to run.config> -jar <path to downloaded cromwell>.jar run \
-https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/analyses/hmmcopy.wdl \
+https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<insert version>/mondrian/wdl/analyses/hmmcopy.wdl \
 -i <path to input.json>  -o <path to options.json>
 ```

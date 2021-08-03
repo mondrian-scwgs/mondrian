@@ -1,8 +1,8 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/analyses/sample_level/breakpoint_calling.wdl" as breakpoint_calling
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/analyses/sample_level/breakpoint_calling.wdl" as breakpoint_calling
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 struct Sample{
     String sample_id
@@ -20,6 +20,7 @@ workflow BreakpointWorkflow{
         Array[Sample] samples
         String ref_dir
         Int num_threads
+        String? singularity_dir = ""
     }
     BreakpointRefdata ref = {
         "reference": ref_dir+'/human/GRCh37-lite.fa',
@@ -54,7 +55,8 @@ workflow BreakpointWorkflow{
                 ref = ref,
                 num_threads=num_threads,
                 normal_id = normal_id,
-                tumour_id=tumour_id
+                tumour_id=tumour_id,
+                singularity_dir = singularity_dir
         }
     }
 
@@ -62,7 +64,8 @@ workflow BreakpointWorkflow{
         input:
             inputfile = breakpoint_wf.consensus,
             inputyaml = breakpoint_wf.consensus_yaml,
-            filename_prefix = "four_way_consensus"
+            filename_prefix = "four_way_consensus",
+            singularity_dir = singularity_dir
     }
 
     output{

@@ -1,7 +1,7 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/breakpoint_calling/svaba.wdl" as svaba
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/breakpoint_calling/svaba.wdl" as svaba
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 workflow SvabaWorkflow{
@@ -12,6 +12,7 @@ workflow SvabaWorkflow{
         File tumour_bai
         Int num_threads
         BreakpointRefdata ref
+        String?  singularity_dir
     }
 
 
@@ -29,6 +30,7 @@ workflow SvabaWorkflow{
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
+            singularity_dir = singularity_dir
     }
     output{
         File output_vcf = run_svaba.output_vcf

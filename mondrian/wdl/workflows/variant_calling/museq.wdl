@@ -1,9 +1,9 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/variant_calling/museq.wdl" as museq
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/variant_calling/museq.wdl" as museq
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/fastq/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/io/vcf/utils.wdl" as utils
 
 
 workflow MuseqWorkflow{
@@ -18,12 +18,14 @@ workflow MuseqWorkflow{
         Int numThreads
         String tumour_id
         String normal_id
+        String? singularity_dir
      }
 
     call pysam.generateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            singularity_dir = singularity_dir
     }
 
     call museq.runMuseq as run_museq{
@@ -35,13 +37,15 @@ workflow MuseqWorkflow{
             reference = reference,
             reference_fai = reference_fai,
             cores = numThreads,
-            intervals = gen_int.intervals
+            intervals = gen_int.intervals,
+            singularity_dir = singularity_dir
     }
 
     scatter (museq_vcf_file in run_museq.vcf_files){
         call museq.fixMuseqVcf as fix_museq{
             input:
-                vcf_file = museq_vcf_file
+                vcf_file = museq_vcf_file,
+                singularity_dir = singularity_dir
         }
     }
 
@@ -50,8 +54,8 @@ workflow MuseqWorkflow{
         input:
             vcf_files = fix_museq.output_vcf,
             csi_files = fix_museq.output_csi,
-            tbi_files = fix_museq.output_tbi
-
+            tbi_files = fix_museq.output_tbi,
+            singularity_dir = singularity_dir
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -60,13 +64,15 @@ workflow MuseqWorkflow{
             tumour_bam = tumour_bam,
             input_vcf = merge_vcf.merged_vcf,
             vcf_normal_id = 'NORMAL',
-            vcf_tumour_id = 'TUMOUR'
+            vcf_tumour_id = 'TUMOUR',
+            singularity_dir = singularity_dir,
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
-            filename_prefix = 'museq'
+            filename_prefix = 'museq',
+            singularity_dir = singularity_dir,
     }
 
     output{

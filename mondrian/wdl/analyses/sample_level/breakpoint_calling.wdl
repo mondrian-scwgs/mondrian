@@ -1,12 +1,12 @@
 version 1.0
 
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/breakpoint_calling/destruct.wdl" as destruct
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/breakpoint_calling/lumpy.wdl" as lumpy
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/breakpoint_calling/gridss.wdl" as gridss
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/breakpoint_calling/svaba.wdl" as svaba
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/workflows/breakpoint_calling/consensus.wdl" as consensus
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/breakpoint_calling/destruct.wdl" as destruct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/breakpoint_calling/lumpy.wdl" as lumpy
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/breakpoint_calling/gridss.wdl" as gridss
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/breakpoint_calling/svaba.wdl" as svaba
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/workflows/breakpoint_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 
@@ -20,12 +20,14 @@ workflow SampleBreakpointWorkflow {
         Int num_threads
         String tumour_id
         String normal_id
+        String? singularity_dir
     }
 
     call lumpy.LumpyWorkflow as lumpy{
         input:
             normal_bam = normal_bam,
-            tumour_bam = tumour_bam
+            tumour_bam = tumour_bam,
+            singularity_dir = singularity_dir
     }
 
     call destruct.DestructWorkflow as destruct{
@@ -34,6 +36,7 @@ workflow SampleBreakpointWorkflow {
             tumour_bam = tumour_bam,
             ref = ref,
             num_threads = num_threads,
+            singularity_dir = singularity_dir
     }
 
     call gridss.GridssWorkflow as gridss{
@@ -42,6 +45,7 @@ workflow SampleBreakpointWorkflow {
             tumour_bam = tumour_bam,
             num_threads = num_threads,
             ref = ref,
+            singularity_dir = singularity_dir
     }
     call svaba.SvabaWorkflow as svaba{
         input:
@@ -51,6 +55,7 @@ workflow SampleBreakpointWorkflow {
             tumour_bai = tumour_bai,
             num_threads = num_threads,
             ref = ref,
+            singularity_dir = singularity_dir
     }
 
     call consensus.ConsensusWorkflow as cons{
@@ -61,6 +66,7 @@ workflow SampleBreakpointWorkflow {
             svaba = svaba.output_vcf,
             filename_prefix = tumour_id,
             sample_id = tumour_id,
+            singularity_dir = singularity_dir
     }
     output{
         File consensus = cons.consensus

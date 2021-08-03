@@ -7,7 +7,7 @@ task RunVcf2Maf{
         Directory vep_ref
         String tumour_id
         String normal_id
-        String singularity_dir
+        String? singularity_dir
     }
     command<<<
         if file --mime-type ~{vcf_file} | grep -q gzip$; then
@@ -30,7 +30,7 @@ task RunVcf2Maf{
         memory: "12 GB"
         cpu: 1
         walltime: "48:00"
-        docker: 'quay.io/mondrianscwgs/variant:v0.0.2'
-        singularity: '~{singularity_dir}/variant_v0.0.2.sif'
+        docker: 'quay.io/mondrianscwgs/variant:v0.0.3'
+        singularity: '~{singularity_dir}/variant_v0.0.3.sif'
     }
 }

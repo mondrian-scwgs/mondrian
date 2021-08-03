@@ -1,6 +1,6 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/main/mondrian/wdl/tasks/breakpoint_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/v0.0.3/mondrian/wdl/tasks/breakpoint_calling/consensus.wdl" as consensus
 
 
 workflow ConsensusWorkflow{
@@ -11,6 +11,7 @@ workflow ConsensusWorkflow{
         File gridss
         String filename_prefix
         String sample_id
+        String? singularity_dir
     }
 
     call consensus.consensus as run_consensus{
@@ -20,7 +21,8 @@ workflow ConsensusWorkflow{
             svaba = svaba,
             gridss = gridss,
             filename_prefix = filename_prefix,
-            sample_id = sample_id
+            sample_id = sample_id,
+            singularity_dir = singularity_dir
     }
 
     output{
