@@ -22,6 +22,29 @@ struct Cell{
     Array[Lane] lanes
 }
 
+# for wdl version 1.0
+
+task GetIndex {
+    input {
+        String sampleId
+        Array[String] sampleIds
+    }
+
+    command {
+        python /get_index.py \
+        --sample-id ~{sampleId} \
+        --sample-ids ~{sep=' ' sampleIds}
+    }
+
+    output {
+        Int index = read_int(stdout())
+    }
+
+    runtime {
+        docker: "gcr.io/nygc-internal-tools/workflow_utils:2.0"
+    }
+}
+
 
 workflow AlignmentWorkflow{
     input{
@@ -105,10 +128,20 @@ workflow AlignmentWorkflow{
                 input_bam = merge_sams.output_bam,
                 singularity_dir = singularity_dir
         }
-
-        call picard.CollectWgsMetrics  as wgs_metrics{
+        
+        String cellIds = cellid
+    }
+    
+    scatter (cellinfo in fastq_files) {
+        call GetIndex {
             input:
-                input_bam = markdups.output_bam,
+                sampleIds = cellIds,
+                sampleId = cellinfo.cell_id
+        }
+        
+        call picard.CollectWgsMetrics as wgs_metrics{
+            input:
+                input_bam = markdups.output_bam[GetIndex.index],
                 reference = ref.reference,
                 reference_fai = ref.reference_fa_fai,
                 singularity_dir = singularity_dir
@@ -116,30 +149,31 @@ workflow AlignmentWorkflow{
 
         call picard.CollectInsertSizeMetrics  as insert_metrics{
             input:
-                input_bam = markdups.output_bam,
+                input_bam = markdups.output_bam[GetIndex.index],
                 singularity_dir = singularity_dir
         }
 
         call picard.CollectGcBiasMetrics as gc_metrics{
             input:
-                input_bam=markdups.output_bam,
+                input_bam=markdups.output_bam[GetIndex.index],
                 reference = ref.reference,
                 reference_fai = ref.reference_fa_fai,
                 singularity_dir = singularity_dir
         }
+        
         call samtools.Flagstat as flagstat{
             input:
-                input_bam=markdups.output_bam,
+                input_bam=markdups.output_bam[GetIndex.index],
                 singularity_dir = singularity_dir
         }
 
         call metrics.CollectMetrics as collect_metrics{
             input:
                 wgs_metrics = wgs_metrics.metrics_txt,
-                markdups_metrics = markdups.metrics_txt,
+                markdups_metrics = markdups.metrics_txt[GetIndex.index],
                 insert_metrics = insert_metrics.metrics_txt,
                 flagstat = flagstat.flagstat_txt,
-                cell_id = cellid,
+                cell_id = cellinfo.cell_id,
                 singularity_dir = singularity_dir
         }
     }
