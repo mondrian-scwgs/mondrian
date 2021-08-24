@@ -50,7 +50,8 @@ module load singularity/3.6.2
 Launch the pipeline with the follosing command (replace the file paths):
 
 ```
+wget https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<inseert version>/mondrian/breakpoint_calling.wdl
 java -Dconfig.file=<path to run.config> -jar <path to downloaded cromwell>.jar run \
-https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<inseert version>/mondrian/wdl/analyses/breakpoint_calling.wdl \
--i <path to input.json>  -o <path to options.json>
+breakpoint_calling.wdl \
+-i <path to input.json>  -o <path to options.json> --imports <path to imports zip>
 ```

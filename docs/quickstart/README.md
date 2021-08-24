@@ -26,11 +26,15 @@ https://mondriantestdata.s3.amazonaws.com/mondrian-ref.tar.gz
 2. Download Cromwell
 
 ```
-wget https://github.com/broadinstitute/cromwelvl/releases/download/66/cromwell-66.jar
+wget https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
 ```
 
+3. download imports zip file
+```
+wget https://mondriantestdata.s3.amazonaws.com/imports_v0.0.4.zip
+```
 
-3. Create `options.json` file
+4. Create `options.json` file
 
 ```
 {
@@ -46,7 +50,7 @@ wget https://github.com/broadinstitute/cromwelvl/releases/download/66/cromwell-6
 ```
 
 
-4. Create `run.config` - choose one of the following config options based on your environment:
+5. Create `run.config` - choose one of the following config options based on your environment:
 
 **Option 1: Singularity**
 create the singularity_dir
@@ -55,10 +59,10 @@ create the singularity_dir
 mkdir singularity_dir
 cd singularity_dir
 
-singularity build alignment_v0.0.3.sif docker://quay.io/mondrianscwgs/alignment:v0.0.3
-singularity build hmmcopy_v0.0.3.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.3
-singularity build variant_v0.0.3.sif docker://quay.io/mondrianscwgs/variant:v0.0.3
-singularity build breakpoint_v0.0.3.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.3
+singularity build alignment_v0.0.4.sif docker://quay.io/mondrianscwgs/alignment:v0.0.4
+singularity build hmmcopy_v0.0.4.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.4
+singularity build variant_v0.0.4.sif docker://quay.io/mondrianscwgs/variant:v0.0.4
+singularity build breakpoint_v0.0.4.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.4
 
 cd ../
 ```

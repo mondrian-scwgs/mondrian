@@ -1,0 +1,3 @@
+[submodule "mondrian/imports/mondrian_tasks"]
+	path = mondrian/imports/mondrian_tasks
+	url = git@github.com:mondrian-scwgs/mondrian_tasks.git
