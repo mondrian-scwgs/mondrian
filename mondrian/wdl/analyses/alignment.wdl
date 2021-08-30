@@ -114,12 +114,6 @@ workflow AlignmentWorkflow{
                 singularity_dir = singularity_dir
         }
 
-        call picard.CollectInsertSizeMetrics  as insert_metrics{
-            input:
-                input_bam = markdups.output_bam,
-                singularity_dir = singularity_dir
-        }
-
         call picard.CollectGcBiasMetrics as gc_metrics{
             input:
                 input_bam = markdups.output_bam,
@@ -132,7 +126,14 @@ workflow AlignmentWorkflow{
                 input_bam = markdups.output_bam,
                 singularity_dir = singularity_dir
         }
-
+        
+        call picard.CollectInsertSizeMetrics  as insert_metrics{
+            input:
+                flagstat = flagstat.flagstat_txt,
+                input_bam = markdups.output_bam,
+                singularity_dir = singularity_dir
+        }
+        
         call metrics.CollectMetrics as collect_metrics{
             input:
                 wgs_metrics = wgs_metrics.metrics_txt,
