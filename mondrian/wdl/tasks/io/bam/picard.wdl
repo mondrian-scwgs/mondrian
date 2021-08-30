@@ -98,18 +98,31 @@ task CollectWgsMetrics{
 
 task CollectInsertSizeMetrics{
     input{
+        File flagstat
         File input_bam
         String? singularity_dir
     }
     command<<<
-        picard -Xmx12G -Xms12G CollectInsertSizeMetrics \
-        INPUT=~{input_bam} \
-        OUTPUT=metrics.txt \
-        HISTOGRAM_FILE=histogram.pdf \
-        ASSUME_SORTED=True,
-        VALIDATION_STRINGENCY=LENIENT \
-        MAX_RECORDS_IN_RAM=150000
-        TMP_DIR=tempdir
+        PROPERLY_PAIRED=$(grep "properly paired" ~{flagstat})
+        HAS_NONE="none"
+        [[ "$PROPERLY_PAIRED" =~ ^"0 " ]] && HAS_NONE="yes" || HAS_NONE="no"
+        if [[ "$HAS_NONE" == "yes" ]]
+        then
+            touch histogram.pdf
+            echo "## FAILED: No properly paired reads" > metrics.txt
+        elif [[ "$HAS_NONE" == "no" ]]
+        then
+            picard -Xmx12G -Xms12G CollectInsertSizeMetrics \
+            INPUT=~{input_bam} \
+            OUTPUT=metrics.txt \
+            HISTOGRAM_FILE=histogram.pdf \
+            ASSUME_SORTED=True,
+            VALIDATION_STRINGENCY=LENIENT \
+            MAX_RECORDS_IN_RAM=150000
+            TMP_DIR=tempdir
+        else
+            echo "Unable to determine number of properly paired reads"
+        fi
     >>>
     output{
         File metrics_txt='metrics.txt'
