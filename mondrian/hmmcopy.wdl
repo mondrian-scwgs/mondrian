@@ -100,7 +100,7 @@ workflow HmmcopyWorkflow{
 
     call pdf.MergePdf as merge_segments{
         input:
-            infiles = plotting.segs_pdf,
+            infiles = plotting.segments_pdf,
             filename_prefix = "hmmcopy_segments",
             singularity_dir = singularity_dir
     }
