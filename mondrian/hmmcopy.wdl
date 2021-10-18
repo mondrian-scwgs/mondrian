@@ -54,8 +54,8 @@ workflow HmmcopyWorkflow{
             input:
                 reads = hmmcopy.reads,
                 reads_yaml = hmmcopy.reads_yaml,
-                segs = hmmcopy.segments,
-                segs_yaml = hmmcopy.segments_yaml,
+                segments = hmmcopy.segments,
+                segments_yaml = hmmcopy.segments_yaml,
                 params = hmmcopy.params,
                 params_yaml = hmmcopy.params_yaml,
                 metrics = hmmcopy.metrics,
@@ -81,7 +81,7 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
-    call csverve.concatenate_csv as concat_segs{
+    call csverve.concatenate_csv as concat_segments{
         input:
             inputfile = hmmcopy.segments,
             inputyaml = hmmcopy.segments_yaml,
@@ -98,7 +98,7 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call pdf.MergePdf as merge_segs{
+    call pdf.MergePdf as merge_segments{
         input:
             infiles = plotting.segs_pdf,
             filename_prefix = "hmmcopy_segments",
@@ -149,12 +149,12 @@ workflow HmmcopyWorkflow{
     output{
         File reads = add_mappability.outfile
         File reads_yaml = add_mappability.outfile_yaml
-        File segs = concat_segs.outfile
-        File segs_yaml = concat_segs.outfile_yaml
+        File segments = concat_segments.outfile
+        File segments_yaml = concat_segments.outfile_yaml
         File metrics = add_quality.outfile
         File metrics_yaml = add_quality.outfile_yaml
         File bias_pdf = merge_bias.merged
-        File segs_pdf = merge_segs.merged
+        File segments_pdf = merge_segments.merged
     }
 }
 
