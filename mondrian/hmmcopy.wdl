@@ -50,44 +50,16 @@ workflow HmmcopyWorkflow{
                 singularity_dir = singularity_dir
         }
 
-        call csverve.rewrite_csv as rewrite_reads{
-            input:
-                infile = hmmcopy.reads,
-                dtypes = 'hmmcopy_reads',
-                singularity_dir = singularity_dir
-        }
-
-        call csverve.rewrite_csv as rewrite_segs{
-            input:
-                infile = hmmcopy.segs,
-                dtypes = 'hmmcopy_segs',
-                singularity_dir = singularity_dir
-        }
-
-        call csverve.rewrite_csv as rewrite_params{
-            input:
-                infile = hmmcopy.params,
-                dtypes = 'hmmcopy_params',
-                singularity_dir = singularity_dir
-        }
-
-        call csverve.rewrite_csv as rewrite_metrics{
-            input:
-                infile = hmmcopy.metrics,
-                dtypes = 'hmmcopy_metrics',
-                singularity_dir = singularity_dir
-        }
-
         call utils.PlotHmmcopy as plotting{
             input:
-                reads = rewrite_reads.outfile,
-                reads_yaml = rewrite_reads.outfile_yaml,
-                segs = rewrite_segs.outfile,
-                segs_yaml = rewrite_segs.outfile_yaml,
-                params = rewrite_params.outfile,
-                params_yaml = rewrite_params.outfile_yaml,
-                metrics = rewrite_metrics.outfile,
-                metrics_yaml = rewrite_metrics.outfile_yaml,
+                reads = hmmcopy.reads,
+                reads_yaml = hmmcopy.reads_yaml,
+                segs = hmmcopy.segments,
+                segs_yaml = hmmcopy.segments_yaml,
+                params = hmmcopy.params,
+                params_yaml = hmmcopy.params_yaml,
+                metrics = hmmcopy.metrics,
+                metrics_yaml = hmmcopy.metrics_yaml,
                 reference = ref.reference,
                 reference_fai = ref.reference_fai,
                 singularity_dir = singularity_dir
@@ -95,32 +67,32 @@ workflow HmmcopyWorkflow{
     }
     call csverve.concatenate_csv as concat_metrics{
         input:
-            inputfile = rewrite_metrics.outfile,
-            inputyaml = rewrite_metrics.outfile_yaml,
+            inputfile = hmmcopy.metrics,
+            inputyaml = hmmcopy.metrics_yaml,
             filename_prefix = "hmmcopy_metrics",
             singularity_dir = singularity_dir
     }
 
     call csverve.concatenate_csv as concat_params{
         input:
-            inputfile = rewrite_params.outfile,
-            inputyaml = rewrite_params.outfile_yaml,
+            inputfile = hmmcopy.params,
+            inputyaml = hmmcopy.params_yaml,
             filename_prefix = "hmmcopy_params",
             singularity_dir = singularity_dir
     }
 
     call csverve.concatenate_csv as concat_segs{
         input:
-            inputfile = rewrite_segs.outfile,
-            inputyaml = rewrite_segs.outfile_yaml,
+            inputfile = hmmcopy.segments,
+            inputyaml = hmmcopy.segments_yaml,
             filename_prefix = "hmmcopy_segments",
             singularity_dir = singularity_dir
     }
 
     call csverve.concatenate_csv as concat_reads{
         input:
-            inputfile = rewrite_reads.outfile,
-            inputyaml = rewrite_reads.outfile_yaml,
+            inputfile = hmmcopy.reads,
+            inputyaml = hmmcopy.reads_yaml,
             filename_prefix = "hmmcopy_reads",
             singularity_dir = singularity_dir
     }
@@ -174,20 +146,13 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
-    call csverve.rewrite_csv as rewrite_metrics_quality{
-        input:
-            infile = add_quality.outfile,
-            dtypes = 'hmmcopy_metrics',
-            singularity_dir = singularity_dir
-    }
-
     output{
         File reads = add_mappability.outfile
         File reads_yaml = add_mappability.outfile_yaml
         File segs = concat_segs.outfile
         File segs_yaml = concat_segs.outfile_yaml
-        File metrics = rewrite_metrics_quality.outfile
-        File metrics_yaml = rewrite_metrics_quality.outfile_yaml
+        File metrics = add_quality.outfile
+        File metrics_yaml = add_quality.outfile_yaml
         File bias_pdf = merge_bias.merged
         File segs_pdf = merge_segs.merged
     }
