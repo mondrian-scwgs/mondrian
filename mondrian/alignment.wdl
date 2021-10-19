@@ -5,6 +5,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/bam/picard.wdl" as picard
 import "imports/mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
 import "imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
 import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
 import "imports/workflows/alignment/alignment.wdl" as alignment
 import "imports/types/align_refdata.wdl" as refdata_struct
@@ -103,7 +104,8 @@ workflow AlignmentWorkflow{
         call picard.MarkDuplicates as markdups{
             input:
                 input_bam = merge_sams.output_bam,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                filename_prefix = cellid
         }
 
         call picard.CollectWgsMetrics  as wgs_metrics{
@@ -111,13 +113,15 @@ workflow AlignmentWorkflow{
                 input_bam = markdups.output_bam,
                 reference = ref.reference,
                 reference_fai = ref.reference_fa_fai,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                filename_prefix = cellid
         }
 
         call picard.CollectInsertSizeMetrics  as insert_metrics{
             input:
                 input_bam = markdups.output_bam,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                filename_prefix = cellid
         }
 
         call picard.CollectGcBiasMetrics as gc_metrics{
@@ -125,12 +129,14 @@ workflow AlignmentWorkflow{
                 input_bam = markdups.output_bam,
                 reference = ref.reference,
                 reference_fai = ref.reference_fa_fai,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                filename_prefix = cellid
         }
         call samtools.Flagstat as flagstat{
             input:
                 input_bam = markdups.output_bam,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                filename_prefix = cellid
         }
 
         call metrics.CollectMetrics as collect_metrics{
@@ -149,7 +155,6 @@ workflow AlignmentWorkflow{
                 cell_id = cellid,
                 singularity_dir = singularity_dir
         }
-
     }
 
     call csverve.concatenate_csv as concat_fastqscreen_summary{
@@ -218,6 +223,14 @@ workflow AlignmentWorkflow{
             metrics = annotate_with_fastqscreen.outfile,
             metrics_yaml = annotate_with_fastqscreen.outfile_yaml,
             training_data = ref.fastqscreen_classifier_training_data,
+            singularity_dir = singularity_dir,
+            filename_prefix = 'alignment_metrics'
+    }
+
+
+    call tar.tarFiles as tar{
+        input:
+            inputs = markdups.metrics_txt,
             singularity_dir = singularity_dir,
             filename_prefix = 'alignment_metrics'
     }
