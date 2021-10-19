@@ -185,6 +185,15 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call csverve.concatenate_csv as concat_gc_metrics{
+        input:
+            inputfile = collect_gc_metrics.output_csv,
+            inputyaml = collect_gc_metrics.output_csv_yaml,
+            singularity_dir = singularity_dir,
+            filename_prefix = "alignment_gc_metrics"
+    }
+
+
 
     call csverve.merge_csv as annotate_with_fastqscreen{
         input:
@@ -209,5 +218,7 @@ workflow AlignmentWorkflow{
         File bai = merge_bam_files.outfile_bai
         File metrics = classify.output_csv
         File metrics_yaml = classify.output_yaml
+        File gc_metrics = concat_gc_metrics.outfile
+        File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
     }
 }
