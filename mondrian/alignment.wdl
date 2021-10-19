@@ -244,5 +244,6 @@ workflow AlignmentWorkflow{
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
         File fastqscreen_detailed = concat_fastqscreen_detailed.outfile
         File fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml
+        File tarfile = tar.tar_output
     }
 }
