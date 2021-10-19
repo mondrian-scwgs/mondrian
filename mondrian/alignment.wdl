@@ -159,6 +159,15 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call csverve.concatenate_csv as concat_fastqscreen_detailed{
+        input:
+            inputfile = merge_fq.merged_detailed,
+            inputyaml = merge_fq.merged_detailed_yaml,
+            singularity_dir = singularity_dir,
+            filename_prefix = 'detailed_fastqscreen_breakdown'
+    }
+
+
     call utils.AddContaminationStatus as contaminated{
         input:
             input_csv = concat_fastqscreen_summary.outfile,
@@ -220,5 +229,7 @@ workflow AlignmentWorkflow{
         File metrics_yaml = classify.output_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
+        File fastqscreen_detailed = concat_fastqscreen_detailed.outfile
+        File fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml
     }
 }
