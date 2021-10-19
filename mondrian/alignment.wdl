@@ -166,7 +166,8 @@ workflow AlignmentWorkflow{
             metrics = contaminated.output_csv,
             metrics_yaml = contaminated.output_yaml,
             singularity_dir = singularity_dir,
-            ncores=20
+            ncores=20,
+            filename_prefix = "all_cells_bulk"
     }
 
 
@@ -192,7 +193,8 @@ workflow AlignmentWorkflow{
             metrics = annotate_with_fastqscreen.outfile,
             metrics_yaml = annotate_with_fastqscreen.outfile_yaml,
             training_data = ref.fastqscreen_classifier_training_data,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = 'alignment_metrics'
     }
 
     output{
