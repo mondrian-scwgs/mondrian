@@ -143,6 +143,13 @@ workflow AlignmentWorkflow{
                 singularity_dir = singularity_dir
         }
 
+        call metrics.CollectGcMetrics as collect_gc_metrics{
+            input:
+                infile = gc_metrics.metrics_txt,
+                cell_id = cellid,
+                singularity_dir = singularity_dir
+        }
+
     }
 
     call csverve.concatenate_csv as concat_fastqscreen_summary{
