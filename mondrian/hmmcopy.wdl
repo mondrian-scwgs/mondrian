@@ -116,7 +116,8 @@ workflow HmmcopyWorkflow{
         input:
             infile = concat_reads.outfile,
             infile_yaml = concat_reads.outfile_yaml,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = "hmmcopy_reads"
     }
 
     call utils.cellCycleClassifier as cell_cycle_classifier{
@@ -143,7 +144,8 @@ workflow HmmcopyWorkflow{
             alignment_metrics = alignment_metrics,
             alignment_metrics_yaml = alignment_metrics_yaml,
             classifier_training_data = ref.classifier_training_data,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = "hmmcopy_metrics"
     }
 
     output{
