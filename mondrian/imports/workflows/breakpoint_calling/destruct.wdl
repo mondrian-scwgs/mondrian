@@ -11,6 +11,7 @@ workflow DestructWorkflow{
         BreakpointRefdata ref
         String num_threads
         String? singularity_dir
+        String filename_prefix = 'output'
     }
 
     call destruct.runDestruct as run_destruct{
@@ -29,7 +30,8 @@ workflow DestructWorkflow{
             dgv = ref.dgv,
             repeats_satellite_regions = ref.repeats_satellite_regions,
             num_threads = num_threads,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = filename_prefix
     }
 
     output{

@@ -36,7 +36,8 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             ref = ref,
             num_threads = num_threads,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call gridss.GridssWorkflow as gridss{
@@ -45,7 +46,8 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             num_threads = num_threads,
             ref = ref,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
     call svaba.SvabaWorkflow as svaba{
         input:
@@ -55,7 +57,8 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bai = tumour_bai,
             num_threads = num_threads,
             ref = ref,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call consensus.ConsensusWorkflow as cons{
@@ -72,7 +75,10 @@ workflow SampleLevelBreakpointWorkflow {
         File consensus = cons.consensus
         File consensus_yaml = cons.consensus_yaml
         File destruct_outfile = destruct.breakpoint_table
+        File destruct_library_outfile = destruct.library_table
+        File destruct_read_outfile = destruct.read_table
         File gridss_outfile = gridss.output_vcf
         File svaba_outfile = svaba.output_vcf
+        File lumpy_outfile = lumpy.output_vcf
     }
 }
