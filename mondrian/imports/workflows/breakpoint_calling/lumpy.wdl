@@ -10,7 +10,7 @@ workflow LumpyWorkflow {
         File normal_bam
         File tumour_bam
         String? singularity_dir
-        String filename_prefix
+        String filename_prefix = "output"
     }
 
     call samtools.viewBam as normal_discordant_bam {

@@ -13,6 +13,7 @@ workflow SvabaWorkflow{
         Int num_threads
         BreakpointRefdata ref
         String?  singularity_dir
+        String filename_prefix = "output"
     }
 
 
@@ -30,7 +31,8 @@ workflow SvabaWorkflow{
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = filename_prefix
     }
     output{
         File output_vcf = run_svaba.output_vcf
