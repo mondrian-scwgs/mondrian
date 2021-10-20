@@ -10,6 +10,7 @@ workflow LumpyWorkflow {
         File normal_bam
         File tumour_bam
         String? singularity_dir
+        String filename_prefix
     }
 
     call samtools.viewBam as normal_discordant_bam {
@@ -78,7 +79,8 @@ workflow LumpyWorkflow {
             tumourDiscBam = sort_tumour_discordant_bam.sortedBam,
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = filename_prefix
     }
     output{
         File lumpy_vcf = lumpyexpress.lumpy_vcf

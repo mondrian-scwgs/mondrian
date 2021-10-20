@@ -27,7 +27,8 @@ workflow SampleLevelBreakpointWorkflow {
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call destruct.DestructWorkflow as destruct{
@@ -79,6 +80,6 @@ workflow SampleLevelBreakpointWorkflow {
         File destruct_read_outfile = destruct.read_table
         File gridss_outfile = gridss.output_vcf
         File svaba_outfile = svaba.output_vcf
-        File lumpy_outfile = lumpy.output_vcf
+        File lumpy_outfile = lumpy.lumpy_vcf
     }
 }
