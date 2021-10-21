@@ -77,6 +77,6 @@ workflow BreakpointWorkflow{
         Array[File] lumpy_vcf = breakpoint_wf.lumpy_outfile
         Array[File] gridss_vcf = breakpoint_wf.gridss_outfile
         Array[File] svaba_vcf = breakpoint_wf.svaba_outfile
-    }
 
+    }
 }

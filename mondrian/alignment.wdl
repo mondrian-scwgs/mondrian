@@ -230,7 +230,7 @@ workflow AlignmentWorkflow{
 
     call tar.tarFiles as tar{
         input:
-            inputs = markdups.metrics_txt,
+            inputs = flatten([markdups.metrics_txt, gc_metrics.metrics_txt, gc_metrics.chart_pdf, wgs_metrics.metrics_txt, insert_metrics.metrics_txt, insert_metrics.histogram_pdf, flagstat.flagstat_txt]),
             singularity_dir = singularity_dir,
             filename_prefix = 'alignment_metrics'
     }
