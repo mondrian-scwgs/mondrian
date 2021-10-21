@@ -44,7 +44,8 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             tumour_id = tumour_id,
             normal_id = normal_id,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call strelka.StrelkaWorkflow as strelka{
@@ -111,6 +112,9 @@ workflow SampleLevelVariantWorkflow {
         File vcf_csi_output = finalize_vcf.vcf_csi
         File vcf_tbi_output = finalize_vcf.vcf_tbi
         File maf_output = vcf2maf.output_maf
+        File museq_vcf = museq.vcffile
+        File museq_vcf_csi = museq.vcffile_csi
+        File museq_vcf_tbi = museq.vcffile_tbi
     }
 
 }

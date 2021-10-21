@@ -19,6 +19,7 @@ workflow MuseqWorkflow{
         String tumour_id
         String normal_id
         String? singularity_dir
+        String filename_prefix = 'output'
      }
 
     call pysam.generateIntervals as gen_int{
@@ -71,7 +72,7 @@ workflow MuseqWorkflow{
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
-            filename_prefix = 'museq',
+            filename_prefix = filename_prefix + '_museq',
             singularity_dir = singularity_dir,
     }
 

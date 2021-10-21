@@ -79,5 +79,8 @@ workflow VariantWorkflow{
         Array[File] sample_vcf_csi = variant_workflow.vcf_csi_output
         Array[File] sample_vcf_tbi = variant_workflow.vcf_tbi_output
         Array[File] sample_maf = variant_workflow.maf_output
+        Array[File] sample_museq_vcf = variant_workflow.museq_vcf
+        Array[File] sample_museq_vcf_csi = variant_workflow.museq_vcf_csi
+        Array[File] sample_museq_vcf_tbi = variant_workflow.museq_vcf_tbi
     }
 }
