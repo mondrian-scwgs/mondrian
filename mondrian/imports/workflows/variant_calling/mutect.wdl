@@ -18,7 +18,7 @@ workflow MutectWorkflow{
         Array[String] chromosomes
         Int numThreads
         String? singularity_dir
-        String filename_prefix = ""s
+        String filename_prefix = ""
      }
 
     call pysam.generateIntervals as gen_int{
