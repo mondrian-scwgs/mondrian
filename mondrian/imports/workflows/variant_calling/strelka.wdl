@@ -17,6 +17,7 @@ workflow StrelkaWorkflow{
         Array[String] chromosomes
         Int numThreads
         String? singularity_dir
+        String filename_prefix = ""
      }
 
     call pysam.generateIntervals as gen_int{
@@ -104,7 +105,7 @@ workflow StrelkaWorkflow{
     call bcftools.finalizeVcf as finalize_vcf_indel{
         input:
             vcf_file = reheader_indel.output_file,
-            filename_prefix = 'strelka_indel',
+            filename_prefix = filename_prefix + '_strelka_indel',
             singularity_dir = singularity_dir
     }
 
@@ -148,7 +149,7 @@ workflow StrelkaWorkflow{
     call bcftools.finalizeVcf as finalize_vcf_snv{
         input:
             vcf_file = reheader_snv.output_file,
-            filename_prefix = 'strelka_snv',
+            filename_prefix = filename_prefix + '_strelka_snv',
             singularity_dir = singularity_dir
     }
 

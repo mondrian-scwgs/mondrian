@@ -58,7 +58,8 @@ workflow SampleLevelVariantWorkflow {
             reference_fai = reference_fai,
             numThreads = numThreads,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call mutect.MutectWorkflow as mutect{
@@ -115,6 +116,12 @@ workflow SampleLevelVariantWorkflow {
         File museq_vcf = museq.vcffile
         File museq_vcf_csi = museq.vcffile_csi
         File museq_vcf_tbi = museq.vcffile_tbi
+        File strelka_snv_vcf = strelka.indel_vcffile
+        File strelka_snv_vcf_csi = strelka.indel_vcffile_csi
+        File strelka_snv_vcf_tbi = strelka.indel_vcffile_tbi
+        File strelka_indel_vcf = strelka.indel_vcffile
+        File strelka_indel_vcf_csi = strelka.indel_vcffile_csi
+        File strelka_indel_vcf_tbi = strelka.indel_vcffile_tbi
     }
 
 }
