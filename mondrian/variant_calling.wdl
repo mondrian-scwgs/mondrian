@@ -72,10 +72,12 @@ workflow VariantWorkflow{
     }
     output{
         File finalmaf = merge_mafs.output_maf
-        File finalvcf = merge_vcf.output_vcf
+        File finalvcf = merge_vcf.merged_vcf
+        File finalvcf_csi = merge_vcf.merged_vcf_csi
+        File finalvcf_tbi = merge_vcf.merged_vcf_tbi
         Array[File] sample_vcf = variant_workflow.vcf_output
         Array[File] sample_vcf_csi = variant_workflow.vcf_csi_output
         Array[File] sample_vcf_tbi = variant_workflow.vcf_tbi_output
-        Array[File] sample_maf = variant_workflow.output_maf
+        Array[File] sample_maf = variant_workflow.maf_output
     }
 }
