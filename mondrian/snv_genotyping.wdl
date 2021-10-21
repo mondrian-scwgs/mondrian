@@ -39,7 +39,14 @@ workflow SnvGenotypingWorkflow{
             vcf_file_idx = vcf_file_idx,
             intervals = gen_int.intervals,
             num_threads = num_threads,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = "snv_genotyping"
+    }
+
+    output{
+        File output_csv = genotyping.output_csv
+        File output_csv_yaml = genotyping.output_csv_yanl
+
     }
 
 }
