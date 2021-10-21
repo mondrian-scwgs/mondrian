@@ -105,7 +105,7 @@ workflow SampleLevelVariantWorkflow {
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
-            filename_prefix = tumour_id,
+            filename_prefix = tumour_id + "_consensus",
             singularity_dir = singularity_dir
     }
 
@@ -117,9 +117,9 @@ workflow SampleLevelVariantWorkflow {
         File museq_vcf = museq.vcffile
         File museq_vcf_csi = museq.vcffile_csi
         File museq_vcf_tbi = museq.vcffile_tbi
-        File strelka_snv_vcf = strelka.indel_vcffile
-        File strelka_snv_vcf_csi = strelka.indel_vcffile_csi
-        File strelka_snv_vcf_tbi = strelka.indel_vcffile_tbi
+        File strelka_snv_vcf = strelka.snv_vcffile
+        File strelka_snv_vcf_csi = strelka.snv_vcffile_csi
+        File strelka_snv_vcf_tbi = strelka.snv_vcffile_tbi
         File strelka_indel_vcf = strelka.indel_vcffile
         File strelka_indel_vcf_csi = strelka.indel_vcffile_csi
         File strelka_indel_vcf_tbi = strelka.indel_vcffile_tbi
