@@ -71,9 +71,12 @@ workflow BreakpointWorkflow{
     output{
         File consensus = concat_csv.outfile
         File consensus_yaml = concat_csv.outfile_yaml
-        File destruct_outfile = breakpoint_wf.destruct_outfile
-        File destruct_reads = breakpoint_wf.destruct_read_outfile
-        File destruct_library = breakpoint_wf.destruct_library_outfile
-        File lumpy_vcf = breakpoint_wf.lumpy_outfile    }
+        Array[File] destruct_outfile = breakpoint_wf.destruct_outfile
+        Array[File] destruct_reads = breakpoint_wf.destruct_read_outfile
+        Array[File] destruct_library = breakpoint_wf.destruct_library_outfile
+        Array[File] lumpy_vcf = breakpoint_wf.lumpy_outfile
+        Array[File] gridss_vcf = breakpoint_wf.gridss_outfile
+        Array[File] svaba_vcf = breakpoint_wf.svaba_outfile
+    }
 
 }

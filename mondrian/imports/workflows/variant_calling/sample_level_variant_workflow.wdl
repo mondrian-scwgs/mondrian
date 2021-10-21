@@ -96,7 +96,7 @@ workflow SampleLevelVariantWorkflow {
             tumour_id = tumour_id,
             vep_ref = vep_ref,
             filename_prefix = tumour_id,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
     }
 
     call bcftools.finalizeVcf as finalize_vcf{

@@ -61,11 +61,21 @@ workflow VariantWorkflow{
             vcf_files = variant_workflow.vcf_output,
             csi_files = variant_workflow.vcf_csi_output,
             tbi_files = variant_workflow.vcf_tbi_output,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = 'final_vcf_all_samples'
     }
     call vcf2maf.MergeMafs as merge_mafs{
         input:
             input_mafs = variant_workflow.maf_output,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = 'final_maf_all_samples'
+    }
+    output{
+        File finalmaf = merge_mafs.output_maf
+        File finalvcf = merge_vcf.output_vcf
+        Array[File] sample_vcf = variant_workflow.vcf_output
+        Array[File] sample_vcf_csi = variant_workflow.vcf_csi_output
+        Array[File] sample_vcf_tbi = variant_workflow.vcf_tbi_output
+        Array[File] sample_maf = variant_workflow.output_maf
     }
 }
