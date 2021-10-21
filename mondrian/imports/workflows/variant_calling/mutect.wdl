@@ -18,6 +18,7 @@ workflow MutectWorkflow{
         Array[String] chromosomes
         Int numThreads
         String? singularity_dir
+        String filename_prefix = ""s
      }
 
     call pysam.generateIntervals as gen_int{
@@ -78,7 +79,7 @@ workflow MutectWorkflow{
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
-            filename_prefix = 'mutect',
+            filename_prefix = filename_prefix + '_mutect',
             singularity_dir = singularity_dir
     }
 

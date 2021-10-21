@@ -82,5 +82,14 @@ workflow VariantWorkflow{
         Array[File] sample_museq_vcf = variant_workflow.museq_vcf
         Array[File] sample_museq_vcf_csi = variant_workflow.museq_vcf_csi
         Array[File] sample_museq_vcf_tbi = variant_workflow.museq_vcf_tbi
+        Array[File] sample_strelka_snv_vcf = variant_workflow.strelka_snv_vcf
+        Array[File] sample_strelka_snv_vcf_csi = variant_workflow.strelka_snv_vcf_csi
+        Array[File] sample_strelka_snv_vcf_tbi = variant_workflow.strelka_snv_vcf_tbi
+        Array[File] sample_strelka_indel_vcf = variant_workflow.strelka_indel_vcf
+        Array[File] sample_strelka_indel_vcf_csi = variant_workflow.strelka_indel_vcf_csi
+        Array[File] sample_strelka_indel_vcf_tbi = variant_workflow.strelka_indel_vcf_tbi
+        Array[File] sample_mutect_vcf = variant_workflow.mutect_vcf
+        Array[File] sample_mutect_vcf_csi = variant_workflow.mutect_vcf_csi
+        Array[File] sample_mutect_vcf_tbi = variant_workflow.mutect_vcf_tbi
     }
 }

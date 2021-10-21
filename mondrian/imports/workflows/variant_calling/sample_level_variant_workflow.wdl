@@ -73,7 +73,8 @@ workflow SampleLevelVariantWorkflow {
             reference_dict = reference_dict,
             numThreads = numThreads,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_dir = singularity_dir,
+            filename_prefix = tumour_id
     }
 
     call consensus.ConsensusWorkflow as consensus{
@@ -122,6 +123,8 @@ workflow SampleLevelVariantWorkflow {
         File strelka_indel_vcf = strelka.indel_vcffile
         File strelka_indel_vcf_csi = strelka.indel_vcffile_csi
         File strelka_indel_vcf_tbi = strelka.indel_vcffile_tbi
+        File mutect_vcf = mutect.vcffile
+        File mutect_vcf_csi = mutect.vcffile_csi
+        File mutect_vcf_tbi = mutect.vcffile_tbi
     }
-
 }
