@@ -45,8 +45,7 @@ workflow SnvGenotypingWorkflow{
 
     output{
         File output_csv = genotyping.output_csv
-        File output_csv_yaml = genotyping.output_csv_yanl
-
+        File output_csv_yaml = genotyping.output_yaml
     }
 
 }
