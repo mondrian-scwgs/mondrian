@@ -98,20 +98,6 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call pdf.MergePdf as merge_segments{
-        input:
-            infiles = plotting.segments_pdf,
-            filename_prefix = "hmmcopy_segments",
-            singularity_dir = singularity_dir
-    }
-
-    call pdf.MergePdf as merge_bias{
-        input:
-            infiles = plotting.bias_pdf,
-            filename_prefix = "hmmcopy_bias",
-            singularity_dir = singularity_dir
-    }
-
     call utils.addMappability as add_mappability{
         input:
             infile = concat_reads.outfile,
@@ -148,6 +134,15 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_metrics"
     }
 
+    call utils.CreateSegmentsTar as merge_segments{
+        input:
+            hmmcopy_metrics = add_quality.outfile,
+            hmmcopy_metrics_yaml = add_quality.outfile_yaml,
+            segments_plot = plotting.segments_pdf,
+            filename_prefix = "hmmcopy_segments",
+            singularity_dir = singularity_dir
+    }
+
     output{
         File reads = add_mappability.outfile
         File reads_yaml = add_mappability.outfile_yaml
@@ -155,8 +150,8 @@ workflow HmmcopyWorkflow{
         File segments_yaml = concat_segments.outfile_yaml
         File metrics = add_quality.outfile
         File metrics_yaml = add_quality.outfile_yaml
-        File bias_pdf = merge_bias.merged
-        File segments_pdf = merge_segments.merged
+        File segments_pass = merge_segments.segments_pass
+        File segments_fail = merge_segments.segments_fail
     }
 }
 
