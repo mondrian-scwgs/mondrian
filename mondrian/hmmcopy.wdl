@@ -63,6 +63,7 @@ workflow HmmcopyWorkflow{
                 reference = ref.reference,
                 reference_fai = ref.reference_fai,
                 singularity_dir = singularity_dir
+
         }
     }
     call csverve.concatenate_csv as concat_metrics{
@@ -72,6 +73,16 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_metrics",
             singularity_dir = singularity_dir
     }
+
+    call csverve.merge_csv as merge_alignment_metrics{
+        input:
+            inputfiles = [concat_metrics.outfile, alignment_metrics],
+            inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
+            on = "cell_id",
+            how="outer",
+            singularity_dir = singularity_dir
+    }
+
 
     call csverve.concatenate_csv as concat_params{
         input:
@@ -109,15 +120,15 @@ workflow HmmcopyWorkflow{
     call utils.cellCycleClassifier as cell_cycle_classifier{
         input:
             hmmcopy_reads = add_mappability.outfile,
-            hmmcopy_metrics = concat_metrics.outfile,
+            hmmcopy_metrics = merge_alignment_metrics.outfile,
             alignment_metrics = alignment_metrics,
             singularity_dir = singularity_dir
     }
 
     call csverve.merge_csv as merge_cell_cycle{
         input:
-            inputfiles = [concat_metrics.outfile, cell_cycle_classifier.outfile],
-            inputyamls = [concat_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
+            inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
+            inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
             on = 'cell_id',
             how = 'outer',
             singularity_dir = singularity_dir
@@ -134,11 +145,12 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_metrics"
     }
 
-    call utils.CreateSegmentsTar as merge_segments{
+    call utils.createSegmentsTar as merge_segments{
         input:
             hmmcopy_metrics = add_quality.outfile,
             hmmcopy_metrics_yaml = add_quality.outfile_yaml,
             segments_plot = plotting.segments_pdf,
+            segments_plot_sample = plotting.segments_sample,
             filename_prefix = "hmmcopy_segments",
             singularity_dir = singularity_dir
     }
