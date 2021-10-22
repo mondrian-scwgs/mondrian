@@ -155,6 +155,16 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call utils.plotHeatmap as heatmap{
+        input:
+            metrics = add_quality.outfile,
+            metrics_yaml = add_quality.outfile_yaml,
+            reads = add_mappability.outfile,
+            reads_yaml = add_mappability.outfile_yaml,
+            filename_prefix = "hmmcopy_heatmap",
+            singularity_dir = singularity_dir
+    }
+
     output{
         File reads = add_mappability.outfile
         File reads_yaml = add_mappability.outfile_yaml
@@ -164,6 +174,7 @@ workflow HmmcopyWorkflow{
         File metrics_yaml = add_quality.outfile_yaml
         File segments_pass = merge_segments.segments_pass
         File segments_fail = merge_segments.segments_fail
+        File heatmap_pdf = heatmap.heatmap_pdf
     }
 }
 
