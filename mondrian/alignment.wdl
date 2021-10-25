@@ -276,8 +276,12 @@ workflow AlignmentWorkflow{
     }
 
     output{
-        File bam = merge_bam_files.outfile
-        File bai = merge_bam_files.outfile_bai
+        File bam = merge_bam_files.pass_outfile
+        File bai = merge_bam_files.pass_outfile_bai
+        File contaminated_bam = merge_bam_files.contaminated_outfile
+        File contaminated_bai = merge_bam_files.contaminated_outfile_bai
+        File control_bam = merge_bam_files.control_outfile
+        File control_bai = merge_bam_files.control_outfile_bai
         File metrics = classify.output_csv
         File metrics_yaml = classify.output_yaml
         File gc_metrics = concat_gc_metrics.outfile
