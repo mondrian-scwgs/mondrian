@@ -20,6 +20,20 @@ struct Lane{
 
 struct Cell{
     String cell_id
+    Int column
+    String condition
+    Int img_col
+    String index_i5
+    String index_i7
+    String index_sequence
+    String library_id
+    String pick_met
+    String primer_i5
+    String primer_i7
+    Int row
+    String sample_id
+    String sample_type
+    Boolean is_control
     Array[Lane] lanes
 }
 
@@ -28,8 +42,6 @@ workflow AlignmentWorkflow{
     input{
         Array[Cell] fastq_files
         String ref_dir
-        String sample_id
-        String library_id
         String center
         String? singularity_dir = ""
     }
@@ -66,8 +78,22 @@ workflow AlignmentWorkflow{
     }
 
     scatter(cellinfo in fastq_files){
-         String cellid = cellinfo.cell_id
-         Array[Lane] cell_lanes = cellinfo.lanes
+        String cellid = cellinfo.cell_id
+        Int column = cellinfo.column
+        String condition = cellinfo.condition
+        Int img_col = cellinfo.img_col
+        String index_i5 = cellinfo.index_i5
+        String index_i7 = cellinfo.index_i7
+        String index_sequence = cellinfo.index_sequence
+        String library_id = cellinfo.library_id
+        String pick_met = cellinfo.pick_met
+        String primer_i5 = cellinfo.primer_i5
+        String primer_i7 = cellinfo.primer_i7
+        Int row = cellinfo.row
+        String sample_id = cellinfo.sample_id
+        String sample_type = cellinfo.sample_type
+        Boolean is_control = cellinfo.is_control
+        Array[Lane] cell_lanes = cellinfo.lanes
 
         scatter (cell_lane in cell_lanes){
             String lane_id = cell_lane.lane_id
@@ -146,7 +172,21 @@ workflow AlignmentWorkflow{
                 insert_metrics = insert_metrics.metrics_txt,
                 flagstat = flagstat.flagstat_txt,
                 cell_id = cellid,
-                singularity_dir = singularity_dir
+                singularity_dir = singularity_dir,
+                column=column,
+                condition=condition,
+                img_col=img_col,
+                index_i5 = index_i5,
+                index_i7=index_i7,
+                index_sequence = index_sequence,
+                library_id = library_id,
+                pick_met=pick_met,
+                primer_i5 = primer_i5,
+                primer_i7 = primer_i7,
+                row = row,
+                sample_id = sample_id,
+                sample_type = sample_type,
+                is_control = is_control
         }
 
         call metrics.CollectGcMetrics as collect_gc_metrics{
