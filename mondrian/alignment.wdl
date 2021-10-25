@@ -220,17 +220,6 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir
     }
 
-    call utils.bamMerge as merge_bam_files{
-        input:
-            input_bams = markdups.output_bam,
-            cell_ids = cellid,
-            metrics = contaminated.output_csv,
-            metrics_yaml = contaminated.output_yaml,
-            singularity_dir = singularity_dir,
-            ncores=20,
-            filename_prefix = "all_cells_bulk"
-    }
-
 
     call csverve.concatenate_csv as concat_metrics{
         input:
@@ -266,6 +255,18 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir,
             filename_prefix = 'alignment_metrics'
     }
+
+    call utils.bamMerge as merge_bam_files{
+        input:
+            input_bams = markdups.output_bam,
+            cell_ids = cellid,
+            metrics = classify.output_csv,
+            metrics_yaml = classify.output_yaml,
+            singularity_dir = singularity_dir,
+            ncores=20,
+            filename_prefix = "all_cells_bulk"
+    }
+
 
 
     call tar.tarFiles as tar{
