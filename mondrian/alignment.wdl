@@ -189,6 +189,15 @@ workflow AlignmentWorkflow{
                 is_control = is_control
         }
 
+        call metrics.AnnotateCoverageMetrics as coverage_metrics{
+            input:
+                metrics = collect_metrics.output_csv,
+                metrics_yaml = collect_metrics.output_csv_yaml,
+                bamfile = markdups.output_bam,
+                bamfile_bai = markdups.output_bai,
+        }
+
+
         call metrics.CollectGcMetrics as collect_gc_metrics{
             input:
                 infile = gc_metrics.metrics_txt,
@@ -223,8 +232,8 @@ workflow AlignmentWorkflow{
 
     call csverve.concatenate_csv as concat_metrics{
         input:
-            inputfile = collect_metrics.output_csv,
-            inputyaml = collect_metrics.output_csv_yaml,
+            inputfile = coverage_metrics.output_csv,
+            inputyaml = coverage_metrics.output_csv_yaml,
             singularity_dir = singularity_dir
     }
 
@@ -255,6 +264,8 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir,
             filename_prefix = 'alignment_metrics'
     }
+
+
 
     call utils.bamMerge as merge_bam_files{
         input:

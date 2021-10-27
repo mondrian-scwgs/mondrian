@@ -10,6 +10,10 @@ workflow HmmcopyWorkflow{
     input{
         File bam
         File bai
+        File contaminated_bam
+        File contaminated_bai
+        File control_bam
+        File control_bai
         File alignment_metrics
         File alignment_metrics_yaml
         String ref_dir
@@ -33,7 +37,23 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
-    scatter(wigfile in readcounter.wigs){
+    call utils.RunReadCounter as readcounter_contaminated{
+        input:
+            bamfile = contaminated_bam,
+            baifile = contaminated_bai,
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
+    }
+
+    call utils.RunReadCounter as readcounter_control{
+        input:
+            bamfile = control_bam,
+            baifile = control_bai,
+            chromosomes = chromosomes,
+            singularity_dir = singularity_dir
+    }
+
+    scatter(wigfile in flatten([readcounter.wigs, readcounter_contaminated.wigs, readcounter_control.wigs])){
 
         call utils.CorrectReadCount as correction{
             input:
@@ -177,4 +197,3 @@ workflow HmmcopyWorkflow{
         File heatmap_pdf = heatmap.heatmap_pdf
     }
 }
-
