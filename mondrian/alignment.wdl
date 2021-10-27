@@ -195,6 +195,7 @@ workflow AlignmentWorkflow{
                 metrics_yaml = collect_metrics.output_csv_yaml,
                 bamfile = markdups.output_bam,
                 bamfile_bai = markdups.output_bai,
+                singularity_dir = singularity_dir
         }
 
 
