@@ -15,8 +15,8 @@ RUN apt-get --allow-releaseinfo-change update && apt install autoconf make gcc z
 
 RUN conda install --file /app/conda_base_requirements.yml
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrianutils.git@v0.0.4
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@refactor
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.5
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
 RUN pip install pyvcf intervaltree pysam
 
 RUN pip install -e git+https://github.com/amcpherson/blossomv.git#egg=blossomv
