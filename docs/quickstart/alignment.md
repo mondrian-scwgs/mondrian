@@ -22,8 +22,8 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"AlignmentWorkflow.singularity_dir": "/juno/work/shah/users/grewald/tickets/mondrian-github/MON-42/mondrian/singularity_dir",
-"AlignmentWorkflow.ref_dir": "/juno/work/shah/users/grewald/tickets/mondrian-github/MON-42/mondrian/mondrian-ref-20-22",
+"AlignmentWorkflow.singularity_dir": "<insert path to singularity dir>",
+"AlignmentWorkflow.ref_dir": "<insert path to reference dir>",
 "AlignmentWorkflow.center": "BCCRC",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
