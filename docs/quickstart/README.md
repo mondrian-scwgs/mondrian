@@ -118,24 +118,28 @@ call-caching {
 }
 
 backend {
-    default: singularity
-    providers: {
-        singularity {
+    providers {
+        singularity_local {
             # The backend custom configuration.
             actor-factory = "cromwell.backend.impl.sfs.config.ConfigBackendLifecycleActorFactory"
 
             config {
-                run-in-background = true
                 runtime-attributes = """
-                  String? docker
+                  String docker
+                  String singularity
                 """
+                run-in-background = true
                 submit-docker = """
-                  singularity exec --containall --bind ${cwd}:${docker_cwd} docker://${docker} ${job_shell} ${docker_script}
+                  singularity exec --containall --bind ${cwd}:${docker_cwd} ${singularity} ${job_shell} ${docker_script}
+                """
+                submit = """
+                  /usr/bin/env bash ${script}
                 """
             }
         }
     }
 }
+backend.default = singularity_local
 ```
 
 **Option 3: Docker**
