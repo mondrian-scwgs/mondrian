@@ -31,7 +31,7 @@ wget https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66
 
 3. download imports zip file
 ```
-wget https://mondriantestdata.s3.amazonaws.com/imports_v0.0.5.zip
+wget https://mondriantestdata.s3.amazonaws.com/imports_v0.0.6.zip
 ```
 
 4. Create `options.json` file
@@ -59,10 +59,10 @@ create the singularity_dir
 mkdir singularity_dir
 cd singularity_dir
 
-singularity build alignment_v0.0.5.sif docker://quay.io/mondrianscwgs/alignment:v0.0.5
-singularity build hmmcopy_v0.0.5.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.5
-singularity build variant_v0.0.5.sif docker://quay.io/mondrianscwgs/variant:v0.0.5
-singularity build breakpoint_v0.0.5.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.5
+singularity build alignment_v0.0.6.sif docker://quay.io/mondrianscwgs/alignment:v0.0.6
+singularity build hmmcopy_v0.0.6.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.6
+singularity build variant_v0.0.6.sif docker://quay.io/mondrianscwgs/variant:v0.0.6
+singularity build breakpoint_v0.0.6.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.6
 
 cd ../
 ```
