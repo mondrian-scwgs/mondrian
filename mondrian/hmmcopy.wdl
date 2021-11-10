@@ -16,6 +16,9 @@ workflow HmmcopyWorkflow{
         File control_bai
         File alignment_metrics
         File alignment_metrics_yaml
+        File gc_metrics
+        File gc_metrics_yaml
+        File reference_gc
         String ref_dir
         Array[String] chromosomes
         String? singularity_dir = ""
@@ -185,11 +188,25 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call utils.generateHtmlReport as html_report{
+        input:
+            metrics = add_quality.outfile,
+            metrics_yaml = add_quality.outfile_yaml,
+            gc_metrics = gc_metrics,
+            gc_metrics_yaml = gc_metrics_yaml,
+            reference_gc = reference_gc,
+            filename_prefix = "qc_html",
+            singularity_dir = singularity_dir
+    }
+
+
     output{
         File reads = add_mappability.outfile
         File reads_yaml = add_mappability.outfile_yaml
         File segments = concat_segments.outfile
         File segments_yaml = concat_segments.outfile_yaml
+        File params = concat_params.outfile
+        File params_yaml = concat_params.outfile_yaml
         File metrics = add_quality.outfile
         File metrics_yaml = add_quality.outfile_yaml
         File segments_pass = merge_segments.segments_pass
