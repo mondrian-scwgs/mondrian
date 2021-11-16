@@ -1,3 +1,4 @@
+#{"meta": {"name":"snv_genotyping", "version":"v0.0.7"}}
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve

@@ -1,5 +1,5 @@
 
-*Prerequisite: [quickstart](README.md)*
+*srerequisite: [quickstart](README.md)*
 
 
 1. create a directory 

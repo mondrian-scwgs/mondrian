@@ -1,3 +1,4 @@
+#{"meta": {"name":"hmmcopy", "version":"v0.0.7"}}
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
@@ -157,10 +158,19 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call utils.addClusteringOrder as add_order{
+        input:
+            metrics = merge_cell_cycle.outfile,
+            metrics_yaml = merge_cell_cycle.outfile_yaml,
+            reads = add_mappability.outfile,
+            reads_yaml = add_mappability.outfile_yaml,
+            singularity_dir = singularity_dir,
+    }
+
     call utils.addQuality as add_quality{
         input:
-            hmmcopy_metrics = merge_cell_cycle.outfile,
-            hmmcopy_metrics_yaml = merge_cell_cycle.outfile_yaml,
+            hmmcopy_metrics = add_order.output_csv,
+            hmmcopy_metrics_yaml = add_order.output_yaml,
             alignment_metrics = alignment_metrics,
             alignment_metrics_yaml = alignment_metrics_yaml,
             classifier_training_data = ref.classifier_training_data,

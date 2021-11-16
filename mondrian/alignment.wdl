@@ -1,3 +1,4 @@
+#{"meta": {"name":"alignment", "version":"v0.0.7"}}
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/alignment/fastq_screen.wdl" as fastq_screen
@@ -20,20 +21,8 @@ struct Lane{
 
 struct Cell{
     String cell_id
-    Int column
-    String condition
-    Int img_col
-    String index_i5
-    String index_i7
-    String index_sequence
     String library_id
-    String pick_met
-    String primer_i5
-    String primer_i7
-    Int row
     String sample_id
-    String sample_type
-    Boolean is_control
     Array[Lane] lanes
 }
 
@@ -42,6 +31,7 @@ workflow AlignmentWorkflow{
     input{
         Array[Cell] fastq_files
         String ref_dir
+        File metadata_yaml
         String center
         String? singularity_dir = ""
     }
@@ -79,20 +69,8 @@ workflow AlignmentWorkflow{
 
     scatter(cellinfo in fastq_files){
         String cellid = cellinfo.cell_id
-        Int column = cellinfo.column
-        String condition = cellinfo.condition
-        Int img_col = cellinfo.img_col
-        String index_i5 = cellinfo.index_i5
-        String index_i7 = cellinfo.index_i7
-        String index_sequence = cellinfo.index_sequence
         String library_id = cellinfo.library_id
-        String pick_met = cellinfo.pick_met
-        String primer_i5 = cellinfo.primer_i5
-        String primer_i7 = cellinfo.primer_i7
-        Int row = cellinfo.row
         String sample_id = cellinfo.sample_id
-        String sample_type = cellinfo.sample_type
-        Boolean is_control = cellinfo.is_control
         Array[Lane] cell_lanes = cellinfo.lanes
 
         scatter (cell_lane in cell_lanes){
@@ -165,6 +143,13 @@ workflow AlignmentWorkflow{
                 filename_prefix = cellid
         }
 
+        call metrics.CoverageMetrics as coverage_metrics{
+            input:
+                bamfile = markdups.output_bam,
+                bamfile_bai = markdups.output_bai,
+                singularity_dir = singularity_dir
+        }
+
         call metrics.CollectMetrics as collect_metrics{
             input:
                 wgs_metrics = wgs_metrics.metrics_txt,
@@ -172,32 +157,10 @@ workflow AlignmentWorkflow{
                 insert_metrics = insert_metrics.metrics_txt,
                 flagstat = flagstat.flagstat_txt,
                 cell_id = cellid,
-                singularity_dir = singularity_dir,
-                column=column,
-                condition=condition,
-                img_col=img_col,
-                index_i5 = index_i5,
-                index_i7=index_i7,
-                index_sequence = index_sequence,
-                library_id = library_id,
-                pick_met=pick_met,
-                primer_i5 = primer_i5,
-                primer_i7 = primer_i7,
-                row = row,
-                sample_id = sample_id,
-                sample_type = sample_type,
-                is_control = is_control
-        }
-
-        call metrics.AnnotateCoverageMetrics as coverage_metrics{
-            input:
-                metrics = collect_metrics.output_csv,
-                metrics_yaml = collect_metrics.output_csv_yaml,
-                bamfile = markdups.output_bam,
-                bamfile_bai = markdups.output_bai,
+                coverage_metrics = coverage_metrics.output_csv,
+                coverage_metrics_yaml = coverage_metrics.output_csv_yaml,
                 singularity_dir = singularity_dir
         }
-
 
         call metrics.CollectGcMetrics as collect_gc_metrics{
             input:
@@ -207,13 +170,6 @@ workflow AlignmentWorkflow{
         }
     }
 
-    call csverve.concatenate_csv as concat_fastqscreen_summary{
-        input:
-            inputfile = merge_fq.merged_summary,
-            inputyaml = merge_fq.merged_summary_yaml,
-            singularity_dir = singularity_dir
-    }
-
     call csverve.concatenate_csv as concat_fastqscreen_detailed{
         input:
             inputfile = merge_fq.merged_detailed,
@@ -221,23 +177,6 @@ workflow AlignmentWorkflow{
             singularity_dir = singularity_dir,
             filename_prefix = 'detailed_fastqscreen_breakdown'
     }
-
-
-    call utils.AddContaminationStatus as contaminated{
-        input:
-            input_csv = concat_fastqscreen_summary.outfile,
-            input_yaml = concat_fastqscreen_summary.outfile_yaml,
-            singularity_dir = singularity_dir
-    }
-
-
-    call csverve.concatenate_csv as concat_metrics{
-        input:
-            inputfile = coverage_metrics.output_csv,
-            inputyaml = coverage_metrics.output_csv_yaml,
-            singularity_dir = singularity_dir
-    }
-
     call csverve.concatenate_csv as concat_gc_metrics{
         input:
             inputfile = collect_gc_metrics.output_csv,
@@ -247,45 +186,72 @@ workflow AlignmentWorkflow{
     }
 
 
+    call csverve.concatenate_csv as concat_fastqscreen_summary{
+        input:
+            inputfile = merge_fq.merged_summary,
+            inputyaml = merge_fq.merged_summary_yaml,
+            singularity_dir = singularity_dir
+    }
+
+    call csverve.concatenate_csv as concat_metrics{
+        input:
+            inputfile = collect_metrics.output_csv,
+            inputyaml = collect_metrics.output_csv_yaml,
+            singularity_dir = singularity_dir
+    }
 
     call csverve.merge_csv as annotate_with_fastqscreen{
         input:
-            inputfiles = [contaminated.output_csv, concat_metrics.outfile],
-            inputyamls = [contaminated.output_yaml, concat_metrics.outfile_yaml],
+            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
+            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
             how='outer',
             on='cell_id',
             singularity_dir = singularity_dir
     }
 
+    call utils.AddContaminationStatus as contaminated{
+        input:
+            input_csv = annotate_with_fastqscreen.outfile,
+            input_yaml = annotate_with_fastqscreen.outfile_yaml,
+            singularity_dir = singularity_dir
+    }
+
     call utils.ClassifyFastqscreen as classify{
         input:
-            metrics = annotate_with_fastqscreen.outfile,
-            metrics_yaml = annotate_with_fastqscreen.outfile_yaml,
+            metrics = contaminated.output_csv,
+            metrics_yaml = contaminated.output_yaml,
             training_data = ref.fastqscreen_classifier_training_data,
             singularity_dir = singularity_dir,
             filename_prefix = 'alignment_metrics'
     }
 
+    call tar.tarFiles as tar{
+        input:
+            inputs = flatten([markdups.metrics_txt, gc_metrics.metrics_txt, gc_metrics.chart_pdf,
+            wgs_metrics.metrics_txt, insert_metrics.metrics_txt, insert_metrics.histogram_pdf,
+            flagstat.flagstat_txt]),
+            singularity_dir = singularity_dir,
+            filename_prefix = 'alignment_metrics'
+    }
 
+    call metrics.AddMetadata as add_metadata{
+        input:
+            metrics =  classify.output_csv,
+            metrics_yaml = classify.output_yaml,
+            metadata_yaml = metadata_yaml,
+            singularity_dir = singularity_dir,
+            filename_prefix = 'alignment_metrics'
+    }
 
     call utils.bamMerge as merge_bam_files{
         input:
             input_bams = markdups.output_bam,
             cell_ids = cellid,
-            metrics = classify.output_csv,
-            metrics_yaml = classify.output_yaml,
+            metrics = add_metadata.output_csv,
+            metrics_yaml = add_metadata.output_csv_yaml,
             singularity_dir = singularity_dir,
             ncores=20,
             filename_prefix = "all_cells_bulk"
-    }
-
-
-
-    call tar.tarFiles as tar{
-        input:
-            inputs = flatten([markdups.metrics_txt, gc_metrics.metrics_txt, gc_metrics.chart_pdf, wgs_metrics.metrics_txt, insert_metrics.metrics_txt, insert_metrics.histogram_pdf, flagstat.flagstat_txt]),
-            singularity_dir = singularity_dir,
-            filename_prefix = 'alignment_metrics'
     }
 
     output{
@@ -295,8 +261,8 @@ workflow AlignmentWorkflow{
         File contaminated_bai = merge_bam_files.contaminated_outfile_bai
         File control_bam = merge_bam_files.control_outfile
         File control_bai = merge_bam_files.control_outfile_bai
-        File metrics = classify.output_csv
-        File metrics_yaml = classify.output_yaml
+        File metrics = add_metadata.output_csv
+        File metrics_yaml = add_metadata.output_csv_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
         File fastqscreen_detailed = concat_fastqscreen_detailed.outfile
