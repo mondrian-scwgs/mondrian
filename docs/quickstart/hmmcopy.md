@@ -33,7 +33,9 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "HmmcopyWorkflow.ref_dir": "<insert ref dir path>",
 "HmmcopyWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
 "HmmcopyWorkflow.alignment_metrics": "hmmcopy_testdata/alignment.csv.gz",
-"HmmcopyWorkflow.alignment_metrics_yaml": "hmmcopy_testdata/alignment.csv.gz.yaml"
+"HmmcopyWorkflow.alignment_metrics_yaml": "hmmcopy_testdata/alignment.csv.gz.yaml",
+"HmmcopyWorkflow.gc_metrics": "hmmcopy_testdata/gc_metrics.csv.gz",
+"HmmcopyWorkflow.gc_metrics_yaml": "hmmcopy_testdata/gc_metrics.csv.gz.yaml"
 }
 ```
 

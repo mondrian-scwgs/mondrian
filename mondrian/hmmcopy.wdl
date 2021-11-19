@@ -19,7 +19,6 @@ workflow HmmcopyWorkflow{
         File alignment_metrics_yaml
         File gc_metrics
         File gc_metrics_yaml
-        File reference_gc
         String ref_dir
         Array[String] chromosomes
         String? singularity_dir = ""
@@ -30,7 +29,8 @@ workflow HmmcopyWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
-        "classifier_training_data": ref_dir + '/human/classifier_training_data.h5'
+        "classifier_training_data": ref_dir + '/human/classifier_training_data.h5',
+        "reference_gc": ref_dir + '/human/reference_gc_grch37.csv'
     }
 
     call utils.RunReadCounter as readcounter{
@@ -204,7 +204,7 @@ workflow HmmcopyWorkflow{
             metrics_yaml = add_quality.outfile_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
-            reference_gc = reference_gc,
+            reference_gc = ref.reference_gc,
             filename_prefix = "qc_html",
             singularity_dir = singularity_dir
     }
