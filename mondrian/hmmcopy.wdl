@@ -37,27 +37,15 @@ workflow HmmcopyWorkflow{
         input:
             bamfile = bam,
             baifile = bai,
+            contaminated_bamfile = contaminated_bam,
+            contaminated_baifile = contaminated_bai,
+            control_bamfile = control_bam,
+            control_baifile = control_bai,
             chromosomes = chromosomes,
             singularity_dir = singularity_dir
     }
 
-    call utils.RunReadCounter as readcounter_contaminated{
-        input:
-            bamfile = contaminated_bam,
-            baifile = contaminated_bai,
-            chromosomes = chromosomes,
-            singularity_dir = singularity_dir
-    }
-
-    call utils.RunReadCounter as readcounter_control{
-        input:
-            bamfile = control_bam,
-            baifile = control_bai,
-            chromosomes = chromosomes,
-            singularity_dir = singularity_dir
-    }
-
-    scatter(wigfile in flatten([readcounter.wigs, readcounter_contaminated.wigs, readcounter_control.wigs])){
+    scatter(wigfile in readcounter.wigs){
 
         call utils.CorrectReadCount as correction{
             input:
