@@ -1,4 +1,4 @@
-#{"meta": {"name":"hmmcopy", "version":"v0.0.7"}}
+#{"meta": {"name":"hmmcopy", "version":"v0.0.8"}}
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve

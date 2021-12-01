@@ -1,4 +1,4 @@
-#{"meta": {"name":"variant_calling", "version":"v0.0.7"}}
+#{"meta": {"name":"variant_calling", "version":"v0.0.8"}}
 version 1.0
 
 import "imports/workflows/variant_calling/sample_level_variant_workflow.wdl" as variant
