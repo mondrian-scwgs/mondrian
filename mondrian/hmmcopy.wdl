@@ -210,5 +210,6 @@ workflow HmmcopyWorkflow{
         File segments_pass = merge_segments.segments_pass
         File segments_fail = merge_segments.segments_fail
         File heatmap_pdf = heatmap.heatmap_pdf
+        File final_html_report = html_report.html_report
     }
 }
