@@ -19,6 +19,7 @@ workflow HmmcopyWorkflow{
         File alignment_metrics_yaml
         File gc_metrics
         File gc_metrics_yaml
+        File alignment_metadata
         String ref_dir
         Array[String] chromosomes
         String? singularity_dir = ""
@@ -197,6 +198,22 @@ workflow HmmcopyWorkflow{
             singularity_dir = singularity_dir
     }
 
+    call utils.HmmcopyMetadata as metadata{
+        input:
+            reads = add_mappability.outfile,
+            reads_yaml = add_mappability.outfile_yaml,
+            segments = concat_segments.outfile,
+            segments_yaml = concat_segments.outfile_yaml,
+            params = concat_params.outfile,
+            params_yaml = concat_params.outfile_yaml,
+            metrics = add_quality.outfile,
+            metrics_yaml = add_quality.outfile_yaml,
+            heatmap = heatmap.heatmap_pdf,
+            segments_pass = merge_segments.segments_pass,
+            segments_fail = merge_segments.segments_fail,
+            metadata_input = alignment_metadata,
+            singularity_dir = singularity_dir
+    }
 
     output{
         File reads = add_mappability.outfile
@@ -210,6 +227,8 @@ workflow HmmcopyWorkflow{
         File segments_pass = merge_segments.segments_pass
         File segments_fail = merge_segments.segments_fail
         File heatmap_pdf = heatmap.heatmap_pdf
+        File final_html_report = html_report.html_report
+        File metadata = metadata.metadata_output
         File final_html_report = html_report.html_report
     }
 }

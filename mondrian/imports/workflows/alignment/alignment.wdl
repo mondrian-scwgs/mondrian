@@ -14,11 +14,10 @@ workflow AlignFastqs{
         File fastq1
         File fastq2
         AlignRefdata ref
+        File metadata_yaml
         String cell_id
-        String library_id
-        String sample_id
-        String center
         String lane_id
+        String flowcell_id
         String? singularity_dir
     }
 
@@ -63,9 +62,9 @@ workflow AlignFastqs{
             reference_fa_bwt = ref.reference_fa_bwt,
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
-            library_id = library_id,
-            sample_id = sample_id,
-            center = center,
+            metadata_yaml = metadata_yaml,
+            cell_id = cell_id,
+            flowcell_id = flowcell_id,
             lane_id = lane_id,
             singularity_dir = singularity_dir
     }

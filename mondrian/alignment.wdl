@@ -16,13 +16,12 @@ struct Lane{
     File fastq1
     File fastq2
     String lane_id
+    String flowcell_id
 }
 
 
 struct Cell{
     String cell_id
-    String library_id
-    String sample_id
     Array[Lane] lanes
 }
 
@@ -32,7 +31,6 @@ workflow AlignmentWorkflow{
         Array[Cell] fastq_files
         String ref_dir
         File metadata_yaml
-        String center
         String? singularity_dir = ""
     }
 
@@ -69,12 +67,11 @@ workflow AlignmentWorkflow{
 
     scatter(cellinfo in fastq_files){
         String cellid = cellinfo.cell_id
-        String library_id = cellinfo.library_id
-        String sample_id = cellinfo.sample_id
         Array[Lane] cell_lanes = cellinfo.lanes
 
         scatter (cell_lane in cell_lanes){
             String lane_id = cell_lane.lane_id
+            String flowcell_id = cell_lane.flowcell_id
             File fastq1 = cell_lane.fastq1
             File fastq2 = cell_lane.fastq2
 
@@ -83,10 +80,9 @@ workflow AlignmentWorkflow{
                     fastq1 = fastq1,
                     fastq2 = fastq2,
                     ref = ref,
+                    metadata_yaml = metadata_yaml,
                     cell_id = cellid,
-                    library_id=library_id,
-                    sample_id = sample_id,
-                    center = center,
+                    flowcell_id = flowcell_id,
                     lane_id = lane_id,
                     singularity_dir = singularity_dir
             }
@@ -254,6 +250,26 @@ workflow AlignmentWorkflow{
             filename_prefix = "all_cells_bulk"
     }
 
+    call utils.AlignmentMetadata as alignment_metadata{
+        input:
+            bam = merge_bam_files.pass_outfile,
+            bai = merge_bam_files.pass_outfile_bai,
+            contaminated_bam = merge_bam_files.contaminated_outfile,
+            contaminated_bai = merge_bam_files.contaminated_outfile_bai,
+            control_bam = merge_bam_files.control_outfile,
+            control_bai = merge_bam_files.control_outfile_bai,
+            metrics = add_metadata.output_csv,
+            metrics_yaml = add_metadata.output_csv_yaml,
+            gc_metrics = concat_gc_metrics.outfile,
+            gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
+            fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
+            fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
+            tarfile = tar.tar_output,
+            singularity_dir = singularity_dir,
+            metadata_input = metadata_yaml
+    }
+
+
     output{
         File bam = merge_bam_files.pass_outfile
         File bai = merge_bam_files.pass_outfile_bai
@@ -268,5 +284,6 @@ workflow AlignmentWorkflow{
         File fastqscreen_detailed = concat_fastqscreen_detailed.outfile
         File fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml
         File tarfile = tar.tar_output
+        File metadata = alignment_metadata.metadata_yaml
     }
 }
