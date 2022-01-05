@@ -16,7 +16,8 @@ workflow StrelkaWorkflow{
         File reference_fai
         Array[String] chromosomes
         Int numThreads
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
         String filename_prefix = ""
      }
 
@@ -24,7 +25,8 @@ workflow StrelkaWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call strelka.GenerateChromDepth as generate_chrom_depth{
@@ -35,20 +37,23 @@ workflow StrelkaWorkflow{
             reference_fai = reference_fai,
             cores = numThreads,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call strelka.merge_chrom_depths as merge_chrom_depths{
         input:
             inputs = generate_chrom_depth.chrom_depths,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call strelka.GetGenomeSize as get_genome_size{
         input:
             reference = reference,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call strelka.run_strelka as run_strelka{
@@ -63,7 +68,8 @@ workflow StrelkaWorkflow{
             genome_size = get_genome_size.genome_size,
             chrom_depth_file = merge_chrom_depths.merged,
             cores = numThreads,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     #################
@@ -74,7 +80,8 @@ workflow StrelkaWorkflow{
             input:
                 vcf_file = indel_vcf_file,
                 filename_prefix = 'strelka_indels',
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -83,13 +90,15 @@ workflow StrelkaWorkflow{
             vcf_files = finalize_indels.vcf,
             csi_files = finalize_indels.vcf_csi,
             tbi_files = finalize_indels.vcf_tbi,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.filterVcf as filter_indel_vcf{
         input:
             vcf_file = merge_indel_vcf.merged_vcf,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.vcf_reheader_id as reheader_indel{
@@ -99,14 +108,16 @@ workflow StrelkaWorkflow{
             input_vcf = filter_indel_vcf.filtered_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.finalizeVcf as finalize_vcf_indel{
         input:
             vcf_file = reheader_indel.output_file,
             filename_prefix = filename_prefix + '_strelka_indel',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     #############
@@ -117,7 +128,8 @@ workflow StrelkaWorkflow{
             input:
                 vcf_file = snv_vcf_file,
                 filename_prefix = 'strelka_snv',
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -127,13 +139,15 @@ workflow StrelkaWorkflow{
             vcf_files = finalize_snv.vcf,
             csi_files = finalize_snv.vcf_csi,
             tbi_files = finalize_snv.vcf_tbi,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.filterVcf as filter_snv_vcf{
         input:
             vcf_file = merge_snv_vcf.merged_vcf,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.vcf_reheader_id as reheader_snv{
@@ -143,14 +157,16 @@ workflow StrelkaWorkflow{
             input_vcf = filter_snv_vcf.filtered_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.finalizeVcf as finalize_vcf_snv{
         input:
             vcf_file = reheader_snv.output_file,
             filename_prefix = filename_prefix + '_strelka_snv',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

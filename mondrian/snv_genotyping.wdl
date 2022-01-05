@@ -8,7 +8,6 @@ import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
 
 workflow SnvGenotypingWorkflow{
     input{
-        String? singularity_dir = ""
         File vcf_file
         File vcf_file_idx
         String ref_dir
@@ -18,6 +17,8 @@ workflow SnvGenotypingWorkflow{
         File tumour_bam
         File tumour_bai
         File metadata_input
+        String? singularity_image = ""
+        String? docker_image = "ubuntu"
     }
     SnvGenotypingRefdata ref = {
         "reference": ref_dir+'/human/GRCh37-lite.fa',
@@ -28,7 +29,8 @@ workflow SnvGenotypingWorkflow{
         input:
             reference = ref.reference,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.genotyper as genotyping{
@@ -39,16 +41,18 @@ workflow SnvGenotypingWorkflow{
             vcf_file_idx = vcf_file_idx,
             intervals = gen_int.intervals,
             num_threads = num_threads,
-            singularity_dir = singularity_dir,
-            filename_prefix = "snv_genotyping"
+            filename_prefix = "snv_genotyping",
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.SnvGenotypingMetadata as genotyping_metadata{
         input:
             output_csv = genotyping.output_csv,
             output_csv_yaml = genotyping.output_yaml,
-            singularity_dir = singularity_dir,
-            metadata_input = metadata_input
+            metadata_input = metadata_input,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

@@ -22,7 +22,8 @@ workflow BreakpointWorkflow{
         Array[Sample] samples
         String ref_dir
         Int num_threads
-        String? singularity_dir = ""
+        String? singularity_image = ""
+        String? docker_image = "ubuntu"
     }
     BreakpointRefdata ref = {
         "reference": ref_dir+'/human/GRCh37-lite.fa',
@@ -59,7 +60,8 @@ workflow BreakpointWorkflow{
                 num_threads=num_threads,
                 normal_id = normal_id,
                 tumour_id=tumour_id,
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -68,7 +70,8 @@ workflow BreakpointWorkflow{
             inputfile = breakpoint_wf.consensus,
             inputyaml = breakpoint_wf.consensus_yaml,
             filename_prefix = "four_way_consensus",
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.BreakpointMetadata as breakpoint_metadata{
@@ -81,9 +84,10 @@ workflow BreakpointWorkflow{
             lumpy_vcf_files = breakpoint_wf.lumpy_outfile,
             gridss_vcf_files = breakpoint_wf.gridss_outfile,
             svaba_vcf_files = breakpoint_wf.svaba_outfile,
-            singularity_dir = singularity_dir,
             samples = tumour_id,
-            metadata_yaml_files = metadata_input
+            metadata_yaml_files = metadata_input,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

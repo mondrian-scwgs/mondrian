@@ -11,7 +11,8 @@ workflow ConsensusWorkflow{
         File gridss
         String filename_prefix
         String sample_id
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
     }
 
     call consensus.consensus as run_consensus{
@@ -22,7 +23,8 @@ workflow ConsensusWorkflow{
             gridss = gridss,
             filename_prefix = filename_prefix,
             sample_id = sample_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

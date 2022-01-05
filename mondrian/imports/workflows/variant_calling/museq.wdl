@@ -18,7 +18,8 @@ workflow MuseqWorkflow{
         Int numThreads
         String tumour_id
         String normal_id
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
         String filename_prefix = 'output'
      }
 
@@ -26,7 +27,8 @@ workflow MuseqWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call museq.runMuseq as run_museq{
@@ -39,14 +41,16 @@ workflow MuseqWorkflow{
             reference_fai = reference_fai,
             cores = numThreads,
             intervals = gen_int.intervals,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     scatter (museq_vcf_file in run_museq.vcf_files){
         call museq.fixMuseqVcf as fix_museq{
             input:
                 vcf_file = museq_vcf_file,
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -56,7 +60,8 @@ workflow MuseqWorkflow{
             vcf_files = fix_museq.output_vcf,
             csi_files = fix_museq.output_csi,
             tbi_files = fix_museq.output_tbi,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -66,14 +71,16 @@ workflow MuseqWorkflow{
             input_vcf = merge_vcf.merged_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOUR',
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_museq',
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

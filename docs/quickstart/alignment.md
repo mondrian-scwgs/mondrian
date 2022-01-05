@@ -1,5 +1,5 @@
 
-*srerequisite: [quickstart](README.md)*
+*prerequisite: [quickstart](README.md)*
 
 
 1. create a directory 
@@ -14,6 +14,10 @@ wget https://mondriantestdata.s3.amazonaws.com/alignment_testdata.tar.gz
 tar -xvf alignment_testdata.tar.gz
 
 ```
+3. create singularity sif file
+```
+singularity build alignment_v0.0.9.sif docker://quay.io/mondrianscwgs/alignment:v0.0.9
+```
 
 
 3. create input.json file
@@ -22,27 +26,24 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"AlignmentWorkflow.singularity_dir": "<path to singularity_dir>",
+"AlignmentWorkflow.singularity_image": "<path to singularity sif file>",
 "AlignmentWorkflow.ref_dir": "<path to mondrian-ref>",
-"AlignmentWorkflow.center": "BCCRC",
-"AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
+"AlignmentWorkflow.metadata_input": "alignment_testdata/metadata.yaml",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
-         "library_id":"A96213A",
-         "sample_id":"SA1090",
          "lanes": [
                 {"fastq1": "alignment_testdata/SA1090-A96213A-R22-C43_1.fastq.gz",
                  "fastq2": "alignment_testdata/SA1090-A96213A-R22-C43_2.fastq.gz",
-                 "lane_id": "L001"}
+                 "lane_id": "L001",
+                 "flowcell_id": "FL001"}
                  ]
         },
         {"cell_id": "SA1090-A96213A-R20-C28",
-         "library_id":"A96213A",
-         "sample_id":"SA1090",
          "lanes": [
                 {"fastq1": "alignment_testdata/SA1090-A96213A-R20-C28_1.fastq.gz",
                  "fastq2": "alignment_testdata/SA1090-A96213A-R20-C28_2.fastq.gz",
-                 "lane_id": "L001"}
+                 "lane_id": "L001",
+                 "flowcell_id": "FL001"}
                  ]
         }
     ]
@@ -60,7 +61,7 @@ module load java/jdk-11.0.11
 module load singularity/3.6.2
 ```
 
-Launch the pipeline with the follosing command (replace the file paths):
+Launch the pipeline with the following command (replace the file paths):
 
 ```
 wget https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<insert version here>/mondrian/alignment.wdl

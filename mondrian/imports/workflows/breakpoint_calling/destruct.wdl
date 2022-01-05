@@ -10,7 +10,8 @@ workflow DestructWorkflow{
         File tumour_bam
         BreakpointRefdata ref
         String num_threads
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
         String filename_prefix = 'output'
     }
 
@@ -30,8 +31,9 @@ workflow DestructWorkflow{
             dgv = ref.dgv,
             repeats_satellite_regions = ref.repeats_satellite_regions,
             num_threads = num_threads,
-            singularity_dir = singularity_dir,
-            filename_prefix = filename_prefix
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

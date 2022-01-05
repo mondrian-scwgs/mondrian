@@ -15,7 +15,10 @@ wget https://mondriantestdata.s3.amazonaws.com/hmmcopy_testdata.tar.gz
 tar -xvf hmmcopy_testdata.tar.gz
 ```
 
-
+3. Create singularity sif 
+```
+singularity build hmmcopy_v0.0.9.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.9
+```
 
 2. create input json file
 
@@ -23,7 +26,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"HmmcopyWorkflow.singularity_dir": "<insert path to singularity dir>",
+"HmmcopyWorkflow.singularity_image": "<insert path to singularity sif>",
 "HmmcopyWorkflow.bam": "hmmcopy_testdata/merged.bam",
 "HmmcopyWorkflow.bai": "hmmcopy_testdata//merged.bam.bai",
 "HmmcopyWorkflow.control_bam": "hmmcopy_testdata/control.bam",
@@ -32,6 +35,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "HmmcopyWorkflow.contaminated_bai": "hmmcopy_testdata/contaminated.bam.bai",
 "HmmcopyWorkflow.ref_dir": "<insert ref dir path>",
 "HmmcopyWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
+"HmmcopyWorkflow.metadata_input": "hmmcopy_testdata/metadata.yaml",
 "HmmcopyWorkflow.alignment_metrics": "hmmcopy_testdata/alignment.csv.gz",
 "HmmcopyWorkflow.alignment_metrics_yaml": "hmmcopy_testdata/alignment.csv.gz.yaml",
 "HmmcopyWorkflow.gc_metrics": "hmmcopy_testdata/gc_metrics.csv.gz",

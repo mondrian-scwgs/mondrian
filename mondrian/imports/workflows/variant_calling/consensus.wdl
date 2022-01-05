@@ -14,7 +14,8 @@ workflow ConsensusWorkflow{
         File strelka_indel
         File strelka_indel_tbi
         Array[String] chromosomes
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
     }
 
     call consensus.runConsensusCalling as consensus{
@@ -28,7 +29,8 @@ workflow ConsensusWorkflow{
             strelka_indel = strelka_indel,
             strelka_indel_tbi = strelka_indel_tbi,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

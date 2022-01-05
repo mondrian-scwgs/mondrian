@@ -14,13 +14,18 @@
     tar -xvf variant_testdata.tar.gz
     ```
 
-2. create input json file
+3. create singularity sif file
+```
+singularity build variant_v0.0.9.sif docker://quay.io/mondrianscwgs/variant:v0.0.9
+```
+
+4. create input json file
 
     replace `<path to refdir>` with the reference dir we downloaded in the beginning of this guide.
     
     ```
     {
-    "VariantWorkflow.singularity_dir": "<insert path to singularity dir>",
+    "VariantWorkflow.singularity_image": "<insert path to singularity sif>",
     "VariantWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
     "VariantWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
     "VariantWorkflow.numThreads": 8,
@@ -30,13 +35,14 @@
     "VariantWorkflow.samples": [{
         "sample_id": "SA123T",
         "tumour": "variant_testdata/variants_realign.bam",
-        "tumour_bai": "variant_testdata/variants_realign.bam.bai"
+        "tumour_bai": "variant_testdata/variants_realign.bam.bai",
+        "metadata_input": "variant_testdata/metadata.yaml"
       }]
     }
     ```
     you can skip line 2 of this file if you're not using singularity 
 
-4. run the pipeline on test dataset
+5. run the pipeline on test dataset
 
     Ensure java and sigularity/docker are installed and on PATH. On juno you can load  java and singularity by running:
     

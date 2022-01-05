@@ -18,7 +18,8 @@ workflow AlignFastqs{
         String cell_id
         String lane_id
         String flowcell_id
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
     }
 
 
@@ -48,7 +49,8 @@ workflow AlignFastqs{
             salmon_reference_fa_pac = ref.salmon_reference_fa_pac,
             salmon_reference_fa_sa = ref.salmon_reference_fa_sa,
             cell_id = cell_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bwa.BwaMemPaired as bwa_mem{
@@ -66,20 +68,23 @@ workflow AlignFastqs{
             cell_id = cell_id,
             flowcell_id = flowcell_id,
             lane_id = lane_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.TagBamWithCellid as tag_bam{
         input:
             infile = bwa_mem.bam,
             cell_id = cell_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call samtools.sortBam as sort_bam{
         input:
             inputBam = tag_bam.outfile,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
 

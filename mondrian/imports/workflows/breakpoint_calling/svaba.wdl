@@ -12,8 +12,9 @@ workflow SvabaWorkflow{
         File tumour_bai
         Int num_threads
         BreakpointRefdata ref
-        String?  singularity_dir
         String filename_prefix = "output"
+        String? singularity_image
+        String? docker_image
     }
 
 
@@ -31,8 +32,9 @@ workflow SvabaWorkflow{
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
-            singularity_dir = singularity_dir,
-            filename_prefix = filename_prefix
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
     output{
         File output_vcf = run_svaba.output_vcf

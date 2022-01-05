@@ -20,15 +20,16 @@ workflow SampleLevelBreakpointWorkflow {
         Int num_threads
         String tumour_id
         String normal_id
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
     }
-
     call lumpy.LumpyWorkflow as lumpy{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            singularity_dir = singularity_dir,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call destruct.DestructWorkflow as destruct{
@@ -37,8 +38,9 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             ref = ref,
             num_threads = num_threads,
-            singularity_dir = singularity_dir,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call gridss.GridssWorkflow as gridss{
@@ -47,8 +49,9 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             num_threads = num_threads,
             ref = ref,
-            singularity_dir = singularity_dir,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
     call svaba.SvabaWorkflow as svaba{
         input:
@@ -58,8 +61,9 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bai = tumour_bai,
             num_threads = num_threads,
             ref = ref,
-            singularity_dir = singularity_dir,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call consensus.ConsensusWorkflow as cons{
@@ -70,7 +74,8 @@ workflow SampleLevelBreakpointWorkflow {
             svaba = svaba.output_vcf,
             filename_prefix = tumour_id,
             sample_id = tumour_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
     output{
         File consensus = cons.consensus

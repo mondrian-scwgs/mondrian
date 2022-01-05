@@ -17,7 +17,8 @@ workflow MutectWorkflow{
         File reference_dict
         Array[String] chromosomes
         Int numThreads
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
         String filename_prefix = ""
      }
 
@@ -25,13 +26,15 @@ workflow MutectWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call mutect.GetSampleId  as get_sample_id{
         input:
             input_bam = normal_bam,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call mutect.runMutect as run_mutect{
@@ -46,7 +49,8 @@ workflow MutectWorkflow{
             cores = numThreads,
             intervals = gen_int.intervals,
             normal_sample_id = get_sample_id.sample_id,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     scatter (mutect_vcf_file in run_mutect.vcf_files){
@@ -54,7 +58,8 @@ workflow MutectWorkflow{
             input:
                 vcf_file = mutect_vcf_file,
                 filename_prefix = 'mutect_calls',
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -63,7 +68,8 @@ workflow MutectWorkflow{
             vcf_files = finalize_region_vcf.vcf,
             csi_files = finalize_region_vcf.vcf_csi,
             tbi_files = finalize_region_vcf.vcf_tbi,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.vcf_reheader_id as reheader{
@@ -73,14 +79,16 @@ workflow MutectWorkflow{
             input_vcf = merge_vcf.merged_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_mutect',
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

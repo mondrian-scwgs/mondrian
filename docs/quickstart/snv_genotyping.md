@@ -13,14 +13,19 @@
     wget https://mondriantestdata.s3.amazonaws.com/snv_genotyping.tar.gz
     tar -xvf snv_genotyping.tar.gz
     ```
+3. create singularity sif file
+```
+singularity build variant_v0.0.9.sif docker://quay.io/mondrianscwgs/variant:v0.0.9
+```
 
-2. create input json file
+
+4. create input json file
 
     replace `<path to refdir>` with the reference dir we downloaded in the beginning of this guide.
     
     ```
     {
-        "SnvGenotypingWorkflow.singularity_dir": "<path to singularity dir>",
+        "SnvGenotypingWorkflow.singularity_image": "<path to singularity sif>",
         "SnvGenotypingWorkflow.ref_dir": "<path to reference dir>",
         "SnvGenotypingWorkflow.vcf_file": "snv_genotyping/merged_sorted.vcf.gz",
         "SnvGenotypingWorkflow.vcf_file_idx": "snv_genotyping/merged_sorted.vcf.gz.tbi",
@@ -28,13 +33,14 @@
         "SnvGenotypingWorkflow.num_threads": 2,
         "SnvGenotypingWorkflow.sample_id": "SA123",
         "SnvGenotypingWorkflow.tumour_bam": "snv_genotyping/merged.bam",
-        "SnvGenotypingWorkflow.tumour_bai": "snv_genotyping/merged.bam.bai"
+        "SnvGenotypingWorkflow.tumour_bai": "snv_genotyping/merged.bam.bai",
+        "SnvGenotypingWorkflow.metadata_input": "snv_genotyping/metadata.yaml" 
     }
     ```
 
     you can skip line 1 of this file if you're not using singularity 
 
-4. run the pipeline on test dataset
+5. run the pipeline on test dataset
 
     Ensure java and singularity/docker are installed and on PATH. On juno you can load  java and singularity by running:
     

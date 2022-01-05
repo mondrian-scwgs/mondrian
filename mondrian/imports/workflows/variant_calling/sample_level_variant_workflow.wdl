@@ -29,7 +29,8 @@ workflow SampleLevelVariantWorkflow {
         File vep_ref
         String tumour_id
         String normal_id
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
     }
 
     call museq.MuseqWorkflow as museq{
@@ -44,7 +45,8 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             tumour_id = tumour_id,
             normal_id = normal_id,
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
             filename_prefix = tumour_id
     }
 
@@ -58,7 +60,8 @@ workflow SampleLevelVariantWorkflow {
             reference_fai = reference_fai,
             numThreads = numThreads,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
             filename_prefix = tumour_id
     }
 
@@ -73,7 +76,8 @@ workflow SampleLevelVariantWorkflow {
             reference_dict = reference_dict,
             numThreads = numThreads,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
             filename_prefix = tumour_id
     }
 
@@ -88,7 +92,8 @@ workflow SampleLevelVariantWorkflow {
             strelka_indel = strelka.indel_vcffile,
             strelka_indel_tbi = strelka.indel_vcffile_tbi,
             chromosomes = chromosomes,
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call vcf2maf.Vcf2mafWorkflow as vcf2maf{
@@ -99,14 +104,16 @@ workflow SampleLevelVariantWorkflow {
             tumour_id = tumour_id,
             vep_ref = vep_ref,
             filename_prefix = tumour_id,
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call bcftools.finalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
             filename_prefix = tumour_id + "_consensus",
-            singularity_dir = singularity_dir
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     output{

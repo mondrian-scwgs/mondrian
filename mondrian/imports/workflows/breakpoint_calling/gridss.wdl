@@ -10,7 +10,8 @@ workflow GridssWorkflow{
         File tumour_bam
         Int num_threads
         BreakpointRefdata ref
-        String? singularity_dir
+        String? singularity_image
+        String? docker_image
         String filename_prefix = "output"
     }
     call gridss.runGridss as run_gridss{
@@ -25,7 +26,8 @@ workflow GridssWorkflow{
             reference_fa_pac = ref.reference_fa_pac,
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
-            singularity_dir = singularity_dir,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
             filename_prefix = filename_prefix
     }
     output{

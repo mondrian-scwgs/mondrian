@@ -23,7 +23,8 @@ workflow VariantWorkflow{
         Array[String] chromosomes
         String normal_id
         Array[Sample] samples
-        String? singularity_dir = ""
+        String? singularity_image = ""
+        String? docker_image = "ubuntu"
     }
 
     VariantRefdata ref = {
@@ -55,7 +56,8 @@ workflow VariantWorkflow{
                 vep_ref = ref.vep_ref,
                 tumour_id = tumour_id,
                 normal_id = normal_id,
-                singularity_dir = singularity_dir
+                singularity_image = singularity_image,
+                docker_image = docker_image
         }
     }
 
@@ -64,14 +66,17 @@ workflow VariantWorkflow{
             vcf_files = variant_workflow.vcf_output,
             csi_files = variant_workflow.vcf_csi_output,
             tbi_files = variant_workflow.vcf_tbi_output,
-            singularity_dir = singularity_dir,
-            filename_prefix = 'final_vcf_all_samples'
+            filename_prefix = 'final_vcf_all_samples',
+            singularity_image = singularity_image,
+            docker_image = docker_image
+
     }
     call vcf2maf.MergeMafs as merge_mafs{
         input:
             input_mafs = variant_workflow.maf_output,
-            singularity_dir = singularity_dir,
-            filename_prefix = 'final_maf_all_samples'
+            filename_prefix = 'final_maf_all_samples',
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
     call utils.VariantMetadata as variant_metadata{
@@ -96,9 +101,10 @@ workflow VariantWorkflow{
             sample_mutect_vcf = variant_workflow.mutect_vcf,
             sample_mutect_vcf_csi = variant_workflow.mutect_vcf_csi,
             sample_mutect_vcf_tbi = variant_workflow.mutect_vcf_tbi,
-            singularity_dir = singularity_dir,
             samples = tumour_id,
-            metadata_yaml_files = metadata_input
+            metadata_yaml_files = metadata_input,
+            singularity_image = singularity_image,
+            docker_image = docker_image
     }
 
 
