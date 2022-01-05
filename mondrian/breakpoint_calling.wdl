@@ -1,4 +1,3 @@
-#{"meta": {"name":"breakpoint_calling", "version":"v0.0.8"}}
 version 1.0
 
 import "imports/workflows/breakpoint_calling/sample_level_breakpoint_workflow.wdl" as breakpoint

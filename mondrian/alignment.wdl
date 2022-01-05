@@ -1,4 +1,3 @@
-#{"meta": {"name":"alignment", "version":"v0.0.8"}}
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/alignment/fastq_screen.wdl" as fastq_screen
