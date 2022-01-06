@@ -28,7 +28,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 {
 "AlignmentWorkflow.singularity_image": "<path to singularity sif file>",
 "AlignmentWorkflow.ref_dir": "<path to mondrian-ref>",
-"AlignmentWorkflow.metadata_input": "alignment_testdata/metadata.yaml",
+"AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
          "lanes": [

@@ -29,7 +29,7 @@ workflow AlignmentWorkflow{
     input{
         Array[Cell] fastq_files
         String ref_dir
-        File metadata_input
+        File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "ubuntu"
     }
@@ -285,7 +285,7 @@ workflow AlignmentWorkflow{
             fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
             fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
             tarfile = tar.tar_output,
-            metadata_input = metadata_input,
+            metadata_input = metadata_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
