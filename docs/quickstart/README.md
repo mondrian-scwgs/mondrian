@@ -31,7 +31,7 @@ wget https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66
 
 3. download imports zip file
 ```
-wget https://mondriantestdata.s3.amazonaws.com/imports_v0.0.9.zip
+wget https://mondriantestdata.s3.amazonaws.com/imports_<insert version>.zip
 ```
 
 4. Create `options.json` file

@@ -17,7 +17,7 @@ tar -xvf hmmcopy_testdata.tar.gz
 
 3. Create singularity sif 
 ```
-singularity build hmmcopy_v0.0.9.sif docker://quay.io/mondrianscwgs/hmmcopy:v0.0.9
+singularity build hmmcopy_<insert version>.sif docker://quay.io/mondrianscwgs/hmmcopy:<insert version>
 ```
 
 2. create input json file
@@ -55,7 +55,7 @@ module load java/jdk-11.0.11
 module load singularity/3.6.2
 ```
 
-Launch the pipeline with the follosing command (replace the file paths):
+Launch the pipeline with the following command (replace the file paths):
 
 ```
 wget https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<insert version>/mondrian/hmmcopy.wdl

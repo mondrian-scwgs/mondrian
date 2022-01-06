@@ -15,7 +15,7 @@
     ```
 3. create singularity sif file
 ```
-singularity build variant_v0.0.9.sif docker://quay.io/mondrianscwgs/variant:v0.0.9
+singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/variant:<insert version>
 ```
 
 

@@ -16,7 +16,7 @@ tar -xvf alignment_testdata.tar.gz
 ```
 3. create singularity sif file
 ```
-singularity build alignment_v0.0.9.sif docker://quay.io/mondrianscwgs/alignment:v0.0.9
+singularity build alignment_<insert version>.sif docker://quay.io/mondrianscwgs/alignment:<insert version>
 ```
 
 

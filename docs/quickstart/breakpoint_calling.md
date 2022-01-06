@@ -16,7 +16,7 @@ tar -xvf breakpoint_testdata.tar.gz
 
 3. Create singularity sif file
 ```
-singularity build breakpoint_v0.0.9.sif docker://quay.io/mondrianscwgs/breakpoint:v0.0.9
+singularity build breakpoint_<insert version>.sif docker://quay.io/mondrianscwgs/breakpoint:<insert version>
 ```
 
 4. create input json file
