@@ -46,11 +46,45 @@ workflow SnvGenotypingWorkflow{
             docker_image = docker_image
     }
 
+
+    call utils.GenerateCellBarcodes as generate_cell_barcodes{
+        input:
+            bamfile = tumour_bam,
+            baifile = tumour_bai,
+            singularity_image = singularity_image,
+            docker_image = docker_image
+    }
+
+    call utils.RunVartrix as vartrix{
+        input:
+            bamfile = tumour_bam,
+            baifile = tumour_bai,
+            fasta = ref.reference,
+            fasta_fai = ref.reference_fai,
+            vcf_file = vcf_file,
+            cell_barcodes = generate_cell_barcodes.cell_barcodes,
+            singularity_image = singularity_image,
+            docker_image = docker_image
+    }
+
+    call utils.ParseVartrix as parser{
+        input:
+            barcodes = vartrix.out_barcodes,
+            variants = vartrix.out_variants,
+            ref_counts = vartrix.ref_counts,
+            alt_counts = vartrix.alt_counts,
+            singularity_image = singularity_image,
+            docker_image = docker_image
+    }
+
+
     call utils.SnvGenotypingMetadata as genotyping_metadata{
         input:
             output_csv = genotyping.output_csv,
             output_csv_yaml = genotyping.output_yaml,
             metadata_input = metadata_input,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
@@ -58,6 +92,8 @@ workflow SnvGenotypingWorkflow{
     output{
         File output_csv = genotyping.output_csv
         File output_csv_yaml = genotyping.output_yaml
+        File vartrix_csv = parser.outfile
+        File vartrix_csv_yaml = parser.outfile_yaml
         File metadata_yaml = genotyping_metadata.metadata_output
     }
 

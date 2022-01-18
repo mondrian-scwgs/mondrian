@@ -151,3 +151,4 @@ To continue the setup process, please choose the analysis you'd like to run:
 - [hmmcopy](quickstart/hmmcopy.md)
 - [variant_calling](quickstart/variant_calling.md)
 - [breakpoint_calling](quickstart/breakpoint_calling.md)
+- [snv genotyping](quickstart/snv_genotyping.md)
