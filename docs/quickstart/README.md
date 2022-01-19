@@ -30,6 +30,7 @@ wget https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66
 ```
 
 3. download imports zip file
+version information can be found here: https://github.com/mondrian-scwgs/mondrian/tags
 ```
 wget https://mondriantestdata.s3.amazonaws.com/imports_<insert version>.zip
 ```
