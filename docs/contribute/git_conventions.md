@@ -9,17 +9,17 @@ We'll follow the Git flow branching model:
 ![branching](../assets/git-branching.jpg "branching")
 
 Notes:
-* to reduce spending, only development, release and master branches will be tested.
+* to reduce spending, only development and master branches will be tested.
 * 
 
 
-### master branch:
+### main branch:
     the master branch will hold the production code.
 
-### development branch:
+### develop branch:
     this branch should be used to store features that have completed development cycle and are ready for testing.
     The merges will only happen through Pull requests which are reviewed and tested. 
-  
+
 ### feature branches: 
     branch from the develop branch and merge it back to development
     
@@ -40,7 +40,6 @@ Notes:
 
 
 ## Deployment:
-* conda packages
 * pypi packages
 * docker containers
 

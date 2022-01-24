@@ -1,0 +1,55 @@
+
+
+| Column | Description |
+|----|----|
+|cell_id| |
+|fastqscreen_grch37| |
+|fastqscreen_grch37_multihit| |
+|fastqscreen_mm10| |
+|fastqscreen_mm10_multihit| |
+|fastqscreen_nohit| |
+|fastqscreen_salmon| |
+|fastqscreen_salmon_multihit| |
+|fastqscreen_total_reads| |
+|estimated_library_size| |
+|aligned| |
+|paired_duplicate_reads| |
+|percent_duplicate_reads| |
+|total_duplicate_reads| |
+|standard_deviation_insert_size| |
+|total_reads| |
+|overlap_with_dups| |
+|coverage_depth| |
+|overlap_without_dups| |
+|coverage_breadth| |
+|expected| |
+|total_properly_paired| |
+|unpaired_duplicate_reads| |
+|unmapped_reads| |
+|unpaired_mapped_reads| |
+|total_mapped_reads| |
+|mean_insert_size| |
+|paired_mapped_reads| |
+|median_insert_size| |
+|overlap_with_all_filters_and_qual| |
+|overlap_with_all_filters| |
+|is_contaminated| |
+|fastqscreen_nohit_ratio| |
+|fastqscreen_grch37_ratio| |
+|fastqscreen_mm10_ratio| |
+|fastqscreen_salmon_ratio| |
+|species| |
+|column| |
+|condition| |
+|img_col| |
+|index_i5| |
+|index_i7| |
+|index_sequence| |
+|is_control| |
+|library_id| |
+|pick_met| |
+|primer_i5| |
+|primer_i7| |
+|row| |
+|sample_id| |
+|sample_type| |

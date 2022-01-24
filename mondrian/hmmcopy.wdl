@@ -31,7 +31,8 @@ workflow HmmcopyWorkflow{
         "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
         "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
         "classifier_training_data": ref_dir + '/human/classifier_training_data.h5',
-        "reference_gc": ref_dir + '/human/reference_gc_grch37.csv'
+        "reference_gc": ref_dir + '/human/reference_gc_grch37.csv',
+        "repeats_satellite_regions": ref_dir + '/human/repeats.satellite.regions'
     }
 
     call utils.RunReadCounter as readcounter{
@@ -42,6 +43,7 @@ workflow HmmcopyWorkflow{
             contaminated_baifile = contaminated_bai,
             control_bamfile = control_bam,
             control_baifile = control_bai,
+            repeats_satellite_regions = ref.repeats_satellite_regions,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image

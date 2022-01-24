@@ -14,7 +14,7 @@ def extractSplitsFromBwaMem(inFile,numSplits,includeDups,minNonOverlap):
 	for line in data:
 		split = 0
 		if line[0] == '@':
-			print line.strip()
+			print(line.strip())
 			continue
 		samList = line.strip().split('\t')
 		sam = SAM(samList)
@@ -43,7 +43,7 @@ def extractSplitsFromBwaMem(inFile,numSplits,includeDups,minNonOverlap):
 			nonOverlap2 = 1 + mateQueryPos.qePos - mateQueryPos.qsPos - overlap
 			mno = min(nonOverlap1, nonOverlap2)
 			if mno >= minNonOverlap:
-				print "\t".join(samList)
+				print("\t".join(samList))
 
 #--------------------------------------------------------------------------------------------------
 # functions
