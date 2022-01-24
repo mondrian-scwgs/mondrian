@@ -65,7 +65,7 @@ workflow BreakpointWorkflow{
         }
     }
 
-    call csverve.concatenate_csv as concat_csv{
+    call csverve.ConcatenateCsv as concat_csv{
         input:
             inputfile = breakpoint_wf.consensus,
             inputyaml = breakpoint_wf.consensus_yaml,

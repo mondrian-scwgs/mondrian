@@ -96,7 +96,7 @@ workflow SampleLevelVariantWorkflow {
             docker_image = docker_image
     }
 
-    call vcf2maf.Vcf2mafWorkflow as vcf2maf{
+    call vcf2maf.Vcf2MafWorkflow as vcf2maf{
         input:
             input_vcf = consensus.consensus_output,
             input_counts =  consensus.counts_output,
@@ -108,7 +108,7 @@ workflow SampleLevelVariantWorkflow {
             docker_image = docker_image
     }
 
-    call bcftools.finalizeVcf as finalize_vcf{
+    call bcftools.FinalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
             filename_prefix = tumour_id + "_consensus",

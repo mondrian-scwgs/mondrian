@@ -15,7 +15,7 @@ workflow ConsensusWorkflow{
         String? docker_image
     }
 
-    call consensus.consensus as run_consensus{
+    call consensus.Consensus as run_consensus{
         input:
             destruct = destruct,
             lumpy = lumpy,

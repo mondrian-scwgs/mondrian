@@ -22,7 +22,7 @@ workflow MutectWorkflow{
         String filename_prefix = ""
      }
 
-    call pysam.generateIntervals as gen_int{
+    call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
@@ -37,7 +37,7 @@ workflow MutectWorkflow{
             docker_image = docker_image
     }
 
-    call mutect.runMutect as run_mutect{
+    call mutect.RunMutect as run_mutect{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,
@@ -54,7 +54,7 @@ workflow MutectWorkflow{
     }
 
     scatter (mutect_vcf_file in run_mutect.vcf_files){
-        call bcftools.finalizeVcf as finalize_region_vcf{
+        call bcftools.FinalizeVcf as finalize_region_vcf{
             input:
                 vcf_file = mutect_vcf_file,
                 filename_prefix = 'mutect_calls',
@@ -63,7 +63,7 @@ workflow MutectWorkflow{
         }
     }
 
-    call bcftools.concatVcf as merge_vcf{
+    call bcftools.ConcatVcf as merge_vcf{
         input:
             vcf_files = finalize_region_vcf.vcf,
             csi_files = finalize_region_vcf.vcf_csi,
@@ -72,7 +72,7 @@ workflow MutectWorkflow{
             docker_image = docker_image
     }
 
-    call utils.vcf_reheader_id as reheader{
+    call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
@@ -83,7 +83,7 @@ workflow MutectWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.finalizeVcf as finalize_vcf{
+    call bcftools.FinalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_mutect',

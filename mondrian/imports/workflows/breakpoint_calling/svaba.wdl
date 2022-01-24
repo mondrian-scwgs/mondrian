@@ -18,7 +18,7 @@ workflow SvabaWorkflow{
     }
 
 
-    call svaba.runSvaba as run_svaba{
+    call svaba.RunSvaba as run_svaba{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,

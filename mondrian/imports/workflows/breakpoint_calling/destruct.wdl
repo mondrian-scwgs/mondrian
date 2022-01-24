@@ -15,7 +15,7 @@ workflow DestructWorkflow{
         String filename_prefix = 'output'
     }
 
-    call destruct.runDestruct as run_destruct{
+    call destruct.RunDestruct as run_destruct{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,

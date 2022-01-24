@@ -18,7 +18,7 @@ workflow ConsensusWorkflow{
         String? docker_image
     }
 
-    call consensus.runConsensusCalling as consensus{
+    call consensus.RunConsensusCalling as consensus{
         input:
             museq_vcf = museq_vcf,
             museq_vcf_tbi = museq_vcf_tbi,

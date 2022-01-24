@@ -84,7 +84,7 @@ workflow HmmcopyWorkflow{
                 docker_image = docker_image
         }
     }
-    call csverve.concatenate_csv as concat_metrics{
+    call csverve.ConcatenateCsv as concat_metrics{
         input:
             inputfile = hmmcopy.metrics,
             inputyaml = hmmcopy.metrics_yaml,
@@ -93,7 +93,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.merge_csv as merge_alignment_metrics{
+    call csverve.MergeCsv as merge_alignment_metrics{
         input:
             inputfiles = [concat_metrics.outfile, alignment_metrics],
             inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
@@ -104,7 +104,7 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call csverve.concatenate_csv as concat_params{
+    call csverve.ConcatenateCsv as concat_params{
         input:
             inputfile = hmmcopy.params,
             inputyaml = hmmcopy.params_yaml,
@@ -113,7 +113,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.concatenate_csv as concat_segments{
+    call csverve.ConcatenateCsv as concat_segments{
         input:
             inputfile = hmmcopy.segments,
             inputyaml = hmmcopy.segments_yaml,
@@ -122,7 +122,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.concatenate_csv as concat_reads{
+    call csverve.ConcatenateCsv as concat_reads{
         input:
             inputfile = hmmcopy.reads,
             inputyaml = hmmcopy.reads_yaml,
@@ -132,7 +132,7 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call utils.addMappability as add_mappability{
+    call utils.AddMappability as add_mappability{
         input:
             infile = concat_reads.outfile,
             infile_yaml = concat_reads.outfile_yaml,
@@ -141,7 +141,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.cellCycleClassifier as cell_cycle_classifier{
+    call utils.CellCycleClassifier as cell_cycle_classifier{
         input:
             hmmcopy_reads = add_mappability.outfile,
             hmmcopy_metrics = merge_alignment_metrics.outfile,
@@ -150,7 +150,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.merge_csv as merge_cell_cycle{
+    call csverve.MergeCsv as merge_cell_cycle{
         input:
             inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
             inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
@@ -160,7 +160,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.addClusteringOrder as add_order{
+    call utils.AddClusteringOrder as add_order{
         input:
             metrics = merge_cell_cycle.outfile,
             metrics_yaml = merge_cell_cycle.outfile_yaml,
@@ -170,7 +170,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.addQuality as add_quality{
+    call utils.AddQuality as add_quality{
         input:
             hmmcopy_metrics = add_order.output_csv,
             hmmcopy_metrics_yaml = add_order.output_yaml,
@@ -182,7 +182,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.createSegmentsTar as merge_segments{
+    call utils.CreateSegmentsTar as merge_segments{
         input:
             hmmcopy_metrics = add_quality.outfile,
             hmmcopy_metrics_yaml = add_quality.outfile_yaml,
@@ -193,7 +193,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.plotHeatmap as heatmap{
+    call utils.PlotHeatmap as heatmap{
         input:
             metrics = add_quality.outfile,
             metrics_yaml = add_quality.outfile_yaml,
@@ -204,7 +204,7 @@ workflow HmmcopyWorkflow{
             docker_image = docker_image
     }
 
-    call utils.generateHtmlReport as html_report{
+    call utils.GenerateHtmlReport as html_report{
         input:
             metrics = add_quality.outfile,
             metrics_yaml = add_quality.outfile_yaml,

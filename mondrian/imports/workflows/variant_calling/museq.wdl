@@ -23,7 +23,7 @@ workflow MuseqWorkflow{
         String filename_prefix = 'output'
      }
 
-    call pysam.generateIntervals as gen_int{
+    call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
@@ -31,7 +31,7 @@ workflow MuseqWorkflow{
             docker_image = docker_image
     }
 
-    call museq.runMuseq as run_museq{
+    call museq.RunMuseq as run_museq{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,
@@ -46,7 +46,7 @@ workflow MuseqWorkflow{
     }
 
     scatter (museq_vcf_file in run_museq.vcf_files){
-        call museq.fixMuseqVcf as fix_museq{
+        call museq.FixMuseqVcf as fix_museq{
             input:
                 vcf_file = museq_vcf_file,
                 singularity_image = singularity_image,
@@ -55,7 +55,7 @@ workflow MuseqWorkflow{
     }
 
 
-    call bcftools.concatVcf as merge_vcf{
+    call bcftools.ConcatVcf as merge_vcf{
         input:
             vcf_files = fix_museq.output_vcf,
             csi_files = fix_museq.output_csi,
@@ -64,7 +64,7 @@ workflow MuseqWorkflow{
             docker_image = docker_image
     }
 
-    call utils.vcf_reheader_id as reheader{
+    call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
@@ -75,7 +75,7 @@ workflow MuseqWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.finalizeVcf as finalize_vcf{
+    call bcftools.FinalizeVcf as finalize_vcf{
         input:
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_museq',

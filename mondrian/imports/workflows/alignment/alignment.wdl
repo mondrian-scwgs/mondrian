@@ -23,7 +23,7 @@ workflow AlignFastqs{
     }
 
 
-    call fastq_screen.fastqScreen as run_fastqscreen{
+    call fastq_screen.FastqScreen as run_fastqscreen{
         input:
             fastq1 = fastq1,
             fastq2 = fastq2,
@@ -80,7 +80,7 @@ workflow AlignFastqs{
             docker_image = docker_image
     }
 
-    call samtools.sortBam as sort_bam{
+    call samtools.SortBam as sort_bam{
         input:
             inputBam = tag_bam.outfile,
             singularity_image = singularity_image,

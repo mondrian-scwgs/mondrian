@@ -61,7 +61,7 @@ workflow VariantWorkflow{
         }
     }
 
-    call bcftools.mergeVcf as merge_vcf{
+    call bcftools.MergeVcf as merge_vcf{
         input:
             vcf_files = variant_workflow.vcf_output,
             csi_files = variant_workflow.vcf_csi_output,

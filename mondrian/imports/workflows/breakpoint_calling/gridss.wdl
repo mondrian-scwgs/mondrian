@@ -14,7 +14,7 @@ workflow GridssWorkflow{
         String? docker_image
         String filename_prefix = "output"
     }
-    call gridss.runGridss as run_gridss{
+    call gridss.RunGridss as run_gridss{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,

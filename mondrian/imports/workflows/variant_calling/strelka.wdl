@@ -21,7 +21,7 @@ workflow StrelkaWorkflow{
         String filename_prefix = ""
      }
 
-    call pysam.generateIntervals as gen_int{
+    call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
             chromosomes = chromosomes,
@@ -41,7 +41,7 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call strelka.merge_chrom_depths as merge_chrom_depths{
+    call strelka.MergeChromDepths as merge_chrom_depths{
         input:
             inputs = generate_chrom_depth.chrom_depths,
             singularity_image = singularity_image,
@@ -56,7 +56,7 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call strelka.run_strelka as run_strelka{
+    call strelka.RunStrelka as run_strelka{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,
@@ -76,7 +76,7 @@ workflow StrelkaWorkflow{
     # indel
     ##############
     scatter (indel_vcf_file in run_strelka.indels){
-        call bcftools.finalizeVcf as finalize_indels{
+        call bcftools.FinalizeVcf as finalize_indels{
             input:
                 vcf_file = indel_vcf_file,
                 filename_prefix = 'strelka_indels',
@@ -85,7 +85,7 @@ workflow StrelkaWorkflow{
         }
     }
 
-    call bcftools.concatVcf as merge_indel_vcf{
+    call bcftools.ConcatVcf as merge_indel_vcf{
         input:
             vcf_files = finalize_indels.vcf,
             csi_files = finalize_indels.vcf_csi,
@@ -94,14 +94,14 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.filterVcf as filter_indel_vcf{
+    call bcftools.FilterVcf as filter_indel_vcf{
         input:
             vcf_file = merge_indel_vcf.merged_vcf,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
-    call utils.vcf_reheader_id as reheader_indel{
+    call utils.VcfReheaderId as reheader_indel{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
@@ -112,7 +112,7 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.finalizeVcf as finalize_vcf_indel{
+    call bcftools.FinalizeVcf as finalize_vcf_indel{
         input:
             vcf_file = reheader_indel.output_file,
             filename_prefix = filename_prefix + '_strelka_indel',
@@ -124,7 +124,7 @@ workflow StrelkaWorkflow{
     # SNV
     #############
     scatter (snv_vcf_file in run_strelka.snvs){
-        call bcftools.finalizeVcf as finalize_snv{
+        call bcftools.FinalizeVcf as finalize_snv{
             input:
                 vcf_file = snv_vcf_file,
                 filename_prefix = 'strelka_snv',
@@ -134,7 +134,7 @@ workflow StrelkaWorkflow{
     }
 
 
-    call bcftools.concatVcf as merge_snv_vcf{
+    call bcftools.ConcatVcf as merge_snv_vcf{
         input:
             vcf_files = finalize_snv.vcf,
             csi_files = finalize_snv.vcf_csi,
@@ -143,14 +143,14 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.filterVcf as filter_snv_vcf{
+    call bcftools.FilterVcf as filter_snv_vcf{
         input:
             vcf_file = merge_snv_vcf.merged_vcf,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
-    call utils.vcf_reheader_id as reheader_snv{
+    call utils.VcfReheaderId as reheader_snv{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
@@ -161,7 +161,7 @@ workflow StrelkaWorkflow{
             docker_image = docker_image
     }
 
-    call bcftools.finalizeVcf as finalize_vcf_snv{
+    call bcftools.FinalizeVcf as finalize_vcf_snv{
         input:
             vcf_file = reheader_snv.output_file,
             filename_prefix = filename_prefix + '_strelka_snv',

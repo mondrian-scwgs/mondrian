@@ -25,7 +25,7 @@ workflow SnvGenotypingWorkflow{
         "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
     }
 
-    call pysam.generateIntervals as gen_int{
+    call pysam.GenerateIntervals as gen_int{
         input:
             reference = ref.reference,
             chromosomes = chromosomes,
@@ -33,7 +33,7 @@ workflow SnvGenotypingWorkflow{
             docker_image = docker_image
     }
 
-    call utils.genotyper as genotyping{
+    call utils.Genotyper as genotyping{
         input:
             bam = tumour_bam,
             bai = tumour_bai,

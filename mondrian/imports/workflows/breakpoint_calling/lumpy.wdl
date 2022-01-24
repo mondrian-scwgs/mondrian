@@ -14,7 +14,7 @@ workflow LumpyWorkflow {
         String filename_prefix = "output"
     }
 
-    call samtools.viewBam as normal_discordant_bam {
+    call samtools.ViewBam as normal_discordant_bam {
         input:
             inputBam = normal_bam,
             outputBam = "normal_discordant.bam",
@@ -24,14 +24,14 @@ workflow LumpyWorkflow {
             docker_image = docker_image
     }
 
-    call samtools.sortBam as sort_normal_discordant_bam{
+    call samtools.SortBam as sort_normal_discordant_bam{
         input:
             inputBam = normal_discordant_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
-    call lumpy.extractSplitReads as normal_split_bam{
+    call lumpy.ExtractSplitReads as normal_split_bam{
         input:
             inputBam = normal_bam,
             outputBam = "normal_split.bam",
@@ -39,7 +39,7 @@ workflow LumpyWorkflow {
             docker_image = docker_image
     }
 
-    call samtools.sortBam as sort_normal_split_bam{
+    call samtools.SortBam as sort_normal_split_bam{
         input:
             inputBam = normal_split_bam.bamFile,
             singularity_image = singularity_image,
@@ -48,7 +48,7 @@ workflow LumpyWorkflow {
 
     ##### tumour
 
-    call samtools.viewBam as tumour_discordant_bam {
+    call samtools.ViewBam as tumour_discordant_bam {
         input:
             inputBam = tumour_bam,
             outputBam = "tumour_discordant.bam",
@@ -58,14 +58,14 @@ workflow LumpyWorkflow {
             docker_image = docker_image
     }
 
-    call samtools.sortBam as sort_tumour_discordant_bam{
+    call samtools.SortBam as sort_tumour_discordant_bam{
         input:
             inputBam = tumour_discordant_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
-    call lumpy.extractSplitReads as tumour_split_bam{
+    call lumpy.ExtractSplitReads as tumour_split_bam{
         input:
             inputBam = tumour_bam,
             outputBam = "tumour_split.bam",
@@ -73,14 +73,14 @@ workflow LumpyWorkflow {
             docker_image = docker_image
     }
 
-    call samtools.sortBam as sort_tumour_split_bam{
+    call samtools.SortBam as sort_tumour_split_bam{
         input:
             inputBam = tumour_split_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
-    call lumpy.lumpyExpress as lumpyexpress{
+    call lumpy.LumpyExpress as lumpyexpress{
        input:
             normalSplitBam = sort_normal_split_bam.sortedBam,
             tumourSplitBam = sort_tumour_split_bam.sortedBam,

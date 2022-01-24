@@ -88,7 +88,7 @@ workflow AlignmentWorkflow{
                     docker_image = docker_image
             }
         }
-        call fastq_screen.merge_fastqscreen_counts as merge_fq{
+        call fastq_screen.MergeFastqscreenCounts as merge_fq{
             input:
                 detailed_counts = lane_alignment.fastqscreen_detailed_metrics,
                 summary_counts = lane_alignment.fastqscreen_summary_metrics,
@@ -176,7 +176,7 @@ workflow AlignmentWorkflow{
         }
     }
 
-    call csverve.concatenate_csv as concat_fastqscreen_detailed{
+    call csverve.ConcatenateCsv as concat_fastqscreen_detailed{
         input:
             inputfile = merge_fq.merged_detailed,
             inputyaml = merge_fq.merged_detailed_yaml,
@@ -184,7 +184,7 @@ workflow AlignmentWorkflow{
             singularity_image = singularity_image,
             docker_image = docker_image
     }
-    call csverve.concatenate_csv as concat_gc_metrics{
+    call csverve.ConcatenateCsv as concat_gc_metrics{
         input:
             inputfile = collect_gc_metrics.output_csv,
             inputyaml = collect_gc_metrics.output_csv_yaml,
@@ -194,7 +194,7 @@ workflow AlignmentWorkflow{
     }
 
 
-    call csverve.concatenate_csv as concat_fastqscreen_summary{
+    call csverve.ConcatenateCsv as concat_fastqscreen_summary{
         input:
             inputfile = merge_fq.merged_summary,
             inputyaml = merge_fq.merged_summary_yaml,
@@ -202,7 +202,7 @@ workflow AlignmentWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.concatenate_csv as concat_metrics{
+    call csverve.ConcatenateCsv as concat_metrics{
         input:
             inputfile = collect_metrics.output_csv,
             inputyaml = collect_metrics.output_csv_yaml,
@@ -210,7 +210,7 @@ workflow AlignmentWorkflow{
             docker_image = docker_image
     }
 
-    call csverve.merge_csv as annotate_with_fastqscreen{
+    call csverve.MergeCsv as annotate_with_fastqscreen{
         input:
             inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
             inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
@@ -238,7 +238,7 @@ workflow AlignmentWorkflow{
             docker_image = docker_image
     }
 
-    call tar.tarFiles as tar{
+    call tar.TarFiles as tar{
         input:
             inputs = flatten([markdups.metrics_txt, gc_metrics.metrics_txt, gc_metrics.chart_pdf,
             wgs_metrics.metrics_txt, insert_metrics.metrics_txt, insert_metrics.histogram_pdf,
@@ -258,7 +258,7 @@ workflow AlignmentWorkflow{
             docker_image = docker_image
     }
 
-    call utils.bamMerge as merge_bam_files{
+    call utils.BamMerge as merge_bam_files{
         input:
             input_bams = markdups.output_bam,
             cell_ids = cellid,
