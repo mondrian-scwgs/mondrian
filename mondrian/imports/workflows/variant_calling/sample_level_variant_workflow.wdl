@@ -4,7 +4,7 @@ version 1.0
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/utilities/bash.wdl"  as bash
-import "../../mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
+#import "../../mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 import "../../types/variant_refdata.wdl" as refdata_struct
 import "../../workflows/variant_calling/museq.wdl" as museq
 import "../../workflows/variant_calling/strelka.wdl" as strelka
@@ -96,7 +96,7 @@ workflow SampleLevelVariantWorkflow {
             docker_image = docker_image
     }
 
-    call vcf2maf.Vcf2MafWorkflow as vcf2maf{
+    call vcf2maf.Vcf2MafWorkflow as vcf2maf_wf{
         input:
             input_vcf = consensus.consensus_output,
             input_counts =  consensus.counts_output,
@@ -120,7 +120,7 @@ workflow SampleLevelVariantWorkflow {
         File vcf_output = finalize_vcf.vcf
         File vcf_csi_output = finalize_vcf.vcf_csi
         File vcf_tbi_output = finalize_vcf.vcf_tbi
-        File maf_output = vcf2maf.output_maf
+        File maf_output = vcf2maf_wf.output_maf
         File museq_vcf = museq.vcffile
         File museq_vcf_csi = museq.vcffile_csi
         File museq_vcf_tbi = museq.vcffile_tbi

@@ -7,4 +7,7 @@ struct HmmcopyRefdata{
     File map_wig
     File classifier_training_data
     File reference_gc
+    File repeats_satellite_regions
 }
+
+

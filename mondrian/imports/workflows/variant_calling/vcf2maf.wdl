@@ -3,7 +3,7 @@ version 1.0
 import "../../mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
 
 
-workflow Vcf2mafWorkflow{
+workflow Vcf2MafWorkflow{
     input{
         File input_vcf
         File input_counts
