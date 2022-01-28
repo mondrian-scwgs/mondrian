@@ -1,6 +1,6 @@
 # Data Formats
 
-The Mondrian system leverages existing formats and provides 2 additiona formats for organizing data and metadata.
+The Mondrian system leverages existing formats and provides 2 additional formats for organizing data and metadata.
 
 A [directory based dataset](generic_dataset.md) format allows generic association of multiple files with their metadata.
 
