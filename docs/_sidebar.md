@@ -15,11 +15,11 @@
   - [Snv Genotyping](analyses/snv_genotyping.md)
 
 - [Data Formats](data_formats/README.md)
-  - [Alignment](alignment.md)
-  - [Hmmcopy](hmmcopy.md)
-  - [Breakpoint Calling](breakpoint_calling.md)
-  - [Variant Calling](variant_calling.md)
-  - [Snv Genotyping](snv_genotyping.md)
+  - [Alignment](data_formats/alignment.md)
+  - [Hmmcopy](data_formats/hmmcopy.md)
+  - [Breakpoint Calling](data_formats/breakpoint_calling.md)
+  - [Variant Calling](data_formats/variant_calling.md)
+  - [Snv Genotyping](data_formats/snv_genotyping.md)
   - [Metadata Yaml](data_formats/metadata_yaml_output.md)
 
 - [Contribute](contribute/README.md)
