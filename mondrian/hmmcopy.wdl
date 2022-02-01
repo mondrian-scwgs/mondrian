@@ -199,6 +199,7 @@ workflow HmmcopyWorkflow{
             metrics_yaml = add_quality.outfile_yaml,
             reads = add_mappability.outfile,
             reads_yaml = add_mappability.outfile_yaml,
+            chromosomes=chromosomes,
             filename_prefix = "hmmcopy_heatmap",
             singularity_image = singularity_image,
             docker_image = docker_image
