@@ -35,19 +35,19 @@ workflow AlignmentWorkflow{
     }
 
     AlignRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_fa_1_ebwt": ref_dir+'/human/GRCh37-lite.fa.1.ebwt',
-        "reference_fa_2_ebwt": ref_dir+'/human/GRCh37-lite.fa.2.ebwt',
-        "reference_fa_3_ebwt": ref_dir+'/human/GRCh37-lite.fa.3.ebwt',
-        "reference_fa_4_ebwt": ref_dir+'/human/GRCh37-lite.fa.4.ebwt',
-        "reference_fa_amb": ref_dir+'/human/GRCh37-lite.fa.amb',
-        "reference_fa_ann": ref_dir+'/human/GRCh37-lite.fa.ann',
-        "reference_fa_bwt": ref_dir+'/human/GRCh37-lite.fa.bwt',
-        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        "reference_fa_pac": ref_dir+'/human/GRCh37-lite.fa.pac',
-        "reference_fa_rev_1_ebwt": ref_dir+'/human/GRCh37-lite.fa.rev.1.ebwt',
-        "reference_fa_rev_2_ebwt": ref_dir+'/human/GRCh37-lite.fa.rev.2.ebwt',
-        "reference_fa_sa": ref_dir+'/human/GRCh37-lite.fa.sa',
+        "human_reference": ref_dir+'/human/GRCh37-lite.fa',
+        "human_reference_fa_1_ebwt": ref_dir+'/human/GRCh37-lite.fa.1.ebwt',
+        "human_reference_fa_2_ebwt": ref_dir+'/human/GRCh37-lite.fa.2.ebwt',
+        "human_reference_fa_3_ebwt": ref_dir+'/human/GRCh37-lite.fa.3.ebwt',
+        "human_reference_fa_4_ebwt": ref_dir+'/human/GRCh37-lite.fa.4.ebwt',
+        "human_reference_fa_amb": ref_dir+'/human/GRCh37-lite.fa.amb',
+        "human_reference_fa_ann": ref_dir+'/human/GRCh37-lite.fa.ann',
+        "human_reference_fa_bwt": ref_dir+'/human/GRCh37-lite.fa.bwt',
+        "human_reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
+        "human_reference_fa_pac": ref_dir+'/human/GRCh37-lite.fa.pac',
+        "human_reference_fa_rev_1_ebwt": ref_dir+'/human/GRCh37-lite.fa.rev.1.ebwt',
+        "human_reference_fa_rev_2_ebwt": ref_dir+'/human/GRCh37-lite.fa.rev.2.ebwt',
+        "human_reference_fa_sa": ref_dir+'/human/GRCh37-lite.fa.sa',
         "mouse_reference": ref_dir+'/mouse/mm10_build38_mouse.fasta',
         "mouse_reference_fa_amb": ref_dir+'/mouse/mm10_build38_mouse.fasta.amb',
         "mouse_reference_fa_ann": ref_dir+'/mouse/mm10_build38_mouse.fasta.ann',
@@ -114,8 +114,8 @@ workflow AlignmentWorkflow{
         call picard.CollectWgsMetrics  as wgs_metrics{
             input:
                 input_bam = markdups.output_bam,
-                reference = ref.reference,
-                reference_fai = ref.reference_fa_fai,
+                reference = ref.human_reference,
+                reference_fai = ref.human_reference_fa_fai,
                 filename_prefix = cellid,
                 singularity_image = singularity_image,
                 docker_image = docker_image
@@ -132,8 +132,8 @@ workflow AlignmentWorkflow{
         call picard.CollectGcBiasMetrics as gc_metrics{
             input:
                 input_bam = markdups.output_bam,
-                reference = ref.reference,
-                reference_fai = ref.reference_fa_fai,
+                reference = ref.human_reference,
+                reference_fai = ref.human_reference_fa_fai,
                 filename_prefix = cellid,
                 singularity_image = singularity_image,
                 docker_image = docker_image
