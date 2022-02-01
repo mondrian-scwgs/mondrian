@@ -224,6 +224,7 @@ workflow AlignmentWorkflow{
         input:
             input_csv = annotate_with_fastqscreen.outfile,
             input_yaml = annotate_with_fastqscreen.outfile_yaml,
+            reference_genome = 'grch37',
             singularity_image = singularity_image,
             docker_image = docker_image
     }
