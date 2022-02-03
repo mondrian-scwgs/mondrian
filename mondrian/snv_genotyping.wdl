@@ -82,6 +82,8 @@ workflow SnvGenotypingWorkflow{
         input:
             output_csv = genotyping.output_csv,
             output_csv_yaml = genotyping.output_yaml,
+            vartrix_output_csv = parser.outfile,
+            vartrix_output_csv_yaml = parser.outfile_yaml,
             metadata_input = metadata_input,
             singularity_image = singularity_image,
             docker_image = docker_image,
