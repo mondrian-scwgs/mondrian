@@ -76,16 +76,17 @@ workflow BreakpointWorkflow{
 
     call utils.BreakpointMetadata as breakpoint_metadata{
         input:
-            consensus = concat_csv.outfile,
-            consensus_yaml = concat_csv.outfile_yaml,
-            destruct_files = breakpoint_wf.destruct_outfile,
-            destruct_reads_files = breakpoint_wf.destruct_read_outfile,
-            destruct_library_files = breakpoint_wf.destruct_library_outfile,
-            lumpy_vcf_files = breakpoint_wf.lumpy_outfile,
-            gridss_vcf_files = breakpoint_wf.gridss_outfile,
-            svaba_vcf_files = breakpoint_wf.svaba_outfile,
-            samples = tumour_id,
+            files = {
+                'breakpoint_consensus': [concat_csv.outfile, concat_csv.outfile_yaml],
+                'destruct_calls': breakpoint_wf.destruct_outfile,
+                'destruct_reads': breakpoint_wf.destruct_read_outfile,
+                'destruct_library': breakpoint_wf.destruct_library_outfile,
+                'lumpy_vcf': breakpoint_wf.lumpy_outfile,
+                'svaba_vcf': breakpoint_wf.svaba_outfile,
+                'gridss_vcf': breakpoint_wf.gridss_outfile
+            },
             metadata_yaml_files = metadata_input,
+            samples = tumour_id,
             singularity_image = singularity_image,
             docker_image = docker_image
     }

@@ -79,30 +79,22 @@ workflow VariantWorkflow{
             docker_image = docker_image
     }
 
+
+
     call utils.VariantMetadata as variant_metadata{
         input:
-            final_maf = merge_mafs.output_maf,
-            final_vcf = merge_vcf.merged_vcf,
-            final_vcf_csi = merge_vcf.merged_vcf_csi,
-            final_vcf_tbi = merge_vcf.merged_vcf_tbi,
-            sample_vcf = variant_workflow.vcf_output,
-            sample_vcf_csi = variant_workflow.vcf_csi_output,
-            sample_vcf_tbi = variant_workflow.vcf_tbi_output,
-            sample_maf = variant_workflow.maf_output,
-            sample_museq_vcf = variant_workflow.museq_vcf,
-            sample_museq_vcf_csi = variant_workflow.museq_vcf_csi,
-            sample_museq_vcf_tbi = variant_workflow.museq_vcf_tbi,
-            sample_strelka_snv_vcf = variant_workflow.strelka_snv_vcf,
-            sample_strelka_snv_vcf_csi = variant_workflow.strelka_snv_vcf_csi,
-            sample_strelka_snv_vcf_tbi = variant_workflow.strelka_snv_vcf_tbi,
-            sample_strelka_indel_vcf = variant_workflow.strelka_indel_vcf,
-            sample_strelka_indel_vcf_csi = variant_workflow.strelka_indel_vcf_csi,
-            sample_strelka_indel_vcf_tbi = variant_workflow.strelka_indel_vcf_tbi,
-            sample_mutect_vcf = variant_workflow.mutect_vcf,
-            sample_mutect_vcf_csi = variant_workflow.mutect_vcf_csi,
-            sample_mutect_vcf_tbi = variant_workflow.mutect_vcf_tbi,
-            samples = tumour_id,
+            files = {
+                'consensus_vcf': [ merge_vcf.merged_vcf,  merge_vcf.merged_vcf_csi,  merge_vcf.merged_vcf_tbi],
+                'consensus_maf': [merge_mafs.output_maf],
+                'sample_consensus_vcf': flatten([variant_workflow.vcf_output, variant_workflow.vcf_csi_output, variant_workflow.vcf_tbi_output]),
+                'sample_consensus_maf': variant_workflow.maf_output,
+                'museq_vcf': flatten([variant_workflow.museq_vcf,variant_workflow.museq_vcf_csi,variant_workflow.museq_vcf_tbi]),
+                'strelka_snv': flatten([variant_workflow.strelka_snv_vcf, variant_workflow.strelka_snv_vcf_csi, variant_workflow.strelka_snv_vcf_tbi]),
+                'strelka_indel': flatten([variant_workflow.strelka_indel_vcf, variant_workflow.strelka_indel_vcf_csi, variant_workflow.strelka_indel_vcf_tbi]),
+                'mutect_vcf': flatten([variant_workflow.mutect_vcf,variant_workflow.mutect_vcf_csi,variant_workflow.mutect_vcf_tbi]),
+            },
             metadata_yaml_files = metadata_input,
+            samples = tumour_id,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
