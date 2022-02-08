@@ -1,6 +1,7 @@
 version 1.0
 
 import "../../mondrian_tasks/mondrian_tasks/alignment/bwa.wdl" as bwa
+import "../../mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
 import "../../mondrian_tasks/mondrian_tasks/alignment/fastq_screen.wdl" as fastq_screen
 import "../../mondrian_tasks/mondrian_tasks/io/fastq/fastqc.wdl" as fastqc
 import "../../mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
@@ -53,10 +54,20 @@ workflow AlignFastqs{
             docker_image = docker_image
     }
 
+    call utils.TrimGalore as run_trimming{
+        input:
+            r1 = run_fastqscreen.tagged_fastq1,
+            r2 = run_fastqscreen.tagged_fastq2,
+            adapter1 = "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC",
+            adapter2 = "CTGTCTCTTATACACATCTGACGCTGCCGACGA",
+            singularity_image = singularity_image,
+            docker_image = docker_image
+    }
+
     call bwa.BwaMemPaired as bwa_mem{
         input:
-            fastq1 = run_fastqscreen.tagged_fastq1,
-            fastq2 = run_fastqscreen.tagged_fastq2,
+            fastq1 = run_trimming.output_r1,
+            fastq2 = run_trimming.output_r2,
             reference = ref.human_reference,
             reference_fa_fai = ref.human_reference_fa_fai,
             reference_fa_amb = ref.human_reference_fa_amb,
