@@ -1,10 +1,12 @@
 
 *Prerequisite: [quickstart](README.md)*
 
+#### NOTE: This workflow is optional and is a subset of [breakpoint calling](quickstart/breakpoint_calling.wdl).
+
 
 1. create a directory 
 ```
-mkdir mondrian_breakpoint && cd mondrian_breakpoint
+mkdir mondrian_breakpoint_gridss && cd mondrian_breakpoint_gridss
 ```
 
 2. Download test data set
@@ -25,18 +27,13 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"BreakpointWorkflow.singularity_image": "<insert path to singularity sif file>",
-"BreakpointWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
-"BreakpointWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
-"BreakpointWorkflow.normal_id": "normal",
-"BreakpointWorkflow.num_threads": 8,
-"BreakpointWorkflow.ref_dir": "<path to reference>",
-"BreakpointWorkflow.samples": [{
-    "sample_id": "T2-T-A",
-    "tumour": "breakpoint_testdata/medium.bam",
-    "tumour_bai": "breakpoint_testdata/medium.bam.bai",
-    "metadata_input": "breakpoint_testdata/metadata.yaml"
-  }]
+"GridssWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
+"GridssWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
+"GridssWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
+"GridssWorkflow.ref_dir": "<path to reference>",
+"GridssWorkflow.num_threads": "8",
+"GridssWorkflow.tumour_id": "SA123",
+"GridssWorkflow.singularity_image": "<insert path to singularity sif file>"
 }
 ```
 
@@ -54,8 +51,8 @@ module load singularity/3.6.2
 Launch the pipeline with the following command (replace the file paths):
 
 ```
-wget https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<insert version>/mondrian/breakpoint_calling.wdl
+wget https://raw.githubusercontent.com/mondrian-scwgs/mondrian/<insert version>/mondrian/breakpoint_calling_gridss.wdl
 java -Dconfig.file=<path to run.config> -jar <path to downloaded cromwell>.jar run \
-breakpoint_calling.wdl \
+breakpoint_calling_gridss.wdl \
 -i <path to input.json>  -o <path to options.json> --imports <path to imports zip>
 ```

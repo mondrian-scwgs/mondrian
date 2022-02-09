@@ -15,9 +15,9 @@
     ```
 
 3. create singularity sif file
-```
-singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/variant:<insert version>
-```
+    ```
+    singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/variant:<insert version>
+    ```
 
 4. create input json file
 

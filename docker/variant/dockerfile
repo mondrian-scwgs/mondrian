@@ -31,5 +31,8 @@ RUN conda install -c bioconda vcftools tabix bcftools snpeff
 RUN conda install -c bioconda perl-vcftools-vcf==0.1.15
 RUN rm /opt/conda/bin/samtools
 
+RUN wget https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/vartrix_linux && mv vartrix_linux /opt/conda/bin/vartrix_linux && chmod -R 777 /opt/conda/bin/vartrix_linux
+
+
 ENV PATH="${PATH}:/opt/conda/envs/museq/bin:/opt/conda/envs/strelka/share/strelka-2.8.2-0/libexec/"
 ENV STRELKA_SHARE_DIR '/opt/conda/envs/strelka/share/strelka-2.8.2-0/'
