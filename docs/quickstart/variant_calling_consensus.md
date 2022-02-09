@@ -2,7 +2,7 @@
 
 *Prerequisite: [quickstart](README.md)*
 
-#### NOTE: This workflow is optional and is a subset of [variant calling](quickstart/variant_calling.wdl).
+#### NOTE: This workflow is optional and is a subset of [variant calling](quickstart/variant_calling.md).
 
 1. create a directory 
     ```

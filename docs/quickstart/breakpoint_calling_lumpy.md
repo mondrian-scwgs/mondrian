@@ -1,7 +1,7 @@
 
 *Prerequisite: [quickstart](README.md)*
 
-#### NOTE: This workflow is optional and is a subset of [breakpoint calling](quickstart/breakpoint_calling.wdl).
+#### NOTE: This workflow is optional and is a subset of [breakpoint calling](quickstart/breakpoint_calling.md).
 
 
 1. create a directory 
