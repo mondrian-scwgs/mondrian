@@ -1,6 +1,7 @@
 FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
 
 ADD . /app
+ARG VERSION
 
 RUN apt-get --allow-releaseinfo-change update && apt-get install -y parallel samtools && rm -rf /var/lib/apt/lists/*
 RUN conda install -c bioconda -c conda-forge bcftools cryptography
@@ -23,7 +24,7 @@ SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
 
 RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.9
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
 RUN pip install pandas numpy pysam matplotlib seaborn pyvcf
 RUN conda install -c bioconda vcftools tabix bcftools snpeff

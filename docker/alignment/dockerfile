@@ -1,10 +1,11 @@
 FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
 ADD . /app
+ARG VERSION
 
 RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
 
 RUN conda install --file /app/align_requirements.yml
 RUN conda install -c bioconda sambamba
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.9
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0

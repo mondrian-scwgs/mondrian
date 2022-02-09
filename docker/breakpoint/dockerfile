@@ -1,5 +1,6 @@
 FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
 ADD . /app
+ARG VERSION
 
 RUN conda create --name lumpy python=2.7
 SHELL ["conda", "run", "-n", "lumpy", "/bin/bash", "-c"]
@@ -15,7 +16,7 @@ RUN apt-get --allow-releaseinfo-change update && apt install autoconf make gcc z
 
 RUN conda install --file /app/conda_base_requirements.yml
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.9
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
 RUN pip install pyvcf intervaltree pysam
 

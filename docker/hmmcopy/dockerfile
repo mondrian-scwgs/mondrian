@@ -1,8 +1,9 @@
 FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
 ADD . /app
-RUN conda install --file /app/requirements.yml
+ARG VERSION
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.9
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@main
+RUN conda install --file /app/requirements.yml
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
 RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@v0.0.3
 RUN pip install tables
