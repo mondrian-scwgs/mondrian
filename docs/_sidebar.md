@@ -11,7 +11,7 @@
   - [Breakpoint Calling](quickstart/breakpoint_calling.md)
      - [Destruct](quickstart/breakpoint_calling_destruct.md)
      - [Lumpy](quickstart/breakpoint_calling_lumpy.md)
-     - [Svaba](quickstart/breakpoint_calling_ssvaba.md)
+     - [Svaba](quickstart/breakpoint_calling_svaba.md)
      - [Gridss](quickstart/breakpoint_calling_gridss.md)
      - [Consensus](quickstart/breakpoint_calling_consensus.md)
   - [Snv Genotyping](quickstart/snv_genotyping.md)
