@@ -25,6 +25,8 @@ struct Cell{
 }
 
 
+
+
 workflow AlignmentWorkflow{
     input{
         Array[Cell] fastq_files
@@ -69,108 +71,32 @@ workflow AlignmentWorkflow{
         String cellid = cellinfo.cell_id
         Array[Lane] cell_lanes = cellinfo.lanes
 
-        scatter (cell_lane in cell_lanes){
-            String lane_id = cell_lane.lane_id
-            String flowcell_id = cell_lane.flowcell_id
-            File fastq1 = cell_lane.fastq1
-            File fastq2 = cell_lane.fastq2
-
-            call alignment.AlignFastqs as lane_alignment{
-                input:
-                    fastq1 = fastq1,
-                    fastq2 = fastq2,
-                    ref = ref,
-                    metadata_yaml = metadata_yaml,
-                    cell_id = cellid,
-                    flowcell_id = flowcell_id,
-                    lane_id = lane_id,
-                    singularity_image = singularity_image,
-                    docker_image = docker_image
-            }
-        }
-        call fastq_screen.MergeFastqscreenCounts as merge_fq{
+        call utils.AlignPostprocessAllLanes as alignment{
             input:
-                detailed_counts = lane_alignment.fastqscreen_detailed_metrics,
-                summary_counts = lane_alignment.fastqscreen_summary_metrics,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call picard.MergeSamFiles as merge_sams{
-            input:
-                input_bams = lane_alignment.bam,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call picard.MarkDuplicates as markdups{
-            input:
-                input_bam = merge_sams.output_bam,
-                filename_prefix = cellid,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call picard.CollectWgsMetrics  as wgs_metrics{
-            input:
-                input_bam = markdups.output_bam,
-                reference = ref.human_reference,
-                reference_fai = ref.human_reference_fa_fai,
-                filename_prefix = cellid,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call picard.CollectInsertSizeMetrics  as insert_metrics{
-            input:
-                input_bam = markdups.output_bam,
-                filename_prefix = cellid,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call picard.CollectGcBiasMetrics as gc_metrics{
-            input:
-                input_bam = markdups.output_bam,
-                reference = ref.human_reference,
-                reference_fai = ref.human_reference_fa_fai,
-                filename_prefix = cellid,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-        call samtools.Flagstat as flagstat{
-            input:
-                input_bam = markdups.output_bam,
-                filename_prefix = cellid,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call metrics.CoverageMetrics as coverage_metrics{
-            input:
-                bamfile = markdups.output_bam,
-                bamfile_bai = markdups.output_bai,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call metrics.CollectMetrics as collect_metrics{
-            input:
-                wgs_metrics = wgs_metrics.metrics_txt,
-                markdups_metrics = markdups.metrics_txt,
-                insert_metrics = insert_metrics.metrics_txt,
-                flagstat = flagstat.flagstat_txt,
-                cell_id = cellid,
-                coverage_metrics = coverage_metrics.output_csv,
-                coverage_metrics_yaml = coverage_metrics.output_csv_yaml,
-                singularity_image = singularity_image,
-                docker_image = docker_image
-        }
-
-        call metrics.CollectGcMetrics as collect_gc_metrics{
-            input:
-                infile = gc_metrics.metrics_txt,
-                cell_id = cellid,
+                fastq_files = cell_lanes,
+                metadata_yaml = metadata_yaml,
+                human_reference = ref.human_reference,
+                human_reference_fa_fai = ref.human_reference_fa_fai,
+                human_reference_fa_amb = ref.human_reference_fa_amb,
+                human_reference_fa_ann = ref.human_reference_fa_ann,
+                human_reference_fa_bwt = ref.human_reference_fa_bwt,
+                human_reference_fa_pac = ref.human_reference_fa_pac,
+                human_reference_fa_sa = ref.human_reference_fa_sa,
+                mouse_reference = ref.mouse_reference,
+                mouse_reference_fa_fai = ref.mouse_reference_fa_fai,
+                mouse_reference_fa_amb = ref.mouse_reference_fa_amb,
+                mouse_reference_fa_ann = ref.mouse_reference_fa_ann,
+                mouse_reference_fa_bwt = ref.mouse_reference_fa_bwt,
+                mouse_reference_fa_pac = ref.mouse_reference_fa_pac,
+                mouse_reference_fa_sa = ref.mouse_reference_fa_sa,
+                salmon_reference = ref.salmon_reference,
+                salmon_reference_fa_fai = ref.salmon_reference_fa_fai,
+                salmon_reference_fa_amb = ref.salmon_reference_fa_amb,
+                salmon_reference_fa_ann = ref.salmon_reference_fa_ann,
+                salmon_reference_fa_bwt = ref.salmon_reference_fa_bwt,
+                salmon_reference_fa_pac = ref.salmon_reference_fa_pac,
+                salmon_reference_fa_sa = ref.salmon_reference_fa_sa,
+                cell_id=cellid,
                 singularity_image = singularity_image,
                 docker_image = docker_image
         }
@@ -178,34 +104,36 @@ workflow AlignmentWorkflow{
 
     call csverve.ConcatenateCsv as concat_fastqscreen_detailed{
         input:
-            inputfile = merge_fq.merged_detailed,
-            inputyaml = merge_fq.merged_detailed_yaml,
+            inputfile = alignment.fastqscreen_detailed_metrics,
+            inputyaml = alignment.fastqscreen_detailed_metrics_yaml,
             filename_prefix = 'detailed_fastqscreen_breakdown',
             singularity_image = singularity_image,
             docker_image = docker_image
     }
+
+    call csverve.ConcatenateCsv as concat_fastqscreen_summary{
+        input:
+            inputfile = alignment.fastqscreen_summary_metrics,
+            inputyaml = alignment.fastqscreen_summary_metrics_yaml,
+            singularity_image = singularity_image,
+            docker_image = docker_image
+    }
+
+
     call csverve.ConcatenateCsv as concat_gc_metrics{
         input:
-            inputfile = collect_gc_metrics.output_csv,
-            inputyaml = collect_gc_metrics.output_csv_yaml,
+            inputfile = alignment.gc_metrics,
+            inputyaml = alignment.gc_metrics_yaml,
             filename_prefix = "alignment_gc_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image
     }
 
 
-    call csverve.ConcatenateCsv as concat_fastqscreen_summary{
-        input:
-            inputfile = merge_fq.merged_summary,
-            inputyaml = merge_fq.merged_summary_yaml,
-            singularity_image = singularity_image,
-            docker_image = docker_image
-    }
-
     call csverve.ConcatenateCsv as concat_metrics{
         input:
-            inputfile = collect_metrics.output_csv,
-            inputyaml = collect_metrics.output_csv_yaml,
+            inputfile = alignment.metrics,
+            inputyaml = alignment.metrics_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image
     }
@@ -241,9 +169,7 @@ workflow AlignmentWorkflow{
 
     call tar.TarFiles as tar{
         input:
-            inputs = flatten([markdups.metrics_txt, gc_metrics.metrics_txt, gc_metrics.chart_pdf,
-            wgs_metrics.metrics_txt, insert_metrics.metrics_txt, insert_metrics.histogram_pdf,
-            flagstat.flagstat_txt]),
+            inputs = alignment.tar_output,
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image
@@ -261,7 +187,7 @@ workflow AlignmentWorkflow{
 
     call utils.BamMerge as merge_bam_files{
         input:
-            input_bams = markdups.output_bam,
+            input_bams = alignment.bam,
             cell_ids = cellid,
             metrics = add_metadata.output_csv,
             metrics_yaml = add_metadata.output_csv_yaml,
