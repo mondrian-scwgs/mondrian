@@ -15,18 +15,12 @@ workflow MutectWorkflow{
         Array[String] chromosomes
         String tumour_id
         String normal_id
-        String ref_dir
+        VariantRefdata reference
         Int num_threads
         String? singularity_image = ""
         String? docker_image = "ubuntu"
     }
 
-    VariantRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_dict": ref_dir+'/human/GRCh37-lite.dict',
-        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        'vep_ref': ref_dir + '/vep.tar'
-    }
 
     call mutect.MutectWorkflow as mutect{
         input:
@@ -34,9 +28,9 @@ workflow MutectWorkflow{
             normal_bai = normal_bai,
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
-            reference = ref.reference,
-            reference_fai = ref.reference_fa_fai,
-            reference_dict = ref.reference_dict,
+            reference = reference.reference,
+            reference_fai = reference.reference_fa_fai,
+            reference_dict = reference.reference_dict,
             numThreads = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,

@@ -10,7 +10,7 @@ workflow SnvGenotypingWorkflow{
     input{
         File vcf_file
         File vcf_file_idx
-        String ref_dir
+        SnvGenotypingRefdata reference
         Array[String] chromosomes
         Int num_threads
         String sample_id
@@ -20,14 +20,10 @@ workflow SnvGenotypingWorkflow{
         String? singularity_image = ""
         String? docker_image = "ubuntu"
     }
-    SnvGenotypingRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-    }
 
     call pysam.GenerateIntervals as gen_int{
         input:
-            reference = ref.reference,
+            reference = reference.reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image
@@ -59,8 +55,8 @@ workflow SnvGenotypingWorkflow{
         input:
             bamfile = tumour_bam,
             baifile = tumour_bai,
-            fasta = ref.reference,
-            fasta_fai = ref.reference_fai,
+            fasta = reference.reference,
+            fasta_fai = reference.reference_fai,
             vcf_file = vcf_file,
             cell_barcodes = generate_cell_barcodes.cell_barcodes,
             singularity_image = singularity_image,

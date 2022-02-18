@@ -3,6 +3,7 @@ version 1.0
 import "imports/workflows/breakpoint_calling/sample_level_breakpoint_workflow.wdl" as breakpoint
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/utils.wdl" as utils
+import "imports/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 struct Sample{
@@ -12,36 +13,16 @@ struct Sample{
     File metadata_input
 }
 
-
-
 workflow BreakpointWorkflow{
     input{
         File normal_bam
         File normal_bai
         String normal_id
         Array[Sample] samples
-        String ref_dir
+        BreakpointRefdata reference
         Int num_threads
         String? singularity_image = ""
         String? docker_image = "ubuntu"
-    }
-    BreakpointRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_gtf": ref_dir+'/human/GRCh37-lite.gtf',
-        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        "reference_fa_1_ebwt": ref_dir + '/human/GRCh37-lite.fa.1.ebwt',
-        "reference_fa_2_ebwt": ref_dir + '/human/GRCh37-lite.fa.2.ebwt',
-        "reference_fa_3_ebwt": ref_dir + '/human/GRCh37-lite.fa.3.ebwt',
-        "reference_fa_4_ebwt": ref_dir + '/human/GRCh37-lite.fa.4.ebwt',
-        "reference_fa_rev_1_ebwt": ref_dir + '/human/GRCh37-lite.fa.rev.1.ebwt',
-        "reference_fa_rev_2_ebwt": ref_dir + '/human/GRCh37-lite.fa.rev.2.ebwt',
-        "reference_fa_amb": ref_dir+'/human/GRCh37-lite.fa.amb',
-        "reference_fa_ann": ref_dir+'/human/GRCh37-lite.fa.ann',
-        "reference_fa_bwt": ref_dir+'/human/GRCh37-lite.fa.bwt',
-        "reference_fa_pac": ref_dir+'/human/GRCh37-lite.fa.pac',
-        "reference_fa_sa": ref_dir+'/human/GRCh37-lite.fa.sa',
-        "repeats_satellite_regions": ref_dir + '/human/repeats.satellite.regions',
-        "dgv": ref_dir + '/human/dgv.txt',
     }
 
     scatter (sample in samples){
@@ -56,7 +37,7 @@ workflow BreakpointWorkflow{
                 normal_bai = normal_bai,
                 tumour_bam = bam,
                 tumour_bai = bai,
-                ref = ref,
+                ref = reference,
                 num_threads=num_threads,
                 normal_id = normal_id,
                 tumour_id=tumour_id,

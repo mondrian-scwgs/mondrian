@@ -19,21 +19,12 @@ workflow HmmcopyWorkflow{
         File gc_metrics
         File gc_metrics_yaml
         File metadata_input
-        String ref_dir
+        HmmcopyRefdata reference
         Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "ubuntu"
     }
 
-    HmmcopyRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        "gc_wig": ref_dir + '/human/GRCh37-lite.gc.ws_500000.wig',
-        "map_wig": ref_dir + '/human/GRCh37-lite.map.ws_125_to_500000.wig',
-        "classifier_training_data": ref_dir + '/human/classifier_training_data.h5',
-        "reference_gc": ref_dir + '/human/reference_gc_grch37.csv',
-        "repeats_satellite_regions": ref_dir + '/human/repeats.satellite.regions'
-    }
 
     call utils.RunReadCounter as readcounter{
         input:
@@ -43,7 +34,7 @@ workflow HmmcopyWorkflow{
             contaminated_baifile = contaminated_bai,
             control_bamfile = control_bam,
             control_baifile = control_bai,
-            repeats_satellite_regions = ref.repeats_satellite_regions,
+            repeats_satellite_regions = reference.repeats_satellite_regions,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image
@@ -54,8 +45,8 @@ workflow HmmcopyWorkflow{
         call utils.CorrectReadCount as correction{
             input:
                 infile = wigfile,
-                gc_wig = ref.gc_wig,
-                map_wig = ref.map_wig,
+                gc_wig = reference.gc_wig,
+                map_wig = reference.map_wig,
                 map_cutoff = '0.9',
                 singularity_image = singularity_image,
                 docker_image = docker_image
@@ -78,8 +69,8 @@ workflow HmmcopyWorkflow{
                 params_yaml = hmmcopy.params_yaml,
                 metrics = hmmcopy.metrics,
                 metrics_yaml = hmmcopy.metrics_yaml,
-                reference = ref.reference,
-                reference_fai = ref.reference_fai,
+                reference = reference.reference,
+                reference_fai = reference.reference_fai,
                 singularity_image = singularity_image,
                 docker_image = docker_image
         }
@@ -176,7 +167,7 @@ workflow HmmcopyWorkflow{
             hmmcopy_metrics_yaml = add_order.output_yaml,
             alignment_metrics = alignment_metrics,
             alignment_metrics_yaml = alignment_metrics_yaml,
-            classifier_training_data = ref.classifier_training_data,
+            classifier_training_data = reference.classifier_training_data,
             filename_prefix = "hmmcopy_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image
@@ -211,7 +202,7 @@ workflow HmmcopyWorkflow{
             metrics_yaml = add_quality.outfile_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
-            reference_gc = ref.reference_gc,
+            reference_gc = reference.reference_gc,
             filename_prefix = "qc_html",
             singularity_image = singularity_image,
             docker_image = docker_image

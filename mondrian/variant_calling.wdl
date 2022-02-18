@@ -4,6 +4,7 @@ import "imports/workflows/variant_calling/sample_level_variant_workflow.wdl" as 
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
+import "imports/types/variant_refdata.wdl"
 
 
 struct Sample{
@@ -18,20 +19,13 @@ workflow VariantWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String ref_dir
+        VariantRefdata reference
         Int numThreads
         Array[String] chromosomes
         String normal_id
         Array[Sample] samples
         String? singularity_image = ""
         String? docker_image = "ubuntu"
-    }
-
-    VariantRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_dict": ref_dir+'/human/GRCh37-lite.dict',
-        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        'vep_ref': ref_dir + '/vep.tar'
     }
 
 
@@ -48,12 +42,12 @@ workflow VariantWorkflow{
                 normal_bai = normal_bai,
                 tumour_bam = bam,
                 tumour_bai = bai,
-                reference = ref.reference,
-                reference_fai = ref.reference_fa_fai,
-                reference_dict = ref.reference_dict,
+                reference = reference.reference,
+                reference_fai = reference.reference_fa_fai,
+                reference_dict = reference.reference_dict,
                 numThreads=numThreads,
                 chromosomes = chromosomes,
-                vep_ref = ref.vep_ref,
+                vep_ref = reference.vep_ref,
                 tumour_id = tumour_id,
                 normal_id = normal_id,
                 singularity_image = singularity_image,

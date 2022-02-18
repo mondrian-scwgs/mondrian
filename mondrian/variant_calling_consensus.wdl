@@ -18,16 +18,9 @@ workflow ConsensusWorkflow{
         Array[String] chromosomes
         String tumour_id
         String normal_id
-        String ref_dir
+        VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "ubuntu"
-    }
-
-    VariantRefdata ref = {
-        "reference": ref_dir+'/human/GRCh37-lite.fa',
-        "reference_dict": ref_dir+'/human/GRCh37-lite.dict',
-        "reference_fa_fai": ref_dir+'/human/GRCh37-lite.fa.fai',
-        'vep_ref': ref_dir + '/vep.tar'
     }
 
     call consensus.ConsensusWorkflow as consensus{
@@ -42,7 +35,7 @@ workflow ConsensusWorkflow{
             strelka_indel_tbi = strelka_indel_vcffile_tbi,
             normal_id = normal_id,
             tumour_id = tumour_id,
-            vep_ref = ref.vep_ref,
+            vep_ref = reference.vep_ref,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image
