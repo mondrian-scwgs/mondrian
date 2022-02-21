@@ -25,8 +25,11 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     
     ```
     {
-        "SnvGenotypingWorkflow.singularity_image": "<path to singularity sif>",
-        "SnvGenotypingWorkflow.ref_dir": "<path to reference dir>",
+        "SnvGenotypingWorkflow.singularity_image": "<path-to-singularity-sif>",
+        "SnvGenotypingWorkflow.reference": {
+            "reference": "<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+            "reference_fai": "<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai"
+        },
         "SnvGenotypingWorkflow.vcf_file": "snv_genotyping/merged_sorted.vcf.gz",
         "SnvGenotypingWorkflow.vcf_file_idx": "snv_genotyping/merged_sorted.vcf.gz.tbi",
         "SnvGenotypingWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
@@ -34,7 +37,7 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
         "SnvGenotypingWorkflow.sample_id": "SA123",
         "SnvGenotypingWorkflow.tumour_bam": "snv_genotyping/merged.bam",
         "SnvGenotypingWorkflow.tumour_bai": "snv_genotyping/merged.bam.bai",
-        "SnvGenotypingWorkflow.metadata_input": "snv_genotyping/metadata.yaml" 
+        "SnvGenotypingWorkflow.metadata_input": "snv_genotyping/metadata.yaml"
     }
     ```
 

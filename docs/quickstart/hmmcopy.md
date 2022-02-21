@@ -26,22 +26,29 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"HmmcopyWorkflow.singularity_image": "<insert path to singularity sif>",
+"HmmcopyWorkflow.singularity_image": "<path-to-singularity-sif>",
 "HmmcopyWorkflow.bam": "hmmcopy_testdata/merged.bam",
 "HmmcopyWorkflow.bai": "hmmcopy_testdata//merged.bam.bai",
 "HmmcopyWorkflow.control_bam": "hmmcopy_testdata/control.bam",
 "HmmcopyWorkflow.control_bai": "hmmcopy_testdata/control.bam.bai",
 "HmmcopyWorkflow.contaminated_bam": "hmmcopy_testdata/contaminated.bam",
 "HmmcopyWorkflow.contaminated_bai": "hmmcopy_testdata/contaminated.bam.bai",
-"HmmcopyWorkflow.ref_dir": "<insert ref dir path>",
+"HmmcopyWorkflow.reference":{
+    "reference": "<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+    "reference_fai": "<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+    "gc_wig": "<path-to-mondrian-ref>/human/GRCh37-lite.gc.ws_500000.wig",
+    "map_wig": "<path-to-mondrian-ref>/human/GRCh37-lite.map.ws_125_to_500000.wig",
+    "classifier_training_data": "<path-to-mondrian-ref>/human/classifier_training_data.h5",
+    "reference_gc": "<path-to-mondrian-ref>/human/reference_gc_grch37.csv",
+    "repeats_satellite_regions": "<path-to-mondrian-ref>/human/repeats.satellite.regions"
+},
 "HmmcopyWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
 "HmmcopyWorkflow.metadata_input": "hmmcopy_testdata/metadata.yaml",
 "HmmcopyWorkflow.alignment_metrics": "hmmcopy_testdata/alignment.csv.gz",
 "HmmcopyWorkflow.alignment_metrics_yaml": "hmmcopy_testdata/alignment.csv.gz.yaml",
 "HmmcopyWorkflow.gc_metrics": "hmmcopy_testdata/gc_metrics.csv.gz",
 "HmmcopyWorkflow.gc_metrics_yaml": "hmmcopy_testdata/gc_metrics.csv.gz.yaml"
-}
-```
+}```
 
 you can skip line 2 of this file if you're not using singularity 
 

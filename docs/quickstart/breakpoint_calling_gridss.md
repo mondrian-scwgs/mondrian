@@ -30,10 +30,27 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "GridssWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "GridssWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "GridssWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
-"GridssWorkflow.ref_dir": "<path to reference>",
+"GridssWorkflow.reference":{
+    "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+    "reference_gtf":"<path-to-mondrian-ref>/human/GRCh37-lite.gtf",
+    "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+    "reference_fa_1_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.1.ebwt",
+    "reference_fa_2_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.2.ebwt",
+    "reference_fa_3_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.3.ebwt",
+    "reference_fa_4_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.4.ebwt",
+    "reference_fa_rev_1_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.rev.1.ebwt",
+    "reference_fa_rev_2_ebwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.rev.2.ebwt",
+    "reference_fa_amb":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.amb",
+    "reference_fa_ann":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.ann",
+    "reference_fa_bwt":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.bwt",
+    "reference_fa_pac":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.pac",
+    "reference_fa_sa":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.sa",
+    "repeats_satellite_regions":"<path-to-mondrian-ref>/human/repeats.satellite.regions",
+    "dgv":"<path-to-mondrian-ref>/human/dgv.txt"
+    },
 "GridssWorkflow.num_threads": "8",
 "GridssWorkflow.tumour_id": "SA123",
-"GridssWorkflow.singularity_image": "<insert path to singularity sif file>"
+"GridssWorkflow.singularity_image": "<path-to-singularity-sif>"
 }
 ```
 

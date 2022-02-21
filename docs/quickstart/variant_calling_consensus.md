@@ -37,9 +37,15 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     "ConsensusWorkflow.chromosomes": ["22"],
     "ConsensusWorkflow.normal_id": "SA123",
     "ConsensusWorkflow.tumour_id": "SA123T",
-    "ConsensusWorkflow.ref_dir": "<path to refdir>",
-    "ConsensusWorkflow.singularity_image": "<insert path to singularity sif>"
+    "ConsensusWorkflow.reference": {
+        "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+        "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
+        "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+        "vep_ref":"<path-to-mondrian-ref>/vep.tar"
+    },
+    "ConsensusWorkflow.singularity_image": "<path-to-singularity-sif>"
     }
+
     ```
     you can skip line 2 of this file if you're not using singularity 
 

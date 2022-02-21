@@ -25,7 +25,7 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     
     ```
     {
-    "MuseqWorkflow.singularity_image": "<insert path to singularity sif>",
+    "MuseqWorkflow.singularity_image": "<path-to-singularity-sif>",
     "MuseqWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
     "MuseqWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
     "MuseqWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
@@ -34,7 +34,12 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     "MuseqWorkflow.chromosomes": ["22"],
     "MuseqWorkflow.normal_id": "SA123",
     "MuseqWorkflow.tumour_id": "SA123T",
-    "MuseqWorkflow.ref_dir": "<path to refdir>",
+    "MuseqWorkflow.reference": {
+        "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+        "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
+        "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+        "vep_ref":"<path-to-mondrian-ref>/vep.tar"
+    },
     "MuseqWorkflow.num_threads": "8"
     }
     ```

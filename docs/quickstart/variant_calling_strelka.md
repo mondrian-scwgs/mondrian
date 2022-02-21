@@ -24,7 +24,7 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     
     ```
     {
-    "StrelkaWorkflow.singularity_image": "<insert path to singularity sif>",
+    "StrelkaWorkflow.singularity_image": "<path-to-singularity-sif>",
     "StrelkaWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
     "StrelkaWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
     "StrelkaWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
@@ -33,7 +33,12 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     "StrelkaWorkflow.chromosomes": ["22"],
     "StrelkaWorkflow.normal_id": "SA123",
     "StrelkaWorkflow.tumour_id": "SA123T",
-    "StrelkaWorkflow.ref_dir": "<path to refdir>",
+    "StrelkaWorkflow.reference":{
+        "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+        "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
+        "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+        "vep_ref":"<path-to-mondrian-ref>/vep.tar"
+      },
     "StrelkaWorkflow.num_threads": "8"
     }
     ```

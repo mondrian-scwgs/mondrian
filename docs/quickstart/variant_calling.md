@@ -25,11 +25,16 @@
     
     ```
     {
-    "VariantWorkflow.singularity_image": "<insert path to singularity sif>",
+    "VariantWorkflow.singularity_image": "<path-to-singularity-sif>",
     "VariantWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
     "VariantWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
-    "VariantWorkflow.numThreads": 8,
-    "VariantWorkflow.ref_dir": "<path to refdir>",
+    "VariantWorkflow.numThreads": 1,
+    "VariantWorkflow.reference": {
+        "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+        "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
+        "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+        "vep_ref":"<path-to-mondrian-ref>/vep.tar"
+    },
     "VariantWorkflow.chromosomes": ["22"],
     "VariantWorkflow.normal_id": "SA123",
     "VariantWorkflow.samples": [{
@@ -39,6 +44,7 @@
         "metadata_input": "variant_testdata/metadata.yaml"
       }]
     }
+
     ```
     you can skip line 2 of this file if you're not using singularity 
 

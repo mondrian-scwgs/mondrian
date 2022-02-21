@@ -26,9 +26,41 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 {
-"AlignmentWorkflow.singularity_image": "<path to singularity sif file>",
-"AlignmentWorkflow.ref_dir": "<path to mondrian-ref>",
+"AlignmentWorkflow.singularity_image": "<path-to-singularity-sif>",
 "AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
+"AlignmentWorkflow.reference": {
+    "genome_name": "human",
+    "reference" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+    "reference_fa_fai" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
+    "reference_fa_amb" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.amb",
+    "reference_fa_ann" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.ann",
+    "reference_fa_bwt" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.bwt",
+    "reference_fa_pac" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.pac",
+    "reference_fa_sa" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.sa"
+},
+"AlignmentWorkflow.supplementary_references":[
+    {
+    "genome_name": "mouse",
+    "reference" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta",
+    "reference_fa_fai" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.fai",
+    "reference_fa_amb" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.amb",
+    "reference_fa_ann" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.ann",
+    "reference_fa_bwt" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.bwt",
+    "reference_fa_pac" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.pac",
+    "reference_fa_sa" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.sa"
+    },
+    {
+    "genome_name": "salmon",
+    "reference" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna",
+    "reference_fa_fai" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai",
+    "reference_fa_amb" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.amb",
+    "reference_fa_ann" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.ann",
+    "reference_fa_bwt" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.bwt",
+    "reference_fa_pac" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.pac",
+    "reference_fa_sa" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa"
+    }
+],
+"AlignmentWorkflow.fastqscreen_classifier_training_data": "<path-to-mondrian-ref>/human/fastqscreen_training_data.csv",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
          "lanes": [

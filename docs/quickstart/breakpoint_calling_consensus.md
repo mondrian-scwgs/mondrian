@@ -33,7 +33,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "ConsensusWorkflow.gridss_vcf":"breakpoint_testdata/SA123_gridss.vcf.gz",
 "ConsensusWorkflow.tumour_id":"SA123",
 "ConsensusWorkflow.num_threads":"8",
-"ConsensusWorkflow.singularity_image": "<insert path to singularity sif file>"
+"ConsensusWorkflow.singularity_image": "<path-to-singularity-sif>"
 }
 ```
 
