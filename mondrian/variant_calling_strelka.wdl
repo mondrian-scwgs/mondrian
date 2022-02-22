@@ -19,6 +19,12 @@ workflow StrelkaWorkflow{
         Int num_threads
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     call strelka.StrelkaWorkflow as strelka{
@@ -33,7 +39,13 @@ workflow StrelkaWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
 
@@ -46,7 +58,9 @@ workflow StrelkaWorkflow{
             metadata_yaml_files = [metadata_input],
             samples = [tumour_id],
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 

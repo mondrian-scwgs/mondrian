@@ -21,6 +21,12 @@ workflow ConsensusWorkflow{
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     call consensus.ConsensusWorkflow as consensus{
@@ -38,7 +44,13 @@ workflow ConsensusWorkflow{
             vep_ref = reference.vep_ref,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
 
@@ -51,7 +63,9 @@ workflow ConsensusWorkflow{
             metadata_yaml_files = [],
             samples = [],
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 

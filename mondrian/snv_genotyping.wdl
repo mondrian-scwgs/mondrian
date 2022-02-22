@@ -19,6 +19,12 @@ workflow SnvGenotypingWorkflow{
         File metadata_input
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     call pysam.GenerateIntervals as gen_int{
@@ -26,7 +32,9 @@ workflow SnvGenotypingWorkflow{
             reference = reference.reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.Genotyper as genotyping{
@@ -39,7 +47,9 @@ workflow SnvGenotypingWorkflow{
             num_threads = num_threads,
             filename_prefix = "snv_genotyping",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
 
@@ -48,7 +58,9 @@ workflow SnvGenotypingWorkflow{
             bamfile = tumour_bam,
             baifile = tumour_bai,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.RunVartrix as vartrix{
@@ -60,7 +72,9 @@ workflow SnvGenotypingWorkflow{
             vcf_file = vcf_file,
             cell_barcodes = generate_cell_barcodes.cell_barcodes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = med_walltime
     }
 
     call utils.ParseVartrix as parser{
@@ -70,7 +84,9 @@ workflow SnvGenotypingWorkflow{
             ref_counts = vartrix.ref_counts,
             alt_counts = vartrix.alt_counts,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
@@ -84,7 +100,9 @@ workflow SnvGenotypingWorkflow{
             singularity_image = singularity_image,
             docker_image = docker_image,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     output{

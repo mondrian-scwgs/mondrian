@@ -20,6 +20,12 @@ workflow MutectWorkflow{
         String? singularity_image
         String? docker_image
         String filename_prefix = ""
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -27,14 +33,18 @@ workflow MutectWorkflow{
             reference = reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call mutect.GetSampleId  as get_sample_id{
         input:
             input_bam = normal_bam,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call mutect.RunMutect as run_mutect{
@@ -50,7 +60,9 @@ workflow MutectWorkflow{
             intervals = gen_int.intervals,
             normal_sample_id = get_sample_id.sample_id,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     scatter (mutect_vcf_file in run_mutect.vcf_files){
@@ -59,7 +71,9 @@ workflow MutectWorkflow{
                 vcf_file = mutect_vcf_file,
                 filename_prefix = 'mutect_calls',
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = low_walltime
         }
     }
 
@@ -69,7 +83,9 @@ workflow MutectWorkflow{
             csi_files = finalize_region_vcf.vcf_csi,
             tbi_files = finalize_region_vcf.vcf_tbi,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.VcfReheaderId as reheader{
@@ -80,7 +96,9 @@ workflow MutectWorkflow{
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{
@@ -88,7 +106,9 @@ workflow MutectWorkflow{
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_mutect',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     output{

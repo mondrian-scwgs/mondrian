@@ -29,6 +29,12 @@ workflow SampleLevelVariantWorkflow {
         String normal_id
         String? singularity_image
         String? docker_image
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     call museq.MuseqWorkflow as museq{
@@ -45,7 +51,13 @@ workflow SampleLevelVariantWorkflow {
             normal_id = normal_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
     call strelka.StrelkaWorkflow as strelka{
@@ -60,7 +72,13 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
     call mutect.MutectWorkflow as mutect{
@@ -76,7 +94,13 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id
+            filename_prefix = tumour_id,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
     call consensus.ConsensusWorkflow as consensus{
@@ -94,7 +118,13 @@ workflow SampleLevelVariantWorkflow {
             vep_ref = vep_ref,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
     }
 
     output{

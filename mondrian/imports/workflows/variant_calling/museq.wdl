@@ -21,6 +21,12 @@ workflow MuseqWorkflow{
         String? singularity_image
         String? docker_image
         String filename_prefix = 'output'
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -28,7 +34,9 @@ workflow MuseqWorkflow{
             reference = reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call museq.RunMuseq as run_museq{
@@ -42,7 +50,9 @@ workflow MuseqWorkflow{
             cores = numThreads,
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     scatter (museq_vcf_file in run_museq.vcf_files){
@@ -50,7 +60,9 @@ workflow MuseqWorkflow{
             input:
                 vcf_file = museq_vcf_file,
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = low_walltime
         }
     }
 
@@ -61,7 +73,9 @@ workflow MuseqWorkflow{
             csi_files = fix_museq.output_csi,
             tbi_files = fix_museq.output_tbi,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.VcfReheaderId as reheader{
@@ -72,7 +86,9 @@ workflow MuseqWorkflow{
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOUR',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{
@@ -80,7 +96,9 @@ workflow MuseqWorkflow{
             vcf_file = reheader.output_file,
             filename_prefix = filename_prefix + '_museq',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     output{

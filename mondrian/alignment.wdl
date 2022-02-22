@@ -7,7 +7,7 @@ import "imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
 import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
-import "imports/types/align_refdata.wdl" as refdata_struct
+import "imports/types/align_refdata.wdl"
 
 
 struct Lane{
@@ -33,6 +33,12 @@ workflow AlignmentWorkflow{
         File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     scatter(cellinfo in fastq_files){
@@ -47,7 +53,9 @@ workflow AlignmentWorkflow{
                 supplementary_references = supplementary_references,
                 cell_id=cellid,
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = high_mem,
+                walltime_hours = high_walltime,
         }
     }
 
@@ -57,7 +65,9 @@ workflow AlignmentWorkflow{
             inputyaml = alignment.fastqscreen_detailed_metrics_yaml,
             filename_prefix = 'detailed_fastqscreen_breakdown',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call csverve.ConcatenateCsv as concat_fastqscreen_summary{
@@ -65,7 +75,9 @@ workflow AlignmentWorkflow{
             inputfile = alignment.fastqscreen_summary_metrics,
             inputyaml = alignment.fastqscreen_summary_metrics_yaml,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
@@ -75,7 +87,9 @@ workflow AlignmentWorkflow{
             inputyaml = alignment.gc_metrics_yaml,
             filename_prefix = "alignment_gc_metrics",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
@@ -84,7 +98,9 @@ workflow AlignmentWorkflow{
             inputfile = alignment.metrics,
             inputyaml = alignment.metrics_yaml,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call csverve.MergeCsv as annotate_with_fastqscreen{
@@ -94,7 +110,9 @@ workflow AlignmentWorkflow{
             how='outer',
             on='cell_id',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.AddContaminationStatus as contaminated{
@@ -103,7 +121,9 @@ workflow AlignmentWorkflow{
             input_yaml = annotate_with_fastqscreen.outfile_yaml,
             reference_genome = reference.genome_name,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call tar.TarFiles as tar{
@@ -111,7 +131,9 @@ workflow AlignmentWorkflow{
             inputs = alignment.tar_output,
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call metrics.AddMetadata as add_metadata{
@@ -121,7 +143,9 @@ workflow AlignmentWorkflow{
             metadata_yaml = metadata_yaml,
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.BamMerge as merge_bam_files{
@@ -133,7 +157,9 @@ workflow AlignmentWorkflow{
             ncores=20,
             filename_prefix = "all_cells_bulk",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.AlignmentMetadata as alignment_metadata{
@@ -153,7 +179,9 @@ workflow AlignmentWorkflow{
             tarfile = tar.tar_output,
             metadata_input = metadata_yaml,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 

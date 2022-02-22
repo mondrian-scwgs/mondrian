@@ -23,6 +23,12 @@ workflow HmmcopyWorkflow{
         Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
 
@@ -37,7 +43,9 @@ workflow HmmcopyWorkflow{
             repeats_satellite_regions = reference.repeats_satellite_regions,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     scatter(wigfile in readcounter.wigs){
@@ -49,14 +57,18 @@ workflow HmmcopyWorkflow{
                 map_wig = reference.map_wig,
                 map_cutoff = '0.9',
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = med_mem,
+                walltime_hours = med_walltime
         }
 
         call utils.RunHmmcopy as hmmcopy{
             input:
                 corrected_wig = correction.wig,
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = med_mem,
+                walltime_hours = med_walltime
         }
 
         call utils.PlotHmmcopy as plotting{
@@ -72,7 +84,9 @@ workflow HmmcopyWorkflow{
                 reference = reference.reference,
                 reference_fai = reference.reference_fai,
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = med_mem,
+                walltime_hours = med_walltime
         }
     }
     call csverve.ConcatenateCsv as concat_metrics{
@@ -81,7 +95,9 @@ workflow HmmcopyWorkflow{
             inputyaml = hmmcopy.metrics_yaml,
             filename_prefix = "hmmcopy_metrics",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call csverve.MergeCsv as merge_alignment_metrics{
@@ -91,7 +107,9 @@ workflow HmmcopyWorkflow{
             on = "cell_id",
             how="outer",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime,
     }
 
 
@@ -101,7 +119,9 @@ workflow HmmcopyWorkflow{
             inputyaml = hmmcopy.params_yaml,
             filename_prefix = "hmmcopy_params",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call csverve.ConcatenateCsv as concat_segments{
@@ -110,7 +130,9 @@ workflow HmmcopyWorkflow{
             inputyaml = hmmcopy.segments_yaml,
             filename_prefix = "hmmcopy_segments",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call csverve.ConcatenateCsv as concat_reads{
@@ -119,7 +141,9 @@ workflow HmmcopyWorkflow{
             inputyaml = hmmcopy.reads_yaml,
             filename_prefix = "hmmcopy_reads",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = med_walltime
     }
 
 
@@ -129,7 +153,9 @@ workflow HmmcopyWorkflow{
             infile_yaml = concat_reads.outfile_yaml,
             filename_prefix = "hmmcopy_reads",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.CellCycleClassifier as cell_cycle_classifier{
@@ -138,7 +164,9 @@ workflow HmmcopyWorkflow{
             hmmcopy_metrics = merge_alignment_metrics.outfile,
             alignment_metrics = alignment_metrics,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     call csverve.MergeCsv as merge_cell_cycle{
@@ -148,7 +176,9 @@ workflow HmmcopyWorkflow{
             on = 'cell_id',
             how = 'outer',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.AddClusteringOrder as add_order{
@@ -158,7 +188,9 @@ workflow HmmcopyWorkflow{
             reads = add_mappability.outfile,
             reads_yaml = add_mappability.outfile_yaml,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.AddQuality as add_quality{
@@ -170,7 +202,9 @@ workflow HmmcopyWorkflow{
             classifier_training_data = reference.classifier_training_data,
             filename_prefix = "hmmcopy_metrics",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.CreateSegmentsTar as merge_segments{
@@ -181,7 +215,9 @@ workflow HmmcopyWorkflow{
             segments_plot_sample = plotting.segments_sample,
             filename_prefix = "hmmcopy_segments",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.PlotHeatmap as heatmap{
@@ -193,7 +229,9 @@ workflow HmmcopyWorkflow{
             chromosomes=chromosomes,
             filename_prefix = "hmmcopy_heatmap",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = med_walltime
     }
 
     call utils.GenerateHtmlReport as html_report{
@@ -205,7 +243,9 @@ workflow HmmcopyWorkflow{
             reference_gc = reference.reference_gc,
             filename_prefix = "qc_html",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = med_walltime
     }
 
     call utils.HmmcopyMetadata as hmmcopy_metadata{
@@ -223,7 +263,9 @@ workflow HmmcopyWorkflow{
             segments_fail = merge_segments.segments_fail,
             metadata_input = metadata_input,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     output{

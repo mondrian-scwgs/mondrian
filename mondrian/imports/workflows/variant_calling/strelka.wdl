@@ -16,9 +16,15 @@ workflow StrelkaWorkflow{
         File reference_fai
         Array[String] chromosomes
         Int numThreads
+        String filename_prefix = ""
         String? singularity_image
         String? docker_image
-        String filename_prefix = ""
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -26,7 +32,9 @@ workflow StrelkaWorkflow{
             reference = reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call strelka.GenerateChromDepth as generate_chrom_depth{
@@ -38,14 +46,18 @@ workflow StrelkaWorkflow{
             cores = numThreads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call strelka.MergeChromDepths as merge_chrom_depths{
         input:
             inputs = generate_chrom_depth.chrom_depths,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call strelka.GetGenomeSize as get_genome_size{
@@ -53,7 +65,9 @@ workflow StrelkaWorkflow{
             reference = reference,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call strelka.RunStrelka as run_strelka{
@@ -69,7 +83,9 @@ workflow StrelkaWorkflow{
             chrom_depth_file = merge_chrom_depths.merged,
             cores = numThreads,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     #################
@@ -81,7 +97,9 @@ workflow StrelkaWorkflow{
                 vcf_file = indel_vcf_file,
                 filename_prefix = 'strelka_indels',
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = low_walltime
         }
     }
 
@@ -91,14 +109,18 @@ workflow StrelkaWorkflow{
             csi_files = finalize_indels.vcf_csi,
             tbi_files = finalize_indels.vcf_tbi,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FilterVcf as filter_indel_vcf{
         input:
             vcf_file = merge_indel_vcf.merged_vcf,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.VcfReheaderId as reheader_indel{
@@ -109,7 +131,9 @@ workflow StrelkaWorkflow{
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_indel{
@@ -117,7 +141,9 @@ workflow StrelkaWorkflow{
             vcf_file = reheader_indel.output_file,
             filename_prefix = filename_prefix + '_strelka_indel',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     #############
@@ -129,7 +155,9 @@ workflow StrelkaWorkflow{
                 vcf_file = snv_vcf_file,
                 filename_prefix = 'strelka_snv',
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = low_walltime
         }
     }
 
@@ -140,14 +168,18 @@ workflow StrelkaWorkflow{
             csi_files = finalize_snv.vcf_csi,
             tbi_files = finalize_snv.vcf_tbi,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FilterVcf as filter_snv_vcf{
         input:
             vcf_file = merge_snv_vcf.merged_vcf,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call utils.VcfReheaderId as reheader_snv{
@@ -158,7 +190,9 @@ workflow StrelkaWorkflow{
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_snv{
@@ -166,7 +200,9 @@ workflow StrelkaWorkflow{
             vcf_file = reheader_snv.output_file,
             filename_prefix = filename_prefix + '_strelka_snv',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     output{

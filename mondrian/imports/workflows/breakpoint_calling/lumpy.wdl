@@ -9,9 +9,15 @@ workflow LumpyWorkflow {
     input {
         File normal_bam
         File tumour_bam
+        String filename_prefix = "output"
         String? singularity_image
         String? docker_image
-        String filename_prefix = "output"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
     call samtools.ViewBam as normal_discordant_bam {
@@ -21,14 +27,18 @@ workflow LumpyWorkflow {
             bam_flag = 1294,
             samtools_flags = '-bh',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call samtools.SortBam as sort_normal_discordant_bam{
         input:
             inputBam = normal_discordant_bam.bamFile,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call lumpy.ExtractSplitReads as normal_split_bam{
@@ -36,14 +46,18 @@ workflow LumpyWorkflow {
             inputBam = normal_bam,
             outputBam = "normal_split.bam",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call samtools.SortBam as sort_normal_split_bam{
         input:
             inputBam = normal_split_bam.bamFile,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     ##### tumour
@@ -55,14 +69,18 @@ workflow LumpyWorkflow {
             bam_flag = 1294,
             samtools_flags = '-bh',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call samtools.SortBam as sort_tumour_discordant_bam{
         input:
             inputBam = tumour_discordant_bam.bamFile,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call lumpy.ExtractSplitReads as tumour_split_bam{
@@ -70,14 +88,18 @@ workflow LumpyWorkflow {
             inputBam = tumour_bam,
             outputBam = "tumour_split.bam",
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call samtools.SortBam as sort_tumour_split_bam{
         input:
             inputBam = tumour_split_bam.bamFile,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = med_mem,
+            walltime_hours = high_walltime
     }
 
     call lumpy.LumpyExpress as lumpyexpress{
@@ -90,7 +112,9 @@ workflow LumpyWorkflow {
             tumour_bam = tumour_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = filename_prefix
+            filename_prefix = filename_prefix,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
     output{
         File lumpy_vcf = lumpyexpress.lumpy_vcf

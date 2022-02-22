@@ -26,6 +26,12 @@ workflow VariantWorkflow{
         Array[Sample] samples
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? low_mem = 7
+        Int? med_mem = 15
+        Int? high_mem = 25
+        String? low_walltime = 24
+        String? med_walltime = 48
+        String? high_walltime = 96
     }
 
 
@@ -51,7 +57,13 @@ workflow VariantWorkflow{
                 tumour_id = tumour_id,
                 normal_id = normal_id,
                 singularity_image = singularity_image,
-                docker_image = docker_image
+                docker_image = docker_image,
+                low_mem = low_mem,
+                med_mem = med_mem,
+                high_mem = high_mem,
+                low_walltime = low_walltime,
+                med_walltime = med_walltime,
+                high_walltime = high_walltime
         }
     }
 
@@ -62,15 +74,18 @@ workflow VariantWorkflow{
             tbi_files = variant_workflow.vcf_tbi_output,
             filename_prefix = 'final_vcf_all_samples',
             singularity_image = singularity_image,
-            docker_image = docker_image
-
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
     call vcf2maf.MergeMafs as merge_mafs{
         input:
             input_mafs = variant_workflow.maf_output,
             filename_prefix = 'final_maf_all_samples',
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
@@ -90,7 +105,9 @@ workflow VariantWorkflow{
             metadata_yaml_files = metadata_input,
             samples = tumour_id,
             singularity_image = singularity_image,
-            docker_image = docker_image
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
