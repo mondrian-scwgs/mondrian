@@ -28,7 +28,6 @@
     "VariantWorkflow.singularity_image": "<path-to-singularity-sif>",
     "VariantWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
     "VariantWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
-    "VariantWorkflow.numThreads": 1,
     "VariantWorkflow.reference": {
         "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
         "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",

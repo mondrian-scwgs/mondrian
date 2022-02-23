@@ -29,7 +29,6 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "BreakpointWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "BreakpointWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
 "BreakpointWorkflow.normal_id": "normal",
-"BreakpointWorkflow.num_threads": 8,
 "BreakpointWorkflow.reference":{
     "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
     "reference_gtf":"<path-to-mondrian-ref>/human/GRCh37-lite.gtf",

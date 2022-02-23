@@ -11,7 +11,6 @@ workflow ConsensusWorkflow{
         File svaba_vcf
         File gridss_vcf
         String tumour_id
-        Int num_threads
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? low_mem = 7

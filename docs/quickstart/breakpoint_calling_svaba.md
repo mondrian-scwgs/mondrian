@@ -51,7 +51,6 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
     "repeats_satellite_regions":"<path-to-mondrian-ref>/human/repeats.satellite.regions",
     "dgv":"<path-to-mondrian-ref>/human/dgv.txt"
     },
-"SvabaWorkflow.num_threads": "8",
 "SvabaWorkflow.singularity_image": "<path-to-singularity-sif>"
 }
 ```

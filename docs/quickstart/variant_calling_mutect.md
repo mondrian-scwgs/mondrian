@@ -39,8 +39,7 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
         "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
         "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
         "vep_ref":"<path-to-mondrian-ref>/vep.tar"
-    },
-    "MutectWorkflow.num_threads": "8"
+    }
     }
     ```
     you can skip line 2 of this file if you're not using singularity 
