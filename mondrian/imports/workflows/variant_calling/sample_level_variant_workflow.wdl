@@ -22,6 +22,10 @@ workflow SampleLevelVariantWorkflow {
         File reference
         File reference_fai
         File reference_dict
+        File panel_of_normals
+        File panel_of_normals_idx
+        File variants_for_contamination
+        File variants_for_contamination_idx
         Int numThreads
         Array[String] chromosomes
         File vep_ref
@@ -90,6 +94,10 @@ workflow SampleLevelVariantWorkflow {
             reference = reference,
             reference_fai = reference_fai,
             reference_dict = reference_dict,
+            panel_of_normals = panel_of_normals,
+            panel_of_normals_idx = panel_of_normals_idx,
+            variants_for_contamination = variants_for_contamination,
+            variants_for_contamination_idx = variants_for_contamination_idx,
             numThreads = numThreads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,

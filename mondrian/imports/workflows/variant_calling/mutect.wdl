@@ -15,6 +15,10 @@ workflow MutectWorkflow{
         File reference
         File reference_fai
         File reference_dict
+        File panel_of_normals
+        File panel_of_normals_idx
+        File variants_for_contamination
+        File variants_for_contamination_idx
         Array[String] chromosomes
         Int numThreads
         String? singularity_image
@@ -38,13 +42,69 @@ workflow MutectWorkflow{
             walltime_hours = low_walltime
     }
 
-    call mutect.GetSampleId  as get_sample_id{
+    call mutect.GetPileup as pileup_normal{
         input:
             input_bam = normal_bam,
+            input_bai = normal_bai,
+            reference = reference,
+            reference_fai = reference_fai,
+            reference_dict = reference_dict,
+            variants_for_contamination = variants_for_contamination,
+            variants_for_contamination_idx = variants_for_contamination_idx,
+            intervals = gen_int.intervals,
+            cores = numThreads,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.MergePileupSummaries as merge_pileup_normal{
+        input:
+            input_tables = pileup_normal.pileups,
+            reference_dict = reference_dict,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.CalculateContamination as contamination{
+        input:
+            tumour_pileups = merge_pileup_tumour.merged_table,
+            normal_pileups = merge_pileup_normal.merged_table,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+
+    call mutect.GetPileup as pileup_tumour{
+        input:
+            input_bam = tumour_bam,
+            input_bai = tumour_bai,
+            reference = reference,
+            reference_fai = reference_fai,
+            reference_dict = reference_dict,
+            variants_for_contamination = variants_for_contamination,
+            variants_for_contamination_idx = variants_for_contamination_idx,
+            intervals = gen_int.intervals,
+            cores = numThreads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.MergePileupSummaries as merge_pileup_tumour{
+        input:
+            input_tables = pileup_tumour.pileups,
+            reference_dict = reference_dict,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     call mutect.RunMutect as run_mutect{
@@ -56,43 +116,56 @@ workflow MutectWorkflow{
             reference = reference,
             reference_fai = reference_fai,
             reference_dict = reference_dict,
+            panel_of_normals = panel_of_normals,
+            panel_of_normals_idx = panel_of_normals_idx,
             cores = numThreads,
             intervals = gen_int.intervals,
-            normal_sample_id = get_sample_id.sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
             walltime_hours = high_walltime
     }
 
-    scatter (mutect_vcf_file in run_mutect.vcf_files){
-        call bcftools.FinalizeVcf as finalize_region_vcf{
-            input:
-                vcf_file = mutect_vcf_file,
-                filename_prefix = 'mutect_calls',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-    }
-
-    call bcftools.ConcatVcf as merge_vcf{
+    call mutect.MergeVCFs as merge_vcfs{
         input:
-            vcf_files = finalize_region_vcf.vcf,
-            csi_files = finalize_region_vcf.vcf_csi,
-            tbi_files = finalize_region_vcf.vcf_tbi,
+            vcf_files = run_mutect.vcf_files,
+            vcf_files_tbi = run_mutect.vcf_files,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.MergeStats as merge_stats{
+        input:
+            stats = run_mutect.stats_files,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.Filter as filter_mutect{
+        input:
+            reference = reference,
+            reference_fai = reference_fai,
+            reference_dict = reference_dict,
+            unfiltered_vcf = merge_vcfs.merged_vcf,
+            unfiltered_vcf_tbi = merge_vcfs.merged_vcf_tbi,
+            mutect_stats = merge_stats.merged_stats,
+            contamination_table = contamination.contamination_table,
+            maf_segments = contamination.maf_segments,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = merge_vcf.merged_vcf,
+            input_vcf = filter_mutect.filtered_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
