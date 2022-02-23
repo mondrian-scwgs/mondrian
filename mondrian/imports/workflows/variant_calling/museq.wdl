@@ -15,12 +15,12 @@ workflow MuseqWorkflow{
         File reference
         File reference_fai
         Array[String] chromosomes
-        Int numThreads
         String tumour_id
         String normal_id
         String? singularity_image
         String? docker_image
         String filename_prefix = 'output'
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -47,11 +47,11 @@ workflow MuseqWorkflow{
             tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
-            cores = numThreads,
+            cores = num_threads,
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             walltime_hours = high_walltime
     }
 

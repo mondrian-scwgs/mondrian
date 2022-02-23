@@ -16,7 +16,7 @@ workflow MuseqWorkflow{
         String tumour_id
         String normal_id
         VariantRefdata reference
-        Int num_threads
+        Int? num_threads = 8
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? low_mem = 7

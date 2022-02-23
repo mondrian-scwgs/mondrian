@@ -16,9 +16,9 @@ workflow MutectWorkflow{
         String tumour_id
         String normal_id
         VariantRefdata reference
-        Int num_threads
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25

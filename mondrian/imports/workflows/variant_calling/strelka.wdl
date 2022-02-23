@@ -15,10 +15,10 @@ workflow StrelkaWorkflow{
         File reference
         File reference_fai
         Array[String] chromosomes
-        Int numThreads
         String filename_prefix = ""
         String? singularity_image
         String? docker_image
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -43,7 +43,7 @@ workflow StrelkaWorkflow{
             normal_bai = normal_bai,
             reference = reference,
             reference_fai = reference_fai,
-            cores = numThreads,
+            cores = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -81,7 +81,7 @@ workflow StrelkaWorkflow{
             reference_fai = reference_fai,
             genome_size = get_genome_size.genome_size,
             chrom_depth_file = merge_chrom_depths.merged,
-            cores = numThreads,
+            cores = num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = med_mem,

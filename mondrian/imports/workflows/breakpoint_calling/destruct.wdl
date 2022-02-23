@@ -9,10 +9,10 @@ workflow DestructWorkflow{
         File normal_bam
         File tumour_bam
         BreakpointRefdata ref
-        String num_threads
         String? singularity_image
         String? docker_image
         String filename_prefix = 'output'
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25

@@ -26,13 +26,13 @@ workflow SampleLevelVariantWorkflow {
         File panel_of_normals_idx
         File variants_for_contamination
         File variants_for_contamination_idx
-        Int numThreads
         Array[String] chromosomes
         File vep_ref
         String tumour_id
         String normal_id
         String? singularity_image
         String? docker_image
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -49,7 +49,7 @@ workflow SampleLevelVariantWorkflow {
             tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
-            numThreads = numThreads,
+            num_threads = num_threads,
             chromosomes = chromosomes,
             tumour_id = tumour_id,
             normal_id = normal_id,
@@ -72,7 +72,7 @@ workflow SampleLevelVariantWorkflow {
             tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
-            numThreads = numThreads,
+            num_threads = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -98,7 +98,7 @@ workflow SampleLevelVariantWorkflow {
             panel_of_normals_idx = panel_of_normals_idx,
             variants_for_contamination = variants_for_contamination,
             variants_for_contamination_idx = variants_for_contamination_idx,
-            numThreads = numThreads,
+            num_threads = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,

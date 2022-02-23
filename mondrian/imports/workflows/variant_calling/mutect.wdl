@@ -20,10 +20,10 @@ workflow MutectWorkflow{
         File variants_for_contamination
         File variants_for_contamination_idx
         Array[String] chromosomes
-        Int numThreads
         String? singularity_image
         String? docker_image
         String filename_prefix = ""
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -52,10 +52,10 @@ workflow MutectWorkflow{
             variants_for_contamination = variants_for_contamination,
             variants_for_contamination_idx = variants_for_contamination_idx,
             intervals = gen_int.intervals,
-            cores = numThreads,
+            cores = num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             walltime_hours = high_walltime
     }
 
@@ -90,10 +90,10 @@ workflow MutectWorkflow{
             variants_for_contamination = variants_for_contamination,
             variants_for_contamination_idx = variants_for_contamination_idx,
             intervals = gen_int.intervals,
-            cores = numThreads,
+            cores = num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             walltime_hours = high_walltime
     }
 
@@ -118,11 +118,11 @@ workflow MutectWorkflow{
             reference_dict = reference_dict,
             panel_of_normals = panel_of_normals,
             panel_of_normals_idx = panel_of_normals_idx,
-            cores = numThreads,
+            cores = num_threads,
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             walltime_hours = high_walltime
     }
 

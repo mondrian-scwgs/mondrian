@@ -33,6 +33,7 @@ workflow AlignmentWorkflow{
         File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -154,10 +155,10 @@ workflow AlignmentWorkflow{
             cell_ids = cellid,
             metrics = add_metadata.output_csv,
             metrics_yaml = add_metadata.output_csv_yaml,
-            ncores=20,
             filename_prefix = "all_cells_bulk",
             singularity_image = singularity_image,
             docker_image = docker_image,
+            num_threads=num_threads,
             memory_gb = low_mem,
             walltime_hours = low_walltime
     }

@@ -8,11 +8,11 @@ workflow GridssWorkflow{
     input{
         File normal_bam
         File tumour_bam
-        Int num_threads
         BreakpointRefdata ref
         String filename_prefix = "output"
         String? singularity_image
         String? docker_image
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25

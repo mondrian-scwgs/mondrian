@@ -20,12 +20,12 @@ workflow VariantWorkflow{
         File normal_bam
         File normal_bai
         VariantRefdata reference
-        Int numThreads
         Array[String] chromosomes
         String normal_id
         Array[Sample] samples
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -55,7 +55,7 @@ workflow VariantWorkflow{
                 panel_of_normals_idx = reference.panel_of_normals_idx,
                 variants_for_contamination = reference.variants_for_contamination,
                 variants_for_contamination_idx = reference.variants_for_contamination_idx,
-                numThreads=numThreads,
+                num_threads=num_threads,
                 chromosomes = chromosomes,
                 vep_ref = reference.vep_ref,
                 tumour_id = tumour_id,
