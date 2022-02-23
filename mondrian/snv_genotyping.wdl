@@ -12,13 +12,13 @@ workflow SnvGenotypingWorkflow{
         File vcf_file_idx
         SnvGenotypingRefdata reference
         Array[String] chromosomes
-        Int num_threads
         String sample_id
         File tumour_bam
         File tumour_bai
         File metadata_input
         String? singularity_image = ""
         String? docker_image = "ubuntu"
+        Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25

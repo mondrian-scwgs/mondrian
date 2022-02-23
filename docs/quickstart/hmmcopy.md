@@ -48,7 +48,9 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "HmmcopyWorkflow.alignment_metrics_yaml": "hmmcopy_testdata/alignment.csv.gz.yaml",
 "HmmcopyWorkflow.gc_metrics": "hmmcopy_testdata/gc_metrics.csv.gz",
 "HmmcopyWorkflow.gc_metrics_yaml": "hmmcopy_testdata/gc_metrics.csv.gz.yaml"
-}```
+}
+
+```
 
 you can skip line 2 of this file if you're not using singularity 
 
