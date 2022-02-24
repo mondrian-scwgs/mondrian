@@ -32,7 +32,11 @@
         "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
         "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
         "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
-        "vep_ref":"<path-to-mondrian-ref>/vep.tar"
+        "vep_ref":"<path-to-mondrian-ref>/vep.tar",
+        "panel_of_normals": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf",
+        "panel_of_normals_idx": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.idx",
+        "variants_for_contamination": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf",
+        "variants_for_contamination_idx": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf.idx"
     },
     "VariantWorkflow.chromosomes": ["22"],
     "VariantWorkflow.normal_id": "SA123",

@@ -41,7 +41,7 @@ workflow MutectWorkflow{
             panel_of_normals_idx = reference.panel_of_normals_idx,
             variants_for_contamination = reference.variants_for_contamination,
             variants_for_contamination_idx = reference.variants_for_contamination_idx,
-            numThreads = num_threads,
+            num_threads = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,

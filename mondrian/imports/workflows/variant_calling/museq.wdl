@@ -47,7 +47,7 @@ workflow MuseqWorkflow{
             tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
-            cores = num_threads,
+            num_threads = num_threads,
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
