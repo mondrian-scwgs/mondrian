@@ -89,7 +89,7 @@ workflow MutectWorkflow{
             reference_dict = reference_dict,
             variants_for_contamination = variants_for_contamination,
             variants_for_contamination_idx = variants_for_contamination_idx,
-            intervals = gen_int.intervals,
+            intervals = chromosomes,
             num_threads = num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
