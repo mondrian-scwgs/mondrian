@@ -84,7 +84,7 @@ workflow StrelkaWorkflow{
             num_threads = num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
+            memory_gb = low_mem,
             walltime_hours = high_walltime
     }
 
