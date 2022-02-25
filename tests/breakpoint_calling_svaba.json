@@ -1,0 +1,28 @@
+{
+"SvabaWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
+"SvabaWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
+"SvabaWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
+"SvabaWorkflow.tumour_bai": "breakpoint_testdata/medium.bam.bai",
+"SvabaWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
+"SvabaWorkflow.tumour_id": "SA123",
+"SvabaWorkflow.num_threads": 1,
+"SvabaWorkflow.reference":{
+    "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
+    "reference_gtf":"mondrian-ref-path-here/human/GRCh37-lite.gtf",
+    "reference_fa_fai":"mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
+    "reference_fa_1_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.1.ebwt",
+    "reference_fa_2_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.2.ebwt",
+    "reference_fa_3_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.3.ebwt",
+    "reference_fa_4_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.4.ebwt",
+    "reference_fa_rev_1_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.rev.1.ebwt",
+    "reference_fa_rev_2_ebwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.rev.2.ebwt",
+    "reference_fa_amb":"mondrian-ref-path-here/human/GRCh37-lite.fa.amb",
+    "reference_fa_ann":"mondrian-ref-path-here/human/GRCh37-lite.fa.ann",
+    "reference_fa_bwt":"mondrian-ref-path-here/human/GRCh37-lite.fa.bwt",
+    "reference_fa_pac":"mondrian-ref-path-here/human/GRCh37-lite.fa.pac",
+    "reference_fa_sa":"mondrian-ref-path-here/human/GRCh37-lite.fa.sa",
+    "repeats_satellite_regions":"mondrian-ref-path-here/human/repeats.satellite.regions",
+    "dgv":"mondrian-ref-path-here/human/dgv.txt"
+    },
+"SvabaWorkflow.docker_image": "docker_image_here"
+}

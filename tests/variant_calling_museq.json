@@ -1,0 +1,21 @@
+{
+"MuseqWorkflow.docker_image": "docker_image_here",
+"MuseqWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
+"MuseqWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
+"MuseqWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
+"MuseqWorkflow.tumour_bai": "variant_testdata/variants_realign.bam.bai",
+"MuseqWorkflow.metadata_input": "variant_testdata/metadata.yaml",
+"MuseqWorkflow.chromosomes": ["22"],
+"MuseqWorkflow.normal_id": "SA123",
+"MuseqWorkflow.tumour_id": "SA123T",
+"MuseqWorkflow.reference": {
+    "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
+    "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",
+    "reference_fa_fai":"mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
+    "vep_ref":"mondrian-ref-path-here/vep.tar",
+    "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf",
+    "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.idx",
+    "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf",
+    "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.idx"
+  }
+}
