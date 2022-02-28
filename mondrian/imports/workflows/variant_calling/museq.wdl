@@ -29,6 +29,17 @@ workflow MuseqWorkflow{
         String? high_walltime = 96
      }
 
+    call museq.VariantBam as variant_bam_tumour{
+        input:
+            bamfile = tumour_bam
+    }
+
+    call museq.VariantBam as variant_bam_normal{
+        input:
+            bamfile = normal_bam
+    }
+
+
     call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
@@ -41,10 +52,10 @@ workflow MuseqWorkflow{
 
     call museq.RunMuseq as run_museq{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
+            normal_bam = variant_bam_normal.output_bam,
+            normal_bai = variant_bam_normal.output_bai,
+            tumour_bam = variant_bam_tumour.output_bam,
+            tumour_bai = variant_bam_tumour.output_bai,
             reference = reference,
             reference_fai = reference_fai,
             num_threads = num_threads,
