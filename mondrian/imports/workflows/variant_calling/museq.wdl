@@ -34,8 +34,8 @@ workflow MuseqWorkflow{
             bamfile = tumour_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
     call museq.VariantBam as variant_bam_normal{
@@ -43,8 +43,8 @@ workflow MuseqWorkflow{
             bamfile = normal_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
     }
 
 
