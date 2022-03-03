@@ -31,12 +31,20 @@ workflow MuseqWorkflow{
 
     call museq.VariantBam as variant_bam_tumour{
         input:
-            bamfile = tumour_bam
+            bamfile = tumour_bam,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
     call museq.VariantBam as variant_bam_normal{
         input:
-            bamfile = normal_bam
+            bamfile = normal_bam,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
     }
 
 
