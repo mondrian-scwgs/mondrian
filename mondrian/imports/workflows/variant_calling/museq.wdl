@@ -36,6 +36,9 @@ workflow MuseqWorkflow{
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
+            # wait for version 1.1 in cromwell
+            # num_threads = min(len(chromosomes), num_threads),
+            num_threads=16,
             walltime_hours = high_walltime
     }
 
@@ -46,6 +49,9 @@ workflow MuseqWorkflow{
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
+            # wait for version 1.1 in cromwell
+            # num_threads = min(len(chromosomes), num_threads),
+            num_threads=16,
             walltime_hours = high_walltime
     }
 
