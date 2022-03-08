@@ -29,11 +29,22 @@ workflow MuseqWorkflow{
         String? high_walltime = 96
      }
 
+
+    call pysam.GenerateIntervals as gen_int{
+        input:
+            reference = reference,
+            chromosomes = chromosomes,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
+    }
+
     call museq.VariantBam as variant_bam_tumour{
         input:
             bamfile = tumour_bam,
             baifile = tumour_bai,
-            chromosomes = chromosomes,
+            intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
@@ -45,7 +56,7 @@ workflow MuseqWorkflow{
         input:
             bamfile = normal_bam,
             baifile = tumour_bai,
-            chromosomes = chromosomes,
+            intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
@@ -53,16 +64,6 @@ workflow MuseqWorkflow{
             walltime_hours = high_walltime
     }
 
-
-    call pysam.GenerateIntervals as gen_int{
-        input:
-            reference = reference,
-            chromosomes = chromosomes,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
-    }
 
     call museq.RunMuseq as run_museq{
         input:
