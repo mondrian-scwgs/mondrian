@@ -32,26 +32,24 @@ workflow MuseqWorkflow{
     call museq.VariantBam as variant_bam_tumour{
         input:
             bamfile = tumour_bam,
+            baifile = tumour_bai,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
-            # wait for version 1.1 in cromwell
-            # num_threads = min(len(chromosomes), num_threads),
-            num_threads=16,
+            num_threads=num_threads,
             walltime_hours = high_walltime
     }
 
     call museq.VariantBam as variant_bam_normal{
         input:
             bamfile = normal_bam,
+            baifile = tumour_bai,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
-            # wait for version 1.1 in cromwell
-            # num_threads = min(len(chromosomes), num_threads),
-            num_threads=16,
+            num_threads=num_threads,
             walltime_hours = high_walltime
     }
 
