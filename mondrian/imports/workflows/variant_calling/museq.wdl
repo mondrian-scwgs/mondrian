@@ -47,7 +47,7 @@ workflow MuseqWorkflow{
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             num_threads=num_threads,
             walltime_hours = high_walltime
     }
@@ -59,7 +59,7 @@ workflow MuseqWorkflow{
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
+            memory_gb = low_mem,
             num_threads=num_threads,
             walltime_hours = high_walltime
     }
