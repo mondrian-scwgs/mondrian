@@ -55,7 +55,7 @@ workflow MuseqWorkflow{
     call museq.VariantBam as variant_bam_normal{
         input:
             bamfile = normal_bam,
-            baifile = tumour_bai,
+            baifile = normal_bai,
             intervals = gen_int.intervals,
             singularity_image = singularity_image,
             docker_image = docker_image,
