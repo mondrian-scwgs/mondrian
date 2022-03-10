@@ -22,10 +22,13 @@ workflow SampleLevelVariantWorkflow {
         File reference
         File reference_fai
         File reference_dict
+        File realignment_index_bundle
         File panel_of_normals
         File panel_of_normals_idx
         File variants_for_contamination
         File variants_for_contamination_idx
+        File gnomad
+        File gnomad_idx
         Array[String] chromosomes
         File vep_ref
         String tumour_id
