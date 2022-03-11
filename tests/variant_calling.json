@@ -10,7 +10,10 @@
     "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf",
     "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.idx",
     "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf",
-    "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.idx"
+    "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.idx",
+    "gnomad": "mondrian-ref-path-here/human/gnomad.vcf.gz",
+    "gnomad_idx": "mondrian-ref-path-here/human/gnomad.vcf.gz.tbi",
+    "realignment_index_bundle": "mondrian-ref-path-here/human/GRCh37-lite.fa.img"
 },
 "VariantWorkflow.chromosomes": ["22"],
 "VariantWorkflow.normal_id": "SA123",
