@@ -11,10 +11,10 @@ phases:
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
       - cd $CODEBUILD_SRC_DIR/mondrian && zip -r $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip imports
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment N Y $QUAY_USR $QUAY_PSW
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy N Y $QUAY_USR $QUAY_PSW
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling N Y $QUAY_USR $QUAY_PSW
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling N Y $QUAY_USR $QUAY_PSW
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
   build:
     commands:
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
@@ -32,10 +32,10 @@ phases:
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_consensus variant_calling variant_calling
   post_build:
     commands:
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment Y Y $QUAY_USR $QUAY_PSW ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy Y Y $QUAY_USR $QUAY_PSW ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling Y Y $QUAY_USR $QUAY_PSW ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling Y Y $QUAY_USR $QUAY_PSW ; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW N ; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW N ; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW N ; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW N ; fi
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3 cp $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip s3://mondriantestdata/ ; fi
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3api put-object-acl --bucket mondriantestdata --key imports_${TAG}.zip --acl public-read ; fi
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/tests/gitpush/mondrian && git submodule update --remote && git commit -m 'submodule update' || echo "no changes" && git push ; fi
