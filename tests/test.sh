@@ -46,8 +46,7 @@ tar -xvf ${TEST_DATA}_testdata.tar.gz
 
 
 TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
-TAG="${TAG}beta"
-sed -i 's@docker_image_here@quay.io/mondrianscwgs/'"$DOCKER"':'"$TAG"'@g' ${TEST_DIR}/${PIPELINE}.json
+sed -i 's@docker_image_here@quay.io/mondrianscwgs/'"$DOCKER"':'"$TAG"beta'@g' ${TEST_DIR}/${PIPELINE}.json
 sed -i 's@mondrian-ref-path-here@'"$RESOURCE_DIR"'/mondrian-ref-20-22@g' ${TEST_DIR}/${PIPELINE}.json
 
 
