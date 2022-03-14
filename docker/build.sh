@@ -17,22 +17,10 @@ fi
 cd $TYPE
 
 
-CMD="docker build --build-arg VERSION=$VERSION -t quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION ."
+docker build --build-arg VERSION=$VERSION -t quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION .
 
-
-if [ $CACHE == "Y" ]
-then
-    $CMD
-else
-    $CMD --no-cache
-fi
-
-
-if [ $PUSH == "Y" ]
-then
-    docker login quay.io -u $USERNAME --password $PASSWORD
-    docker push quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION
-fi
+docker login quay.io -u $USERNAME --password $PASSWORD
+docker push quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION
 
 
 cd ../
