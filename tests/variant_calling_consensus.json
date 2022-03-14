@@ -16,7 +16,7 @@
     "reference_fa_fai":"mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
     "vep_ref":"mondrian-ref-path-here/vep.tar",
     "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
-    "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf..gz.tbi",
+    "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
     "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz",
     "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz.tbi",
     "gnomad": "mondrian-ref-path-here/human/gnomad.vcf.gz",
