@@ -22,10 +22,13 @@ workflow SampleLevelVariantWorkflow {
         File reference
         File reference_fai
         File reference_dict
+        File realignment_index_bundle
         File panel_of_normals
         File panel_of_normals_idx
         File variants_for_contamination
         File variants_for_contamination_idx
+        File gnomad
+        File gnomad_idx
         Array[String] chromosomes
         File vep_ref
         String tumour_id
@@ -98,6 +101,9 @@ workflow SampleLevelVariantWorkflow {
             panel_of_normals_idx = panel_of_normals_idx,
             variants_for_contamination = variants_for_contamination,
             variants_for_contamination_idx = variants_for_contamination_idx,
+            realignment_index_bundle=realignment_index_bundle,
+            gnomad=gnomad,
+            gnomad_idx=gnomad_idx,
             num_threads = num_threads,
             chromosomes = chromosomes,
             singularity_image = singularity_image,

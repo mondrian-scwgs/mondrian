@@ -1,0 +1,55 @@
+{
+"AlignmentWorkflow.docker_image": "docker_image_here",
+"AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
+"AlignmentWorkflow.reference": {
+    "genome_name": "human",
+    "reference" : "mondrian-ref-path-here/human/GRCh37-lite.fa",
+    "reference_fa_fai" : "mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
+    "reference_fa_amb" : "mondrian-ref-path-here/human/GRCh37-lite.fa.amb",
+    "reference_fa_ann" : "mondrian-ref-path-here/human/GRCh37-lite.fa.ann",
+    "reference_fa_bwt" : "mondrian-ref-path-here/human/GRCh37-lite.fa.bwt",
+    "reference_fa_pac" : "mondrian-ref-path-here/human/GRCh37-lite.fa.pac",
+    "reference_fa_sa" : "mondrian-ref-path-here/human/GRCh37-lite.fa.sa"
+},
+"AlignmentWorkflow.supplementary_references":[
+    {
+    "genome_name": "mouse",
+    "reference" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta",
+    "reference_fa_fai" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.fai",
+    "reference_fa_amb" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.amb",
+    "reference_fa_ann" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.ann",
+    "reference_fa_bwt" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.bwt",
+    "reference_fa_pac" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.pac",
+    "reference_fa_sa" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.sa"
+    },
+    {
+    "genome_name": "salmon",
+    "reference" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna",
+    "reference_fa_fai" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai",
+    "reference_fa_amb" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.amb",
+    "reference_fa_ann" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.ann",
+    "reference_fa_bwt" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.bwt",
+    "reference_fa_pac" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.pac",
+    "reference_fa_sa" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa"
+    }
+],
+"AlignmentWorkflow.fastqscreen_classifier_training_data": "mondrian-ref-path-here/human/fastqscreen_training_data.csv",
+"AlignmentWorkflow.fastq_files": [
+        {"cell_id": "SA1090-A96213A-R22-C43",
+         "lanes": [
+                {"fastq1": "alignment_testdata/SA1090-A96213A-R22-C43_1.fastq.gz",
+                 "fastq2": "alignment_testdata/SA1090-A96213A-R22-C43_2.fastq.gz",
+                 "lane_id": "L001",
+                 "flowcell_id": "FL001"}
+                 ]
+        },
+        {"cell_id": "SA1090-A96213A-R20-C28",
+         "lanes": [
+                {"fastq1": "alignment_testdata/SA1090-A96213A-R20-C28_1.fastq.gz",
+                 "fastq2": "alignment_testdata/SA1090-A96213A-R20-C28_2.fastq.gz",
+                 "lane_id": "L001",
+                 "flowcell_id": "FL001"}
+                 ]
+        }
+    ]
+}

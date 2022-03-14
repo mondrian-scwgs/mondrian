@@ -1,0 +1,28 @@
+{
+"ConsensusWorkflow.museq_vcffile":"variant_testdata/SA123T_museq.vcf.gz",
+"ConsensusWorkflow.museq_vcffile_tbi":"variant_testdata/SA123T_museq.vcf.gz.tbi",
+"ConsensusWorkflow.mutect_vcffile":"variant_testdata/SA123T_mutect.vcf.gz",
+"ConsensusWorkflow.mutect_vcffile_tbi":"variant_testdata/SA123T_mutect.vcf.gz.tbi",
+"ConsensusWorkflow.strelka_snv_vcffile":"variant_testdata/SA123T_strelka_snv.vcf.gz",
+"ConsensusWorkflow.strelka_snv_vcffile_tbi":"variant_testdata/SA123T_strelka_snv.vcf.gz.tbi",
+"ConsensusWorkflow.strelka_indel_vcffile":"variant_testdata/SA123T_strelka_indel.vcf.gz",
+"ConsensusWorkflow.strelka_indel_vcffile_tbi":"variant_testdata/SA123T_strelka_indel.vcf.gz.tbi",
+"ConsensusWorkflow.chromosomes": ["22"],
+"ConsensusWorkflow.normal_id": "SA123",
+"ConsensusWorkflow.tumour_id": "SA123T",
+"ConsensusWorkflow.reference": {
+    "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
+    "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",
+    "reference_fa_fai":"mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
+    "vep_ref":"mondrian-ref-path-here/vep.tar",
+    "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
+    "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
+    "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz",
+    "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz.tbi",
+    "gnomad": "mondrian-ref-path-here/human/gnomad.vcf.gz",
+    "gnomad_idx": "mondrian-ref-path-here/human/gnomad.vcf.gz.tbi",
+    "realignment_index_bundle": "mondrian-ref-path-here/human/GRCh37-lite.fa.img"
+},
+"ConsensusWorkflow.docker_image": "docker_image_here"
+}
+

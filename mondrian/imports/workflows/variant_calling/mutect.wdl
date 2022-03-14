@@ -19,6 +19,9 @@ workflow MutectWorkflow{
         File panel_of_normals_idx
         File variants_for_contamination
         File variants_for_contamination_idx
+        File gnomad
+        File gnomad_idx
+        File realignment_index_bundle
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
@@ -118,8 +121,18 @@ workflow MutectWorkflow{
             reference_dict = reference_dict,
             panel_of_normals = panel_of_normals,
             panel_of_normals_idx = panel_of_normals_idx,
+            gnomad = gnomad,
+            gnomad_idx = gnomad_idx,
             num_threads = num_threads,
             intervals = gen_int.intervals,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = high_walltime
+    }
+    call mutect.LearnReadOrientationModel as orientation_model {
+        input:
+            f1r2_tar_gz = run_mutect.f1r2,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -155,17 +168,35 @@ workflow MutectWorkflow{
             mutect_stats = merge_stats.merged_stats,
             contamination_table = contamination.contamination_table,
             maf_segments = contamination.maf_segments,
+            artifact_priors_tar_gz = orientation_model.artifact_prior_table,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
             walltime_hours = high_walltime
     }
 
+    call mutect.FilterAlignmentArtifacts as alignment_artifacts{
+        input:
+            ref_fasta = reference,
+            ref_fai = reference_fai,
+            ref_dict = reference_dict,
+            tumour_bam = tumour_bam,
+            tumour_bam_index = tumour_bai,
+            realignment_index_bundle = realignment_index_bundle,
+            input_vcf = filter_mutect.filtered_vcf,
+            input_vcf_tbi = filter_mutect.filtered_vcf_tbi,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+
     call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = filter_mutect.filtered_vcf,
+            input_vcf = alignment_artifacts.filtered_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,

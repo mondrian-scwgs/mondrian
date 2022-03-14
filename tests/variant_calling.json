@@ -1,0 +1,27 @@
+{
+"VariantWorkflow.docker_image": "docker_image_here",
+"VariantWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
+"VariantWorkflow.normal_bai": "variant_testdata/normal_realign.bam.bai",
+"VariantWorkflow.reference": {
+    "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
+    "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",
+    "reference_fa_fai":"mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
+    "vep_ref":"mondrian-ref-path-here/vep.tar",
+    "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
+    "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
+    "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz",
+    "variants_for_contamination_idx": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz.tbi",
+    "gnomad": "mondrian-ref-path-here/human/gnomad.vcf.gz",
+    "gnomad_idx": "mondrian-ref-path-here/human/gnomad.vcf.gz.tbi",
+    "realignment_index_bundle": "mondrian-ref-path-here/human/GRCh37-lite.fa.img"
+},
+"VariantWorkflow.chromosomes": ["22"],
+"VariantWorkflow.normal_id": "SA123",
+"VariantWorkflow.samples": [{
+    "sample_id": "SA123T",
+    "tumour": "variant_testdata/variants_realign.bam",
+    "tumour_bai": "variant_testdata/variants_realign.bam.bai",
+    "metadata_input": "variant_testdata/metadata.yaml"
+  }]
+}
+

@@ -32,7 +32,7 @@ RUN conda install -c bioconda vcftools tabix bcftools snpeff
 RUN conda install -c bioconda perl-vcftools-vcf==0.1.15
 RUN rm /opt/conda/bin/samtools
 
-RUN wget https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/vartrix_linux && mv vartrix_linux /opt/conda/bin/vartrix_linux && chmod -R 777 /opt/conda/bin/vartrix_linux
+RUN wget -nv https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/vartrix_linux && mv vartrix_linux /opt/conda/bin/vartrix_linux && chmod -R 777 /opt/conda/bin/vartrix_linux
 
 RUN conda install -c bioconda variantbam
 RUN conda install -c bioconda sambamba

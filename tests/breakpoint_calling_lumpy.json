@@ -1,0 +1,7 @@
+{
+"LumpyWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
+"LumpyWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
+"LumpyWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
+"LumpyWorkflow.tumour_id": "SA123",
+"LumpyWorkflow.docker_image": "docker_image_here"
+}
