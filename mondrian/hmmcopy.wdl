@@ -240,7 +240,6 @@ workflow HmmcopyWorkflow{
             metrics_yaml = add_quality.outfile_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
-            reference_gc = reference.reference_gc,
             filename_prefix = "qc_html",
             singularity_image = singularity_image,
             docker_image = docker_image,

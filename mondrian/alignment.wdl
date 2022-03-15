@@ -29,7 +29,6 @@ workflow AlignmentWorkflow{
         Array[Cell] fastq_files
         Array[Reference] supplementary_references
         Reference reference
-        File fastqscreen_classifier_training_data
         File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "ubuntu"
@@ -86,6 +85,7 @@ workflow AlignmentWorkflow{
         input:
             inputfile = alignment.gc_metrics,
             inputyaml = alignment.gc_metrics_yaml,
+            drop_duplicates = true,
             filename_prefix = "alignment_gc_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
