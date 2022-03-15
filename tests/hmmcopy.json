@@ -12,7 +12,6 @@
     "gc_wig": "mondrian-ref-path-here/human/GRCh37-lite.gc.ws_500000.wig",
     "map_wig": "mondrian-ref-path-here/human/GRCh37-lite.map.ws_125_to_500000.wig",
     "classifier_training_data": "mondrian-ref-path-here/human/classifier_training_data.h5",
-    "reference_gc": "mondrian-ref-path-here/human/reference_gc_grch37.csv",
     "repeats_satellite_regions": "mondrian-ref-path-here/human/repeats.satellite.regions"
 },
 "HmmcopyWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
