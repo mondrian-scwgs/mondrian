@@ -4,6 +4,6 @@ ARG VERSION
 
 RUN conda install --file /app/requirements.yml
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0 --no-deps
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.4 --no-deps
 RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@v0.0.3
 RUN pip install tables jinja2
