@@ -26,7 +26,7 @@ SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
 RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.4
 RUN pip install pandas numpy pysam matplotlib seaborn pyvcf
 RUN conda install -c bioconda vcftools tabix bcftools snpeff
 RUN conda install -c bioconda perl-vcftools-vcf==0.1.15

@@ -8,4 +8,4 @@ RUN conda install --file /app/align_requirements.yml
 RUN conda install -c bioconda sambamba
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.0
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.4

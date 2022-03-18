@@ -33,7 +33,6 @@
     "reference_fa_sa" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa"
     }
 ],
-"AlignmentWorkflow.fastqscreen_classifier_training_data": "mondrian-ref-path-here/human/fastqscreen_training_data.csv",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
          "lanes": [
