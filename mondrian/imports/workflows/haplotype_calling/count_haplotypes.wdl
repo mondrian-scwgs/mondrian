@@ -76,24 +76,12 @@ workflow CountHaplotypes{
                 walltime_hours = high_walltime
         }
 
-        call csverve.AnnotateCsv as annotate_csv{
-            input:
-                inputfile = readcount.outfile,
-                inputyaml = readcount.outfile_yaml,
-                col_name = 'cell_id',
-                col_val = bamfile,
-                col_dtype = 'str',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
-        }
     }
 
     call csverve.ConcatenateCsv as concat_csv{
         input:
-            inputfile = annotate_csv.outfile,
-            inputyaml = annotate_csv.outfile_yaml,
+            inputfile = readcount.outfile,
+            inputyaml = readcount.outfile_yaml,
             filename_prefix = 'haplotype_counts',
             singularity_image = singularity_image,
             docker_image = docker_image,
