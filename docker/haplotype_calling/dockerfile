@@ -1,0 +1,18 @@
+FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
+
+ADD . /app
+ARG VERSION
+
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && apt-get update -y && apt install libc-dev libz-dev build-essential -y && rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
+RUN apt update -y && apt install samtools -y && rm -rf /var/lib/apt/lists/*
+
+
+RUN conda install --file /app/requirements.yml
+RUN pip install pysam
+
+RUN pip install git+https://github.com/amcpherson/remixt.git@0.5.13r2
+RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
+
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.5 --no-deps
+RUN pip install click
