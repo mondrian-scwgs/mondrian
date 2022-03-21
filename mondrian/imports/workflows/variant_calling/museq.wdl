@@ -81,34 +81,21 @@ workflow MuseqWorkflow{
             walltime_hours = high_walltime
     }
 
-    scatter (museq_vcf_file in run_museq.vcf_files){
-        call museq.FixMuseqVcf as fix_museq{
-            input:
-                vcf_file = museq_vcf_file,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-    }
-
-
-    call bcftools.ConcatVcf as merge_vcf{
+    call museq.FixMuseqVcf as fix_museq{
         input:
-            vcf_files = fix_museq.output_vcf,
-            csi_files = fix_museq.output_csi,
-            tbi_files = fix_museq.output_tbi,
+            vcf_file = run_museq.vcf_file,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
             walltime_hours = low_walltime
     }
 
+
     call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = merge_vcf.merged_vcf,
+            input_vcf = fix_museq.output_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOUR',
             singularity_image = singularity_image,

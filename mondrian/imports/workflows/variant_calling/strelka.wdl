@@ -88,35 +88,19 @@ workflow StrelkaWorkflow{
             walltime_hours = high_walltime
     }
 
-    #################
-    # indel
-    ##############
-    scatter (indel_vcf_file in run_strelka.indels){
-        call bcftools.FinalizeVcf as finalize_indels{
-            input:
-                vcf_file = indel_vcf_file,
-                filename_prefix = 'strelka_indels',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-    }
 
-    call bcftools.ConcatVcf as merge_indel_vcf{
+    call bcftools.FinalizeVcf as finalize_indels{
         input:
-            vcf_files = finalize_indels.vcf,
-            csi_files = finalize_indels.vcf_csi,
-            tbi_files = finalize_indels.vcf_tbi,
+            vcf_file = run_strelka.indels,
+            filename_prefix = 'strelka_indels',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
             walltime_hours = low_walltime
     }
-
     call bcftools.FilterVcf as filter_indel_vcf{
         input:
-            vcf_file = merge_indel_vcf.merged_vcf,
+            vcf_file = finalize_indels.vcf,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -146,36 +130,21 @@ workflow StrelkaWorkflow{
             walltime_hours = low_walltime
     }
 
-    #############
-    # SNV
-    #############
-    scatter (snv_vcf_file in run_strelka.snvs){
-        call bcftools.FinalizeVcf as finalize_snv{
-            input:
-                vcf_file = snv_vcf_file,
-                filename_prefix = 'strelka_snv',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-    }
 
-
-    call bcftools.ConcatVcf as merge_snv_vcf{
+    call bcftools.FinalizeVcf as finalize_snvs{
         input:
-            vcf_files = finalize_snv.vcf,
-            csi_files = finalize_snv.vcf_csi,
-            tbi_files = finalize_snv.vcf_tbi,
+            vcf_file = run_strelka.snvs,
+            filename_prefix = 'strelka_snvs',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
             walltime_hours = low_walltime
     }
 
+
     call bcftools.FilterVcf as filter_snv_vcf{
         input:
-            vcf_file = merge_snv_vcf.merged_vcf,
+            vcf_file = finalize_snvs.vcf,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
