@@ -20,6 +20,7 @@ workflow MuseqWorkflow{
         String? singularity_image
         String? docker_image
         String filename_prefix = 'output'
+        Int interval_size = 1000000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -34,6 +35,7 @@ workflow MuseqWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -64,38 +66,40 @@ workflow MuseqWorkflow{
             walltime_hours = high_walltime
     }
 
-
-    call museq.RunMuseq as run_museq{
-        input:
-            normal_bam = variant_bam_normal.output_bam,
-            normal_bai = variant_bam_normal.output_bai,
-            tumour_bam = variant_bam_tumour.output_bam,
-            tumour_bai = variant_bam_tumour.output_bai,
-            reference = reference,
-            reference_fai = reference_fai,
-            num_threads = num_threads,
-            intervals = gen_int.intervals,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
+    scatter(interval in gen_int.intervals){
+        call museq.RunMuseq as run_museq{
+            input:
+                normal_bam = variant_bam_normal.output_bam,
+                normal_bai = variant_bam_normal.output_bai,
+                tumour_bam = variant_bam_tumour.output_bam,
+                tumour_bai = variant_bam_tumour.output_bai,
+                reference = reference,
+                reference_fai = reference_fai,
+                num_threads = num_threads,
+                interval = interval,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = high_walltime
+        }
     }
 
-    call museq.FixMuseqVcf as fix_museq{
+    call bcftools.ConcatVcf as merge_vcf{
         input:
-            vcf_file = run_museq.vcf_file,
+            vcf_files = run_museq.vcf,
+            csi_files = run_museq.vcf_csi,
+            tbi_files = run_museq.vcf_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
             walltime_hours = low_walltime
     }
 
-
     call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = fix_museq.output_vcf,
+            input_vcf = merge_vcf.merged_vcf,
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOUR',
             singularity_image = singularity_image,

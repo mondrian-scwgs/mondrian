@@ -35,6 +35,7 @@ workflow SampleLevelVariantWorkflow {
         String normal_id
         String? singularity_image
         String? docker_image
+        Int interval_size = 1000000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -59,6 +60,7 @@ workflow SampleLevelVariantWorkflow {
             singularity_image = singularity_image,
             docker_image = docker_image,
             filename_prefix = tumour_id,
+            interval_size = interval_size,
             low_mem = low_mem,
             med_mem = med_mem,
             high_mem = high_mem,
@@ -80,6 +82,7 @@ workflow SampleLevelVariantWorkflow {
             singularity_image = singularity_image,
             docker_image = docker_image,
             filename_prefix = tumour_id,
+            interval_size = interval_size,
             low_mem = low_mem,
             med_mem = med_mem,
             high_mem = high_mem,
@@ -109,6 +112,7 @@ workflow SampleLevelVariantWorkflow {
             singularity_image = singularity_image,
             docker_image = docker_image,
             filename_prefix = tumour_id,
+            interval_size = interval_size,
             low_mem = low_mem,
             med_mem = med_mem,
             high_mem = high_mem,
