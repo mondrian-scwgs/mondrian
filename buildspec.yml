@@ -5,12 +5,11 @@ phases:
     commands:
       - sh $CODEBUILD_SRC_DIR/tests/preflight.sh
       - TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
-      - cd $CODEBUILD_SRC_DIR && git submodule update --remote
+      - cd $CODEBUILD_SRC_DIR/mondrian/imports && git clone -b $TAG https://$GHUB_USERNAME:$GHUB_PASSWORD@github.com/mondrian-scwgs/mondrian_tasks.git
+      - cd $CODEBUILD_SRC_DIR/mondrian && zip -r $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip imports
       - mkdir -p $CODEBUILD_SRC_DIR/tests/shared_resources
-      - mkdir -p $CODEBUILD_SRC_DIR/tests/gitpush && cd $CODEBUILD_SRC_DIR/tests/gitpush && git clone https://$GHUB_USERNAME:$GHUB_PASSWORD@github.com/mondrian-scwgs/mondrian.git
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
-      - cd $CODEBUILD_SRC_DIR/mondrian && zip -r $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip imports
       - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
       - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
       - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
@@ -40,4 +39,3 @@ phases:
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW N ; fi
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3 cp $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip s3://mondriantestdata/ ; fi
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3api put-object-acl --bucket mondriantestdata --key imports_${TAG}.zip --acl public-read ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/tests/gitpush/mondrian && git diff --quiet && git diff --staged --quiet || git commit -am 'submodule update' && git push ; fi
