@@ -185,7 +185,6 @@ workflow AlignmentWorkflow{
             walltime_hours = low_walltime
     }
 
-
     output{
         File bam = merge_bam_files.pass_outfile
         File bai = merge_bam_files.pass_outfile_bai

@@ -60,7 +60,6 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
     "reference_fa_sa" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa"
     }
 ],
-"AlignmentWorkflow.fastqscreen_classifier_training_data": "<path-to-mondrian-ref>/human/fastqscreen_training_data.csv",
 "AlignmentWorkflow.fastq_files": [
         {"cell_id": "SA1090-A96213A-R22-C43",
          "lanes": [

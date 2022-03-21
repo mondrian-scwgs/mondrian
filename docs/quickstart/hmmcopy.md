@@ -39,7 +39,6 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
     "gc_wig": "<path-to-mondrian-ref>/human/GRCh37-lite.gc.ws_500000.wig",
     "map_wig": "<path-to-mondrian-ref>/human/GRCh37-lite.map.ws_125_to_500000.wig",
     "classifier_training_data": "<path-to-mondrian-ref>/human/classifier_training_data.h5",
-    "reference_gc": "<path-to-mondrian-ref>/human/reference_gc_grch37.csv",
     "repeats_satellite_regions": "<path-to-mondrian-ref>/human/repeats.satellite.regions"
 },
 "HmmcopyWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
