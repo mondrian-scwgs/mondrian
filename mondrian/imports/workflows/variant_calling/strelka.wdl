@@ -18,6 +18,7 @@ workflow StrelkaWorkflow{
         String filename_prefix = ""
         String? singularity_image
         String? docker_image
+        Int interval_size = 1000000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -31,6 +32,7 @@ workflow StrelkaWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -70,44 +72,31 @@ workflow StrelkaWorkflow{
             walltime_hours = low_walltime
     }
 
-    call strelka.RunStrelka as run_strelka{
-        input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
-            intervals = gen_int.intervals,
-            reference = reference,
-            reference_fai = reference_fai,
-            genome_size = get_genome_size.genome_size,
-            chrom_depth_file = merge_chrom_depths.merged,
-            num_threads = num_threads,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
-    }
-
-    #################
-    # indel
-    ##############
-    scatter (indel_vcf_file in run_strelka.indels){
-        call bcftools.FinalizeVcf as finalize_indels{
+    scatter(interval in gen_int.intervals){
+        call strelka.RunStrelka as run_strelka{
             input:
-                vcf_file = indel_vcf_file,
-                filename_prefix = 'strelka_indels',
+                normal_bam = normal_bam,
+                normal_bai = normal_bai,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
+                interval = interval,
+                reference = reference,
+                reference_fai = reference_fai,
+                genome_size = get_genome_size.genome_size,
+                chrom_depth_file = merge_chrom_depths.merged,
+                num_threads = num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_gb = low_mem,
-                walltime_hours = low_walltime
+                walltime_hours = high_walltime
         }
     }
 
     call bcftools.ConcatVcf as merge_indel_vcf{
         input:
-            vcf_files = finalize_indels.vcf,
-            csi_files = finalize_indels.vcf_csi,
-            tbi_files = finalize_indels.vcf_tbi,
+            vcf_files = run_strelka.indels,
+            csi_files = run_strelka.indels_csi,
+            tbi_files = run_strelka.indels_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -146,27 +135,12 @@ workflow StrelkaWorkflow{
             walltime_hours = low_walltime
     }
 
-    #############
-    # SNV
-    #############
-    scatter (snv_vcf_file in run_strelka.snvs){
-        call bcftools.FinalizeVcf as finalize_snv{
-            input:
-                vcf_file = snv_vcf_file,
-                filename_prefix = 'strelka_snv',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-    }
-
 
     call bcftools.ConcatVcf as merge_snv_vcf{
         input:
-            vcf_files = finalize_snv.vcf,
-            csi_files = finalize_snv.vcf_csi,
-            tbi_files = finalize_snv.vcf_tbi,
+            vcf_files = run_strelka.snv,
+            csi_files = run_strelka.snv_csi,
+            tbi_files = run_strelka.snv_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,

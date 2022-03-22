@@ -5,6 +5,7 @@
 "MuseqWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
 "MuseqWorkflow.tumour_bai": "variant_testdata/variants_realign.bam.bai",
 "MuseqWorkflow.metadata_input": "variant_testdata/metadata.yaml",
+"MuseqWorkflow.num_threads": 1,
 "MuseqWorkflow.chromosomes": ["22"],
 "MuseqWorkflow.normal_id": "SA123",
 "MuseqWorkflow.tumour_id": "SA123T",

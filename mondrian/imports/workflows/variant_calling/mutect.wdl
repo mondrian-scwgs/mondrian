@@ -26,6 +26,7 @@ workflow MutectWorkflow{
         String? singularity_image
         String? docker_image
         String filename_prefix = ""
+        Int interval_size = 1000000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -39,6 +40,7 @@ workflow MutectWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
+            interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -110,29 +112,32 @@ workflow MutectWorkflow{
             walltime_hours = high_walltime
     }
 
-    call mutect.RunMutect as run_mutect{
-        input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_dict = reference_dict,
-            panel_of_normals = panel_of_normals,
-            panel_of_normals_idx = panel_of_normals_idx,
-            gnomad = gnomad,
-            gnomad_idx = gnomad_idx,
-            num_threads = num_threads,
-            intervals = gen_int.intervals,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
+    scatter(interval in gen_int.intervals){
+        call mutect.RunMutect as run_mutect{
+            input:
+                normal_bam = normal_bam,
+                normal_bai = normal_bai,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
+                reference = reference,
+                reference_fai = reference_fai,
+                reference_dict = reference_dict,
+                panel_of_normals = panel_of_normals,
+                panel_of_normals_idx = panel_of_normals_idx,
+                gnomad = gnomad,
+                gnomad_idx = gnomad_idx,
+                num_threads = num_threads,
+                interval = interval,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = high_walltime
+        }
     }
+
     call mutect.LearnReadOrientationModel as orientation_model {
         input:
-            f1r2_tar_gz = run_mutect.f1r2,
+            f1r2_tar_gz = flatten(run_mutect.f1r2),
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -141,8 +146,8 @@ workflow MutectWorkflow{
 
     call mutect.MergeVCFs as merge_vcfs{
         input:
-            vcf_files = run_mutect.vcf_files,
-            vcf_files_tbi = run_mutect.vcf_files,
+            vcf_files = run_mutect.vcf_file,
+            vcf_files_tbi = run_mutect.vcf_file_idx,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
@@ -151,7 +156,7 @@ workflow MutectWorkflow{
 
     call mutect.MergeStats as merge_stats{
         input:
-            stats = run_mutect.stats_files,
+            stats = run_mutect.stats_file,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,

@@ -6,6 +6,7 @@
 "StrelkaWorkflow.tumour_bai": "variant_testdata/variants_realign.bam.bai",
 "StrelkaWorkflow.metadata_input": "variant_testdata/metadata.yaml",
 "StrelkaWorkflow.chromosomes": ["22"],
+"StrelkaWorkflow.num_threads": 1,
 "StrelkaWorkflow.normal_id": "SA123",
 "StrelkaWorkflow.tumour_id": "SA123T",
 "StrelkaWorkflow.reference":{

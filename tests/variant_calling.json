@@ -15,6 +15,7 @@
     "gnomad_idx": "mondrian-ref-path-here/human/gnomad.vcf.gz.tbi",
     "realignment_index_bundle": "mondrian-ref-path-here/human/GRCh37-lite.fa.img"
 },
+"VariantWorkflow.num_threads": 1,
 "VariantWorkflow.chromosomes": ["22"],
 "VariantWorkflow.normal_id": "SA123",
 "VariantWorkflow.samples": [{
