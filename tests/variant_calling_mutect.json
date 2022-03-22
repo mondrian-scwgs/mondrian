@@ -6,6 +6,7 @@
 "MutectWorkflow.tumour_bai": "variant_testdata/variants_realign.bam.bai",
 "MutectWorkflow.metadata_input": "variant_testdata/metadata.yaml",
 "MutectWorkflow.chromosomes": ["22"],
+"MutectWorkflow.num_threads": 1,
 "MutectWorkflow.normal_id": "SA123",
 "MutectWorkflow.tumour_id": "SA123T",
 "MutectWorkflow.reference":{
