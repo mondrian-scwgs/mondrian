@@ -42,37 +42,13 @@ workflow MuseqWorkflow{
             walltime_hours = low_walltime
     }
 
-    call museq.VariantBam as variant_bam_tumour{
-        input:
-            bamfile = tumour_bam,
-            baifile = tumour_bai,
-            intervals = gen_int.intervals,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            num_threads=num_threads,
-            walltime_hours = high_walltime
-    }
-
-    call museq.VariantBam as variant_bam_normal{
-        input:
-            bamfile = normal_bam,
-            baifile = normal_bai,
-            intervals = gen_int.intervals,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            num_threads=num_threads,
-            walltime_hours = high_walltime
-    }
-
     scatter(interval in gen_int.intervals){
         call museq.RunMuseq as run_museq{
             input:
-                normal_bam = variant_bam_normal.output_bam,
-                normal_bai = variant_bam_normal.output_bai,
-                tumour_bam = variant_bam_tumour.output_bam,
-                tumour_bai = variant_bam_tumour.output_bai,
+                normal_bam = normal_bam,
+                normal_bai = normal_bai,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
                 reference = reference,
                 reference_fai = reference_fai,
                 num_threads = num_threads,
