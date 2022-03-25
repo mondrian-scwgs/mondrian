@@ -2,13 +2,13 @@ version 1.0
 
 struct HaplotypeRefdata{
     File snp_positions
-    File genetic_map
-    File haplotypes_filename
     File gap_table
-    File legend_filename
-    File sample_filename
     File reference_fai
-    Array[String] chromosomes
+    File thousand_genomes_impute_tar
+    String genetic_map_filename_template
+    String haplotypes_filename_template
+    String legend_filename_template
+    String sample_filename
 }
 
 

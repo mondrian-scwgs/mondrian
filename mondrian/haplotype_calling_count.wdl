@@ -16,6 +16,7 @@ workflow CountHaplotypeWorkflow{
         File metadata_input
         File tumour_id
         HaplotypeRefdata reference
+        Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? num_threads = 8
@@ -33,7 +34,7 @@ workflow CountHaplotypeWorkflow{
             tumour_bai = tumour_bai,
             haplotypes_csv = haplotypes,
             haplotypes_csv_yaml = haplotypes_yaml,
-            chromosomes = reference.chromosomes,
+            chromosomes = chromosomes,
             snp_positions = reference.snp_positions,
             reference_fai = reference.reference_fai,
             gap_table = reference.gap_table,
