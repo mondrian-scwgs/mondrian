@@ -21,6 +21,7 @@ workflow InferHaplotypeWorkflow{
         File normal_bai
         String normal_id
         HaplotypeRefdata reference
+        Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? num_threads = 8
@@ -38,11 +39,12 @@ workflow InferHaplotypeWorkflow{
             normal_bam = normal_bam,
             normal_bai = normal_bai,
             snp_positions = reference.snp_positions,
-            genetic_map = reference.genetic_map,
-            haplotypes_filename = reference.haplotypes_filename,
-            legend_filename = reference.legend_filename,
+            thousand_genomes_impute_tar = reference.thousand_genomes_impute_tar,
+            genetic_map_filename_template = reference.genetic_map_filename_template,
+            haplotypes_filename_template = reference.haplotypes_filename_template,
+            legend_filename_template = reference.legend_filename_template,
             sample_filename = reference.sample_filename,
-            chromosomes = reference.chromosomes,
+            chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             low_mem = low_mem,
