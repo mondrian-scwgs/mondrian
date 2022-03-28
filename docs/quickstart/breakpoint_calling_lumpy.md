@@ -12,13 +12,13 @@ mkdir mondrian_breakpoint_lumpy && cd mondrian_breakpoint_lumpy
 2. Download test data set
 
 ```
-wget https://mondriantestdata.s3.amazonaws.com/breakpoint_testdata.tar.gz
-tar -xvf breakpoint_testdata.tar.gz
+wget https://mondriantestdata.s3.amazonaws.com/breakpoint_calling_testdata.tar.gz
+tar -xvf breakpoint_calling_testdata.tar.gz
 ```
 
-3. Create singularity sif file
+3. Create singularity sif file (for singularity only)
 ```
-singularity build breakpoint_<insert version>.sif docker://quay.io/mondrianscwgs/breakpoint:<insert version>
+singularity build breakpoint_calling_<insert version>.sif docker://quay.io/mondrianscwgs/breakpoint_calling:<insert version>
 ```
 
 4. create input json file
@@ -35,7 +35,10 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 }
 ```
 
-you can skip line 2 of this file if you're not using singularity 
+To run with docker: Replace `singularity_image` in `input.json` with
+```
+"LumpyWorkflow.docker_image": "docker://quay.io/mondrianscwgs/breakpoint_calling:<insert version>",
+```
 
 5. run the pipeline on test dataset
 

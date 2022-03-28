@@ -9,13 +9,13 @@
 2. Download test data set
 
     ```
-    wget https://mondriantestdata.s3.amazonaws.com/variant_testdata.tar.gz
-    tar -xvf variant_testdata.tar.gz
+    wget https://mondriantestdata.s3.amazonaws.com/variant_calling_testdata.tar.gz
+    tar -xvf variant_calling_testdata.tar.gz
     ```
 
-3. create singularity sif file
+3. create singularity sif file (for singularity only)
 ```
-singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/variant:<insert version>
+singularity build variant_calling_<insert version>.sif docker://quay.io/mondrianscwgs/variant_calling:<insert version>
 ```
 
 4. create input json file
@@ -38,14 +38,20 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
         "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
         "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
         "vep_ref":"<path-to-mondrian-ref>/vep.tar",
-        "panel_of_normals": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf",
-        "panel_of_normals_idx": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.idx",
-        "variants_for_contamination": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf",
-        "variants_for_contamination_idx": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf.idx"
+        "panel_of_normals": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
+        "panel_of_normals_idx": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
+        "variants_for_contamination": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf.gz",
+        "variants_for_contamination_idx": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf.gz.tbi",
+        "realignment_index_bundle": "<path-to-mondrian-ref>/human/GRCh37-lite.fa.img",
+        "gnomad": "<path-to-mondrian-ref>/human/gnomad.vcf.gz",
+        "gnomad_idx": "<path-to-mondrian-ref>/human/gnomad.vcf.gz.tbi"
       }
     }
     ```
-    you can skip line 2 of this file if you're not using singularity 
+    To run with docker: Replace `singularity_image` in `input.json` with
+    ```
+    "StrelkaWorkflow.docker_image": "docker://quay.io/mondrianscwgs/variant_calling:<insert version>",
+    ```
 
 5. run the pipeline on test dataset
 

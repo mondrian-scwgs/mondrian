@@ -14,7 +14,8 @@ wget https://mondriantestdata.s3.amazonaws.com/alignment_testdata.tar.gz
 tar -xvf alignment_testdata.tar.gz
 
 ```
-3. create singularity sif file
+3. create singularity sif file (For singularity only)
+
 ```
 singularity build alignment_<insert version>.sif docker://quay.io/mondrianscwgs/alignment:<insert version>
 ```
@@ -81,7 +82,11 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 }
 ```
 
-you can skip line 2 of this file if you're not using singularity 
+To run with docker: Replace `singularity_image` in `input.json` with
+```
+"AlignmentWorkflow.docker_image": "docker://quay.io/mondrianscwgs/alignment:<insert version>",
+```
+
 
 4. run the pipeline on test dataset
 

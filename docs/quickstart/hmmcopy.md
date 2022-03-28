@@ -15,7 +15,7 @@ wget https://mondriantestdata.s3.amazonaws.com/hmmcopy_testdata.tar.gz
 tar -xvf hmmcopy_testdata.tar.gz
 ```
 
-3. Create singularity sif 
+3. Create singularity sif  (for singularity only)
 ```
 singularity build hmmcopy_<insert version>.sif docker://quay.io/mondrianscwgs/hmmcopy:<insert version>
 ```
@@ -51,7 +51,10 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 ```
 
-you can skip line 2 of this file if you're not using singularity 
+To run with docker: Replace `singularity_image` in `input.json` with
+```
+"HmmcopyWorkflow.docker_image": "docker://quay.io/mondrianscwgs/hmmcopy:<insert version>",
+```
 
 
 3. run the pipeline on test dataset

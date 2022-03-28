@@ -13,9 +13,9 @@
     wget https://mondriantestdata.s3.amazonaws.com/snv_genotyping.tar.gz
     tar -xvf snv_genotyping.tar.gz
     ```
-3. create singularity sif file
+3. create singularity sif file (for singularity only)
 ```
-singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/variant:<insert version>
+singularity build variant_calling_<insert version>.sif docker://quay.io/mondrianscwgs/variant_calling:<insert version>
 ```
 
 
@@ -40,7 +40,10 @@ singularity build variant_<insert version>.sif docker://quay.io/mondrianscwgs/va
     }
     ```
 
-    you can skip line 1 of this file if you're not using singularity 
+    To run with docker: Replace `singularity_image` in `input.json` with
+    ```
+    "SnvGenotypingWorkflow.docker_image": "docker://quay.io/mondrianscwgs/variant_calling:<insert version>",
+    ```
 
 5. run the pipeline on test dataset
 
