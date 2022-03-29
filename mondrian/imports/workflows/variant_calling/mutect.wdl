@@ -47,26 +47,56 @@ workflow MutectWorkflow{
             walltime_hours = low_walltime
     }
 
-    call mutect.GetPileup as pileup_normal{
-        input:
-            input_bam = normal_bam,
-            input_bai = normal_bai,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_dict = reference_dict,
-            variants_for_contamination = variants_for_contamination,
-            variants_for_contamination_idx = variants_for_contamination_idx,
-            intervals = chromosomes,
-            num_threads = num_threads,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
+    scatter (chromosome in chromosomes){
+        call mutect.GetPileup as pileup_normal{
+            input:
+                input_bam = normal_bam,
+                input_bai = normal_bai,
+                reference = reference,
+                reference_fai = reference_fai,
+                reference_dict = reference_dict,
+                variants_for_contamination = variants_for_contamination,
+                variants_for_contamination_idx = variants_for_contamination_idx,
+                chromosome = chromosome,
+                num_threads = num_threads,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = high_walltime
+        }
+
+        call mutect.GetPileup as pileup_tumour{
+            input:
+                input_bam = tumour_bam,
+                input_bai = tumour_bai,
+                reference = reference,
+                reference_fai = reference_fai,
+                reference_dict = reference_dict,
+                variants_for_contamination = variants_for_contamination,
+                variants_for_contamination_idx = variants_for_contamination_idx,
+                chromosome = chromosome,
+                num_threads = num_threads,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = high_walltime
+        }
     }
+
 
     call mutect.MergePileupSummaries as merge_pileup_normal{
         input:
             input_tables = pileup_normal.pileups,
+            reference_dict = reference_dict,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = high_mem,
+            walltime_hours = high_walltime
+    }
+
+    call mutect.MergePileupSummaries as merge_pileup_tumour{
+        input:
+            input_tables = pileup_tumour.pileups,
             reference_dict = reference_dict,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -84,33 +114,6 @@ workflow MutectWorkflow{
             walltime_hours = high_walltime
     }
 
-
-    call mutect.GetPileup as pileup_tumour{
-        input:
-            input_bam = tumour_bam,
-            input_bai = tumour_bai,
-            reference = reference,
-            reference_fai = reference_fai,
-            reference_dict = reference_dict,
-            variants_for_contamination = variants_for_contamination,
-            variants_for_contamination_idx = variants_for_contamination_idx,
-            intervals = chromosomes,
-            num_threads = num_threads,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
-    }
-
-    call mutect.MergePileupSummaries as merge_pileup_tumour{
-        input:
-            input_tables = pileup_tumour.pileups,
-            reference_dict = reference_dict,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
-    }
 
     scatter(interval in gen_int.intervals){
         call mutect.RunMutect as run_mutect{

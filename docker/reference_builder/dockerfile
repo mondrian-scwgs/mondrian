@@ -1,5 +1,6 @@
 FROM continuumio/miniconda3
 ADD . /app
+ARG VERSION
 
 RUN apt-get update && apt-get -y install cmake protobuf-compiler build-essential
 RUN mkdir /code && cd /code &&  git clone https://github.com/shahcompbio/hmmcopy_utils.git
@@ -7,3 +8,4 @@ RUN cd /code/hmmcopy_utils/ && cmake . && make
 RUN conda install -c bioconda bowtie gatk4 picard bwa
 RUN apt update && apt install samtools -y
 RUN pip install gsutil
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
