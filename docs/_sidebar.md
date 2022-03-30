@@ -16,6 +16,9 @@
      - [Consensus](quickstart/breakpoint_calling_consensus.md)
   - [Snv Genotyping](quickstart/snv_genotyping.md)
 
+- [Reference](reference/README.md)
+  - [GRCh38](reference/grch38.md)
+
 - [Analyses](analyses/README.md)
   - [Alignment](analyses/alignment.md)
   - [Hmmcopy](analyses/hmmcopy.md)
