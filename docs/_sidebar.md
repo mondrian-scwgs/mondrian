@@ -17,7 +17,7 @@
   - [Snv Genotyping](quickstart/snv_genotyping.md)
 
 - [Reference](reference/README.md)
-  - [GRCh38](reference/grch38.md)
+  - [GRCh38](reference/GRCh38.md)
 
 - [Analyses](analyses/README.md)
   - [Alignment](analyses/alignment.md)
