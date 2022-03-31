@@ -45,17 +45,7 @@ workflow StrelkaWorkflow{
             normal_bai = normal_bai,
             reference = reference,
             reference_fai = reference_fai,
-            num_threads = num_threads,
             chromosomes = chromosomes,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
-    }
-
-    call strelka.MergeChromDepths as merge_chrom_depths{
-        input:
-            inputs = generate_chrom_depth.chrom_depths,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
@@ -83,7 +73,7 @@ workflow StrelkaWorkflow{
                 reference = reference,
                 reference_fai = reference_fai,
                 genome_size = get_genome_size.genome_size,
-                chrom_depth_file = merge_chrom_depths.merged,
+                chrom_depth_file = generate_chrom_depth.chrom_depth,
                 num_threads = num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
