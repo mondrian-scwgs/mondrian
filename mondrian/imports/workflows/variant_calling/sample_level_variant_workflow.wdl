@@ -6,6 +6,7 @@ import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/utilities/bash.wdl"  as bash
 #import "../../mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 import "../../types/variant_refdata.wdl" as refdata_struct
+import "../../workflows/variant_calling/variant_bam.wdl" as variant_bam
 import "../../workflows/variant_calling/museq.wdl" as museq
 import "../../workflows/variant_calling/strelka.wdl" as strelka
 import "../../workflows/variant_calling/mutect.wdl" as mutect
@@ -45,12 +46,32 @@ workflow SampleLevelVariantWorkflow {
         String? high_walltime = 96
     }
 
-    call museq.MuseqWorkflow as museq{
+    call variant_bam.VariantBamWorkflow as filter_bams{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
+            reference = reference,
+            chromosomes = chromosomes,
+            interval_size = interval_size,
+            num_threads = num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
+    }
+
+    call museq.MuseqWorkflow as museq{
+        input:
+            normal_bam = filter_bams.normal_filter_bam,
+            normal_bai = filter_bams.normal_filter_bai,
+            tumour_bam = filter_bams.tumour_filter_bam,
+            tumour_bai = filter_bams.tumour_filter_bai,
             reference = reference,
             reference_fai = reference_fai,
             num_threads = num_threads,
@@ -71,10 +92,10 @@ workflow SampleLevelVariantWorkflow {
 
     call strelka.StrelkaWorkflow as strelka{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
+            normal_bam = filter_bams.normal_filter_bam,
+            normal_bai = filter_bams.normal_filter_bai,
+            tumour_bam = filter_bams.tumour_filter_bam,
+            tumour_bai = filter_bams.tumour_filter_bai,
             reference = reference,
             reference_fai = reference_fai,
             num_threads = num_threads,
@@ -93,10 +114,10 @@ workflow SampleLevelVariantWorkflow {
 
     call mutect.MutectWorkflow as mutect{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
+            normal_bam = filter_bams.normal_filter_bam,
+            normal_bai = filter_bams.normal_filter_bai,
+            tumour_bam = filter_bams.tumour_filter_bam,
+            tumour_bai = filter_bams.tumour_filter_bai,
             reference = reference,
             reference_fai = reference_fai,
             reference_dict = reference_dict,

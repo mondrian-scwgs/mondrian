@@ -4,6 +4,7 @@ import "../../mondrian_tasks/mondrian_tasks/variant_calling/strelka.wdl" as stre
 import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as utils
+import "../../workflows/variant_calling/variant_bam.wdl" as variant_bam
 
 
 workflow StrelkaWorkflow{
@@ -28,6 +29,26 @@ workflow StrelkaWorkflow{
         String? high_walltime = 96
      }
 
+    call variant_bam.VariantBamWorkflow as filter_bams{
+        input:
+            normal_bam = normal_bam,
+            normal_bai = normal_bai,
+            tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
+            reference = reference,
+            chromosomes = chromosomes,
+            interval_size = interval_size,
+            num_threads = num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
+    }
+
     call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
@@ -41,8 +62,8 @@ workflow StrelkaWorkflow{
 
     call strelka.GenerateChromDepth as generate_chrom_depth{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
+            normal_bam = filter_bams.normal_filter_bam,
+            normal_bai = filter_bams.normal_filter_bai,
             reference = reference,
             reference_fai = reference_fai,
             chromosomes = chromosomes,
@@ -65,10 +86,10 @@ workflow StrelkaWorkflow{
     scatter(interval in gen_int.intervals){
         call strelka.RunStrelka as run_strelka{
             input:
-                normal_bam = normal_bam,
-                normal_bai = normal_bai,
-                tumour_bam = tumour_bam,
-                tumour_bai = tumour_bai,
+                normal_bam = filter_bams.normal_filter_bam,
+                normal_bai = filter_bams.normal_filter_bai,
+                tumour_bam = filter_bams.tumour_filter_bam,
+                tumour_bai = filter_bams.tumour_filter_bai,
                 interval = interval,
                 reference = reference,
                 reference_fai = reference_fai,
