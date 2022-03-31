@@ -16,6 +16,7 @@ workflow VariantBamWorkflow{
         String? singularity_image
         String? docker_image
         Int interval_size = 1000000
+        Int max_coverage = 10000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -43,7 +44,7 @@ workflow VariantBamWorkflow{
                 input_bam = normal_bam,
                 input_bai = normal_bai,
                 interval = interval,
-                max_coverage=10000,
+                max_coverage = max_coverage,
                 num_threads=num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
@@ -56,7 +57,7 @@ workflow VariantBamWorkflow{
                 input_bam = tumour_bam,
                 input_bai = tumour_bai,
                 interval = interval,
-                max_coverage=10000,
+                max_coverage = max_coverage,
                 num_threads=num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
