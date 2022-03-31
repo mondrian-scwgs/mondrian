@@ -19,6 +19,7 @@ workflow StrelkaWorkflow{
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int interval_size = 10000000
+        Int max_coverage = 10000
         Int? num_threads = 8
         Int? low_mem = 7
         Int? med_mem = 15
@@ -42,6 +43,7 @@ workflow StrelkaWorkflow{
             filename_prefix = tumour_id,
             num_threads = num_threads,
             interval_size = interval_size,
+            max_coverage = max_coverage,
             low_mem = low_mem,
             med_mem = med_mem,
             high_mem = high_mem,

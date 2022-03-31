@@ -27,6 +27,7 @@ workflow VariantWorkflow{
         String? docker_image = "ubuntu"
         Int? num_threads = 8
         Int interval_size = 10000000
+        Int max_coverage = 10000
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -66,6 +67,7 @@ workflow VariantWorkflow{
                 normal_id = normal_id,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
+                max_coverage = max_coverage,
                 interval_size = interval_size,
                 low_mem = low_mem,
                 med_mem = med_mem,
