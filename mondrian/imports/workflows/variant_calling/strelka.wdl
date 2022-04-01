@@ -22,6 +22,7 @@ workflow StrelkaWorkflow{
         Int max_coverage = 10000
         Int interval_size = 1000000
         Int? num_threads = 8
+        Int? num_threads_merge = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -41,6 +42,7 @@ workflow StrelkaWorkflow{
             interval_size = interval_size,
             max_coverage = max_coverage,
             num_threads = num_threads,
+            num_threads_merge = num_threads_merge,
             singularity_image = singularity_image,
             docker_image = docker_image,
             low_mem = low_mem,
