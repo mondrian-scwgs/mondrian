@@ -1,6 +1,7 @@
 version 1.0
 
 import "imports/workflows/variant_calling/sample_level_variant_workflow.wdl" as variant
+import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
@@ -26,6 +27,7 @@ workflow VariantWorkflow{
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? num_threads = 8
+        Int? num_threads_merge = 8
         Int interval_size = 10000000
         Int max_coverage = 10000
         Int? low_mem = 7
@@ -36,6 +38,25 @@ workflow VariantWorkflow{
         String? high_walltime = 96
     }
 
+    call variant_bam.VariantBamWorkflow as normal_variant_bam{
+        input:
+            input_bam = normal_bam,
+            input_bai = normal_bai,
+            reference = reference.reference,
+            chromosomes = chromosomes,
+            interval_size = interval_size,
+            max_coverage = max_coverage,
+            num_threads = num_threads,
+            num_threads_merge = num_threads_merge,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            low_mem = low_mem,
+            med_mem = med_mem,
+            high_mem = high_mem,
+            low_walltime = low_walltime,
+            med_walltime = med_walltime,
+            high_walltime = high_walltime
+    }
 
     scatter (sample in samples){
         String tumour_id = sample.sample_id
@@ -43,13 +64,33 @@ workflow VariantWorkflow{
         File bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
 
+        call variant_bam.VariantBamWorkflow as tumour_variant_bam{
+            input:
+                input_bam = bam,
+                input_bai = bai,
+                reference = reference.reference,
+                chromosomes = chromosomes,
+                interval_size = interval_size,
+                max_coverage = max_coverage,
+                num_threads = num_threads,
+                num_threads_merge = num_threads_merge,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                low_mem = low_mem,
+                med_mem = med_mem,
+                high_mem = high_mem,
+                low_walltime = low_walltime,
+                med_walltime = med_walltime,
+                high_walltime = high_walltime
+        }
+
 
         call variant.SampleLevelVariantWorkflow as variant_workflow{
             input:
-                normal_bam = normal_bam,
-                normal_bai = normal_bai,
-                tumour_bam = bam,
-                tumour_bai = bai,
+                normal_bam = normal_variant_bam.filter_bam,
+                normal_bai = normal_variant_bam.filter_bai,
+                tumour_bam = tumour_variant_bam.filter_bam,
+                tumour_bai = tumour_variant_bam.filter_bai,
                 reference = reference.reference,
                 reference_fai = reference.reference_fa_fai,
                 reference_dict = reference.reference_dict,

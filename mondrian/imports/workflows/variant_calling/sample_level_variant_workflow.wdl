@@ -23,13 +23,13 @@ workflow SampleLevelVariantWorkflow {
         File reference
         File reference_fai
         File reference_dict
-        File realignment_index_bundle
-        File panel_of_normals
-        File panel_of_normals_idx
-        File variants_for_contamination
-        File variants_for_contamination_idx
-        File gnomad
-        File gnomad_idx
+        File? realignment_index_bundle
+        File? panel_of_normals
+        File? panel_of_normals_idx
+        File? variants_for_contamination
+        File? variants_for_contamination_idx
+        File? gnomad
+        File? gnomad_idx
         Array[String] chromosomes
         File vep_ref
         String tumour_id
@@ -48,34 +48,12 @@ workflow SampleLevelVariantWorkflow {
         String? high_walltime = 96
     }
 
-    call variant_bam.VariantBamWorkflow as filter_bams{
+    call museq.MuseqWorkflow as museq{
         input:
             normal_bam = normal_bam,
             normal_bai = normal_bai,
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
-            reference = reference,
-            chromosomes = chromosomes,
-            interval_size = interval_size,
-            max_coverage = max_coverage,
-            num_threads = num_threads,
-            num_threads_merge = num_threads_merge,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
-    }
-
-    call museq.MuseqWorkflow as museq{
-        input:
-            normal_bam = filter_bams.normal_filter_bam,
-            normal_bai = filter_bams.normal_filter_bai,
-            tumour_bam = filter_bams.tumour_filter_bam,
-            tumour_bai = filter_bams.tumour_filter_bai,
             reference = reference,
             reference_fai = reference_fai,
             num_threads = num_threads,
@@ -96,10 +74,10 @@ workflow SampleLevelVariantWorkflow {
 
     call strelka.StrelkaWorkflow as strelka{
         input:
-            normal_bam = filter_bams.normal_filter_bam,
-            normal_bai = filter_bams.normal_filter_bai,
-            tumour_bam = filter_bams.tumour_filter_bam,
-            tumour_bai = filter_bams.tumour_filter_bai,
+            normal_bam = normal_bam,
+            normal_bai = normal_bai,
+            tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
             num_threads = num_threads,
@@ -118,10 +96,10 @@ workflow SampleLevelVariantWorkflow {
 
     call mutect.MutectWorkflow as mutect{
         input:
-            normal_bam = filter_bams.normal_filter_bam,
-            normal_bai = filter_bams.normal_filter_bai,
-            tumour_bam = filter_bams.tumour_filter_bam,
-            tumour_bai = filter_bams.tumour_filter_bai,
+            normal_bam = normal_bam,
+            normal_bai = normal_bai,
+            tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             reference = reference,
             reference_fai = reference_fai,
             reference_dict = reference_dict,

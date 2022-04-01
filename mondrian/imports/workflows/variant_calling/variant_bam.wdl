@@ -3,14 +3,13 @@ version 1.0
 import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "../../mondrian_tasks/mondrian_tasks/io/bam/variantbam.wdl" as variantbam
 import "../../mondrian_tasks/mondrian_tasks/io/bam/sambamba.wdl" as sambamba
+import "../../mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
 
 
 workflow VariantBamWorkflow{
     input{
-        File normal_bam
-        File normal_bai
-        File tumour_bam
-        File tumour_bai
+        File input_bam
+        File input_bai
         File reference
         Array[String] chromosomes
         String? singularity_image
@@ -40,23 +39,10 @@ workflow VariantBamWorkflow{
 
     scatter (interval in gen_int.intervals){
 
-        call variantbam.VariantBam as normal_variant_bam{
+        call variantbam.VariantBam as variant_bam{
             input:
-                input_bam = normal_bam,
-                input_bai = normal_bai,
-                interval = interval,
-                max_coverage = max_coverage,
-                num_threads=num_threads,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
-
-        call variantbam.VariantBam as tumour_variant_bam{
-            input:
-                input_bam = tumour_bam,
-                input_bai = tumour_bai,
+                input_bam = input_bam,
+                input_bai = input_bai,
                 interval = interval,
                 max_coverage = max_coverage,
                 num_threads=num_threads,
@@ -67,19 +53,10 @@ workflow VariantBamWorkflow{
         }
     }
 
-    call sambamba.MergeBams as merge_normal{
-        input:
-            input_bams = normal_variant_bam.output_bam,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime,
-            num_threads = num_threads_merge
-    }
 
-    call sambamba.MergeBams as merge_tumour{
+    call utils.MergeBams as merge_bams{
         input:
-            input_bams = tumour_variant_bam.output_bam,
+            inputs = variant_bam.output_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,
@@ -88,9 +65,7 @@ workflow VariantBamWorkflow{
     }
 
     output{
-        File normal_filter_bam = merge_normal.merged_bam
-        File normal_filter_bai = merge_normal.merged_bai
-        File tumour_filter_bam = merge_tumour.merged_bam
-        File tumour_filter_bai = merge_tumour.merged_bai
+        File filter_bam = merge_bams.merged_bam
+        File filter_bai = merge_bams.merged_bai
     }
 }

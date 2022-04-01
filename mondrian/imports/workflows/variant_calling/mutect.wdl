@@ -16,13 +16,13 @@ workflow MutectWorkflow{
         File reference
         File reference_fai
         File reference_dict
-        File panel_of_normals
-        File panel_of_normals_idx
-        File variants_for_contamination
-        File variants_for_contamination_idx
-        File gnomad
-        File gnomad_idx
-        File realignment_index_bundle
+        File? panel_of_normals
+        File? panel_of_normals_idx
+        File? variants_for_contamination
+        File? variants_for_contamination_idx
+        File? gnomad
+        File? gnomad_idx
+        File? realignment_index_bundle
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
@@ -39,29 +39,6 @@ workflow MutectWorkflow{
         String? high_walltime = 96
      }
 
-    call variant_bam.VariantBamWorkflow as filter_bams{
-        input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
-            tumour_bam = tumour_bam,
-            tumour_bai = tumour_bai,
-            reference = reference,
-            chromosomes = chromosomes,
-            interval_size = interval_size,
-            max_coverage = max_coverage,
-            num_threads = num_threads,
-            num_threads_merge = num_threads_merge,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
-    }
-
-
     call pysam.GenerateIntervals as gen_int{
         input:
             reference = reference,
@@ -73,81 +50,83 @@ workflow MutectWorkflow{
             walltime_hours = low_walltime
     }
 
-    scatter (chromosome in chromosomes){
-        call mutect.GetPileup as pileup_normal{
+
+    if (defined(variants_for_contamination)) {
+        scatter (chromosome in chromosomes){
+            call mutect.GetPileup as pileup_normal{
+                input:
+                    input_bam = normal_bam,
+                    input_bai = normal_bai,
+                    reference = reference,
+                    reference_fai = reference_fai,
+                    reference_dict = reference_dict,
+                    variants_for_contamination = variants_for_contamination,
+                    variants_for_contamination_idx = variants_for_contamination_idx,
+                    chromosome = chromosome,
+                    num_threads = num_threads,
+                    singularity_image = singularity_image,
+                    docker_image = docker_image,
+                    memory_gb = low_mem,
+                    walltime_hours = high_walltime
+            }
+
+            call mutect.GetPileup as pileup_tumour{
+                input:
+                    input_bam = tumour_bam,
+                    input_bai = tumour_bai,
+                    reference = reference,
+                    reference_fai = reference_fai,
+                    reference_dict = reference_dict,
+                    variants_for_contamination = variants_for_contamination,
+                    variants_for_contamination_idx = variants_for_contamination_idx,
+                    chromosome = chromosome,
+                    num_threads = num_threads,
+                    singularity_image = singularity_image,
+                    docker_image = docker_image,
+                    memory_gb = low_mem,
+                    walltime_hours = high_walltime
+            }
+        }
+
+
+        call mutect.MergePileupSummaries as merge_pileup_normal{
             input:
-                input_bam = filter_bams.normal_filter_bam,
-                input_bai = filter_bams.normal_filter_bai,
-                reference = reference,
-                reference_fai = reference_fai,
+                input_tables = pileup_normal.pileups,
                 reference_dict = reference_dict,
-                variants_for_contamination = variants_for_contamination,
-                variants_for_contamination_idx = variants_for_contamination_idx,
-                chromosome = chromosome,
-                num_threads = num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
+                memory_gb = high_mem,
                 walltime_hours = high_walltime
         }
 
-        call mutect.GetPileup as pileup_tumour{
+        call mutect.MergePileupSummaries as merge_pileup_tumour{
             input:
-                input_bam = filter_bams.tumour_filter_bam,
-                input_bai = filter_bams.tumour_filter_bai,
-                reference = reference,
-                reference_fai = reference_fai,
+                input_tables = pileup_tumour.pileups,
                 reference_dict = reference_dict,
-                variants_for_contamination = variants_for_contamination,
-                variants_for_contamination_idx = variants_for_contamination_idx,
-                chromosome = chromosome,
-                num_threads = num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
+                memory_gb = high_mem,
                 walltime_hours = high_walltime
         }
-    }
-
-
-    call mutect.MergePileupSummaries as merge_pileup_normal{
-        input:
-            input_tables = pileup_normal.pileups,
-            reference_dict = reference_dict,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
-    }
-
-    call mutect.MergePileupSummaries as merge_pileup_tumour{
-        input:
-            input_tables = pileup_tumour.pileups,
-            reference_dict = reference_dict,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
-    }
-
-    call mutect.CalculateContamination as contamination{
-        input:
-            tumour_pileups = merge_pileup_tumour.merged_table,
-            normal_pileups = merge_pileup_normal.merged_table,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+        call mutect.CalculateContamination as contamination{
+            input:
+                tumour_pileups = merge_pileup_tumour.merged_table,
+                normal_pileups = merge_pileup_normal.merged_table,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = high_mem,
+                walltime_hours = high_walltime
+        }
     }
 
 
     scatter(interval in gen_int.intervals){
         call mutect.RunMutect as run_mutect{
             input:
-                normal_bam = filter_bams.normal_filter_bam,
-                normal_bai = filter_bams.normal_filter_bai,
-                tumour_bam = filter_bams.tumour_filter_bam,
-                tumour_bai = filter_bams.tumour_filter_bai,
+                normal_bam = normal_bam,
+                normal_bai = normal_bai,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
                 reference = reference,
                 reference_fai = reference_fai,
                 reference_dict = reference_dict,
@@ -209,28 +188,29 @@ workflow MutectWorkflow{
             walltime_hours = high_walltime
     }
 
-    call mutect.FilterAlignmentArtifacts as alignment_artifacts{
-        input:
-            ref_fasta = reference,
-            ref_fai = reference_fai,
-            ref_dict = reference_dict,
-            tumour_bam = tumour_bam,
-            tumour_bam_index = tumour_bai,
-            realignment_index_bundle = realignment_index_bundle,
-            input_vcf = filter_mutect.filtered_vcf,
-            input_vcf_tbi = filter_mutect.filtered_vcf_tbi,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+    if (defined(realignment_index_bundle)){
+        call mutect.FilterAlignmentArtifacts as alignment_artifacts{
+            input:
+                ref_fasta = reference,
+                ref_fai = reference_fai,
+                ref_dict = reference_dict,
+                tumour_bam = tumour_bam,
+                tumour_bam_index = tumour_bai,
+                realignment_index_bundle = realignment_index_bundle,
+                input_vcf = filter_mutect.filtered_vcf,
+                input_vcf_tbi = filter_mutect.filtered_vcf_tbi,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = high_mem,
+                walltime_hours = high_walltime
+        }
     }
-
 
     call utils.VcfReheaderId as reheader{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            input_vcf = alignment_artifacts.filtered_vcf,
+            input_vcf = select_first([alignment_artifacts.filtered_vcf, filter_mutect.filtered_vcf]),
             vcf_normal_id = 'NORMAL',
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
