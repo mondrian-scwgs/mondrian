@@ -18,6 +18,7 @@ workflow VariantBamWorkflow{
         Int interval_size = 1000000
         Int max_coverage = 10000
         Int? num_threads = 8
+        Int? num_threads_merge = 8
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -71,9 +72,9 @@ workflow VariantBamWorkflow{
             input_bams = normal_variant_bam.output_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime,
-            num_threads = num_threads
+            memory_gb = high_mem,
+            walltime_hours = high_walltime,
+            num_threads = num_threads_merge
     }
 
     call sambamba.MergeBams as merge_tumour{
@@ -81,9 +82,9 @@ workflow VariantBamWorkflow{
             input_bams = tumour_variant_bam.output_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime,
-            num_threads = num_threads
+            memory_gb = high_mem,
+            walltime_hours = high_walltime,
+            num_threads = num_threads_merge
     }
 
     output{
