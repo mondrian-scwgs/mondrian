@@ -148,7 +148,7 @@ workflow MutectWorkflow{
             f1r2_tar_gz = flatten(run_mutect.f1r2),
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
+            memory_gb = med_mem,
             walltime_hours = high_walltime
     }
 
