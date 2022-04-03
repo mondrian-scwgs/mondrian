@@ -48,7 +48,7 @@ workflow VariantBamWorkflow{
                 num_threads=num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
+                memory_gb = high_mem,
                 walltime_hours = low_walltime
         }
     }
