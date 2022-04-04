@@ -33,6 +33,7 @@ workflow AlignmentWorkflow{
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int? num_threads = 8
+        Int? num_threads_align = 1
         Int? low_mem = 7
         Int? med_mem = 15
         Int? high_mem = 25
@@ -56,6 +57,7 @@ workflow AlignmentWorkflow{
                 docker_image = docker_image,
                 memory_gb = high_mem,
                 walltime_hours = high_walltime,
+                num_threads=num_threads_align
         }
     }
 
