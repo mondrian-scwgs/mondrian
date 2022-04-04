@@ -160,7 +160,7 @@ workflow AlignmentWorkflow{
             docker_image = docker_image,
             num_threads=num_threads,
             memory_gb = low_mem,
-            walltime_hours = low_walltime
+            walltime_hours = high_walltime
     }
 
     call utils.AlignmentMetadata as alignment_metadata{
