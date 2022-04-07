@@ -15,6 +15,7 @@ workflow SnvGenotypingWorkflow{
         String sample_id
         File tumour_bam
         File tumour_bai
+        File? cell_barcodes
         File metadata_input
         String? singularity_image = ""
         String? docker_image = "ubuntu"
@@ -37,12 +38,25 @@ workflow SnvGenotypingWorkflow{
             walltime_hours = low_walltime
     }
 
+    if (! defined(cell_barcodes)){
+        call utils.GenerateCellBarcodes as generate_cell_barcodes{
+            input:
+                bamfile = tumour_bam,
+                baifile = tumour_bai,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_gb = low_mem,
+                walltime_hours = low_walltime
+        }
+    }
+
     call utils.Genotyper as genotyping{
         input:
             bam = tumour_bam,
             bai = tumour_bai,
             vcf_file = vcf_file,
             vcf_file_idx = vcf_file_idx,
+            cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
             intervals = gen_int.intervals,
             num_threads = num_threads,
             filename_prefix = "snv_genotyping",
@@ -52,17 +66,6 @@ workflow SnvGenotypingWorkflow{
             walltime_hours = high_walltime
     }
 
-
-    call utils.GenerateCellBarcodes as generate_cell_barcodes{
-        input:
-            bamfile = tumour_bam,
-            baifile = tumour_bai,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
-    }
-
     call utils.RunVartrix as vartrix{
         input:
             bamfile = tumour_bam,
@@ -70,7 +73,7 @@ workflow SnvGenotypingWorkflow{
             fasta = reference.reference,
             fasta_fai = reference.reference_fai,
             vcf_file = vcf_file,
-            cell_barcodes = generate_cell_barcodes.cell_barcodes,
+            cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = med_mem,
