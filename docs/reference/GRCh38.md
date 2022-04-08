@@ -119,6 +119,14 @@ singularity run --bind $PWD reference_builder.sif gunzip gap.txt.gz
 ```
 
 
+*vep cache*
+
+```
+wget http://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
+wget http://ftp.ensembl.org/pub/release-105/fasta/homo_sapiens/dna/Homo_sapiens.105.dna.primary_assembly.fa.gz
+```
+
+
 # mouse/mm10
 
 ```

@@ -42,6 +42,8 @@ workflow ConsensusWorkflow{
             normal_id = normal_id,
             tumour_id = tumour_id,
             vep_ref = reference.vep_ref,
+            vep_fasta_suffix = reference.vep_fasta_suffix,
+            ncbi_build = reference.ncbi_build,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
