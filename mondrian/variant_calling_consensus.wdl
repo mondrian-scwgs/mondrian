@@ -44,6 +44,7 @@ workflow ConsensusWorkflow{
             vep_ref = reference.vep_ref,
             vep_fasta_suffix = reference.vep_fasta_suffix,
             ncbi_build = reference.ncbi_build,
+            cache_version = reference.cache_version,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
