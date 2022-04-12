@@ -129,12 +129,13 @@ wget http://ftp.ensembl.org/pub/release-105/fasta/homo_sapiens/dna/Homo_sapiens.
 
 tar -xvf homo_sapiens_vep_105_GRCh38.tar.gz
 rm homo_sapiens_vep_105_GRCh38.tar.gz
+gunzip Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 
-mv Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz homo_sapiens/105_GRCh38/
+mv Homo_sapiens.GRCh38.dna.primary_assembly.fa homo_sapiens/105_GRCh38/
 
-singularity run --bind $PWD reference_builder.sif samtools index homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-singularity run --bind $PWD reference_builder.sif bgzip homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-
+singularity run --bind $PWD reference_builder.sif bgzip homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+singularity run --bind $PWD reference_builder.sif bgzip -r homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+singularity run --bind $PWD reference_builder.sif samtools faidx homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 ```
 
 
