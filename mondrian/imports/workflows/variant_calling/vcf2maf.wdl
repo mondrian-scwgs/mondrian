@@ -10,6 +10,9 @@ workflow Vcf2MafWorkflow{
         String normal_id
         String tumour_id
         File vep_ref
+        String vep_fasta_suffix
+        String ncbi_build
+        String cache_version
         String filename_prefix
         String? singularity_image
         String? docker_image
@@ -25,6 +28,9 @@ workflow Vcf2MafWorkflow{
         input:
             input_vcf = input_vcf,
             vep_ref = vep_ref,
+            vep_fasta_suffix = vep_fasta_suffix,
+            ncbi_build = ncbi_build,
+            cache_version = cache_version,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,

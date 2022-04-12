@@ -32,6 +32,9 @@ workflow SampleLevelVariantWorkflow {
         File? gnomad_idx
         Array[String] chromosomes
         File vep_ref
+        String vep_fasta_suffix
+        String ncbi_build
+        String cache_version
         String tumour_id
         String normal_id
         String? singularity_image
@@ -137,6 +140,9 @@ workflow SampleLevelVariantWorkflow {
             normal_id = normal_id,
             tumour_id = tumour_id,
             vep_ref = vep_ref,
+            vep_fasta_suffix = vep_fasta_suffix,
+            ncbi_build = ncbi_build,
+            cache_version = cache_version,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,

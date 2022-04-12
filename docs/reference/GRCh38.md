@@ -8,7 +8,7 @@
 ### Build singularity sif file
 ```
 module load singularity/3.6.2
-singularity build reference_builder.sif docker://quay.io/mondrianscwgs/reference_builder:v0.0.1
+singularity build reference_builder.sif docker://quay.io/mondrianscwgs/reference_builder:{mondrian_version}
 ```
 
 
@@ -116,6 +116,25 @@ singularity run --bind $PWD reference_builder.sif reference_utils snp_positions 
 ```
 singularity run --bind $PWD reference_builder.sif wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/gap.txt.gz
 singularity run --bind $PWD reference_builder.sif gunzip gap.txt.gz
+```
+
+
+*vep cache*
+
+The below links may change. In such cases surf through: http://ftp.ensembl.org/pub
+```
+mkdir vep && cd vep
+wget http://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
+wget http://ftp.ensembl.org/pub/release-105/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+
+tar -xvf homo_sapiens_vep_105_GRCh38.tar.gz
+rm homo_sapiens_vep_105_GRCh38.tar.gz
+
+mv Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz homo_sapiens/105_GRCh38/
+
+singularity run --bind $PWD reference_builder.sif samtools index homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+singularity run --bind $PWD reference_builder.sif bgzip homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+
 ```
 
 

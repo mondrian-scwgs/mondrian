@@ -18,6 +18,9 @@ workflow ConsensusWorkflow{
         String normal_id
         String tumour_id
         File vep_ref
+        String vep_fasta_suffix
+        String ncbi_build
+        String cache_version
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
@@ -53,6 +56,9 @@ workflow ConsensusWorkflow{
             normal_id = normal_id,
             tumour_id = tumour_id,
             vep_ref = vep_ref,
+            vep_fasta_suffix = vep_fasta_suffix,
+            ncbi_build = ncbi_build,
+            cache_version = cache_version,
             filename_prefix = tumour_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
