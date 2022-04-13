@@ -8,6 +8,7 @@ struct VariantRefdata{
     String cache_version
     String vep_fasta_suffix
     String ncbi_build
+    String species
     File? panel_of_normals
     File? panel_of_normals_idx
     File? variants_for_contamination

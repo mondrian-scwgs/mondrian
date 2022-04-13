@@ -35,6 +35,7 @@ workflow SampleLevelVariantWorkflow {
         String vep_fasta_suffix
         String ncbi_build
         String cache_version
+        String species
         String tumour_id
         String normal_id
         String? singularity_image
@@ -143,6 +144,7 @@ workflow SampleLevelVariantWorkflow {
             vep_fasta_suffix = vep_fasta_suffix,
             ncbi_build = ncbi_build,
             cache_version = cache_version,
+            species = species,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
