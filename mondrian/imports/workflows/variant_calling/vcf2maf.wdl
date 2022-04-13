@@ -13,6 +13,7 @@ workflow Vcf2MafWorkflow{
         String vep_fasta_suffix
         String ncbi_build
         String cache_version
+        String species
         String filename_prefix
         String? singularity_image
         String? docker_image
@@ -31,6 +32,7 @@ workflow Vcf2MafWorkflow{
             vep_fasta_suffix = vep_fasta_suffix,
             ncbi_build = ncbi_build,
             cache_version = cache_version,
+            species = species,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = high_mem,

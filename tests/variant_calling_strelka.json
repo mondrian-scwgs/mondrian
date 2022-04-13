@@ -17,6 +17,7 @@
     "vep_fasta_suffix": "homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz",
     "ncbi_build": "GRCh37",
     "cache_version": "99",
+    "species":"homo_sapiens",
     "panel_of_normals": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
     "panel_of_normals_idx": "mondrian-ref-path-here/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
     "variants_for_contamination": "mondrian-ref-path-here/human/small_exac_common_3.vcf.gz",

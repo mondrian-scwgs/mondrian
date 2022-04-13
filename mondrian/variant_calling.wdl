@@ -107,6 +107,7 @@ workflow VariantWorkflow{
                 vep_fasta_suffix = reference.vep_fasta_suffix,
                 ncbi_build = reference.ncbi_build,
                 cache_version = reference.cache_version,
+                species = reference.species,
                 tumour_id = tumour_id,
                 normal_id = normal_id,
                 singularity_image = singularity_image,
