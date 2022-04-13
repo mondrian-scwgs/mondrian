@@ -133,9 +133,10 @@ gunzip Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 
 mv Homo_sapiens.GRCh38.dna.primary_assembly.fa homo_sapiens/105_GRCh38/
 
-singularity run --bind $PWD reference_builder.sif bgzip homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa
-singularity run --bind $PWD reference_builder.sif bgzip -r homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-singularity run --bind $PWD reference_builder.sif samtools faidx homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+singularity run --bind $PWD reference_builder.sif bgzip vep/homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+singularity run --bind $PWD reference_builder.sif bgzip -r vep/homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+singularity run --bind $PWD reference_builder.sif samtools faidx vep/homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+tar -cvf vep.tar vep
 ```
 
 
