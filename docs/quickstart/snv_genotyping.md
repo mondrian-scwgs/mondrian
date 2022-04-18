@@ -10,8 +10,8 @@
 2. Download test data set
 
     ```
-    wget https://mondriantestdata.s3.amazonaws.com/snv_genotyping.tar.gz
-    tar -xvf snv_genotyping.tar.gz
+    wget https://mondriantestdata.s3.amazonaws.com/snv_genotyping_testdata.tar.gz
+    tar -xvf snv_genotyping_testdata.tar.gz
     ```
 3. create singularity sif file (for singularity only)
 ```
