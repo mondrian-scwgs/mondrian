@@ -76,6 +76,7 @@ workflow SnvGenotypingWorkflow{
                 fasta_fai = reference.reference_fai,
                 vcf_file = vcf_file,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
+                skip_header=true,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_gb = low_mem,
