@@ -19,7 +19,8 @@ phases:
     commands:
       - docker pull quay.io/mondrianscwgs/alignment:$TAG
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
-#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
+      - docker pull quay.io/mondrianscwgs/hmmcopy:$TAG
+      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling breakpoint_calling breakpoint_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_destruct breakpoint_calling breakpoint_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_svaba breakpoint_calling breakpoint_calling
