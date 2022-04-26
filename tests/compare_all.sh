@@ -4,5 +4,5 @@ wget -nv https://mondriantestdata.s3.amazonaws.com/result_reference.tar.gz
 
 tar -xvf result_reference.tar.gz
 
-find alignment outputs
+find alignment $CODEBUILD_SRC_DIR/tests/
 
