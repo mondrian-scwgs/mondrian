@@ -35,8 +35,8 @@ phases:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
       - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
-  post_build:
-    commands:
+#  post_build:
+#    commands:
 #      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW N ; fi
 #      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW N ; fi
 #      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW N ; fi
