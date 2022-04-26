@@ -11,37 +11,37 @@ phases:
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
       - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW Y
   build:
     commands:
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_destruct breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_svaba breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_lumpy breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_gridss breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_consensus breakpoint_calling breakpoint_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling variant_calling variant_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_museq variant_calling variant_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_mutect variant_calling variant_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_strelka variant_calling variant_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_consensus variant_calling variant_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources snv_genotyping variant_calling snv_genotyping
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling haplotype_calling haplotype_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_destruct breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_svaba breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_lumpy breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_gridss breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_consensus breakpoint_calling breakpoint_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_museq variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_mutect variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_strelka variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_consensus variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources snv_genotyping variant_calling snv_genotyping
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling haplotype_calling haplotype_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
       - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
   post_build:
     commands:
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh reference_builder $QUAY_USR $QUAY_PSW N ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3 cp $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip s3://mondriantestdata/ ; fi
-      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3api put-object-acl --bucket mondriantestdata --key imports_${TAG}.zip --acl public-read ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh reference_builder $QUAY_USR $QUAY_PSW N ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3 cp $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip s3://mondriantestdata/ ; fi
+#      - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then aws s3api put-object-acl --bucket mondriantestdata --key imports_${TAG}.zip --acl public-read ; fi
