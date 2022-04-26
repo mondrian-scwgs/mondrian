@@ -7,6 +7,7 @@ tar -xvf result_reference.tar.gz
 
 ls $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/
 
+ls result_reference/
 
 docker run -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:$TAG mondrian_build_utils compare_alignment \
     --metrics $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/alignment_metrics.csv.gz --metrics_ref result_reference/alignment_metrics.csv.gz \
