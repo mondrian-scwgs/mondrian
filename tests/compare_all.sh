@@ -26,6 +26,11 @@ tar -xvf result_reference.tar.gz
 
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_variant_calling \
     --museq $CODEBUILD_SRC_DIR/tests/variant_calling/outputs/results/SA123T_museq.vcf.gz --museq_ref result_reference/museq.vcf.gz \
-    --mutect $CODEBUILD_SRC_DIR/tests/variant_calling/outputs/results/SA123T_mutect.vcf.gz --mutect_ref result_reference/muteect.vcf.gz \
+    --mutect $CODEBUILD_SRC_DIR/tests/variant_calling/outputs/results/SA123T_mutect.vcf.gz --mutect_ref result_reference/mutect.vcf.gz \
     --strelka_indel $CODEBUILD_SRC_DIR/tests/variant_calling/outputs/results/SA123T_strelka_indel.vcf.gz --strelka_indel_ref result_reference/strelka_indel.vcf.gz \
     --strelka_snv $CODEBUILD_SRC_DIR/tests/variant_calling/outputs/results/SA123T_strelka_snv.vcf.gz --strelka_snv_ref result_reference/strelka_snv.vcf.gz \
+
+
+docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_variant_calling \
+    --genotyper $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/genotyper.csv.gz --museq_ref result_reference/genotyper.csv.gz \
+    --vartrix $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/vartrix.csv.gz --mutect_ref result_reference/vartrix.csv.gz \
