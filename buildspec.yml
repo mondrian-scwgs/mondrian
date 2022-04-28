@@ -27,7 +27,7 @@ phases:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_gridss breakpoint_calling breakpoint_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_consensus breakpoint_calling breakpoint_calling
       - docker pull quay.io/mondrianscwgs/variant_calling:v0.0.41beta
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling variant_calling variant_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling variant_calling variant_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_museq variant_calling variant_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_mutect variant_calling variant_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_strelka variant_calling variant_calling
