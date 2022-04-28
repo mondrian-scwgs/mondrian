@@ -57,7 +57,7 @@ singularity run --bind $PWD reference_builder.sif /code/hmmcopy_utils/bin/gcCoun
 
 1. build big wig file
 ```
-singularity run --bind $PWD reference_builder.sif /code/hmmcopy_utils/util/mappability/generateMap.pl $1 -o ${1}.bw
+singularity run --bind $PWD reference_builder.sif /code/hmmcopy_utils/util/mappability/generateMap.pl $1 -o ${1}.bw -w 125
 ```
 2. build wig file
 ```

@@ -187,6 +187,7 @@ workflow HmmcopyWorkflow{
             metrics_yaml = merge_cell_cycle.outfile_yaml,
             reads = add_mappability.outfile,
             reads_yaml = add_mappability.outfile_yaml,
+            chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_gb = low_mem,
