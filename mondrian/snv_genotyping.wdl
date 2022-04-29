@@ -19,6 +19,7 @@ workflow SnvGenotypingWorkflow{
         File? cell_barcodes
         Boolean? ignore_untagged_reads = false
         File metadata_input
+        Boolean? sparse=false
         String? singularity_image = ""
         String? docker_image = "ubuntu"
         Int interval_size = 1000000
@@ -91,6 +92,8 @@ workflow SnvGenotypingWorkflow{
                 fasta_fai = reference.reference_fai,
                 vcf_file = interval_vcf.output_vcf,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
+                skip_header=true,
+                sparse=sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_gb = med_mem,
