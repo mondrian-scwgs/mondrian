@@ -36,6 +36,7 @@
     "SnvGenotypingWorkflow.tumour_bam": "snv_genotyping/merged.bam",
     "SnvGenotypingWorkflow.tumour_bai": "snv_genotyping/merged.bam.bai",
     "SnvGenotypingWorkflow.metadata_input": "snv_genotyping/metadata.yaml",
-    "SnvGenotypingWorkflow.sparse": true
+    "SnvGenotypingWorkflow.sparse": true,
+    "SnvGenotypingWorkflow.interval_size": 100000000
 }
 
