@@ -9,6 +9,7 @@ struct HaplotypeRefdata{
     String haplotypes_filename_template
     String legend_filename_template
     String sample_filename
+    String phased_chromosome_x
 }
 
 

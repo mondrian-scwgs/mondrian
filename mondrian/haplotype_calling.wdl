@@ -45,6 +45,7 @@ workflow HaplotypeWorkflow{
             genetic_map_filename_template = reference.genetic_map_filename_template,
             haplotypes_filename_template = reference.haplotypes_filename_template,
             legend_filename_template = reference.legend_filename_template,
+            phased_chromosome_x = reference.phased_chromosome_x,
             sample_filename = reference.sample_filename,
             singularity_image = singularity_image,
             docker_image = docker_image,
