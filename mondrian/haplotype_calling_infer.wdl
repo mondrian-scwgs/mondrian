@@ -44,6 +44,7 @@ workflow InferHaplotypeWorkflow{
             haplotypes_filename_template = reference.haplotypes_filename_template,
             legend_filename_template = reference.legend_filename_template,
             sample_filename = reference.sample_filename,
+            phased_chromosome_x = reference.phased_chromosome_x,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,

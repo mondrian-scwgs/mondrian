@@ -12,6 +12,7 @@ workflow InferHaplotypes{
         String haplotypes_filename_template
         String legend_filename_template
         String sample_filename
+        String phased_chromosome_x
         File thousand_genomes_impute_tar
         File snp_positions
         Array[String] chromosomes
@@ -57,6 +58,7 @@ workflow InferHaplotypes{
                 haplotypes_filename_template=haplotypes_filename_template,
                 legend_filename_template=legend_filename_template,
                 sample_filename=sample_filename,
+                phased_chromosome_x=phased_chromosome_x,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_gb = med_mem,
