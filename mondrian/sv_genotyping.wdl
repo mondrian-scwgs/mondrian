@@ -68,7 +68,7 @@ workflow SvGenotypingWorkflow{
     }
 
 
-    call utils.SnvGenotypingMetadata as genotyping_metadata{
+    call utils.SvGenotypingMetadata as genotyping_metadata{
         input:
             output_csv = concat_genotyping.outfile,
             output_csv_yaml = concat_genotyping.outfile_yaml,
