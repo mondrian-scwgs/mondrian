@@ -1,0 +1,10 @@
+{
+    "SvGenotypingWorkflow.docker_image": "docker_image_here",
+    "SvGenotypingWorkflow.destruct_reads": "breakpoint_testdata/SA123_breakpoint_read_table.csv",
+    "SvGenotypingWorkflow.destruct_table": "breakpoint_testdata/SA123_breakpoint_table.csv",
+    "SvGenotypingWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
+    "SvGenotypingWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
+    "SvGenotypingWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
+    "SvGenotypingWorkflow.tumour_bai": "breakpoint_testdata/medium.bam.bai",
+    "SvGenotypingWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml"
+}
