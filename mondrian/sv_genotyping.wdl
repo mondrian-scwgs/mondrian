@@ -10,7 +10,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
 
 
-workflow SnvGenotypingWorkflow{
+workflow SvGenotypingWorkflow{
     input{
         File destruct_reads
         File destruct_table
