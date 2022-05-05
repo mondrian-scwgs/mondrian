@@ -34,5 +34,8 @@ tar -xvf result_reference.tar.gz
 #    --vartrix $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/vartrix.csv.gz --vartrix_ref result_reference/vartrix.csv.gz \
 
 
+ls -lh  $CODEBUILD_SRC_DIR/tests/sv_genotyping/outputs/results/genotyper.csv.gz
+ls -lh result_reference/sv_genotyper.csv.gz
+
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_sv_genotyping \
     --genotyper $CODEBUILD_SRC_DIR/tests/sv_genotyping/outputs/results/genotyper.csv.gz --genotyper_ref result_reference/sv_genotyper.csv.gz
