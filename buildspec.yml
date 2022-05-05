@@ -10,7 +10,7 @@ phases:
       - cd $CODEBUILD_SRC_DIR/mondrian && zip -r $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip imports
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
@@ -35,7 +35,7 @@ phases:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
-#      - docker pull quay.io/mondrianscwgs/alignment:${TAG}beta
+      - docker pull quay.io/mondrianscwgs/alignment:${TAG}beta
       - docker pull quay.io/mondrianscwgs/breakpoint_calling:${TAG}beta
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources sv_genotyping  breakpoint_calling breakpoint_calling
       - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
