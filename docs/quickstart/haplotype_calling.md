@@ -45,6 +45,7 @@
         "haplotypes_filename_template": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3_chr{chromosome}_impute.hap.gz",
         "legend_filename_template": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3_chr{chromosome}_impute.legend.gz",
         "sample_filename": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3.sample",
+        "phased_chromosome_x": "X_nonPAR",
         "thousand_genomes_impute_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar"
       },
       "HaplotypeWorkflow.chromosomes": ["15"]

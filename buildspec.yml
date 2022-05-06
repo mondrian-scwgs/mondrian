@@ -34,6 +34,7 @@ phases:
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling haplotype_calling haplotype_calling
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
+      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources sv_genotyping  breakpoint_calling breakpoint_calling
       - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
   post_build:
     commands:
