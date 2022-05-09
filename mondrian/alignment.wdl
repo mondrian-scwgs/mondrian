@@ -34,12 +34,8 @@ workflow AlignmentWorkflow{
         String? docker_image = "ubuntu"
         Int? num_threads = 8
         Int? num_threads_align = 1
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 6
-        String? med_walltime = 24
-        String? high_walltime = 96
+        Int? mem_override
+        Int? walltime_override
     }
 
     scatter(cellinfo in fastq_files){
@@ -55,7 +51,7 @@ workflow AlignmentWorkflow{
                 cell_id=cellid,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
+                memory_gb = low_mem,
                 walltime_hours = low_walltime,
                 num_threads=num_threads_align
         }

@@ -22,7 +22,7 @@ workflow SnvGenotypingWorkflow{
         Boolean? sparse=false
         String? singularity_image = ""
         String? docker_image = "ubuntu"
-        Int interval_size = 1000000
+        Int num_splits = 1
         Int? num_threads = 1
         Int? low_mem = 7
         Int? med_mem = 15
@@ -32,16 +32,6 @@ workflow SnvGenotypingWorkflow{
         String? high_walltime = 96
     }
 
-    call pysam.GenerateIntervals as gen_int{
-        input:
-            reference = reference.reference,
-            chromosomes = chromosomes,
-            interval_size = interval_size,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
-    }
 
     if (! defined(cell_barcodes)){
         call utils.GenerateCellBarcodes as generate_cell_barcodes{
@@ -55,26 +45,26 @@ workflow SnvGenotypingWorkflow{
         }
     }
 
-    scatter(interval in gen_int.intervals){
-        call vcf_utils.GetRegionFromVcf as interval_vcf{
-            input:
-                input_vcf = vcf_file,
-                input_tbi = vcf_file_idx,
-                interval = interval,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
+    call vcf_utils.SplitVcf as split_vcf{
+        input:
+            input_vcf = vcf_file,
+            num_splits = num_splits,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_gb = low_mem,
+            walltime_hours = low_walltime
+    }
+
+
+    scatter(vcf_pair in zip(split_vcf.output_vcf,split_vcf.output_tbi)){
 
         call utils.Genotyper as genotyping{
             input:
                 bam = tumour_bam,
                 bai = tumour_bai,
-                vcf_file = interval_vcf.output_vcf,
-                vcf_file_idx = interval_vcf.output_tbi,
+                vcf_file = vcf_pair.left,
+                vcf_file_idx = vcf_pair.right,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
-                interval = interval,
                 num_threads = num_threads,
                 filename_prefix = "snv_genotyping",
                 singularity_image = singularity_image,
@@ -90,7 +80,7 @@ workflow SnvGenotypingWorkflow{
                 baifile = tumour_bai,
                 fasta = reference.reference,
                 fasta_fai = reference.reference_fai,
-                vcf_file = interval_vcf.output_vcf,
+                vcf_file = vcf_pair.left,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
                 skip_header=true,
                 sparse=sparse,
