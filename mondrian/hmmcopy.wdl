@@ -23,12 +23,8 @@ workflow HmmcopyWorkflow{
         Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "ubuntu"
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
 
@@ -44,8 +40,8 @@ workflow HmmcopyWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     scatter(wigfile in readcounter.wigs){
@@ -58,8 +54,8 @@ workflow HmmcopyWorkflow{
                 map_cutoff = '0.9',
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = med_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call utils.RunHmmcopy as hmmcopy{
@@ -67,8 +63,8 @@ workflow HmmcopyWorkflow{
                 corrected_wig = correction.wig,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = med_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call utils.PlotHmmcopy as plotting{
@@ -85,8 +81,8 @@ workflow HmmcopyWorkflow{
                 reference_fai = reference.reference_fai,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = med_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
     call csverve.ConcatenateCsv as concat_metrics{
@@ -96,8 +92,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.MergeCsv as merge_alignment_metrics{
@@ -108,8 +104,8 @@ workflow HmmcopyWorkflow{
             how="outer",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime,
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -120,8 +116,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_params",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_segments{
@@ -131,8 +127,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_segments",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_reads{
@@ -142,8 +138,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -154,8 +150,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.CellCycleClassifier as cell_cycle_classifier{
@@ -165,8 +161,8 @@ workflow HmmcopyWorkflow{
             alignment_metrics = alignment_metrics,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.MergeCsv as merge_cell_cycle{
@@ -177,8 +173,8 @@ workflow HmmcopyWorkflow{
             how = 'outer',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.AddClusteringOrder as add_order{
@@ -190,8 +186,8 @@ workflow HmmcopyWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.AddQuality as add_quality{
@@ -204,8 +200,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.CreateSegmentsTar as merge_segments{
@@ -217,8 +213,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_segments",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.PlotHeatmap as heatmap{
@@ -231,8 +227,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "hmmcopy_heatmap",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.GenerateHtmlReport as html_report{
@@ -244,8 +240,8 @@ workflow HmmcopyWorkflow{
             filename_prefix = "qc_html",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.HmmcopyMetadata as hmmcopy_metadata{
@@ -264,8 +260,8 @@ workflow HmmcopyWorkflow{
             metadata_input = metadata_input,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

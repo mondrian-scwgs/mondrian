@@ -12,12 +12,8 @@ workflow LumpyWorkflow {
         String filename_prefix = "output"
         String? singularity_image
         String? docker_image
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     call samtools.ViewBam as normal_discordant_bam {
@@ -28,8 +24,8 @@ workflow LumpyWorkflow {
             samtools_flags = '-bh',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call samtools.SortBam as sort_normal_discordant_bam{
@@ -37,8 +33,8 @@ workflow LumpyWorkflow {
             inputBam = normal_discordant_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call lumpy.ExtractSplitReads as normal_split_bam{
@@ -47,8 +43,8 @@ workflow LumpyWorkflow {
             outputBam = "normal_split.bam",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call samtools.SortBam as sort_normal_split_bam{
@@ -56,8 +52,8 @@ workflow LumpyWorkflow {
             inputBam = normal_split_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     ##### tumour
@@ -70,8 +66,8 @@ workflow LumpyWorkflow {
             samtools_flags = '-bh',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call samtools.SortBam as sort_tumour_discordant_bam{
@@ -79,8 +75,8 @@ workflow LumpyWorkflow {
             inputBam = tumour_discordant_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call lumpy.ExtractSplitReads as tumour_split_bam{
@@ -89,8 +85,8 @@ workflow LumpyWorkflow {
             outputBam = "tumour_split.bam",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call samtools.SortBam as sort_tumour_split_bam{
@@ -98,8 +94,8 @@ workflow LumpyWorkflow {
             inputBam = tumour_split_bam.bamFile,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call lumpy.LumpyExpress as lumpyexpress{
@@ -113,8 +109,8 @@ workflow LumpyWorkflow {
             singularity_image = singularity_image,
             docker_image = docker_image,
             filename_prefix = filename_prefix,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
     output{
         File lumpy_vcf = lumpyexpress.lumpy_vcf

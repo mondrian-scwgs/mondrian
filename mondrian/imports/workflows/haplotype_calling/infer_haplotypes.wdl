@@ -18,12 +18,8 @@ workflow InferHaplotypes{
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     scatter(chromosome in chromosomes){
@@ -35,8 +31,8 @@ workflow InferHaplotypes{
                 chromosome = chromosome,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call haplotypes.InferSnpGenotypeFromNormal as infer_genotype{
@@ -45,8 +41,8 @@ workflow InferHaplotypes{
                 chromosome = chromosome,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call haplotypes.InferHaps as infer_haps{
@@ -61,8 +57,8 @@ workflow InferHaplotypes{
                 phased_chromosome_x=phased_chromosome_x,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -71,8 +67,8 @@ workflow InferHaplotypes{
             infiles = infer_haps.haplotypes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call haplotypes.AnnotateHaps as annotate_haps{
@@ -81,8 +77,8 @@ workflow InferHaplotypes{
             thousand_genomes_snps = snp_positions,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

@@ -23,12 +23,8 @@ workflow StrelkaWorkflow{
         Int max_coverage = 10000
         Int? num_threads = 8
         Int? num_threads_merge = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     call variant_bam.VariantBamWorkflow as normal_variant_bam{
@@ -43,12 +39,8 @@ workflow StrelkaWorkflow{
             num_threads_merge = num_threads_merge,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call variant_bam.VariantBamWorkflow as tumour_variant_bam{
@@ -63,12 +55,8 @@ workflow StrelkaWorkflow{
             num_threads_merge = num_threads_merge,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call strelka.StrelkaWorkflow as strelka{
@@ -86,12 +74,8 @@ workflow StrelkaWorkflow{
             num_threads = num_threads,
             interval_size = interval_size,
             max_coverage = max_coverage,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -105,8 +89,8 @@ workflow StrelkaWorkflow{
             samples = [tumour_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 

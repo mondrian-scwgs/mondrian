@@ -30,12 +30,8 @@ workflow VariantWorkflow{
         Int? num_threads_merge = 8
         Int interval_size = 10000000
         Int max_coverage = 10000
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     call variant_bam.VariantBamWorkflow as normal_variant_bam{
@@ -50,12 +46,8 @@ workflow VariantWorkflow{
             num_threads_merge = num_threads_merge,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            low_mem = low_mem,
-            med_mem = med_mem,
-            high_mem = high_mem,
-            low_walltime = low_walltime,
-            med_walltime = med_walltime,
-            high_walltime = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     scatter (sample in samples){
@@ -76,12 +68,8 @@ workflow VariantWorkflow{
                 num_threads_merge = num_threads_merge,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                low_mem = low_mem,
-                med_mem = med_mem,
-                high_mem = high_mem,
-                low_walltime = low_walltime,
-                med_walltime = med_walltime,
-                high_walltime = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
 
@@ -114,12 +102,8 @@ workflow VariantWorkflow{
                 docker_image = docker_image,
                 max_coverage = max_coverage,
                 interval_size = interval_size,
-                low_mem = low_mem,
-                med_mem = med_mem,
-                high_mem = high_mem,
-                low_walltime = low_walltime,
-                med_walltime = med_walltime,
-                high_walltime = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -131,8 +115,8 @@ workflow VariantWorkflow{
             filename_prefix = 'final_vcf_all_samples',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
     call vcf2maf.MergeMafs as merge_mafs{
         input:
@@ -140,8 +124,8 @@ workflow VariantWorkflow{
             filename_prefix = 'final_maf_all_samples',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -162,8 +146,8 @@ workflow VariantWorkflow{
             samples = tumour_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 

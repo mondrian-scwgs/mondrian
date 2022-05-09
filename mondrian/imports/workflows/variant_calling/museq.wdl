@@ -25,12 +25,8 @@ workflow MuseqWorkflow{
         Int max_coverage = 10000
         Int? num_threads = 8
         Int? num_threads_merge = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -40,8 +36,8 @@ workflow MuseqWorkflow{
             interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -58,8 +54,8 @@ workflow MuseqWorkflow{
                 interval = interval,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -70,8 +66,8 @@ workflow MuseqWorkflow{
             tbi_files = run_museq.vcf_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.VcfReheaderId as reheader{
@@ -83,8 +79,8 @@ workflow MuseqWorkflow{
             vcf_tumour_id = 'TUMOUR',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{
@@ -93,8 +89,8 @@ workflow MuseqWorkflow{
             filename_prefix = filename_prefix + '_museq',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

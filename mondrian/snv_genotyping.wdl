@@ -24,12 +24,10 @@ workflow SnvGenotypingWorkflow{
         String? docker_image = "ubuntu"
         Int num_splits = 1
         Int? num_threads = 1
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        String? singularity_image = ""
+        String? docker_image = "ubuntu"
+        Int? memory_override
+        Int? walltime_override
     }
 
 
@@ -40,8 +38,8 @@ workflow SnvGenotypingWorkflow{
                 baifile = tumour_bai,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -51,8 +49,8 @@ workflow SnvGenotypingWorkflow{
             num_splits = num_splits,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -69,9 +67,9 @@ workflow SnvGenotypingWorkflow{
                 filename_prefix = "snv_genotyping",
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
                 ignore_untagged_reads = ignore_untagged_reads,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call utils.RunVartrix as vartrix{
@@ -86,9 +84,9 @@ workflow SnvGenotypingWorkflow{
                 sparse=sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = med_walltime,
                 num_threads = num_threads
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -99,8 +97,8 @@ workflow SnvGenotypingWorkflow{
             filename_prefix = "vartrix",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_genotyping{
@@ -110,8 +108,8 @@ workflow SnvGenotypingWorkflow{
             filename_prefix = "genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -126,8 +124,8 @@ workflow SnvGenotypingWorkflow{
             docker_image = docker_image,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

@@ -23,12 +23,8 @@ workflow StrelkaWorkflow{
         Int interval_size = 1000000
         Int? num_threads = 8
         Int? num_threads_merge = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -38,8 +34,8 @@ workflow StrelkaWorkflow{
             interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call strelka.GenerateChromDepth as generate_chrom_depth{
@@ -51,8 +47,8 @@ workflow StrelkaWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call strelka.GetGenomeSize as get_genome_size{
@@ -61,8 +57,8 @@ workflow StrelkaWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     scatter(interval in gen_int.intervals){
@@ -80,8 +76,8 @@ workflow StrelkaWorkflow{
                 num_threads = num_threads,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -92,8 +88,8 @@ workflow StrelkaWorkflow{
             tbi_files = run_strelka.indels_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FilterVcf as filter_indel_vcf{
@@ -101,8 +97,8 @@ workflow StrelkaWorkflow{
             vcf_file = merge_indel_vcf.merged_vcf,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.VcfReheaderId as reheader_indel{
@@ -114,8 +110,8 @@ workflow StrelkaWorkflow{
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_indel{
@@ -124,8 +120,8 @@ workflow StrelkaWorkflow{
             filename_prefix = filename_prefix + '_strelka_indel',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -136,8 +132,8 @@ workflow StrelkaWorkflow{
             tbi_files = run_strelka.snv_tbi,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FilterVcf as filter_snv_vcf{
@@ -145,8 +141,8 @@ workflow StrelkaWorkflow{
             vcf_file = merge_snv_vcf.merged_vcf,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.VcfReheaderId as reheader_snv{
@@ -158,8 +154,8 @@ workflow StrelkaWorkflow{
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FinalizeVcf as finalize_vcf_snv{
@@ -168,8 +164,8 @@ workflow StrelkaWorkflow{
             filename_prefix = filename_prefix + '_strelka_snv',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{
