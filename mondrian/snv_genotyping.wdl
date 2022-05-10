@@ -84,7 +84,7 @@ workflow SnvGenotypingWorkflow{
                 sparse=sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                num_threads = num_threads
+                num_threads = num_threads,
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
