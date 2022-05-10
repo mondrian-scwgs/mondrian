@@ -15,7 +15,7 @@ workflow SvabaWorkflow{
         BreakpointRefdata reference
         String tumour_id
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
         Int? memory_override
         Int? walltime_override

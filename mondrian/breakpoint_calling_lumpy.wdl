@@ -11,7 +11,7 @@ workflow LumpyWorkflow{
         File metadata_input
         String tumour_id
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
         Int? walltime_override
     }

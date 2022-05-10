@@ -25,7 +25,7 @@ workflow VariantWorkflow{
         String normal_id
         Array[Sample] samples
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
         Int? num_threads_merge = 8
         Int interval_size = 10000000

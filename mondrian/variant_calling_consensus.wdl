@@ -20,7 +20,7 @@ workflow ConsensusWorkflow{
         String normal_id
         VariantRefdata reference
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
         Int? walltime_override
     }

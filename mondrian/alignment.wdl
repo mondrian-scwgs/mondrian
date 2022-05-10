@@ -31,7 +31,7 @@ workflow AlignmentWorkflow{
         Reference reference
         File metadata_yaml
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
         Int? num_threads_align = 1
         Int? memory_override

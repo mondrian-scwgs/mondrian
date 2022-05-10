@@ -20,11 +20,9 @@ workflow SnvGenotypingWorkflow{
         Boolean? ignore_untagged_reads = false
         File metadata_input
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int num_splits = 1
         Int? num_threads = 1
-        String? singularity_image = ""
-        String? docker_image = "ubuntu"
         Int? memory_override
         Int? walltime_override
     }

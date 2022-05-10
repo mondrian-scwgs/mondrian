@@ -20,7 +20,7 @@ workflow MuseqWorkflow{
         Int? num_threads = 8
         Int? num_threads_merge = 8
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int interval_size = 10000000
         Int max_coverage = 10000
         Int? memory_override
