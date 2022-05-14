@@ -13,12 +13,8 @@ workflow DestructWorkflow{
         String? docker_image
         String filename_prefix = 'output'
         Int? num_threads = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     call destruct.RunDestruct as run_destruct{
@@ -40,8 +36,8 @@ workflow DestructWorkflow{
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

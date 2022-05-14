@@ -21,27 +21,13 @@ workflow SnvGenotypingWorkflow{
         File metadata_input
         Boolean? sparse=false
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
-        Int interval_size = 1000000
+        String? docker_image = "quay.io/baselibrary/ubuntu"
+        Int num_splits = 1
         Int? num_threads = 1
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
-    call pysam.GenerateIntervals as gen_int{
-        input:
-            reference = reference.reference,
-            chromosomes = chromosomes,
-            interval_size = interval_size,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
-    }
 
     if (! defined(cell_barcodes)){
         call utils.GenerateCellBarcodes as generate_cell_barcodes{
@@ -50,38 +36,38 @@ workflow SnvGenotypingWorkflow{
                 baifile = tumour_bai,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
-    scatter(interval in gen_int.intervals){
-        call vcf_utils.GetRegionFromVcf as interval_vcf{
-            input:
-                input_vcf = vcf_file,
-                input_tbi = vcf_file_idx,
-                interval = interval,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = low_walltime
-        }
+    call vcf_utils.SplitVcf as split_vcf{
+        input:
+            input_vcf = vcf_file,
+            num_splits = num_splits,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+    scatter(vcf_pair in zip(split_vcf.output_vcf,split_vcf.output_tbi)){
 
         call utils.Genotyper as genotyping{
             input:
                 bam = tumour_bam,
                 bai = tumour_bai,
-                vcf_file = interval_vcf.output_vcf,
-                vcf_file_idx = interval_vcf.output_tbi,
+                vcf_file = vcf_pair.left,
+                vcf_file_idx = vcf_pair.right,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
-                interval = interval,
                 num_threads = num_threads,
                 filename_prefix = "snv_genotyping",
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
                 ignore_untagged_reads = ignore_untagged_reads,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call utils.RunVartrix as vartrix{
@@ -90,15 +76,15 @@ workflow SnvGenotypingWorkflow{
                 baifile = tumour_bai,
                 fasta = reference.reference,
                 fasta_fai = reference.reference_fai,
-                vcf_file = interval_vcf.output_vcf,
+                vcf_file = vcf_pair.left,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
                 skip_header=true,
                 sparse=sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = med_walltime,
-                num_threads = num_threads
+                num_threads = num_threads,
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -109,8 +95,8 @@ workflow SnvGenotypingWorkflow{
             filename_prefix = "vartrix",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_genotyping{
@@ -120,8 +106,8 @@ workflow SnvGenotypingWorkflow{
             filename_prefix = "genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -136,8 +122,8 @@ workflow SnvGenotypingWorkflow{
             docker_image = docker_image,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

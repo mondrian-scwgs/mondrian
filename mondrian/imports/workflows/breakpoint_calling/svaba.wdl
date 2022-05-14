@@ -15,12 +15,8 @@ workflow SvabaWorkflow{
         String? singularity_image
         String? docker_image
         Int? num_threads = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        Int? low_walltime = 24
-        Int? med_walltime = 48
-        Int? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
 
@@ -41,8 +37,8 @@ workflow SvabaWorkflow{
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
     output{
         File output_vcf = run_svaba.output_vcf

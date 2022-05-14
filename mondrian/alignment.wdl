@@ -31,15 +31,11 @@ workflow AlignmentWorkflow{
         Reference reference
         File metadata_yaml
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
         Int? num_threads_align = 1
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 6
-        String? med_walltime = 24
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     scatter(cellinfo in fastq_files){
@@ -55,9 +51,9 @@ workflow AlignmentWorkflow{
                 cell_id=cellid,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = low_walltime,
-                num_threads=num_threads_align
+                num_threads=num_threads_align,
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -68,8 +64,8 @@ workflow AlignmentWorkflow{
             filename_prefix = 'detailed_fastqscreen_breakdown',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call csverve.ConcatenateCsv as concat_fastqscreen_summary{
@@ -78,8 +74,8 @@ workflow AlignmentWorkflow{
             inputyaml = alignment.fastqscreen_summary_metrics_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
 
@@ -91,8 +87,8 @@ workflow AlignmentWorkflow{
             filename_prefix = "alignment_gc_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
 
@@ -102,8 +98,8 @@ workflow AlignmentWorkflow{
             inputyaml = alignment.metrics_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call csverve.MergeCsv as annotate_with_fastqscreen{
@@ -114,8 +110,8 @@ workflow AlignmentWorkflow{
             on='cell_id',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call utils.AddContaminationStatus as contaminated{
@@ -125,8 +121,8 @@ workflow AlignmentWorkflow{
             reference_genome = reference.genome_name,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call tar.TarFiles as tar{
@@ -135,8 +131,8 @@ workflow AlignmentWorkflow{
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call metrics.AddMetadata as add_metadata{
@@ -147,8 +143,8 @@ workflow AlignmentWorkflow{
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call utils.BamMerge as merge_bam_files{
@@ -161,8 +157,8 @@ workflow AlignmentWorkflow{
             singularity_image = singularity_image,
             docker_image = docker_image,
             num_threads=num_threads,
-            memory_gb = low_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     call utils.AlignmentMetadata as alignment_metadata{
@@ -183,8 +179,8 @@ workflow AlignmentWorkflow{
             metadata_input = metadata_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override,
     }
 
     output{

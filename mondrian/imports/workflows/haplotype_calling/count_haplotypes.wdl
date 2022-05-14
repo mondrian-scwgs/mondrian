@@ -16,12 +16,8 @@ workflow CountHaplotypes{
         File gap_table
         String? singularity_image
         String? docker_image
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
     }
 
     call haplotypes.SplitBam as split_bam{
@@ -29,8 +25,8 @@ workflow CountHaplotypes{
             bam = tumour_bam,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call haplotypes.CreateSegments as segments{
@@ -39,8 +35,8 @@ workflow CountHaplotypes{
             gap_table = gap_table,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call haplotypes.ConvertHaplotypesCsvToTsv as prep_haps{
@@ -49,8 +45,8 @@ workflow CountHaplotypes{
             infile_yaml = haplotypes_csv_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     scatter (bamfile in split_bam.cell_bams){
@@ -61,8 +57,8 @@ workflow CountHaplotypes{
                 chromosomes = chromosomes,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call haplotypes.HaplotypeAlleleReadcount as readcount{
@@ -72,8 +68,8 @@ workflow CountHaplotypes{
                 haplotypes = prep_haps.outfile,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = med_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
     }
@@ -85,8 +81,8 @@ workflow CountHaplotypes{
             filename_prefix = 'haplotype_counts',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

@@ -20,13 +20,9 @@ workflow SvGenotypingWorkflow{
         File tumour_bai
         File metadata_input
         String? singularity_image = ""
-        String? docker_image = "ubuntu"
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        String? docker_image = "quay.io/baselibrary/ubuntu"
+        Int? memory_override
+        Int? walltime_override
     }
 
 
@@ -39,8 +35,8 @@ workflow SvGenotypingWorkflow{
             filename_prefix = "normal_sv_genotyping",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.SvGenotyper as tumour_genotyping{
@@ -52,8 +48,8 @@ workflow SvGenotypingWorkflow{
             filename_prefix = "normal_sv_genotyping",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_genotyping{
@@ -63,8 +59,8 @@ workflow SvGenotypingWorkflow{
             filename_prefix = "genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = med_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -77,8 +73,8 @@ workflow SvGenotypingWorkflow{
             docker_image = docker_image,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{

@@ -31,12 +31,8 @@ workflow MutectWorkflow{
         Int max_coverage = 10000
         Int? num_threads = 8
         Int? num_threads_merge = 8
-        Int? low_mem = 7
-        Int? med_mem = 15
-        Int? high_mem = 25
-        String? low_walltime = 24
-        String? med_walltime = 48
-        String? high_walltime = 96
+        Int? memory_override
+        Int? walltime_override
      }
 
     call pysam.GenerateIntervals as gen_int{
@@ -46,8 +42,8 @@ workflow MutectWorkflow{
             interval_size = interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
@@ -66,8 +62,8 @@ workflow MutectWorkflow{
                     num_threads = num_threads,
                     singularity_image = singularity_image,
                     docker_image = docker_image,
-                    memory_gb = low_mem,
-                    walltime_hours = high_walltime
+                    memory_override = memory_override,
+                    walltime_override = walltime_override
             }
 
             call mutect.GetPileup as pileup_tumour{
@@ -83,8 +79,8 @@ workflow MutectWorkflow{
                     num_threads = num_threads,
                     singularity_image = singularity_image,
                     docker_image = docker_image,
-                    memory_gb = low_mem,
-                    walltime_hours = high_walltime
+                    memory_override = memory_override,
+                    walltime_override = walltime_override
             }
         }
 
@@ -95,8 +91,8 @@ workflow MutectWorkflow{
                 reference_dict = reference_dict,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = high_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
 
         call mutect.MergePileupSummaries as merge_pileup_tumour{
@@ -105,8 +101,8 @@ workflow MutectWorkflow{
                 reference_dict = reference_dict,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = high_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
         call mutect.CalculateContamination as contamination{
             input:
@@ -114,8 +110,8 @@ workflow MutectWorkflow{
                 normal_pileups = merge_pileup_normal.merged_table,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = high_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -138,8 +134,8 @@ workflow MutectWorkflow{
                 interval = interval,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = low_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -148,8 +144,8 @@ workflow MutectWorkflow{
             f1r2_tar_gz = flatten(run_mutect.f1r2),
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = med_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call mutect.MergeVCFs as merge_vcfs{
@@ -158,8 +154,8 @@ workflow MutectWorkflow{
             vcf_files_tbi = run_mutect.vcf_file_idx,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call mutect.MergeStats as merge_stats{
@@ -167,8 +163,8 @@ workflow MutectWorkflow{
             stats = run_mutect.stats_file,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call mutect.Filter as filter_mutect{
@@ -184,8 +180,8 @@ workflow MutectWorkflow{
             artifact_priors_tar_gz = orientation_model.artifact_prior_table,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = high_mem,
-            walltime_hours = high_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     if (defined(realignment_index_bundle)){
@@ -201,8 +197,8 @@ workflow MutectWorkflow{
                 input_vcf_tbi = filter_mutect.filtered_vcf_tbi,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
-                memory_gb = high_mem,
-                walltime_hours = high_walltime
+                memory_override = memory_override,
+                walltime_override = walltime_override
         }
     }
 
@@ -215,8 +211,8 @@ workflow MutectWorkflow{
             vcf_tumour_id = 'TUMOR',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call bcftools.FinalizeVcf as finalize_vcf{
@@ -225,8 +221,8 @@ workflow MutectWorkflow{
             filename_prefix = filename_prefix + '_mutect',
             singularity_image = singularity_image,
             docker_image = docker_image,
-            memory_gb = low_mem,
-            walltime_hours = low_walltime
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     output{
