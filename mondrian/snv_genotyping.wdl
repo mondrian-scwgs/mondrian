@@ -63,6 +63,7 @@ workflow SnvGenotypingWorkflow{
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
                 num_threads = num_threads,
                 filename_prefix = "snv_genotyping",
+                skip_header=true,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 ignore_untagged_reads = ignore_untagged_reads,
