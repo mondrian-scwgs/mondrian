@@ -8,7 +8,7 @@ RUN apt update -y && apt install samtools -y && rm -rf /var/lib/apt/lists/*
 
 
 RUN conda install --file /app/requirements.yml
-RUN pip install pysam
+RUN conda install -c bioconda pysam
 
 RUN pip install git+https://github.com/amcpherson/remixt.git@0.5.13r2
 RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
