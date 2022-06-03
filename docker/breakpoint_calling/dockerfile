@@ -14,6 +14,9 @@ ENV PATH="${PATH}:/opt/conda/envs/lumpy/bin"
 
 RUN apt-get --allow-releaseinfo-change update && apt install autoconf make gcc zlib1g-dev libcurl3-dev libssl-dev g++ samtools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get --allow-releaseinfo-change update && apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common -y && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && apt install r-base -y
+
+
 RUN conda install -c bioconda bwa
 
 ENV GRIDSS_JAR=/opt/conda/bin/gridss.jar
@@ -33,6 +36,5 @@ SHELL ["conda", "run", "-n", "svaba_gridss", "/bin/bash", "-c"]
 RUN conda install -c bioconda gridss
 RUN cp /app/gridss* /opt/conda/bin/
 RUN conda install -c bioconda svaba
-RUN conda install -c r r
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
