@@ -4,6 +4,7 @@ struct Reference{
     String genome_name
     File reference
     File reference_fa_fai
+    File? reference_fa_alt
     File reference_fa_amb
     File reference_fa_ann
     File reference_fa_bwt

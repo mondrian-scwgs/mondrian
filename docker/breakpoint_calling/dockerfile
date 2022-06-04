@@ -2,6 +2,18 @@ FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
 ADD . /app
 ARG VERSION
 
+RUN apt-get --allow-releaseinfo-change update && apt install autoconf make gcc zlib1g-dev libcurl3-dev libssl-dev g++ samtools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get --allow-releaseinfo-change update && apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common -y && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && apt install r-base -y
+
+RUN conda install -c bioconda bwa
+RUN conda install --file /app/conda_base_requirements.yml
+
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.46
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.4
+RUN pip install pyvcf intervaltree pysam
+RUN pip install -e git+https://github.com/amcpherson/blossomv.git#egg=blossomv
+RUN pip install networkx==2.1
+
 RUN conda create --name lumpy python=2.7
 SHELL ["conda", "run", "-n", "lumpy", "/bin/bash", "-c"]
 RUN conda install -c componc -c bioconda  lumpy-sv=0.2.12
@@ -12,25 +24,12 @@ RUN conda install -c bioconda pysam sambamba samblaster
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/lumpy/bin"
 
-RUN apt-get --allow-releaseinfo-change update && apt install autoconf make gcc zlib1g-dev libcurl3-dev libssl-dev g++ samtools -y && rm -rf /var/lib/apt/lists/*
-
-RUN conda install --file /app/conda_base_requirements.yml
-
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.4
-RUN pip install pyvcf intervaltree pysam
-
-RUN pip install -e git+https://github.com/amcpherson/blossomv.git#egg=blossomv
-RUN pip install networkx==2.1
-RUN conda install -c bioconda svaba
-
-
+RUN conda create --name svaba_gridss python=3.9
+SHELL ["conda", "run", "-n", "svaba_gridss", "/bin/bash", "-c"]
 RUN conda install -c bioconda gridss
 RUN cp /app/gridss* /opt/conda/bin/
-
-
-RUN conda install -c bioconda bwa
-RUN conda install -c conda-forge r
+RUN conda install -c bioconda svaba
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
 
 ENV GRIDSS_JAR=/opt/conda/bin/gridss.jar
-
