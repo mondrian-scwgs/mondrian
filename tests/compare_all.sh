@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 
 wget -nv https://mondriantestdata.s3.amazonaws.com/result_reference.tar.gz
 
