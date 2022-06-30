@@ -53,6 +53,7 @@ workflow VariantBamWorkflow{
     call utils.MergeBams as merge_bams{
         input:
             inputs = variant_bam.output_bam,
+            num_threads = num_threads_merge,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

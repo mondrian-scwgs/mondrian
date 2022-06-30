@@ -41,9 +41,20 @@ workflow SnvGenotypingWorkflow{
         }
     }
 
-    call vcf_utils.SplitVcf as split_vcf{
+    call vcf_utils.RemoveDuplicates as remove_duplicates{
         input:
             input_vcf = vcf_file,
+            include_ref_alt = true,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+    call vcf_utils.SplitVcf as split_vcf{
+        input:
+            input_vcf = remove_duplicates.output_vcf,
             num_splits = num_splits,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -80,8 +91,6 @@ workflow SnvGenotypingWorkflow{
                 fasta_fai = reference.reference_fai,
                 vcf_file = vcf_pair.left,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
-                skip_header=true,
-                sparse=sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 num_threads = num_threads,
@@ -90,11 +99,15 @@ workflow SnvGenotypingWorkflow{
         }
     }
 
-    call csverve.ConcatenateCsv as concat_vartrix{
+    call utils.MergeVartrix as merge_vartrix{
         input:
-            inputfile = vartrix.outfile,
-            inputyaml = vartrix.outfile_yaml,
-            filename_prefix = "vartrix",
+            barcodes = vartrix.barcodes,
+            variants = vartrix.variants,
+            ref_matrix = vartrix.ref_matrix,
+            alt_matrix = vartrix.alt_matrix,
+            vcf_files = split_vcf.output_vcf,
+            skip_header=true,
+            sparse=sparse,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -117,8 +130,12 @@ workflow SnvGenotypingWorkflow{
         input:
             output_csv = concat_genotyping.outfile,
             output_csv_yaml = concat_genotyping.outfile_yaml,
-            vartrix_output_csv = concat_vartrix.outfile,
-            vartrix_output_csv_yaml = concat_vartrix.outfile_yaml,
+            vartrix_output_csv = merge_vartrix.parsed_outfile,
+            vartrix_output_csv_yaml = merge_vartrix.parsed_outfile_yaml,
+            vartrix_barcodes = merge_vartrix.merged_barcodes,
+            vartrix_variants = merge_vartrix.merged_variants,
+            vartrix_ref_matrix = merge_vartrix.merged_ref_matrix,
+            vartrix_alt_matrix = merge_vartrix.merged_alt_matrix,
             metadata_input = metadata_input,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -131,8 +148,12 @@ workflow SnvGenotypingWorkflow{
     output{
         File output_csv = concat_genotyping.outfile
         File output_csv_yaml = concat_genotyping.outfile_yaml
-        File vartrix_csv = concat_vartrix.outfile
-        File vartrix_csv_yaml = concat_vartrix.outfile_yaml
+        File vartrix_csv = merge_vartrix.parsed_outfile
+        File vartrix_csv_yaml = merge_vartrix.parsed_outfile_yaml
+        File vartrix_barcodes = merge_vartrix.merged_barcodes
+        File vartrix_variants = merge_vartrix.merged_variants
+        File vartrix_ref_matrix = merge_vartrix.merged_ref_matrix
+        File vartrix_alt_matrix = merge_vartrix.merged_alt_matrix
         File metadata_yaml = genotyping_metadata.metadata_output
     }
 

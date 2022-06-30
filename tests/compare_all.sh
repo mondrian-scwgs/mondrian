@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 
 wget -nv https://mondriantestdata.s3.amazonaws.com/result_reference.tar.gz
 
@@ -31,7 +32,7 @@ docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io
 
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_snv_genotyping \
     --genotyper $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/genotyper.csv.gz --genotyper_ref result_reference/genotyper.csv.gz \
-    --vartrix $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/vartrix.csv.gz --vartrix_ref result_reference/vartrix.csv.gz \
+    --vartrix $CODEBUILD_SRC_DIR/tests/snv_genotyping/outputs/results/vartrix_parsed.csv.gz --vartrix_ref result_reference/vartrix.csv.gz \
 
 
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_sv_genotyping \
