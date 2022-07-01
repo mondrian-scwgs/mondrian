@@ -202,22 +202,9 @@ workflow MutectWorkflow{
         }
     }
 
-    call utils.VcfReheaderId as reheader{
-        input:
-            normal_bam = normal_bam,
-            tumour_bam = tumour_bam,
-            input_vcf = select_first([alignment_artifacts.filtered_vcf, filter_mutect.filtered_vcf]),
-            vcf_normal_id = 'NORMAL',
-            vcf_tumour_id = 'TUMOR',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
     call bcftools.FinalizeVcf as finalize_vcf{
         input:
-            vcf_file = reheader.output_file,
+            vcf_file = select_first([alignment_artifacts.filtered_vcf, filter_mutect.filtered_vcf]),,
             filename_prefix = filename_prefix + '_mutect',
             singularity_image = singularity_image,
             docker_image = docker_image,
