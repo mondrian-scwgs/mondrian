@@ -8,12 +8,7 @@ workflow InferHaplotypes{
     input{
         File normal_bam
         File normal_bai
-        String genetic_map_filename_template
-        String haplotypes_filename_template
-        String legend_filename_template
-        String sample_filename
-        String phased_chromosome_x
-        File thousand_genomes_impute_tar
+        File thousand_genomes_tar
         File snp_positions
         Array[String] chromosomes
         String? singularity_image
@@ -49,12 +44,8 @@ workflow InferHaplotypes{
             input:
                 snp_genotype = infer_genotype.snp_genotype,
                 chromosome = chromosome,
-                thousand_genomes_impute_tar = thousand_genomes_impute_tar,
-                genetic_map_filename_template = genetic_map_filename_template,
-                haplotypes_filename_template=haplotypes_filename_template,
-                legend_filename_template=legend_filename_template,
-                sample_filename=sample_filename,
-                phased_chromosome_x=phased_chromosome_x,
+                thousand_genomes_tar = thousand_genomes_tar,
+                snp_positions = snp_positions,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,

@@ -5,11 +5,6 @@ struct HaplotypeRefdata{
     File gap_table
     File reference_fai
     File thousand_genomes_impute_tar
-    String genetic_map_filename_template
-    String haplotypes_filename_template
-    String legend_filename_template
-    String sample_filename
-    String phased_chromosome_x
 }
 
 
