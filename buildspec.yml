@@ -12,14 +12,14 @@ phases:
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
       - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
       - cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch37 $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch38 $QUAY_USR $QUAY_PSW Y
-#  build:
-#    commands:
-#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch37 $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch38 $QUAY_USR $QUAY_PSW Y
+  build:
+    commands:
+      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling breakpoint_calling breakpoint_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling_destruct breakpoint_calling breakpoint_calling
