@@ -3,6 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - set -e
       - sh $CODEBUILD_SRC_DIR/tests/preflight.sh
       - mkdir -p $CODEBUILD_SRC_DIR/tests/shared_resources
       - TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
