@@ -15,7 +15,7 @@
     ```
 3. create singularity sif file (for singularity only)
     ```
-    singularity build haplotype_calling_<insert version>.sif docker://quay.io/mondrianscwgs/haplotype_calling:<insert version>
+    singularity build haplotype_calling_<insert version>.sif docker://quay.io/mondrianscwgs/haplotype_calling_grch37:<insert version>
     ```
 
 
