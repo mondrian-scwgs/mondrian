@@ -6,7 +6,7 @@
     "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
     "gap_table": "haplotype_calling_testdata/ref/hg19_gap.txt.gz",
     "snp_positions": "haplotype_calling_testdata/ref/thousand_genomes_snps.tsv",
-    "thousand_genomes_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar",
+    "thousand_genomes_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar"
   },
   "InferHaplotypeWorkflow.chromosomes": [
     "15"
