@@ -6,12 +6,7 @@
     "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
     "gap_table": "haplotype_calling_testdata/ref/hg19_gap.txt.gz",
     "snp_positions": "haplotype_calling_testdata/ref/thousand_genomes_snps.tsv",
-    "genetic_map_filename_template": "ALL_1000G_phase1integrated_v3_impute/genetic_map_chr{chromosome}_combined_b37.txt",
-    "haplotypes_filename_template": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3_chr{chromosome}_impute.hap.gz",
-    "legend_filename_template": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3_chr{chromosome}_impute.legend.gz",
-    "sample_filename": "ALL_1000G_phase1integrated_v3_impute/ALL_1000G_phase1integrated_v3.sample",
     "thousand_genomes_impute_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar",
-    "phased_chromosome_x": "chrX"
   },
   "InferHaplotypeWorkflow.chromosomes": [
     "15"
