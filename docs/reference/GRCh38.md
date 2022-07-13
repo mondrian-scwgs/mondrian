@@ -96,7 +96,7 @@ singularity run --bind $PWD reference_builder.sif wget ftp://hgdownload.cse.ucsc
 gunzip rmsk.txt.gz
 singularity run --bind $PWD reference_builder.sif wget https://raw.githubusercontent.com/amcpherson/destruct/master/destruct/data/hg38_chr_map.tsv
 
-singularity run --bind $PWD reference_builder.sif reference_utils repeats rmsk.txt hg38_chr_map.tsv repeats.regions repeats.satellite.regions
+singularity run --bind $PWD reference_builder.sif reference_utils repeats --rmsk_file rmsk.txt --chrom_map hg38_chr_map.tsv --repeats repeats.regions --satellites repeats.satellite.regions
 ```
 
 ### RemixT/Haplotype Calling 
