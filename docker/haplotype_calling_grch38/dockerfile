@@ -6,7 +6,7 @@ ARG VERSION
 RUN apt update
 RUN apt install build-essential -y
 RUN apt install libbz2-dev samtools -y
-RUN pip install remixt==0.5.22
+RUN pip install remixt==0.5.23
 RUN pip install pysam
 RUN mkdir -p /root/.config/matplotlib
 RUN echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
