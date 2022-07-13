@@ -103,14 +103,34 @@ singularity run --bind $PWD reference_builder.sif reference_utils repeats rmsk.t
 
 *1000G impute data*
 ```
-singularity run --bind $PWD reference_builder.sif wget http://mathgen.stats.ox.ac.uk/impute/ALL_1000G_phase1integrated_v3_impute.tgz
-singularity run --bind $PWD reference_builder.sif tar -xvf ALL_1000G_phase1integrated_v3_impute.tgz
+mkdir thousand_genomes_dir && cd thousand_genomes_dir
+for chr in {1..22}; do wget http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/1kGP_high_coverage_Illumina.chr${chr}.filtered.SNV_INDEL_SV_phased_panel.vcf.gz; done
+wget http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/1kGP_high_coverage_Illumina.chrX.filtered.SNV_INDEL_SV_phased_panel.vcf.gz
+singularity run --bind $PWD reference_builder.sif ls 1kGP_high_coverage_Illumina.chr*.filtered.SNV_INDEL_SV_phased_panel.vcf.gz |while read x; do echo bcftools view -O b $x -o $(basename $x .vcf.gz).bcf; done
+singularity run --bind $PWD reference_builder.sif ls *bcf| while read x; do bcftools index $x; done
+wget -O genetic_maps.b38.tar.gz  https://github.com/odelaneau/shapeit4/blob/master/maps/genetic_maps.b38.tar.gz?raw=true
+tar -xvf genetic_maps.b38.tar.gz
+```
+create meta.yaml file in thousand_genomes_dir with the following contents:
+```
+grch38_1kg_chromosomes: ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX']
+chr_name_prefix: chr
+grch38_1kg_bcf_filename_template: '1kGP_high_coverage_Illumina.{chromosome}.filtered.SNV_INDEL_SV_phased_panel.bcf'
+grch38_1kg_X_bcf_filename_template: '1kGP_high_coverage_Illumina.chrX.filtered.SNV_INDEL_SV_phased_panel.bcf'
+grch38_1kg_phased_chromosome_x: 'chrX'
+genetic_map_grch38_filename_template: '{chromosome}.b38.gmap.gz'
+ensembl_genome_version: 'GRCh38'
+```
+
+create thousand genomes tar file.
+```
+cd human
+tar -cvf thousand_genomes.tar -C thousand_genomes_dir .
 ```
 
 *snp positions*
 ```
-singularity run --bind $PWD reference_builder.sif reference_utils snp_positions snp_positions.tsv GRCh38_full_analysis_set_plus_decoy_hla.fa.fai ALL_1000G_phase1integrated_v3_impute
-```
+singularity run --bind $PWD reference_builder.sif reference_utils snp_positions_grch38 --snp_positions snp_positions.tsv --data_dir thousand_genomes_dir ```
 
 *Gap File*
 ```
