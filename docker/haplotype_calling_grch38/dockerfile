@@ -1,0 +1,21 @@
+FROM continuumio/miniconda3
+
+ARG VERSION
+
+
+RUN apt update
+RUN apt install build-essential -y
+RUN apt install libbz2-dev samtools -y
+RUN pip install remixt==0.5.21
+RUN pip install pysam
+RUN mkdir -p /root/.config/matplotlib
+RUN echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
+
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
+RUN pip install git+https://github.com/shahcompbio/pypeliner.git@v0.6.3
+RUN pip install setuptools==57.5.0
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.5 --no-deps
+RUN pip install click
+RUN conda install -c bioconda vcftools tabix bcftools
+RUN apt install shapeit4 -y

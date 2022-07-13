@@ -33,6 +33,7 @@ workflow CountHaplotypes{
         input:
             reference_fai = reference_fai,
             gap_table = gap_table,
+            chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

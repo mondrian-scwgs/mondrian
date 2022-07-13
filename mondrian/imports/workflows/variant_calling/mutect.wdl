@@ -204,7 +204,7 @@ workflow MutectWorkflow{
 
     call bcftools.FinalizeVcf as finalize_vcf{
         input:
-            vcf_file = select_first([alignment_artifacts.filtered_vcf, filter_mutect.filtered_vcf]),,
+            vcf_file = select_first([alignment_artifacts.filtered_vcf, filter_mutect.filtered_vcf]),
             filename_prefix = filename_prefix + '_mutect',
             singularity_image = singularity_image,
             docker_image = docker_image,
