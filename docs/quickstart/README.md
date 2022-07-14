@@ -18,9 +18,13 @@ wget https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz
 tar -xvf mondrian-ref-20-22.tar.gz
 ```
 
-the full grch37 reference data is available at
+GRCh37 reference data is available at
 ```
-https://mondriantestdata.s3.amazonaws.com/mondrian-ref.tar.gz
+https://mondriantestdata.s3.amazonaws.com/mondrian-ref-GRCh37.tar.gz
+```
+GRCh38 reference data is available at
+```
+https://mondriantestdata.s3.amazonaws.com/mondrian-ref-GRCh38.tar.gz
 ```
 
 2. Download Cromwell
