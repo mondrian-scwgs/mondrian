@@ -38,6 +38,16 @@ workflow AlignmentWorkflow{
         Int? walltime_override
     }
 
+    call utils.InputValidation as validation{
+        input:
+            input_data = fastq_files,
+            metadata_yaml = metadata_yaml,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
     scatter(cellinfo in fastq_files){
         String cellid = cellinfo.cell_id
         Array[Lane] cell_lanes = cellinfo.lanes
@@ -45,7 +55,7 @@ workflow AlignmentWorkflow{
         call utils.AlignPostprocessAllLanes as alignment{
             input:
                 fastq_files = cell_lanes,
-                metadata_yaml = metadata_yaml,
+                metadata_yaml = validation.metadata_yaml_output,
                 reference = reference,
                 supplementary_references = supplementary_references,
                 cell_id=cellid,
@@ -139,7 +149,7 @@ workflow AlignmentWorkflow{
         input:
             metrics =  contaminated.output_csv,
             metrics_yaml = contaminated.output_yaml,
-            metadata_yaml = metadata_yaml,
+            metadata_yaml = validation.metadata_yaml_output,
             filename_prefix = 'alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -176,7 +186,7 @@ workflow AlignmentWorkflow{
             fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
             fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
             tarfile = tar.tar_output,
-            metadata_input = metadata_yaml,
+            metadata_input = validation.metadata_yaml_output,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
