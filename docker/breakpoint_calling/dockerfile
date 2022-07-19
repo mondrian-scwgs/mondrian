@@ -28,7 +28,7 @@ ENV PATH="${PATH}:/opt/conda/envs/lumpy/bin"
 
 RUN conda create --name svaba_gridss python=3.9
 SHELL ["conda", "run", "-n", "svaba_gridss", "/bin/bash", "-c"]
-RUN conda install --file /app/svaba_gridss_requirements.txt
+RUN conda install --file /app/svaba_gridss_requirements.yml
 RUN cp /app/gridss* /opt/conda/bin/
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
