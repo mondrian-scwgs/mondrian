@@ -18,4 +18,4 @@ RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSIO
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.5 --no-deps
 RUN pip install click
 RUN conda install -c bioconda vcftools tabix bcftools
-RUN apt install shapeit4 -y
+RUN RUN conda install -c bioconda -c dranew shapeit4 -y
