@@ -19,6 +19,9 @@ cd $TYPE
 
 docker build --build-arg VERSION=$VERSION -t quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION .
 
+echo $?
+
+
 docker login quay.io -u $USERNAME --password $PASSWORD
 docker push quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION
 
