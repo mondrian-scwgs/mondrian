@@ -18,3 +18,10 @@ RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSIO
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.5 --no-deps
 RUN pip install click
 RUN conda install --file /app/requirements.yml
+
+
+RUN conda create --name shapeit
+SHELL ["conda", "run", "-n", "shapeit", "/bin/bash", "-c"]
+RUN conda install --file /app/shapeit_requirements.yml
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/shapeit/bin"
