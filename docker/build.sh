@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 TYPE=$1
 USERNAME=$2
@@ -18,6 +19,8 @@ cd $TYPE
 
 
 docker build --build-arg VERSION=$VERSION -t quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION .
+
+
 
 docker login quay.io -u $USERNAME --password $PASSWORD
 docker push quay.io/mondrianscwgs/$TYPE:$DOCKER_VERSION

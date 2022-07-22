@@ -20,6 +20,7 @@ workflow InferHaplotypeWorkflow{
         File normal_bam
         File normal_bai
         String normal_id
+        String? sex = 'female'
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? singularity_image = ""
@@ -37,6 +38,7 @@ workflow InferHaplotypeWorkflow{
             snp_positions = reference.snp_positions,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             chromosomes = chromosomes,
+            sex = sex,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

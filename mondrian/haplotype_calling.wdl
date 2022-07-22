@@ -23,6 +23,7 @@ workflow HaplotypeWorkflow{
         Array[Sample] samples
         HaplotypeRefdata reference
         Array[String] chromosomes
+        String? sex = 'female'
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -37,6 +38,7 @@ workflow HaplotypeWorkflow{
             normal_bai = normal_bai,
             snp_positions = reference.snp_positions,
             chromosomes = chromosomes,
+            sex = sex,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             singularity_image = singularity_image,
             docker_image = docker_image,

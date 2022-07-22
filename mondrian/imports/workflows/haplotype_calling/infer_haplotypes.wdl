@@ -11,6 +11,7 @@ workflow InferHaplotypes{
         File thousand_genomes_tar
         File snp_positions
         Array[String] chromosomes
+        String? sex = 'female'
         String? singularity_image
         String? docker_image
         Int? memory_override
@@ -46,6 +47,7 @@ workflow InferHaplotypes{
                 chromosome = chromosome,
                 thousand_genomes_tar = thousand_genomes_tar,
                 snp_positions = snp_positions,
+                sex = sex,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
