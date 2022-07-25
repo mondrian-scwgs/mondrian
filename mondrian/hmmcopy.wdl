@@ -45,40 +45,14 @@ workflow HmmcopyWorkflow{
     }
 
     scatter(wigfile in readcounter.wigs){
-
-        call utils.CorrectReadCount as correction{
+        call utils.Hmmcopy as hmmcopy{
             input:
-                infile = wigfile,
+                readcount_wig = wigfile,
                 gc_wig = reference.gc_wig,
                 map_wig = reference.map_wig,
-                map_cutoff = '0.9',
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_override = memory_override,
-                walltime_override = walltime_override
-        }
-
-        call utils.RunHmmcopy as hmmcopy{
-            input:
-                corrected_wig = correction.wig,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_override = memory_override,
-                walltime_override = walltime_override
-        }
-
-        call utils.PlotHmmcopy as plotting{
-            input:
-                reads = hmmcopy.reads,
-                reads_yaml = hmmcopy.reads_yaml,
-                segments = hmmcopy.segments,
-                segments_yaml = hmmcopy.segments_yaml,
-                params = hmmcopy.params,
-                params_yaml = hmmcopy.params_yaml,
-                metrics = hmmcopy.metrics,
-                metrics_yaml = hmmcopy.metrics_yaml,
                 reference = reference.reference,
                 reference_fai = reference.reference_fai,
+                map_cutoff = '0.9',
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
@@ -208,8 +182,8 @@ workflow HmmcopyWorkflow{
         input:
             hmmcopy_metrics = add_quality.outfile,
             hmmcopy_metrics_yaml = add_quality.outfile_yaml,
-            segments_plot = plotting.segments_pdf,
-            segments_plot_sample = plotting.segments_sample,
+            segments_plot = hmmcopy.segments_pdf,
+            segments_plot_sample = hmmcopy.segments_sample,
             filename_prefix = "hmmcopy_segments",
             singularity_image = singularity_image,
             docker_image = docker_image,
