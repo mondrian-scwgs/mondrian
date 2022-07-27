@@ -1,5 +1,8 @@
 # Change Log
 
+### v0.0.57
+ - add chr_name_prefix to create_segments
+
 ### v0.0.56
  - adding jvm mem for mutect's orientation model
 
