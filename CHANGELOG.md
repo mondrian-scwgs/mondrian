@@ -1,5 +1,8 @@
 # Change Log
 
+### v0.0.58
+ - increase mem for count haps split bam
+
 ### v0.0.57
  - add chr_name_prefix to create_segments
 
