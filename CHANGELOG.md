@@ -1,6 +1,9 @@
 # Change Log
 
 ### v0.0.58
+ - fixed missing cell id in count hap
+
+### v0.0.58
  - increase mem for count haps split bam
 
 ### v0.0.57
