@@ -51,34 +51,24 @@ workflow CountHaplotypes{
     }
 
     scatter (bamfile in split_bam.cell_bams){
-        call haplotypes.ExtractSeqData as cell_seqdata{
+        call haplotypes.ExtractSeqDataAndReadCount as cell_seqdata_readcount{
             input:
                 bam = bamfile,
                 snp_positions = snp_positions,
+                segments = segments.segments,
+                haplotypes = prep_haps.outfile,
                 chromosomes = chromosomes,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
-
-        call haplotypes.HaplotypeAlleleReadcount as readcount{
-            input:
-                seqdata = cell_seqdata.seqdata,
-                segments = segments.segments,
-                haplotypes = prep_haps.outfile,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                memory_override = memory_override,
-                walltime_override = walltime_override
-        }
-
     }
 
     call csverve.ConcatenateCsv as concat_csv{
         input:
-            inputfile = readcount.outfile,
-            inputyaml = readcount.outfile_yaml,
+            inputfile = cell_seqdata_readcount.outfile,
+            inputyaml = cell_seqdata_readcount.outfile_yaml,
             filename_prefix = 'haplotype_counts',
             singularity_image = singularity_image,
             docker_image = docker_image,
