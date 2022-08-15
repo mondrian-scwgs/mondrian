@@ -58,6 +58,7 @@ workflow CountHaplotypes{
                 segments = segments.segments,
                 haplotypes = prep_haps.outfile,
                 chromosomes = chromosomes,
+                skip_header = true,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
