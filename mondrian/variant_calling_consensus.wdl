@@ -18,6 +18,7 @@ workflow ConsensusWorkflow{
         Array[String] chromosomes
         String tumour_id
         String normal_id
+        String? filename_prefix = ""
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -43,6 +44,7 @@ workflow ConsensusWorkflow{
             cache_version = reference.cache_version,
             species = reference.species,
             chromosomes = chromosomes,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

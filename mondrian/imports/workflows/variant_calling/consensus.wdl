@@ -22,6 +22,7 @@ workflow ConsensusWorkflow{
         String ncbi_build
         String cache_version
         String species
+        String? filename_prefix
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
@@ -57,7 +58,7 @@ workflow ConsensusWorkflow{
             ncbi_build = ncbi_build,
             cache_version = cache_version,
             species = species,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -67,7 +68,7 @@ workflow ConsensusWorkflow{
     call bcftools.FinalizeVcf as finalize_vcf{
         input:
             vcf_file = consensus.consensus_output,
-            filename_prefix = tumour_id + "_consensus",
+            filename_prefix = filename_prefix + "_consensus",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

@@ -70,7 +70,7 @@ workflow StrelkaWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             num_threads = num_threads,
             interval_size = interval_size,
             max_coverage = max_coverage,

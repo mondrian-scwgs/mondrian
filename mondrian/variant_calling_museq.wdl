@@ -17,6 +17,7 @@ workflow MuseqWorkflow{
         String tumour_id
         String normal_id
         VariantRefdata reference
+        String? filename_prefix = ""
         Int? num_threads = 8
         Int? num_threads_merge = 8
         String? singularity_image = ""
@@ -72,7 +73,7 @@ workflow MuseqWorkflow{
             normal_id = normal_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             max_coverage = max_coverage,
             num_threads = num_threads,

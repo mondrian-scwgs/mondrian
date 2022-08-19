@@ -20,6 +20,7 @@ workflow BreakpointWorkflow{
         String normal_id
         Array[Sample] samples
         BreakpointRefdata reference
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -43,6 +44,7 @@ workflow BreakpointWorkflow{
                 num_threads=num_threads,
                 normal_id = normal_id,
                 tumour_id=tumour_id,
+                filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
@@ -54,7 +56,7 @@ workflow BreakpointWorkflow{
         input:
             inputfile = breakpoint_wf.consensus,
             inputyaml = breakpoint_wf.consensus_yaml,
-            filename_prefix = "four_way_consensus",
+            filename_prefix = filename_prefix + "_four_way_consensus",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

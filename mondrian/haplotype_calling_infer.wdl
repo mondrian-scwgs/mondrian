@@ -23,6 +23,7 @@ workflow InferHaplotypeWorkflow{
         String? sex = 'female'
         HaplotypeRefdata reference
         Array[String] chromosomes
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -39,6 +40,7 @@ workflow InferHaplotypeWorkflow{
             thousand_genomes_tar = reference.thousand_genomes_tar,
             chromosomes = chromosomes,
             sex = sex,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

@@ -14,6 +14,7 @@ workflow SvabaWorkflow{
         File metadata_input
         BreakpointRefdata reference
         String tumour_id
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -29,7 +30,7 @@ workflow SvabaWorkflow{
             tumour_bai = tumour_bai,
             num_threads = num_threads,
             ref = reference,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

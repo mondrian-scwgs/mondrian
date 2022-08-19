@@ -24,6 +24,7 @@ workflow VariantWorkflow{
         Array[String] chromosomes
         String normal_id
         Array[Sample] samples
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -98,6 +99,7 @@ workflow VariantWorkflow{
                 species = reference.species,
                 tumour_id = tumour_id,
                 normal_id = normal_id,
+                filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 max_coverage = max_coverage,
@@ -112,7 +114,7 @@ workflow VariantWorkflow{
             vcf_files = variant_workflow.vcf_output,
             csi_files = variant_workflow.vcf_csi_output,
             tbi_files = variant_workflow.vcf_tbi_output,
-            filename_prefix = 'final_vcf_all_samples',
+            filename_prefix = filename_prefix + 'final_vcf_all_samples',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -121,7 +123,7 @@ workflow VariantWorkflow{
     call vcf2maf.MergeMafs as merge_mafs{
         input:
             input_mafs = variant_workflow.maf_output,
-            filename_prefix = 'final_maf_all_samples',
+            filename_prefix = filename_prefix + '_final_maf_all_samples',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

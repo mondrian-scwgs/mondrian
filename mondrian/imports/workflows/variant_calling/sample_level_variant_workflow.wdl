@@ -38,6 +38,7 @@ workflow SampleLevelVariantWorkflow {
         String species
         String tumour_id
         String normal_id
+        String? filename_prefix = ""
         String? singularity_image
         String? docker_image
         Int interval_size = 1000000
@@ -62,7 +63,7 @@ workflow SampleLevelVariantWorkflow {
             normal_id = normal_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -80,7 +81,7 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -106,7 +107,7 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -130,6 +131,7 @@ workflow SampleLevelVariantWorkflow {
             cache_version = cache_version,
             species = species,
             chromosomes = chromosomes,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

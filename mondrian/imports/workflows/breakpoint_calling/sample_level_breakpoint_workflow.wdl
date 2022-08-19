@@ -19,6 +19,7 @@ workflow SampleLevelBreakpointWorkflow {
         BreakpointRefdata ref
         String tumour_id
         String normal_id
+        String? filename_prefix
         String? singularity_image
         String? docker_image
         Int? num_threads = 8
@@ -29,7 +30,7 @@ workflow SampleLevelBreakpointWorkflow {
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -42,7 +43,7 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             ref = ref,
             num_threads = num_threads,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -55,7 +56,7 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             num_threads = num_threads,
             ref = ref,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -69,7 +70,7 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bai = tumour_bai,
             num_threads = num_threads,
             ref = ref,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -82,7 +83,7 @@ workflow SampleLevelBreakpointWorkflow {
             lumpy = lumpy.lumpy_vcf,
             gridss = gridss.output_vcf,
             svaba = svaba.output_vcf,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             sample_id = tumour_id,
             singularity_image = singularity_image,
             docker_image = docker_image,

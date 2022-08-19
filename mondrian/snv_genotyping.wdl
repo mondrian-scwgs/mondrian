@@ -20,6 +20,7 @@ workflow SnvGenotypingWorkflow{
         Boolean? ignore_untagged_reads = false
         File metadata_input
         Boolean? sparse=false
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int num_splits = 1
@@ -118,7 +119,7 @@ workflow SnvGenotypingWorkflow{
         input:
             inputfile = genotyping.output_csv,
             inputyaml = genotyping.output_yaml,
-            filename_prefix = "genotyper",
+            filename_prefix = filename_prefix + "_genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

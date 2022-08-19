@@ -12,6 +12,7 @@ workflow DestructWorkflow{
         File metadata_input
         String tumour_id
         BreakpointRefdata reference
+        String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -25,7 +26,7 @@ workflow DestructWorkflow{
             tumour_bam = tumour_bam,
             ref = reference,
             num_threads = num_threads,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
