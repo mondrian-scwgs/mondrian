@@ -19,7 +19,6 @@ workflow HaplotypeWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String normal_id
         Array[Sample] samples
         HaplotypeRefdata reference
         Array[String] chromosomes

@@ -17,8 +17,7 @@ workflow SampleLevelBreakpointWorkflow {
         File tumour_bam
         File tumour_bai
         BreakpointRefdata ref
-        String tumour_id
-        String normal_id
+        String sample_id
         String? filename_prefix
         String? singularity_image
         String? docker_image
@@ -84,7 +83,7 @@ workflow SampleLevelBreakpointWorkflow {
             gridss = gridss.output_vcf,
             svaba = svaba.output_vcf,
             filename_prefix = filename_prefix,
-            sample_id = tumour_id,
+            sample_id = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

@@ -7,19 +7,10 @@ import "imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
-struct Sample{
-    String sample_id
-    File tumour
-    File tumour_bai
-    File metadata_input
-}
-
-
 workflow InferHaplotypeWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String normal_id
         String? sex = 'female'
         HaplotypeRefdata reference
         Array[String] chromosomes

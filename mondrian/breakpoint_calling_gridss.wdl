@@ -11,7 +11,7 @@ workflow GridssWorkflow{
         File tumour_bam
         File metadata_input
         BreakpointRefdata reference
-        String tumour_id
+        String sample_id
         String? filename_prefix = ""
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -39,7 +39,7 @@ workflow GridssWorkflow{
                 'gridss_vcf': [gridss.output_vcf],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

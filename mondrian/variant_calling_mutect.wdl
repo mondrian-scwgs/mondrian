@@ -14,8 +14,8 @@ workflow MutectWorkflow{
         File tumour_bai
         File metadata_input
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
+        String sample_id
+        String? filename_prefix = ""
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -94,7 +94,7 @@ workflow MutectWorkflow{
                 'mutect_vcf': [mutect.vcffile, mutect.vcffile_csi, mutect.vcffile_tbi],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

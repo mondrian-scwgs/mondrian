@@ -16,8 +16,7 @@ workflow ConsensusWorkflow{
         File strelka_indel_vcffile
         File strelka_indel_vcffile_tbi
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
+        String sample_id
         String? filename_prefix = ""
         VariantRefdata reference
         String? singularity_image = ""
@@ -36,8 +35,7 @@ workflow ConsensusWorkflow{
             strelka_snv_tbi = strelka_snv_vcffile_tbi,
             strelka_indel = strelka_indel_vcffile,
             strelka_indel_tbi = strelka_indel_vcffile_tbi,
-            normal_id = normal_id,
-            tumour_id = tumour_id,
+            sample_id = sample_id,
             vep_ref = reference.vep_ref,
             vep_fasta_suffix = reference.vep_fasta_suffix,
             ncbi_build = reference.ncbi_build,

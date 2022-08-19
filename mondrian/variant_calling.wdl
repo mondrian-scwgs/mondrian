@@ -22,7 +22,6 @@ workflow VariantWorkflow{
         File normal_bai
         VariantRefdata reference
         Array[String] chromosomes
-        String normal_id
         Array[Sample] samples
         String? filename_prefix = ""
         String? singularity_image = ""
@@ -52,7 +51,7 @@ workflow VariantWorkflow{
     }
 
     scatter (sample in samples){
-        String tumour_id = sample.sample_id
+        String sample_id = sample.sample_id
         File bam = sample.tumour
         File bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
@@ -97,8 +96,7 @@ workflow VariantWorkflow{
                 ncbi_build = reference.ncbi_build,
                 cache_version = reference.cache_version,
                 species = reference.species,
-                tumour_id = tumour_id,
-                normal_id = normal_id,
+                sample_id = sample_id,
                 filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
@@ -145,7 +143,7 @@ workflow VariantWorkflow{
                 'mutect_vcf': flatten([variant_workflow.mutect_vcf,variant_workflow.mutect_vcf_csi,variant_workflow.mutect_vcf_tbi]),
             },
             metadata_yaml_files = metadata_input,
-            samples = tumour_id,
+            samples = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

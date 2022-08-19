@@ -14,7 +14,7 @@ workflow CountHaplotypeWorkflow{
         File tumour
         File tumour_bai
         File metadata_input
-        File tumour_id
+        File sample_id
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? filename_prefix = ""
@@ -48,7 +48,7 @@ workflow CountHaplotypeWorkflow{
                 'haplotype_counts': [counthaps.readcounts, counthaps.readcounts_yaml],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

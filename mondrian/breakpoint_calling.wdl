@@ -29,7 +29,7 @@ workflow BreakpointWorkflow{
     }
 
     scatter (sample in samples){
-        String tumour_id = sample.sample_id
+        String sample_id = sample.sample_id
         File bam = sample.tumour
         File bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
@@ -42,8 +42,7 @@ workflow BreakpointWorkflow{
                 tumour_bai = bai,
                 ref = reference,
                 num_threads=num_threads,
-                normal_id = normal_id,
-                tumour_id=tumour_id,
+                sample_id = sample_id,
                 filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
@@ -75,7 +74,7 @@ workflow BreakpointWorkflow{
                 'gridss_vcf': breakpoint_wf.gridss_outfile
             },
             metadata_yaml_files = metadata_input,
-            samples = tumour_id,
+            samples = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

@@ -21,6 +21,6 @@
     "repeats_satellite_regions":"mondrian-ref-path-here/human/repeats.satellite.regions",
     "dgv":"mondrian-ref-path-here/human/dgv.txt"
     },
-"GridssWorkflow.tumour_id": "SA123",
+"GridssWorkflow.sample_id": "SA123",
 "GridssWorkflow.docker_image": "docker_image_here"
 }

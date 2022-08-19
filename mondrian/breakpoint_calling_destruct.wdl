@@ -10,7 +10,7 @@ workflow DestructWorkflow{
         File normal_bam
         File tumour_bam
         File metadata_input
-        String tumour_id
+        String sample_id
         BreakpointRefdata reference
         String? filename_prefix = ""
         String? singularity_image = ""
@@ -42,7 +42,7 @@ workflow DestructWorkflow{
                 'destruct_library': [destruct.library_table],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

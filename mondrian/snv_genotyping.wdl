@@ -13,7 +13,6 @@ workflow SnvGenotypingWorkflow{
         File vcf_file_idx
         SnvGenotypingRefdata reference
         Array[String] chromosomes
-        String sample_id
         File tumour_bam
         File tumour_bai
         File? cell_barcodes

@@ -3,6 +3,6 @@
 "ConsensusWorkflow.lumpy_vcf":"breakpoint_testdata/SA123_lumpy.vcf",
 "ConsensusWorkflow.svaba_vcf":"breakpoint_testdata/SA123.svaba.somatic.sv.vcf.gz",
 "ConsensusWorkflow.gridss_vcf":"breakpoint_testdata/SA123_gridss.vcf.gz",
-"ConsensusWorkflow.tumour_id":"SA123",
+"ConsensusWorkflow.sample_id":"SA123",
 "ConsensusWorkflow.docker_image": "docker_image_here"
 }
