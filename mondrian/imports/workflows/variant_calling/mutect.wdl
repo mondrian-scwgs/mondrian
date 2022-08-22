@@ -26,7 +26,7 @@ workflow MutectWorkflow{
         Array[String] chromosomes
         String? singularity_image
         String? docker_image
-        String filename_prefix = ""
+        String? filename_prefix = ""
         Int interval_size = 1000000
         Int max_coverage = 10000
         Int? num_threads = 8

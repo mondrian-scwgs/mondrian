@@ -16,7 +16,7 @@ workflow StrelkaWorkflow{
         File reference
         File reference_fai
         Array[String] chromosomes
-        String filename_prefix = ""
+        String? filename_prefix = ""
         String? singularity_image
         String? docker_image
         Int max_coverage = 10000

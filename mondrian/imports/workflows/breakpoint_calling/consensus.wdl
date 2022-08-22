@@ -9,7 +9,7 @@ workflow ConsensusWorkflow{
         File lumpy
         File svaba
         File gridss
-        String filename_prefix
+        String? filename_prefix
         String sample_id
         String? singularity_image
         String? docker_image
