@@ -7,6 +7,8 @@ import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 
 workflow ConsensusWorkflow{
     input{
+        File tumour_bam
+        File normal_bam
         File museq_vcf
         File museq_vcf_tbi
         File mutect_vcf
@@ -47,6 +49,8 @@ workflow ConsensusWorkflow{
 
     call vcf2maf.Vcf2MafWorkflow as vcf2maf_wf{
         input:
+            tumour_bam = tumour_bam,
+            normal_bam = normal_bam,
             input_vcf = consensus.consensus_output,
             input_counts =  consensus.counts_output,
             vep_ref = vep_ref,
