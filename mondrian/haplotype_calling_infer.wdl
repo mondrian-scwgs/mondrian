@@ -14,7 +14,7 @@ workflow InferHaplotypeWorkflow{
         String? sex = 'female'
         HaplotypeRefdata reference
         Array[String] chromosomes
-        String? filename_prefix = ""
+        String? filename_prefix = "infer_haps"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

@@ -15,7 +15,7 @@ workflow StrelkaWorkflow{
         File metadata_input
         Array[String] chromosomes
         String sample_id
-        String? filename_prefix
+        String? filename_prefix = "strelka"
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"

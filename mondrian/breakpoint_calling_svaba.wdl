@@ -14,7 +14,7 @@ workflow SvabaWorkflow{
         File metadata_input
         BreakpointRefdata reference
         String sample_id
-        String? filename_prefix = ""
+        String? filename_prefix = "svaba"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

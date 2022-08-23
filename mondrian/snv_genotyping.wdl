@@ -19,7 +19,7 @@ workflow SnvGenotypingWorkflow{
         Boolean? ignore_untagged_reads = false
         File metadata_input
         Boolean? sparse=false
-        String? filename_prefix = ""
+        String? filename_prefix = "snv_genotyping"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int num_splits = 1

@@ -20,7 +20,7 @@ workflow MuseqWorkflow{
         String normal_id
         String? singularity_image
         String? docker_image
-        String? filename_prefix = 'output'
+        String? filename_prefix = 'museq'
         Int interval_size = 1000000
         Int max_coverage = 10000
         Int? num_threads = 8

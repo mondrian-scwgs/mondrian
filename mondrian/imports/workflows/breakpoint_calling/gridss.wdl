@@ -9,7 +9,7 @@ workflow GridssWorkflow{
         File normal_bam
         File tumour_bam
         BreakpointRefdata ref
-        String? filename_prefix = "output"
+        String? filename_prefix = "gridss"
         String? singularity_image
         String? docker_image
         Int? num_threads = 8

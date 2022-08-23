@@ -16,7 +16,7 @@ workflow MuseqWorkflow{
         Array[String] chromosomes
         String sample_id
         VariantRefdata reference
-        String? filename_prefix = ""
+        String? filename_prefix = "museq"
         Int? num_threads = 8
         Int? num_threads_merge = 8
         String? singularity_image = ""

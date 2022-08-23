@@ -17,7 +17,7 @@ workflow CountHaplotypeWorkflow{
         File sample_id
         HaplotypeRefdata reference
         Array[String] chromosomes
-        String? filename_prefix = ""
+        String? filename_prefix = "haplotype_calling_count"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

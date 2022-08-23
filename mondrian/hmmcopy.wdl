@@ -21,7 +21,7 @@ workflow HmmcopyWorkflow{
         File metadata_input
         HmmcopyRefdata reference
         Array[String] chromosomes
-        String? filename_prefix = ""
+        String? filename_prefix = "hmmcopy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override

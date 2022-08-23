@@ -22,7 +22,7 @@ workflow ConsensusWorkflow{
         String ncbi_build
         String cache_version
         String species
-        String? filename_prefix
+        String? filename_prefix = 'variant_consensus'
         Array[String] chromosomes
         String? singularity_image
         String? docker_image

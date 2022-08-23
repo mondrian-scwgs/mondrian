@@ -23,7 +23,7 @@ workflow VariantWorkflow{
         VariantRefdata reference
         Array[String] chromosomes
         Array[Sample] samples
-        String? filename_prefix = ""
+        String? filename_prefix = "variant_calling"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

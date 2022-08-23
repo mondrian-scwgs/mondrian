@@ -23,7 +23,7 @@ workflow HaplotypeWorkflow{
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? sex = 'female'
-        String? filename_prefix = ""
+        String? filename_prefix = "haplotype"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

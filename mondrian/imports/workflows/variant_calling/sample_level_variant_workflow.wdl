@@ -38,7 +38,7 @@ workflow SampleLevelVariantWorkflow {
         String species
         String tumour_id
         String normal_id
-        String? filename_prefix = ""
+        String? filename_prefix = "variant_calling"
         String? singularity_image
         String? docker_image
         Int interval_size = 1000000

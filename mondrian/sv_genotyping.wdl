@@ -19,7 +19,7 @@ workflow SvGenotypingWorkflow{
         File tumour_bam
         File tumour_bai
         File metadata_input
-        String? filename_prefix = ""
+        String? filename_prefix = "snv_genotyping"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override

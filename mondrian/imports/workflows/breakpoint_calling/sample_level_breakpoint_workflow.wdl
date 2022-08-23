@@ -18,7 +18,7 @@ workflow SampleLevelBreakpointWorkflow {
         File tumour_bai
         BreakpointRefdata ref
         String sample_id
-        String? filename_prefix
+        String? filename_prefix = "breakpoint_calling"
         String? singularity_image
         String? docker_image
         Int? num_threads = 8

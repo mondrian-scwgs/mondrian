@@ -12,7 +12,7 @@ workflow InferHaplotypes{
         File snp_positions
         Array[String] chromosomes
         String? sex = 'female'
-        String? filename_prefix = ""
+        String? filename_prefix = "infer_haps"
         String? singularity_image
         String? docker_image
         Int? memory_override

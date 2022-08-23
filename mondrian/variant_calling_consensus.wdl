@@ -17,7 +17,7 @@ workflow ConsensusWorkflow{
         File strelka_indel_vcffile_tbi
         Array[String] chromosomes
         String sample_id
-        String? filename_prefix = ""
+        String? filename_prefix = "variant_consensus"
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"

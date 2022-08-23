@@ -32,7 +32,7 @@ workflow AlignmentWorkflow{
         File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
-        String? filename_prefix = ""
+        String? filename_prefix = "alignment_workflow"
         Int? num_threads = 8
         Int? num_threads_align = 1
         Int? memory_override

@@ -11,7 +11,7 @@ workflow ConsensusWorkflow{
         File svaba_vcf
         File gridss_vcf
         String sample_id
-        String? filename_prefix = ""
+        String? filename_prefix = "breakpoint_consensus"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override

@@ -14,7 +14,7 @@ workflow CountHaplotypes{
         File snp_positions
         File reference_fai
         File gap_table
-        String? filename_prefix
+        String? filename_prefix = "count_haps"
         String? singularity_image
         String? docker_image
         Int? memory_override

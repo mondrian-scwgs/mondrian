@@ -19,7 +19,7 @@ workflow BreakpointWorkflow{
         File normal_bai
         Array[Sample] samples
         BreakpointRefdata reference
-        String? filename_prefix = ""
+        String? filename_prefix = "breakpoint"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

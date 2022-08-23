@@ -12,7 +12,7 @@ workflow DestructWorkflow{
         File metadata_input
         String sample_id
         BreakpointRefdata reference
-        String? filename_prefix = ""
+        String? filename_prefix = "destruct"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8

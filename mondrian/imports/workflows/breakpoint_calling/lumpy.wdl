@@ -9,7 +9,7 @@ workflow LumpyWorkflow {
     input {
         File normal_bam
         File tumour_bam
-        String? filename_prefix = "output"
+        String? filename_prefix = "lumpy"
         String? singularity_image
         String? docker_image
         Int? memory_override

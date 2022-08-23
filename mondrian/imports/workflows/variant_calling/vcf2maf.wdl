@@ -13,7 +13,7 @@ workflow Vcf2MafWorkflow{
         String ncbi_build
         String cache_version
         String species
-        String? filename_prefix
+        String? filename_prefix = "vcf2maf"
         String? singularity_image
         String? docker_image
         Int? memory_override

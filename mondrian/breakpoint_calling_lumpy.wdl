@@ -10,7 +10,7 @@ workflow LumpyWorkflow{
         File tumour_bam
         File metadata_input
         String sample_id
-        String? filename_prefix = ""
+        String? filename_prefix = "lumpy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
