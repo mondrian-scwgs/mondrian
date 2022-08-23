@@ -16,8 +16,6 @@ workflow MuseqWorkflow{
         File reference
         File reference_fai
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
         String? singularity_image
         String? docker_image
         String? filename_prefix = 'museq'

@@ -15,8 +15,6 @@ workflow ConsensusWorkflow{
         File strelka_snv_tbi
         File strelka_indel
         File strelka_indel_tbi
-        String normal_id
-        String tumour_id
         File vep_ref
         String vep_fasta_suffix
         String ncbi_build
@@ -51,8 +49,6 @@ workflow ConsensusWorkflow{
         input:
             input_vcf = consensus.consensus_output,
             input_counts =  consensus.counts_output,
-            normal_id = normal_id,
-            tumour_id = tumour_id,
             vep_ref = vep_ref,
             vep_fasta_suffix = vep_fasta_suffix,
             ncbi_build = ncbi_build,

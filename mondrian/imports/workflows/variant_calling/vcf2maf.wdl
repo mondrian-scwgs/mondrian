@@ -7,7 +7,8 @@ workflow Vcf2MafWorkflow{
     input{
         File input_vcf
         File input_counts
-        String sample_id
+        File normal_bam
+        File tumour_bam
         File vep_ref
         String vep_fasta_suffix
         String ncbi_build
@@ -36,9 +37,9 @@ workflow Vcf2MafWorkflow{
 
     call vcf2maf.UpdateMafId as update_id{
         input:
+            tumour_bam = tumour_bam,
+            normal_bam = normal_bam,
             input_maf = vcf2maf.output_maf,
-            normal_id = sample_id + '_normal',
-            tumour_id = sample_id + '_tumour',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

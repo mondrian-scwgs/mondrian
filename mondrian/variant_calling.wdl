@@ -96,7 +96,6 @@ workflow VariantWorkflow{
                 ncbi_build = reference.ncbi_build,
                 cache_version = reference.cache_version,
                 species = reference.species,
-                sample_id = sample_id,
                 filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
