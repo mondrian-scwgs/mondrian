@@ -35,7 +35,6 @@ workflow ConsensusWorkflow{
             strelka_snv_tbi = strelka_snv_vcffile_tbi,
             strelka_indel = strelka_indel_vcffile,
             strelka_indel_tbi = strelka_indel_vcffile_tbi,
-            sample_id = sample_id,
             vep_ref = reference.vep_ref,
             vep_fasta_suffix = reference.vep_fasta_suffix,
             ncbi_build = reference.ncbi_build,
