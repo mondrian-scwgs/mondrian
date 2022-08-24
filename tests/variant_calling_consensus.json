@@ -1,4 +1,6 @@
 {
+"ConsensusWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
+"ConsensusWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
 "ConsensusWorkflow.museq_vcffile":"variant_testdata/SA123T_museq.vcf.gz",
 "ConsensusWorkflow.museq_vcffile_tbi":"variant_testdata/SA123T_museq.vcf.gz.tbi",
 "ConsensusWorkflow.mutect_vcffile":"variant_testdata/SA123T_mutect.vcf.gz",
