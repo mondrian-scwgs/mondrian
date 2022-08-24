@@ -68,7 +68,6 @@ workflow MuseqWorkflow{
             reference = reference.reference,
             reference_fai = reference.reference_fa_fai,
             chromosomes = chromosomes,
-            sample_id = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             filename_prefix = filename_prefix,
