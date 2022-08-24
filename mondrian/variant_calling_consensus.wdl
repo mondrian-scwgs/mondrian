@@ -7,6 +7,8 @@ import "imports/types/variant_refdata.wdl"
 
 workflow ConsensusWorkflow{
     input{
+        File tumour_bam
+        File normal_bam
         File museq_vcffile
         File museq_vcffile_tbi
         File mutect_vcffile
@@ -27,6 +29,8 @@ workflow ConsensusWorkflow{
 
     call consensus.ConsensusWorkflow as consensus{
         input:
+            tumour_bam = tumour_bam,
+            normal_bam = normal_bam,
             museq_vcf = museq_vcffile,
             museq_vcf_tbi = museq_vcffile_tbi,
             mutect_vcf = mutect_vcffile,
