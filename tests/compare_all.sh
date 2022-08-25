@@ -13,8 +13,8 @@ tar -xvf result_reference.tar.gz
 
 
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/hmmcopy:${TAG}beta mondrian_build_utils compare_hmmcopy \
-    --reads $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/hmmcopy_reads.csv.gz --reads_ref result_reference/hmmcopy_reads.csv.gz \
-    --metrics $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/hmmcopy_metrics.csv.gz --metrics_ref result_reference/hmmcopy_metrics.csv.gz
+    --reads $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/hmmcopy_hmmcopy_reads.csv.gz --reads_ref result_reference/hmmcopy_reads.csv.gz \
+    --metrics $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/hmmcopy_hmmcopy_metrics.csv.gz --metrics_ref result_reference/hmmcopy_metrics.csv.gz
 
 #
 #docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_breakpoint_calling \
