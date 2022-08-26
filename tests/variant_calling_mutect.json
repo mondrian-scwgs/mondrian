@@ -7,8 +7,7 @@
 "MutectWorkflow.metadata_input": "variant_testdata/metadata.yaml",
 "MutectWorkflow.chromosomes": ["22"],
 "MutectWorkflow.num_threads": 1,
-"MutectWorkflow.normal_id": "SA123",
-"MutectWorkflow.tumour_id": "SA123T",
+"MutectWorkflow.sample_id": "SA123T",
 "MutectWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",

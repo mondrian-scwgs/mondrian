@@ -13,12 +13,12 @@ workflow SnvGenotypingWorkflow{
         File vcf_file_idx
         SnvGenotypingRefdata reference
         Array[String] chromosomes
-        String sample_id
         File tumour_bam
         File tumour_bai
         File? cell_barcodes
         Boolean? ignore_untagged_reads = false
         File metadata_input
+        String? filename_prefix = "snv_genotyping"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int num_splits = 1
@@ -74,7 +74,7 @@ workflow SnvGenotypingWorkflow{
         input:
             inputfile = vartrix.outfile,
             inputyaml = vartrix.outfile_yaml,
-            filename_prefix = "vartrix",
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

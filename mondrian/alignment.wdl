@@ -32,6 +32,7 @@ workflow AlignmentWorkflow{
         File metadata_yaml
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
+        String? filename_prefix = "alignment_workflow"
         Int? num_threads = 8
         Int? num_threads_align = 1
         Int? memory_override
@@ -71,7 +72,7 @@ workflow AlignmentWorkflow{
         input:
             inputfile = alignment.fastqscreen_detailed_metrics,
             inputyaml = alignment.fastqscreen_detailed_metrics_yaml,
-            filename_prefix = 'detailed_fastqscreen_breakdown',
+            filename_prefix = filename_prefix + '_detailed_fastqscreen_breakdown',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -94,7 +95,7 @@ workflow AlignmentWorkflow{
             inputfile = alignment.gc_metrics,
             inputyaml = alignment.gc_metrics_yaml,
             drop_duplicates = true,
-            filename_prefix = "alignment_gc_metrics",
+            filename_prefix = filename_prefix + "_alignment_gc_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -138,7 +139,7 @@ workflow AlignmentWorkflow{
     call tar.TarFiles as tar{
         input:
             inputs = alignment.tar_output,
-            filename_prefix = 'alignment_metrics',
+            filename_prefix = filename_prefix + '_alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -150,7 +151,7 @@ workflow AlignmentWorkflow{
             metrics =  contaminated.output_csv,
             metrics_yaml = contaminated.output_yaml,
             metadata_yaml = validation.metadata_yaml_output,
-            filename_prefix = 'alignment_metrics',
+            filename_prefix = filename_prefix + '_alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -163,7 +164,7 @@ workflow AlignmentWorkflow{
             cell_ids = cellid,
             metrics = add_metadata.output_csv,
             metrics_yaml = add_metadata.output_csv_yaml,
-            filename_prefix = "all_cells_bulk",
+            filename_prefix = filename_prefix + "_all_cells_bulk",
             singularity_image = singularity_image,
             docker_image = docker_image,
             num_threads=num_threads,

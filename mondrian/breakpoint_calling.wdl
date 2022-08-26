@@ -17,9 +17,9 @@ workflow BreakpointWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String normal_id
         Array[Sample] samples
         BreakpointRefdata reference
+        String? filename_prefix = "breakpoint"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -28,7 +28,7 @@ workflow BreakpointWorkflow{
     }
 
     scatter (sample in samples){
-        String tumour_id = sample.sample_id
+        String sample_id = sample.sample_id
         File bam = sample.tumour
         File bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
@@ -41,8 +41,8 @@ workflow BreakpointWorkflow{
                 tumour_bai = bai,
                 ref = reference,
                 num_threads=num_threads,
-                normal_id = normal_id,
-                tumour_id=tumour_id,
+                sample_id = sample_id,
+                filename_prefix = filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
@@ -54,7 +54,7 @@ workflow BreakpointWorkflow{
         input:
             inputfile = breakpoint_wf.consensus,
             inputyaml = breakpoint_wf.consensus_yaml,
-            filename_prefix = "four_way_consensus",
+            filename_prefix = filename_prefix + "_four_way_consensus",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -73,7 +73,7 @@ workflow BreakpointWorkflow{
                 'gridss_vcf': breakpoint_wf.gridss_outfile
             },
             metadata_yaml_files = metadata_input,
-            samples = tumour_id,
+            samples = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

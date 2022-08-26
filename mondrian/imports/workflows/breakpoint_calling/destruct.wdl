@@ -11,7 +11,7 @@ workflow DestructWorkflow{
         BreakpointRefdata ref
         String? singularity_image
         String? docker_image
-        String filename_prefix = 'output'
+        String? filename_prefix = 'destruct'
         Int? num_threads = 8
         Int? memory_override
         Int? walltime_override

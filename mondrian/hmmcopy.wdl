@@ -21,6 +21,7 @@ workflow HmmcopyWorkflow{
         File metadata_input
         HmmcopyRefdata reference
         Array[String] chromosomes
+        String? filename_prefix = "hmmcopy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -87,7 +88,7 @@ workflow HmmcopyWorkflow{
         input:
             inputfile = hmmcopy.params,
             inputyaml = hmmcopy.params_yaml,
-            filename_prefix = "hmmcopy_params",
+            filename_prefix = filename_prefix + "_hmmcopy_params",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -98,7 +99,7 @@ workflow HmmcopyWorkflow{
         input:
             inputfile = hmmcopy.segments,
             inputyaml = hmmcopy.segments_yaml,
-            filename_prefix = "hmmcopy_segments",
+            filename_prefix = filename_prefix + "_hmmcopy_segments",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -109,7 +110,7 @@ workflow HmmcopyWorkflow{
         input:
             inputfile = hmmcopy.reads,
             inputyaml = hmmcopy.reads_yaml,
-            filename_prefix = "hmmcopy_reads",
+            filename_prefix = filename_prefix + "_hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -121,7 +122,7 @@ workflow HmmcopyWorkflow{
         input:
             infile = concat_reads.outfile,
             infile_yaml = concat_reads.outfile_yaml,
-            filename_prefix = "hmmcopy_reads",
+            filename_prefix = filename_prefix + "_hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -171,7 +172,7 @@ workflow HmmcopyWorkflow{
             alignment_metrics = alignment_metrics,
             alignment_metrics_yaml = alignment_metrics_yaml,
             classifier_training_data = reference.classifier_training_data,
-            filename_prefix = "hmmcopy_metrics",
+            filename_prefix = filename_prefix + "_hmmcopy_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -184,7 +185,7 @@ workflow HmmcopyWorkflow{
             hmmcopy_metrics_yaml = add_quality.outfile_yaml,
             segments_plot = hmmcopy.segments_pdf,
             segments_plot_sample = hmmcopy.segments_sample,
-            filename_prefix = "hmmcopy_segments",
+            filename_prefix = filename_prefix + "_hmmcopy_segments",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -198,7 +199,7 @@ workflow HmmcopyWorkflow{
             reads = add_mappability.outfile,
             reads_yaml = add_mappability.outfile_yaml,
             chromosomes=chromosomes,
-            filename_prefix = "hmmcopy_heatmap",
+            filename_prefix = filename_prefix + "_hmmcopy_heatmap",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -211,7 +212,7 @@ workflow HmmcopyWorkflow{
             metrics_yaml = add_quality.outfile_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
-            filename_prefix = "qc_html",
+            filename_prefix = filename_prefix + "_qc_html",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

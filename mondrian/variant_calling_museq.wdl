@@ -14,9 +14,9 @@ workflow MuseqWorkflow{
         File tumour_bai
         File metadata_input
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
+        String sample_id
         VariantRefdata reference
+        String? filename_prefix = "museq"
         Int? num_threads = 8
         Int? num_threads_merge = 8
         String? singularity_image = ""
@@ -68,11 +68,9 @@ workflow MuseqWorkflow{
             reference = reference.reference,
             reference_fai = reference.reference_fa_fai,
             chromosomes = chromosomes,
-            tumour_id = tumour_id,
-            normal_id = normal_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             max_coverage = max_coverage,
             num_threads = num_threads,
@@ -86,7 +84,7 @@ workflow MuseqWorkflow{
                 'museq_vcf': [museq.vcffile, museq.vcffile_csi, museq.vcffile_tbi],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

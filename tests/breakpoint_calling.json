@@ -2,7 +2,6 @@
 "BreakpointWorkflow.docker_image": "docker_image_here",
 "BreakpointWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "BreakpointWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
-"BreakpointWorkflow.normal_id": "normal",
 "BreakpointWorkflow.num_threads": 1,
 "BreakpointWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",

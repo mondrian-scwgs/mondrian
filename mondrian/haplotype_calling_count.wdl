@@ -14,9 +14,10 @@ workflow CountHaplotypeWorkflow{
         File tumour
         File tumour_bai
         File metadata_input
-        File tumour_id
+        File sample_id
         HaplotypeRefdata reference
         Array[String] chromosomes
+        String? filename_prefix = "haplotype_calling_count"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -34,6 +35,7 @@ workflow CountHaplotypeWorkflow{
             snp_positions = reference.snp_positions,
             reference_fai = reference.reference_fai,
             gap_table = reference.gap_table,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -46,7 +48,7 @@ workflow CountHaplotypeWorkflow{
                 'haplotype_counts': [counthaps.readcounts, counthaps.readcounts_yaml],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

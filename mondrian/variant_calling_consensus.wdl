@@ -7,6 +7,8 @@ import "imports/types/variant_refdata.wdl"
 
 workflow ConsensusWorkflow{
     input{
+        File tumour_bam
+        File normal_bam
         File museq_vcffile
         File museq_vcffile_tbi
         File mutect_vcffile
@@ -16,8 +18,8 @@ workflow ConsensusWorkflow{
         File strelka_indel_vcffile
         File strelka_indel_vcffile_tbi
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
+        String sample_id
+        String? filename_prefix = "variant_consensus"
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -27,6 +29,8 @@ workflow ConsensusWorkflow{
 
     call consensus.ConsensusWorkflow as consensus{
         input:
+            tumour_bam = tumour_bam,
+            normal_bam = normal_bam,
             museq_vcf = museq_vcffile,
             museq_vcf_tbi = museq_vcffile_tbi,
             mutect_vcf = mutect_vcffile,
@@ -35,14 +39,13 @@ workflow ConsensusWorkflow{
             strelka_snv_tbi = strelka_snv_vcffile_tbi,
             strelka_indel = strelka_indel_vcffile,
             strelka_indel_tbi = strelka_indel_vcffile_tbi,
-            normal_id = normal_id,
-            tumour_id = tumour_id,
             vep_ref = reference.vep_ref,
             vep_fasta_suffix = reference.vep_fasta_suffix,
             ncbi_build = reference.ncbi_build,
             cache_version = reference.cache_version,
             species = reference.species,
             chromosomes = chromosomes,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

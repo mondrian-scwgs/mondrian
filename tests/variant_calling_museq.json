@@ -7,8 +7,7 @@
 "MuseqWorkflow.metadata_input": "variant_testdata/metadata.yaml",
 "MuseqWorkflow.num_threads": 1,
 "MuseqWorkflow.chromosomes": ["22"],
-"MuseqWorkflow.normal_id": "SA123",
-"MuseqWorkflow.tumour_id": "SA123T",
+"MuseqWorkflow.sample_id": "SA123T",
 "MuseqWorkflow.reference": {
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",

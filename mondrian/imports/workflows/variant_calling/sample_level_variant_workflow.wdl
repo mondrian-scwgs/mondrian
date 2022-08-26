@@ -36,8 +36,7 @@ workflow SampleLevelVariantWorkflow {
         String ncbi_build
         String cache_version
         String species
-        String tumour_id
-        String normal_id
+        String? filename_prefix = "variant_calling"
         String? singularity_image
         String? docker_image
         Int interval_size = 1000000
@@ -58,11 +57,9 @@ workflow SampleLevelVariantWorkflow {
             reference_fai = reference_fai,
             num_threads = num_threads,
             chromosomes = chromosomes,
-            tumour_id = tumour_id,
-            normal_id = normal_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -80,7 +77,7 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -106,7 +103,7 @@ workflow SampleLevelVariantWorkflow {
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             interval_size = interval_size,
             memory_override = memory_override,
             walltime_override = walltime_override
@@ -114,6 +111,8 @@ workflow SampleLevelVariantWorkflow {
 
     call consensus.ConsensusWorkflow as consensus{
         input:
+            tumour_bam = tumour_bam,
+            normal_bam = normal_bam,
             museq_vcf = museq.vcffile,
             museq_vcf_tbi = museq.vcffile_tbi,
             mutect_vcf = mutect.vcffile,
@@ -122,14 +121,13 @@ workflow SampleLevelVariantWorkflow {
             strelka_snv_tbi = strelka.snv_vcffile_tbi,
             strelka_indel = strelka.indel_vcffile,
             strelka_indel_tbi = strelka.indel_vcffile_tbi,
-            normal_id = normal_id,
-            tumour_id = tumour_id,
             vep_ref = vep_ref,
             vep_fasta_suffix = vep_fasta_suffix,
             ncbi_build = ncbi_build,
             cache_version = cache_version,
             species = species,
             chromosomes = chromosomes,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

@@ -11,7 +11,7 @@ workflow SvabaWorkflow{
         File tumour_bam
         File tumour_bai
         BreakpointRefdata ref
-        String filename_prefix = "output"
+        String? filename_prefix = "svaba"
         String? singularity_image
         String? docker_image
         Int? num_threads = 8

@@ -9,7 +9,8 @@ workflow LumpyWorkflow{
         File normal_bam
         File tumour_bam
         File metadata_input
-        String tumour_id
+        String sample_id
+        String? filename_prefix = "lumpy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -20,7 +21,7 @@ workflow LumpyWorkflow{
         input:
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -33,7 +34,7 @@ workflow LumpyWorkflow{
                 'lumpy_vcf': [lumpy.lumpy_vcf],
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

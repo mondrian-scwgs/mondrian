@@ -19,6 +19,7 @@ workflow SvGenotypingWorkflow{
         File tumour_bam
         File tumour_bai
         File metadata_input
+        String? filename_prefix = "sv_genotyping"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -32,7 +33,7 @@ workflow SvGenotypingWorkflow{
             bai = normal_bai,
             destruct_reads = destruct_reads,
             destruct_table = destruct_table,
-            filename_prefix = "normal_sv_genotyping",
+            filename_prefix = filename_prefix + "_normal_sv_genotyping",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -45,7 +46,7 @@ workflow SvGenotypingWorkflow{
             bai = tumour_bai,
             destruct_reads = destruct_reads,
             destruct_table = destruct_table,
-            filename_prefix = "normal_sv_genotyping",
+            filename_prefix = filename_prefix + "_normal_sv_genotyping",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -56,7 +57,7 @@ workflow SvGenotypingWorkflow{
         input:
             inputfile = [normal_genotyping.output_csv, tumour_genotyping.output_csv],
             inputyaml = [normal_genotyping.output_yaml, tumour_genotyping.output_yaml],
-            filename_prefix = "genotyper",
+            filename_prefix = filename_prefix + "_genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

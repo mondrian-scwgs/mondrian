@@ -14,6 +14,7 @@ workflow CountHaplotypes{
         File snp_positions
         File reference_fai
         File gap_table
+        String? filename_prefix = "count_haps"
         String? singularity_image
         String? docker_image
         Int? memory_override
@@ -70,7 +71,7 @@ workflow CountHaplotypes{
         input:
             inputfile = cell_seqdata_readcount.outfile,
             inputyaml = cell_seqdata_readcount.outfile_yaml,
-            filename_prefix = 'haplotype_counts',
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

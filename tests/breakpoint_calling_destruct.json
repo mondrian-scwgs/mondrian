@@ -2,7 +2,7 @@
 "DestructWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "DestructWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "DestructWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
-"DestructWorkflow.tumour_id": "SA123",
+"DestructWorkflow.sample_id": "SA123",
 "DestructWorkflow.num_threads": 1,
 "DestructWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",

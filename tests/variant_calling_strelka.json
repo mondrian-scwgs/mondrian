@@ -7,8 +7,7 @@
 "StrelkaWorkflow.metadata_input": "variant_testdata/metadata.yaml",
 "StrelkaWorkflow.chromosomes": ["22"],
 "StrelkaWorkflow.num_threads": 1,
-"StrelkaWorkflow.normal_id": "SA123",
-"StrelkaWorkflow.tumour_id": "SA123T",
+"StrelkaWorkflow.sample_id": "SA123T",
 "StrelkaWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_dict":"mondrian-ref-path-here/human/GRCh37-lite.dict",

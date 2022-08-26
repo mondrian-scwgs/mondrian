@@ -19,11 +19,11 @@ workflow HaplotypeWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String normal_id
         Array[Sample] samples
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? sex = 'female'
+        String? filename_prefix = "haplotype"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -40,6 +40,7 @@ workflow HaplotypeWorkflow{
             chromosomes = chromosomes,
             sex = sex,
             thousand_genomes_tar = reference.thousand_genomes_tar,
+            filename_prefix = 'infer_' + filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -63,6 +64,7 @@ workflow HaplotypeWorkflow{
                 snp_positions = reference.snp_positions,
                 reference_fai = reference.reference_fai,
                 gap_table = reference.gap_table,
+                filename_prefix = 'count_haps_' + filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
@@ -74,7 +76,7 @@ workflow HaplotypeWorkflow{
         input:
             inputfile = counthaps.readcounts,
             inputyaml = counthaps.readcounts_yaml,
-            filename_prefix = "all_haplotypes",
+            filename_prefix = 'concat_counts_' + filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

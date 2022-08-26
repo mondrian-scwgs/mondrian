@@ -10,7 +10,8 @@ workflow ConsensusWorkflow{
         File lumpy_vcf
         File svaba_vcf
         File gridss_vcf
-        String tumour_id
+        String sample_id
+        String? filename_prefix = "breakpoint_consensus"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -23,8 +24,8 @@ workflow ConsensusWorkflow{
             lumpy = lumpy_vcf,
             gridss = gridss_vcf,
             svaba = svaba_vcf,
-            filename_prefix = tumour_id,
-            sample_id = tumour_id,
+            filename_prefix = filename_prefix,
+            sample_id = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

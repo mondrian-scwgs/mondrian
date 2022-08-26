@@ -14,8 +14,8 @@ workflow StrelkaWorkflow{
         File tumour_bai
         File metadata_input
         Array[String] chromosomes
-        String tumour_id
-        String normal_id
+        String sample_id
+        String? filename_prefix = "strelka"
         VariantRefdata reference
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -70,7 +70,7 @@ workflow StrelkaWorkflow{
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
-            filename_prefix = tumour_id,
+            filename_prefix = filename_prefix,
             num_threads = num_threads,
             interval_size = interval_size,
             max_coverage = max_coverage,
@@ -86,7 +86,7 @@ workflow StrelkaWorkflow{
                 'strelka_indel': [strelka.indel_vcffile, strelka.indel_vcffile_csi, strelka.indel_vcffile_tbi]
             },
             metadata_yaml_files = [metadata_input],
-            samples = [tumour_id],
+            samples = [sample_id],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

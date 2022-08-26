@@ -7,22 +7,14 @@ import "imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
-struct Sample{
-    String sample_id
-    File tumour
-    File tumour_bai
-    File metadata_input
-}
-
-
 workflow InferHaplotypeWorkflow{
     input{
         File normal_bam
         File normal_bai
-        String normal_id
         String? sex = 'female'
         HaplotypeRefdata reference
         Array[String] chromosomes
+        String? filename_prefix = "infer_haps"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 8
@@ -39,6 +31,7 @@ workflow InferHaplotypeWorkflow{
             thousand_genomes_tar = reference.thousand_genomes_tar,
             chromosomes = chromosomes,
             sex = sex,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
