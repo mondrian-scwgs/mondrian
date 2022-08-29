@@ -60,6 +60,7 @@ workflow AlignmentWorkflow{
                 reference = reference,
                 supplementary_references = supplementary_references,
                 cell_id=cellid,
+                run_fastq = false,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 num_threads=num_threads_align,
