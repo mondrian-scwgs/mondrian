@@ -15,7 +15,7 @@ RUN cp /app/vcf2maf /opt/conda/bin/ && chmod 777 /opt/conda/bin/vcf2maf
 
 RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.2.5 --no-deps
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1 --no-deps
 
 RUN wget -nv https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/vartrix_linux && \
     mv vartrix_linux /opt/conda/bin/vartrix_linux && \
