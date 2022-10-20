@@ -2,6 +2,7 @@ version 1.0
 
 import "../../mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as haplotypes
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "../../mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
 
 
 workflow CountHaplotypes{
@@ -21,7 +22,7 @@ workflow CountHaplotypes{
         Int? walltime_override
     }
 
-    call haplotypes.SplitBam as split_bam{
+    call bamutils.SplitBam as split_bam{
         input:
             bam = tumour_bam,
             singularity_image = singularity_image,
