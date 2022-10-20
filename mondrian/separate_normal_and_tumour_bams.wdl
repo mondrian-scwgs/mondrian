@@ -1,6 +1,6 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
+import "imports/mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
 
 
 workflow SeparateNormalAndTumourBams{
@@ -13,7 +13,7 @@ workflow SeparateNormalAndTumourBams{
         File bai
         String? filename_prefix = "separate_normal_and_tumour"
         String? singularity_image
-        String? docker_image
+        String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
         Int? walltime_override
     }
@@ -34,6 +34,7 @@ workflow SeparateNormalAndTumourBams{
             bam = bam,
             bai = bai,
             normal_cells_yaml = identify_normal.normal_cells_yaml,
+            filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
