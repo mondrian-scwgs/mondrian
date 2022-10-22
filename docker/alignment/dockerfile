@@ -1,4 +1,4 @@
-FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
+FROM quay.io/singlecellpipelinetest/miniconda3:4.12.0
 ADD . /app
 ARG VERSION
 
@@ -8,4 +8,3 @@ RUN conda install --file /app/align_requirements.yml
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1
-RUN pip install scipy --upgrade
