@@ -2,6 +2,7 @@
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
 @EXPLICIT
+https://repo.anaconda.com/pkgs/main/noarch/tzdata-2022a-hda174b7_0.conda
 https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
 https://repo.anaconda.com/pkgs/main/linux-64/blas-1.0-mkl.conda
 https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2022.9.24-ha878542_0.tar.bz2
@@ -23,13 +24,20 @@ https://conda.anaconda.org/conda-forge/linux-64/openssl-1.1.1q-h166bdaf_1.tar.bz
 https://repo.anaconda.com/pkgs/main/linux-64/xz-5.2.5-h7b6447c_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/yaml-0.2.5-h7b6447c_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/zlib-1.2.11-h7b6447c_3.conda
+https://conda.anaconda.org/bioconda/linux-64/bcftools-1.3.1-h5bf99c6_7.tar.bz2
 https://repo.anaconda.com/pkgs/main/linux-64/libedit-3.1.20191231-h14c3975_1.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libssh2-1.10.0-h8f2d780_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/readline-8.0-h7b6447c_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/tk-8.6.10-hbc83047_0.conda
+https://repo.anaconda.com/pkgs/main/linux-64/krb5-1.19.1-h3535a68_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/sqlite-3.33.0-h62c20be_0.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libcurl-7.71.1-h303737a_2.conda
 https://repo.anaconda.com/pkgs/main/linux-64/python-3.8.5-h7579374_1.conda
-https://conda.anaconda.org/conda-forge/noarch/certifi-2022.9.24-pyhd8ed1ab_0.tar.bz2
+https://repo.anaconda.com/pkgs/main/linux-64/certifi-2022.9.24-py38h06a4308_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/chardet-3.0.4-py38h06a4308_1003.conda
+https://repo.anaconda.com/pkgs/main/noarch/charset-normalizer-2.0.4-pyhd3eb1b0_0.conda
+https://repo.anaconda.com/pkgs/main/noarch/colorama-0.4.4-pyhd3eb1b0_0.conda
+https://repo.anaconda.com/pkgs/main/linux-64/curl-7.71.1-h8f29fe8_2.conda
 https://repo.anaconda.com/pkgs/main/noarch/idna-2.10-py_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/pycosat-0.6.3-py38h7b6447c_1.conda
 https://repo.anaconda.com/pkgs/main/noarch/pycparser-2.20-py_2.conda
@@ -42,12 +50,16 @@ https://repo.anaconda.com/pkgs/main/noarch/tqdm-4.51.0-pyhd3eb1b0_0.conda
 https://repo.anaconda.com/pkgs/main/noarch/wheel-0.35.1-pyhd3eb1b0_0.conda
 https://repo.anaconda.com/pkgs/main/linux-64/cffi-1.14.3-py38h261ae71_2.conda
 https://repo.anaconda.com/pkgs/main/linux-64/conda-package-handling-1.7.2-py38h03888b9_0.conda
+https://conda.anaconda.org/bioconda/linux-64/htslib-1.3.1-h18ffd7a_3.tar.bz2
 https://repo.anaconda.com/pkgs/main/linux-64/mkl-service-2.4.0-py38h7f8727e_0.conda
+https://conda.anaconda.org/bioconda/linux-64/samtools-1.3.1-h80b0bb3_7.tar.bz2
 https://repo.anaconda.com/pkgs/main/linux-64/setuptools-50.3.1-py38h06a4308_1.conda
 https://repo.anaconda.com/pkgs/main/linux-64/brotlipy-0.7.0-py38h27cfd23_1003.conda
 https://repo.anaconda.com/pkgs/main/linux-64/cryptography-3.2.1-py38h3c74f83_1.conda
 https://repo.anaconda.com/pkgs/main/linux-64/numpy-base-1.21.5-py38hf524024_2.conda
 https://repo.anaconda.com/pkgs/main/linux-64/pip-20.2.4-py38h06a4308_0.conda
+https://conda.anaconda.org/bioconda/linux-64/pysam-0.9.1-py38hd1a2d5f_10.tar.bz2
+https://repo.anaconda.com/pkgs/main/noarch/conda-content-trust-0.1.1-pyhd3eb1b0_0.conda
 https://repo.anaconda.com/pkgs/main/noarch/pyopenssl-19.1.0-pyhd3eb1b0_1.conda
 https://repo.anaconda.com/pkgs/main/noarch/urllib3-1.25.11-py_0.conda
 https://repo.anaconda.com/pkgs/main/noarch/requests-2.24.0-py_0.conda
