@@ -8,3 +8,9 @@ RUN conda install --file /app/align_requirements.yml
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1
+
+RUN conda create --name trimgalore
+SHELL ["conda", "run", "-n", "trimgalore", "/bin/bash", "-c"]
+RUN conda install --file /app/trimgalore_requirements.yml
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/trimgalore/bin"
