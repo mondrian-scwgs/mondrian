@@ -163,6 +163,7 @@ workflow AlignmentWorkflow{
         input:
             input_bams = alignment.bam,
             cell_ids = cellid,
+            reference = reference.reference,
             metrics = add_metadata.output_csv,
             metrics_yaml = add_metadata.output_csv_yaml,
             filename_prefix = filename_prefix + "_all_cells_bulk",
@@ -198,10 +199,13 @@ workflow AlignmentWorkflow{
     output{
         File bam = merge_bam_files.pass_outfile
         File bai = merge_bam_files.pass_outfile_bai
+        File tdf = merge_bam_files.pass_outfile_tdf
         File contaminated_bam = merge_bam_files.contaminated_outfile
         File contaminated_bai = merge_bam_files.contaminated_outfile_bai
+        File contaminated_tdf = merge_bam_files.contaminated_outfile_tdf
         File control_bam = merge_bam_files.control_outfile
         File control_bai = merge_bam_files.control_outfile_bai
+        File control_tdf = merge_bam_files.control_outfile_tdf
         File metrics = add_metadata.output_csv
         File metrics_yaml = add_metadata.output_csv_yaml
         File gc_metrics = concat_gc_metrics.outfile
