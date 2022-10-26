@@ -22,7 +22,7 @@ workflow BreakpointWorkflow{
         String? filename_prefix = "breakpoint"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
-        Int? num_threads = 8
+        Int? num_threads = 24
         Int? memory_override
         Int? walltime_override
     }
