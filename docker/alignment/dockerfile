@@ -14,3 +14,9 @@ SHELL ["conda", "run", "-n", "trimgalore", "/bin/bash", "-c"]
 RUN conda install --file /app/trimgalore_requirements.yml
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/trimgalore/bin"
+
+RUN conda create --name igvtools
+SHELL ["conda", "run", "-n", "igvtools", "/bin/bash", "-c"]
+RUN conda install --file /app/igvtools_requirements.yml
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/igvtools/bin"
