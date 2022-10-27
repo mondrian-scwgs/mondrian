@@ -4,8 +4,8 @@
         "reference": "mondrian-ref-path-here/human/GRCh37-lite.fa",
         "reference_fai": "mondrian-ref-path-here/human/GRCh37-lite.fa.fai"
     },
-    "SnvGenotypingWorkflow.vcf_file": "snv_genotyping/merged_sorted.vcf.gz",
-    "SnvGenotypingWorkflow.vcf_file_idx": "snv_genotyping/merged_sorted.vcf.gz.tbi",
+    "SnvGenotypingWorkflow.vcf_file": ["snv_genotyping/merged_sorted.vcf.gz"],
+    "SnvGenotypingWorkflow.vcf_file_idx": ["snv_genotyping/merged_sorted.vcf.gz.tbi"],
     "SnvGenotypingWorkflow.chromosomes": [
         "1",
         "2",

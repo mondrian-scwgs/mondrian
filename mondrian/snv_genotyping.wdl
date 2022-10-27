@@ -9,8 +9,8 @@ import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
 
 workflow SnvGenotypingWorkflow{
     input{
-        File vcf_file
-        File vcf_file_idx
+        Array[File] vcf_file
+        Array[File] vcf_file_idx
         SnvGenotypingRefdata reference
         Array[String] chromosomes
         File tumour_bam
@@ -41,9 +41,19 @@ workflow SnvGenotypingWorkflow{
         }
     }
 
-    call vcf_utils.RemoveDuplicates as remove_duplicates{
+    call vcf_utils.MergeVcfs as merge_vcfs{
         input:
             input_vcf = vcf_file,
+            input_vcf_idx = vcf_file_idx,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call vcf_utils.RemoveDuplicates as remove_duplicates{
+        input:
+            input_vcf = merge_vcfs.output_vcf,
             include_ref_alt = true,
             singularity_image = singularity_image,
             docker_image = docker_image,
