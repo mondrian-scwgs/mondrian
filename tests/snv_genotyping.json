@@ -6,7 +6,6 @@
     },
     "SnvGenotypingWorkflow.vcf_file": ["snv_genotyping/merged_sorted.vcf.gz"],
     "SnvGenotypingWorkflow.vcf_file_idx": ["snv_genotyping/merged_sorted.vcf.gz.tbi"],
-    "SnvGenotypingWorkflow.reference_name": "GRCh37",
     "SnvGenotypingWorkflow.chromosomes": [
         "1",
         "2",
