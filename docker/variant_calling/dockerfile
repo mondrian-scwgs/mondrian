@@ -23,12 +23,12 @@ RUN wget -nv https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/va
 
 RUN conda create --name museq python=2.7
 SHELL ["conda", "run", "-n", "museq", "/bin/bash", "-c"]
-# RUN conda install --file /app/museq_requirements.yml
+RUN conda install --file /app/museq_requirements.yml
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
 RUN conda create --name strelka python=2.7
 SHELL ["conda", "run", "-n", "strelka", "/bin/bash", "-c"]
-# RUN conda install --file /app/strelka_requirements.yml
+RUN conda install --file /app/strelka_requirements.yml
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 
 ENV PATH="${PATH}:/opt/conda/envs/museq/bin:/opt/conda/envs/strelka/share/strelka-2.8.2-0/libexec/"
