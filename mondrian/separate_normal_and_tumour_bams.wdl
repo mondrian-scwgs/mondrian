@@ -11,6 +11,7 @@ workflow SeparateNormalAndTumourBams{
         File hmmcopy_metrics_yaml
         File bam
         File bai
+        String reference_name
         String? filename_prefix = "separate_normal_and_tumour"
         String? singularity_image
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -24,6 +25,7 @@ workflow SeparateNormalAndTumourBams{
             hmmcopy_reads_yaml = hmmcopy_reads_yaml,
             hmmcopy_metrics = hmmcopy_metrics,
             hmmcopy_metrics_yaml = hmmcopy_metrics_yaml,
+            reference_name = reference_name,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
