@@ -39,6 +39,7 @@ workflow AlignmentWorkflow{
         Int? walltime_override
     }
 
+
     call utils.InputValidation as validation{
         input:
             input_data = fastq_files,

@@ -9,6 +9,7 @@ workflow GridssWorkflow{
         File normal_bam
         File tumour_bam
         BreakpointRefdata ref
+        Int? jvm_heap_gb = 10
         String? filename_prefix = "gridss"
         String? singularity_image
         String? docker_image
@@ -29,6 +30,7 @@ workflow GridssWorkflow{
             reference_fa_sa = ref.reference_fa_sa,
             reference_fa_bwt = ref.reference_fa_bwt,
             filename_prefix = filename_prefix,
+            jvm_heap_gb = jvm_heap_gb,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
