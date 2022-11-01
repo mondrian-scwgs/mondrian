@@ -11,6 +11,7 @@ workflow GridssWorkflow{
         File tumour_bam
         File metadata_input
         BreakpointRefdata reference
+        Int? jvm_heap_gb = 10
         String sample_id
         String? filename_prefix = "gridss"
         String? singularity_image = ""
@@ -26,6 +27,7 @@ workflow GridssWorkflow{
             tumour_bam = tumour_bam,
             num_threads = num_threads,
             ref = reference,
+            jvm_heap_gb = jvm_heap_gb,
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,

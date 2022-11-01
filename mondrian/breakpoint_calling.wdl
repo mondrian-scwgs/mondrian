@@ -20,6 +20,7 @@ workflow BreakpointWorkflow{
         Array[Sample] samples
         BreakpointRefdata reference
         String? filename_prefix = "breakpoint"
+        Int? jvm_heap_gb = 10
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? num_threads = 24
@@ -41,6 +42,7 @@ workflow BreakpointWorkflow{
                 tumour_bai = bai,
                 ref = reference,
                 num_threads=num_threads,
+                jvm_heap_gb = jvm_heap_gb,
                 sample_id = sample_id,
                 filename_prefix = filename_prefix,
                 singularity_image = singularity_image,

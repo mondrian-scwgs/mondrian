@@ -18,6 +18,7 @@ workflow SampleLevelBreakpointWorkflow {
         File tumour_bai
         BreakpointRefdata ref
         String sample_id
+        Int? jvm_heap_gb = 10
         String? filename_prefix = "breakpoint_calling"
         String? singularity_image
         String? docker_image
@@ -56,6 +57,7 @@ workflow SampleLevelBreakpointWorkflow {
             num_threads = num_threads,
             ref = ref,
             filename_prefix = filename_prefix,
+            jvm_heap_gb = jvm_heap_gb,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
