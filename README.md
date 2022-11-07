@@ -39,6 +39,7 @@ Before submitting your changes for review, make sure to check that your changes 
 
 Once your changes are ready to be submitted, make sure to push your changes to GitHub before creating a pull request. We will review your changes, and you will most likely be asked to make additional changes before it is finally ready to merge. However, once it's ready, we will merge it, and you will have successfully contributed to the codebase!
 
+s
 
 As contributors and maintainers to this project, you are expected to abide by mondrian' code of conduct. More information can be found at: [Contributor Code of Conduct](https://github.com/mondrian-scdna/mondrian/blob/master/.github/CODE_OF_CONDUCT.md).
 
