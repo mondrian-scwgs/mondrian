@@ -5,6 +5,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcf_utils
 import "imports/mondrian_tasks/mondrian_tasks/snv_genotyping/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
+import "imports/workflows/vcf_snv_genotyping/vcf_snv_genotyping.wdl" as genotyper
 
 
 workflow SnvGenotypingWorkflow{
@@ -13,10 +14,11 @@ workflow SnvGenotypingWorkflow{
         Array[File] vcf_file_idx
         SnvGenotypingRefdata reference
         Array[String] chromosomes
+        File? exclusion_blacklist
         File tumour_bam
         File tumour_bai
         File? cell_barcodes
-        Boolean? ignore_untagged_reads = false
+        Boolean? ignore_untagged_reads  = false
         File metadata_input
         Boolean? sparse=false
         String? filename_prefix = "snv_genotyping"
@@ -62,10 +64,21 @@ workflow SnvGenotypingWorkflow{
     }
 
 
-    call vcf_utils.SplitVcf as split_vcf{
+    if (defined(exclusion_blacklist)){
+        call vcf_utils.ExcludeBlacklistCalls as remove_blacklisted_calls{
+            input:
+                input_vcf = remove_duplicates.output_vcf,
+                exclusion_blacklist = exclusion_blacklist,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+    }
+
+    call vcf_utils.SplitVcfByChrom as split_by_chrom{
         input:
-            input_vcf = remove_duplicates.output_vcf,
-            num_splits = num_splits,
+            input_vcf = select_first([remove_blacklisted_calls.output_vcf, remove_duplicates.output_vcf]),
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -73,61 +86,43 @@ workflow SnvGenotypingWorkflow{
     }
 
 
-    scatter(vcf_pair in zip(split_vcf.output_vcf,split_vcf.output_tbi)){
-
-        call utils.Genotyper as genotyping{
+    scatter(split_vcf in split_by_chrom.output_vcf){
+        call genotyper.VcfSnvGenotypingWorkflow as genotyping_wf{
             input:
-                bam = tumour_bam,
-                bai = tumour_bai,
-                vcf_file = vcf_pair.left,
-                vcf_file_idx = vcf_pair.right,
+                vcf_file = split_vcf,
+                reference = reference,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
                 cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
-                num_threads = num_threads,
-                filename_prefix = "snv_genotyping",
-                skip_header=true,
-                sparse=sparse,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
                 ignore_untagged_reads = ignore_untagged_reads,
-                memory_override = memory_override,
-                walltime_override = walltime_override
-        }
-
-        call utils.RunVartrix as vartrix{
-            input:
-                bamfile = tumour_bam,
-                baifile = tumour_bai,
-                fasta = reference.reference,
-                fasta_fai = reference.reference_fai,
-                vcf_file = vcf_pair.left,
-                cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
+                sparse = sparse,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
+                filename_prefix = filename_prefix,
+                num_splits = if num_splits > 1000 then 100 else num_splits,
                 num_threads = num_threads,
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
     }
 
-    call utils.MergeVartrix as merge_vartrix{
+
+    call csverve.ConcatenateCsv as concat_chroms_vartrix{
         input:
-            barcodes = vartrix.barcodes,
-            variants = vartrix.variants,
-            ref_matrix = vartrix.ref_matrix,
-            alt_matrix = vartrix.alt_matrix,
-            vcf_files = split_vcf.output_vcf,
-            skip_header=true,
-            sparse=sparse,
+            inputfile = genotyping_wf.vartrix_csv,
+            inputyaml = genotyping_wf.vartrix_csv_yaml,
+            filename_prefix = filename_prefix + "_vartrix",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
             walltime_override = walltime_override
     }
 
-    call csverve.ConcatenateCsv as concat_genotyping{
+
+    call csverve.ConcatenateCsv as concat_chroms_genotyping{
         input:
-            inputfile = genotyping.output_csv,
-            inputyaml = genotyping.output_yaml,
+            inputfile = genotyping_wf.output_csv,
+            inputyaml = genotyping_wf.output_csv_yaml,
             filename_prefix = filename_prefix + "_genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -136,16 +131,29 @@ workflow SnvGenotypingWorkflow{
     }
 
 
+    call utils.RegenerateVartrixOutputs as regenerate_vartrix_outputs{
+        input:
+            parsed_vartrix_data = concat_chroms_vartrix.outfile,
+            parsed_vartrix_data_yaml = concat_chroms_vartrix.outfile_yaml,
+            filename_prefix = filename_prefix + "_vartrix",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+
     call utils.SnvGenotypingMetadata as genotyping_metadata{
         input:
-            output_csv = concat_genotyping.outfile,
-            output_csv_yaml = concat_genotyping.outfile_yaml,
-            vartrix_output_csv = merge_vartrix.parsed_outfile,
-            vartrix_output_csv_yaml = merge_vartrix.parsed_outfile_yaml,
-            vartrix_barcodes = merge_vartrix.merged_barcodes,
-            vartrix_variants = merge_vartrix.merged_variants,
-            vartrix_ref_matrix = merge_vartrix.merged_ref_matrix,
-            vartrix_alt_matrix = merge_vartrix.merged_alt_matrix,
+            output_csv = concat_chroms_genotyping.outfile,
+            output_csv_yaml = concat_chroms_genotyping.outfile_yaml,
+            vartrix_output_csv = concat_chroms_vartrix.outfile,
+            vartrix_output_csv_yaml = concat_chroms_vartrix.outfile_yaml,
+            vartrix_barcodes = regenerate_vartrix_outputs.barcodes,
+            vartrix_variants = regenerate_vartrix_outputs.variants,
+            vartrix_ref_matrix = regenerate_vartrix_outputs.ref_matrix,
+            vartrix_alt_matrix = regenerate_vartrix_outputs.alt_matrix,
             metadata_input = metadata_input,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -156,14 +164,14 @@ workflow SnvGenotypingWorkflow{
     }
 
     output{
-        File output_csv = concat_genotyping.outfile
-        File output_csv_yaml = concat_genotyping.outfile_yaml
-        File vartrix_csv = merge_vartrix.parsed_outfile
-        File vartrix_csv_yaml = merge_vartrix.parsed_outfile_yaml
-        File vartrix_barcodes = merge_vartrix.merged_barcodes
-        File vartrix_variants = merge_vartrix.merged_variants
-        File vartrix_ref_matrix = merge_vartrix.merged_ref_matrix
-        File vartrix_alt_matrix = merge_vartrix.merged_alt_matrix
+        File output_csv = concat_chroms_genotyping.outfile
+        File output_csv_yaml = concat_chroms_genotyping.outfile_yaml
+        File vartrix_csv = concat_chroms_vartrix.outfile
+        File vartrix_csv_yaml = concat_chroms_vartrix.outfile_yaml
+        File vartrix_barcodes = regenerate_vartrix_outputs.barcodes
+        File vartrix_variants = regenerate_vartrix_outputs.variants
+        File vartrix_ref_matrix = regenerate_vartrix_outputs.ref_matrix
+        File vartrix_alt_matrix = regenerate_vartrix_outputs.alt_matrix
         File metadata_yaml = genotyping_metadata.metadata_output
     }
 

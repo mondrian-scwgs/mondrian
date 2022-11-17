@@ -19,6 +19,7 @@ workflow BreakpointWorkflow{
         File normal_bai
         Array[Sample] samples
         BreakpointRefdata reference
+        Array[String] chromosomes
         String? filename_prefix = "breakpoint"
         Int? jvm_heap_gb = 10
         String? singularity_image = ""
@@ -48,7 +49,8 @@ workflow BreakpointWorkflow{
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
-                walltime_override = walltime_override
+                walltime_override = walltime_override,
+                chromosomes=chromosomes
         }
     }
 

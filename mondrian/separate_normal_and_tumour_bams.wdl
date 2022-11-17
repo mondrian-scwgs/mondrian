@@ -14,6 +14,9 @@ workflow SeparateNormalAndTumourBams{
         File metadata_input
         String reference_name
         String? filename_prefix = "separate_normal_and_tumour"
+        Float? relative_aneuploidy_threshold = 0.05
+        Float? ploidy_threshold = 2.5
+        Float? allowed_aneuploidy_score = 0.0
         String? singularity_image
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -26,6 +29,9 @@ workflow SeparateNormalAndTumourBams{
             hmmcopy_reads_yaml = hmmcopy_reads_yaml,
             hmmcopy_metrics = hmmcopy_metrics,
             hmmcopy_metrics_yaml = hmmcopy_metrics_yaml,
+            relative_aneuploidy_threshold = relative_aneuploidy_threshold,
+            ploidy_threshold = ploidy_threshold,
+            allowed_aneuploidy_score = allowed_aneuploidy_score,
             reference_name = reference_name,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -44,7 +50,7 @@ workflow SeparateNormalAndTumourBams{
             walltime_override = walltime_override
     }
 
-    call metadatautils.SeparateTumourAndNormalMetadata as metadata{
+    call metadatautils.SeparateTumourAndNormalMetadata as generate_metadata{
         input:
             tumour_bam = separate_tumour_and_normal.tumour_bam,
             tumour_bai = separate_tumour_and_normal.tumour_bai,
@@ -62,7 +68,8 @@ workflow SeparateNormalAndTumourBams{
         File normal_bai = separate_tumour_and_normal.normal_bai
         File tumour_bam = separate_tumour_and_normal.tumour_bam
         File tumour_bai = separate_tumour_and_normal.tumour_bai
-        File metadata = metadata.metadata_output
+        File normal_cells_yaml = identify_normal.normal_cells_yaml
+        File metadata = generate_metadata.metadata_output
     }
 }
 

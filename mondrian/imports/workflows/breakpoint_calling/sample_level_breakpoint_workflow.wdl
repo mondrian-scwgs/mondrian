@@ -1,6 +1,5 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../types/breakpoint_refdata.wdl" as refdata_struct
 import "../../workflows/breakpoint_calling/destruct.wdl" as destruct
 import "../../workflows/breakpoint_calling/lumpy.wdl" as lumpy
@@ -17,6 +16,7 @@ workflow SampleLevelBreakpointWorkflow {
         File tumour_bam
         File tumour_bai
         BreakpointRefdata ref
+        Array[String] chromosomes
         String sample_id
         Int? jvm_heap_gb = 10
         String? filename_prefix = "breakpoint_calling"
@@ -89,8 +89,11 @@ workflow SampleLevelBreakpointWorkflow {
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
-            walltime_override = walltime_override
+            walltime_override = walltime_override,
+            chromosomes=chromosomes,
     }
+
+
     output{
         File consensus = cons.consensus
         File consensus_yaml = cons.consensus_yaml
