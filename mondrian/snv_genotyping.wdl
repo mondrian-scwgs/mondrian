@@ -99,7 +99,7 @@ workflow SnvGenotypingWorkflow{
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 filename_prefix = filename_prefix,
-                num_splits = if num_splits > 1000 then 100 else num_splits,
+                num_splits = num_splits,
                 num_threads = num_threads,
                 memory_override = memory_override,
                 walltime_override = walltime_override

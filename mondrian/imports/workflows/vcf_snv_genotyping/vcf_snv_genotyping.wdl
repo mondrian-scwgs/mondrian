@@ -29,7 +29,7 @@ workflow VcfSnvGenotypingWorkflow{
     call vcf_utils.SplitVcf as post_split_vcf{
         input:
             input_vcf = vcf_file,
-            num_splits = 100,
+            num_splits = num_splits,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
