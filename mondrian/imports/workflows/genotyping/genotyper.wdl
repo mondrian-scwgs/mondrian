@@ -7,7 +7,7 @@ import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
 
 
 
-workflow VcfSnvGenotypingWorkflow{
+workflow GenotyperWorkflow{
     input{
         File vcf_file
         SnvGenotypingRefdata reference
@@ -54,33 +54,6 @@ workflow VcfSnvGenotypingWorkflow{
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
-
-        call utils.RunVartrix as vartrix{
-            input:
-                bamfile = tumour_bam,
-                baifile = tumour_bai,
-                fasta = reference.reference,
-                fasta_fai = reference.reference_fai,
-                vcf_file = vcf_pair.left,
-                cell_barcodes = cell_barcodes,
-                skip_header=true,
-                singularity_image = singularity_image,
-                docker_image = docker_image,
-                num_threads = num_threads,
-                memory_override = memory_override,
-                walltime_override = walltime_override
-        }
-    }
-
-    call csverve.ConcatenateCsv as concat_vartrix{
-        input:
-            inputfile = vartrix.output_csv,
-            inputyaml = vartrix.output_yaml,
-            filename_prefix = filename_prefix + "_vartrix",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
     }
 
     call csverve.ConcatenateCsv as concat_genotyping{
@@ -97,7 +70,5 @@ workflow VcfSnvGenotypingWorkflow{
     output{
         File output_csv = concat_genotyping.outfile
         File output_csv_yaml = concat_genotyping.outfile_yaml
-        File vartrix_csv = concat_vartrix.outfile
-        File vartrix_csv_yaml = concat_vartrix.outfile_yaml
     }
 }

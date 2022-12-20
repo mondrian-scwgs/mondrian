@@ -5,7 +5,8 @@ import "imports/mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcf_utils
 import "imports/mondrian_tasks/mondrian_tasks/snv_genotyping/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
-import "imports/workflows/vcf_snv_genotyping/vcf_snv_genotyping.wdl" as genotyper
+import "imports/workflows/genotyping/genotyper.wdl" as genotyper
+import "imports/workflows/genotyping/vartrix.wdl" as vartrix
 
 
 workflow SnvGenotypingWorkflow{
@@ -87,7 +88,7 @@ workflow SnvGenotypingWorkflow{
 
 
     scatter(split_vcf in split_by_chrom.output_vcf){
-        call genotyper.VcfSnvGenotypingWorkflow as genotyping_wf{
+        call genotyper.GenotyperWorkflow as genotyper_wf{
             input:
                 vcf_file = split_vcf,
                 reference = reference,
@@ -104,13 +105,30 @@ workflow SnvGenotypingWorkflow{
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
+
+        call vartrix.VartrixWorkflow as vartrix_wf{
+            input:
+                vcf_file = split_vcf,
+                reference = reference,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
+                cell_barcodes = select_first([generate_cell_barcodes.cell_barcodes, cell_barcodes]),
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                filename_prefix = filename_prefix,
+                num_splits = num_splits,
+                num_threads = num_threads,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+
     }
 
 
     call csverve.ConcatenateCsv as concat_chroms_vartrix{
         input:
-            inputfile = genotyping_wf.vartrix_csv,
-            inputyaml = genotyping_wf.vartrix_csv_yaml,
+            inputfile = vartrix_wf.output_csv,
+            inputyaml = vartrix_wf.output_csv_yaml,
             filename_prefix = filename_prefix + "_vartrix",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -121,8 +139,8 @@ workflow SnvGenotypingWorkflow{
 
     call csverve.ConcatenateCsv as concat_chroms_genotyping{
         input:
-            inputfile = genotyping_wf.output_csv,
-            inputyaml = genotyping_wf.output_csv_yaml,
+            inputfile = genotyper_wf.output_csv,
+            inputyaml = genotyper_wf.output_csv_yaml,
             filename_prefix = filename_prefix + "_genotyper",
             singularity_image = singularity_image,
             docker_image = docker_image,
