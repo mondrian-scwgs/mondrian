@@ -22,5 +22,6 @@
     "repeats_satellite_regions":"mondrian-ref-path-here/human/repeats.satellite.regions",
     "dgv":"mondrian-ref-path-here/human/dgv.txt"
     },
-"DestructWorkflow.docker_image": "docker_image_here"
+"DestructWorkflow.docker_image": "docker_image_here",
+"DestructWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
 }
