@@ -16,7 +16,7 @@ RUN pip install intervaltree networkx==2.1 click
 RUN pip install -e git+https://github.com/amcpherson/blossomv.git@download_link_fix#egg=blossomv
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1 --no-deps
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.4 --no-deps
 
 RUN conda create --name lumpy python=2.7
 SHELL ["conda", "run", "-n", "lumpy", "/bin/bash", "-c"]

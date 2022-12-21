@@ -1,6 +1,7 @@
 version 1.0
 
 import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/consensus.wdl" as consensus
+import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
 workflow ConsensusWorkflow{
@@ -11,28 +12,55 @@ workflow ConsensusWorkflow{
         File gridss
         String? filename_prefix = "breakpoint_consensus"
         String sample_id
+        Array[String] chromosomes
         String? singularity_image
         String? docker_image
         Int? memory_override
         Int? walltime_override
     }
 
-    call consensus.Consensus as run_consensus{
+    scatter (chrom in chromosomes){
+        call consensus.Consensus as run_consensus{
+            input:
+                destruct = destruct,
+                lumpy = lumpy,
+                svaba = svaba,
+                gridss = gridss,
+                chromosome = chrom,
+                filename_prefix = filename_prefix,
+                sample_id = sample_id,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+     }
+
+    call csverve.ConcatenateCsv as concat_chroms_consensus{
         input:
-            destruct = destruct,
-            lumpy = lumpy,
-            svaba = svaba,
-            gridss = gridss,
+            inputfile = run_consensus.consensus,
+            inputyaml = run_consensus.consensus_yaml,
             filename_prefix = filename_prefix,
-            sample_id = sample_id,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
             walltime_override = walltime_override
     }
 
+    call csverve.RemoveDuplicates as consensus_remove_duplicates{
+        input:
+            inputfile = concat_chroms_consensus.outfile,
+            inputyaml = concat_chroms_consensus.outfile_yaml,
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
     output{
-        File consensus = run_consensus.consensus
-        File consensus_yaml = run_consensus.consensus_yaml
+        File consensus = consensus_remove_duplicates.outfile
+        File consensus_yaml = consensus_remove_duplicates.outfile_yaml
     }
 }

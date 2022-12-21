@@ -28,7 +28,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "BreakpointWorkflow.singularity_image": "<path-to-singularity-sif>",
 "BreakpointWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "BreakpointWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
-"BreakpointWorkflow.normal_id": "normal",
+"BreakpointWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
 "BreakpointWorkflow.reference":{
     "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
     "reference_gtf":"<path-to-mondrian-ref>/human/GRCh37-lite.gtf",

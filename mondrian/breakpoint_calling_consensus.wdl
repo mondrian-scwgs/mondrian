@@ -11,6 +11,7 @@ workflow ConsensusWorkflow{
         File svaba_vcf
         File gridss_vcf
         String sample_id
+        Array[String] chromosomes
         String? filename_prefix = "breakpoint_consensus"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -26,6 +27,7 @@ workflow ConsensusWorkflow{
             svaba = svaba_vcf,
             filename_prefix = filename_prefix,
             sample_id = sample_id,
+            chromosomes=chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
