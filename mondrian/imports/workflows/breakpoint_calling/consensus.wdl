@@ -26,7 +26,7 @@ workflow ConsensusWorkflow{
         input:
             reference = reference,
             chromosomes = chromosomes,
-            interval_size = interval_size,
+            size = interval_size,
     }
 
 
