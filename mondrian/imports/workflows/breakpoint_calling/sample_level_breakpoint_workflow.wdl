@@ -18,6 +18,7 @@ workflow SampleLevelBreakpointWorkflow {
         BreakpointRefdata ref
         Array[String] chromosomes
         String sample_id
+        Int? consensus_interval_size = 10000000
         Int? jvm_heap_gb = 10
         String? filename_prefix = "breakpoint_calling"
         String? singularity_image
@@ -86,6 +87,8 @@ workflow SampleLevelBreakpointWorkflow {
             svaba = svaba.output_vcf,
             filename_prefix = filename_prefix,
             sample_id = sample_id,
+            reference = ref.reference,
+            interval_size = consensus_interval_size,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
