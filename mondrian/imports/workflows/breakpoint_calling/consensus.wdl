@@ -27,6 +27,10 @@ workflow ConsensusWorkflow{
             reference = reference,
             chromosomes = chromosomes,
             size = interval_size,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
 
