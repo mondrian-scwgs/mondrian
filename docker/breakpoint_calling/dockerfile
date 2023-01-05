@@ -33,3 +33,6 @@ RUN cp /app/gridss* /opt/conda/bin/
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
 ENV GRIDSS_JAR=/opt/conda/bin/gridss.jar
+
+
+RUN rm -rf /opt/conda/lib/python3.*/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@chr_fix
