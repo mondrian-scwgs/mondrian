@@ -10,6 +10,7 @@ workflow ConsensusWorkflow{
         File lumpy_vcf
         File svaba_vcf
         File gridss_vcf
+        File reference
         String sample_id
         Array[String] chromosomes
         String? filename_prefix = "breakpoint_consensus"
@@ -25,6 +26,7 @@ workflow ConsensusWorkflow{
             lumpy = lumpy_vcf,
             gridss = gridss_vcf,
             svaba = svaba_vcf,
+            reference = reference,
             filename_prefix = filename_prefix,
             sample_id = sample_id,
             chromosomes=chromosomes,

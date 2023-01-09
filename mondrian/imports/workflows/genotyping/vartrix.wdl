@@ -15,6 +15,7 @@ workflow VartrixWorkflow{
         File tumour_bai
         File cell_barcodes
         Boolean? sparse=false
+        Boolean? skip_header=false
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         String? filename_prefix = "snv_genotyping"
@@ -58,6 +59,7 @@ workflow VartrixWorkflow{
         input:
             inputfile = vartrix.output_csv,
             inputyaml = vartrix.output_yaml,
+            skip_header = skip_header,
             filename_prefix = filename_prefix + "_vartrix",
             singularity_image = singularity_image,
             docker_image = docker_image,

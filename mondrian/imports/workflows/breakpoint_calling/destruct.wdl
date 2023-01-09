@@ -40,9 +40,20 @@ workflow DestructWorkflow{
             walltime_override = walltime_override
     }
 
+    call destruct.ExtractSomatic as extract_somatic{
+        input:
+            destruct_breakpoints = run_destruct.breakpoint_table,
+            destruct_library = run_destruct.library_table,
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
     output{
-        File breakpoint_table = run_destruct.breakpoint_table
-        File library_table = run_destruct.library_table
+        File breakpoint_table = extract_somatic.breakpoint_table
+        File library_table = extract_somatic.library_table
         File read_table = run_destruct.read_table
     }
 }

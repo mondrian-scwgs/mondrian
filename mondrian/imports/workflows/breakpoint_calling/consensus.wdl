@@ -2,6 +2,7 @@ version 1.0
 
 import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/consensus.wdl" as consensus
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "../../mondrian_tasks/mondrian_tasks/io/fasta/utils.wdl" as fasta
 
 
 workflow ConsensusWorkflow{
@@ -10,6 +11,8 @@ workflow ConsensusWorkflow{
         File lumpy
         File svaba
         File gridss
+        File reference
+        Int? interval_size=10000000
         String? filename_prefix = "breakpoint_consensus"
         String sample_id
         Array[String] chromosomes
@@ -19,14 +22,26 @@ workflow ConsensusWorkflow{
         Int? walltime_override
     }
 
-    scatter (chrom in chromosomes){
+    call fasta.GetRegions as get_regions{
+        input:
+            reference = reference,
+            chromosomes = chromosomes,
+            size = interval_size,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+    scatter (interval in get_regions.regions){
         call consensus.Consensus as run_consensus{
             input:
                 destruct = destruct,
                 lumpy = lumpy,
                 svaba = svaba,
                 gridss = gridss,
-                chromosome = chrom,
+                region = interval,
                 filename_prefix = filename_prefix,
                 sample_id = sample_id,
                 singularity_image = singularity_image,
