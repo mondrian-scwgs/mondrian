@@ -1,13 +1,14 @@
 version 1.0
 
-import "imports/mondrian_tasks/mondrian_tasks/alignment/fastq_screen.wdl" as fastq_screen
-import "imports/mondrian_tasks/mondrian_tasks/io/bam/picard.wdl" as picard
-import "imports/mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
-import "imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
-import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
-import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
-import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
-import "imports/types/align_refdata.wdl"
+
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/alignment/fastq_screen.wdl" as fastq_screen
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/picard.wdl" as picard
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/align_refdata.wdl"
 
 
 struct Lane{
