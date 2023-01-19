@@ -81,6 +81,7 @@ task AlignPostprocessAllLanes{
         cpu: "~{num_threads}"
         docker: '~{docker_image}'
         singularity: '~{singularity_image}'
+        disks: "local-disk 100 HDD"
     }
 }
 
