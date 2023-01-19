@@ -180,7 +180,7 @@ task BamMerge{
         cpu: '~{num_threads}'
         docker: '~{docker_image}'
         singularity: '~{singularity_image}'
-        disks: "local-disk " + length(input_bams) + " HDD"
+        disks: "local-disk 100 HDD"
     }
 }
 
