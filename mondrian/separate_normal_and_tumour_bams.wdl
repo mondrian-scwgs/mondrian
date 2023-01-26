@@ -55,8 +55,8 @@ workflow SeparateNormalAndTumourBams{
 
     call utils.PlotHeatmap as heatmap{
         input:
-            metrics = identify_normal.metrics,
-            metrics_yaml = identify_normal.metrics_yaml,
+            metrics = identify_normal.normal_csv,
+            metrics_yaml = identify_normal.normal_csv_yaml,
             reads = hmmcopy_reads,
             reads_yaml = hmmcopy_reads_yaml,
             chromosomes=chromosomes,
