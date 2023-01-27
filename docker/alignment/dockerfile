@@ -8,7 +8,7 @@ RUN conda install --file /app/align_requirements.yml
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1
-RUN pip install matplotlib seaborn scikit-learn statsmodels
+RUN pip install matplotlib==3.3.2 seaborn scikit-learn statsmodels
 
 RUN conda create --name trimgalore
 SHELL ["conda", "run", "-n", "trimgalore", "/bin/bash", "-c"]
