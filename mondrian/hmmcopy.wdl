@@ -1,9 +1,9 @@
 version 1.0
 
-import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
-import "imports/mondrian_tasks/mondrian_tasks/io/pdf/pdf.wdl" as pdf
-import "imports/mondrian_tasks/mondrian_tasks/hmmcopy/utils.wdl" as utils
-import "imports/types/hmmcopy_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/pdf/pdf.wdl" as pdf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/hmmcopy/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/hmmcopy_refdata.wdl" as refdata_struct
 
 
 workflow HmmcopyWorkflow{
