@@ -1,10 +1,10 @@
 version 1.0
 
-import "imports/workflows/haplotype_calling/count_haplotypes.wdl" as count_haps
-import "imports/workflows/haplotype_calling/infer_haplotypes.wdl" as infer_haps
-import "imports/types/haplotype_refdata.wdl"
-import "imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
-import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/haplotype_calling/count_haplotypes.wdl" as count_haps
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/haplotype_calling/infer_haplotypes.wdl" as infer_haps
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/haplotype_refdata.wdl"
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
 struct Sample{
