@@ -1,9 +1,9 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
-import "../../mondrian_tasks/mondrian_tasks/io/bam/variantbam.wdl" as variantbam
-import "../../mondrian_tasks/mondrian_tasks/io/bam/sambamba.wdl" as sambamba
-import "../../mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/variantbam.wdl" as variantbam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/sambamba.wdl" as sambamba
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
 
 
 workflow VariantBamWorkflow{
