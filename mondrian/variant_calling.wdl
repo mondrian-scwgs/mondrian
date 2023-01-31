@@ -1,11 +1,11 @@
 version 1.0
 
-import "imports/workflows/variant_calling/sample_level_variant_workflow.wdl" as variant
-import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
-import "imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
-import "imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
-import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
-import "imports/types/variant_refdata.wdl"
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/variant_calling/sample_level_variant_workflow.wdl" as variant
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/variant_refdata.wdl"
 
 
 struct Sample{
