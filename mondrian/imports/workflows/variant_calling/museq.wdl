@@ -1,10 +1,10 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/variant_calling/museq.wdl" as museq
-import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
-import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
-import "../../mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as utils
-import "../../workflows/variant_calling/variant_bam.wdl" as variant_bam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/variant_calling/museq.wdl" as museq
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 
 
 workflow MuseqWorkflow{
