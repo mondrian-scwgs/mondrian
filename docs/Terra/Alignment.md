@@ -68,7 +68,7 @@ Go to workflows -> Find a workflow
 
 ![Terra Alignment Workflow 1](assets/terra_workflows_alignment_1.png)
 
-Track down the Mondrian alignment workflow under the Broad Methods repository and click on export
+Track down the `mondrian-alignment` workflow under the Broad Methods repository and click on export
 
 ![Terra Alignment Workflow 2](assets/terra_workflows_alignment_2.png)
 
@@ -86,10 +86,32 @@ Finish filling in the input entries as follows:
 | Field | Value |
 |-------|-------|
 | metadata_yaml | this.metadata |
-|reference|{"genome_name":"human","reference":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa","reference_fa_fai":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.fai","reference_fa_amb":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.amb","reference_fa_ann":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.ann","reference_fa_bwt":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.bwt","reference_fa_pac":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.pac","reference_fa_sa":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.sa"}|
+| reference | {"genome_name":"human","reference":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa","reference_fa_fai":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.fai","reference_fa_amb":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.amb","reference_fa_ann":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.ann","reference_fa_bwt":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.bwt","reference_fa_pac":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.pac","reference_fa_sa":"gs://<bucket-id>/references/mondrian-ref-GRCh37/human/GRCh37-lite.fa.sa"}|
 | samplesheet | this.samplesheet |
 | supplementary_references| [{"genome_name":"mouse","reference":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta","reference_fa_fai":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.fai","reference_fa_amb":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.amb","reference_fa_ann":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.ann","reference_fa_bwt":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.bwt","reference_fa_pac":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.pac","reference_fa_sa":"gs://<bucket-id>/references/mondrian-ref-GRCh37/mouse/mm10_build38_mouse.fasta.sa"},{"genome_name":"salmon","reference":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna","reference_fa_fai":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai","reference_fa_amb":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.amb","reference_fa_ann":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.ann","reference_fa_bwt":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.bwt","reference_fa_pac":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.pac","reference_fa_sa":"gs://<bucket-id>/references/mondrian-ref-GRCh37/salmon/GCF_002021735.1_Okis_V1_genomic.fna.sa"}] |
 | docker_image | "quay.io/mondrianscwgs/alignment:v0.0.71" |
 
+
+
+Fill out the output entries as follows:
+| Field | Value |
+|-------|-------|
+| bai | this.bai |
+| bam | this.bam |
+| tdf | this.tdf |
+| contaminaed_bai | this.contaminaed_bai |
+| contaminaed_bam | this.contaminaed_bam |
+| contaminaed_tdf | this.contaminaed_tdf |
+| control_bai | this.control_bai |
+| control_bam | this.control_bam |
+| control_tdf | this.control_tdf |
+| fastqscreen_detailed | this.fastqscreen_detailed |
+| fastqscreen_detailed_yaml | this.fastqscreen_detailed_yaml |
+| metrics | this.alignment_metrics |
+| metrics_yaml | this.alignment_metrics_yaml |
+| gc_metrics | this.gc_metrics |
+| gc_metrics_yaml | this.gc_metrics_yaml |
+| metadata | this.metadata |
+| tarfile | this.alignment_metrics_tar |
 
 Save and then run analysis. 
