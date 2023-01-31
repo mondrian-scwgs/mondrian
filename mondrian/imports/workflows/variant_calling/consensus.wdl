@@ -1,8 +1,8 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/variant_calling/consensus.wdl" as consensus
-import "../../workflows/variant_calling/vcf2maf.wdl" as vcf2maf
-import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/variant_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/variant_calling/vcf2maf.wdl" as vcf2maf
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 
 
 workflow ConsensusWorkflow{
