@@ -1,7 +1,7 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
-import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/lumpy.wdl" as lumpy
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/samtools.wdl" as samtools
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/lumpy.wdl" as lumpy
 
 
 
