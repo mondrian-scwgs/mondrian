@@ -1,9 +1,9 @@
 version 1.0
 
-import "imports/workflows/breakpoint_calling/sample_level_breakpoint_workflow.wdl" as breakpoint
-import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
-import "imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/utils.wdl" as utils
-import "imports/types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/workflows/breakpoint_calling/sample_level_breakpoint_workflow.wdl" as breakpoint
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/utils.wdl" as utils
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 struct Sample{
