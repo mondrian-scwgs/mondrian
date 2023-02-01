@@ -1,8 +1,8 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/consensus.wdl" as consensus
-import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
-import "../../mondrian_tasks/mondrian_tasks/io/fasta/utils.wdl" as fasta
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/consensus.wdl" as consensus
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/io/fasta/utils.wdl" as fasta
 
 
 workflow ConsensusWorkflow{
