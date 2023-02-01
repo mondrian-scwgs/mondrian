@@ -28,7 +28,7 @@ task RunSvaba{
         File output_vcf = "~{filename_prefix}.svaba.somatic.sv.vcf.gz"
     }
     runtime{
-        memory: '~{select_first([memory_override, 7])} GB'
+        memory: '~{select_first([memory_override, 21])} GB'
         walltime: "~{select_first([walltime_override, 96])}:00"
         cpu: num_threads
         docker: '~{docker_image}'
