@@ -1,7 +1,7 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/svaba.wdl" as svaba
-import "../../types/breakpoint_refdata.wdl" as refdata_struct
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/svaba.wdl" as svaba
+import "https://raw.githubusercontent.com/mondrian-scwgs/mondrian/terra/mondrian/imports/types/breakpoint_refdata.wdl" as refdata_struct
 
 
 workflow SvabaWorkflow{
