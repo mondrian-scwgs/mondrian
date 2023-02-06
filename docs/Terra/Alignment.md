@@ -49,7 +49,7 @@ and click on `Import Data` and then `upload tsv`. Go to `text import Tab`
 and enter the participant id
 ```
 entity:participant_id
-alignment_testdata2
+alignment_testdata
 ```
 and click on import
 
@@ -69,6 +69,9 @@ Go to workflows -> Find a workflow
 ![Terra Alignment Workflow 1](assets/terra_workflows_alignment_1.png)
 
 Track down the `mondrian-alignment` workflow under the Broad Methods repository and click on export
+
+choose 'Blank Configuration'
+Choose 'participant' as root entity type and choose your billing project
 
 ![Terra Alignment Workflow 2](assets/terra_workflows_alignment_2.png)
 

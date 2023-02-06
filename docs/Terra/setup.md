@@ -37,3 +37,11 @@ then use gsutil to upload the extracted directory to the storage bucket we ident
 gsutil cp -r mondrian-ref-GRCh38 gs://<bucket-id>/references/mondrian-ref-GRCh38 
 ```
 
+#### Upload test reference data version
+
+
+```
+wget https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz
+tar -xvf mondrian-ref-20-22.tar.gz
+gsutil cp -r mondrian-ref-20-22 gs://references/ 
+```
