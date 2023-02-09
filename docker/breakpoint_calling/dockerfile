@@ -13,7 +13,7 @@ RUN apt-get --allow-releaseinfo-change update && \
 
 RUN conda install --file /app/conda_base_requirements.yml
 RUN pip install intervaltree networkx==2.1 click
-RUN pip install -e git+https://github.com/amcpherson/blossomv.git@download_link_fix#egg=blossomv
+RUN pip install -e git+https://github.com/amcpherson/blossomv.git@master#egg=blossomv
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.4 --no-deps
@@ -35,4 +35,4 @@ ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
 ENV GRIDSS_JAR=/opt/conda/bin/gridss.jar
 
 
-RUN rm -rf /opt/conda/lib/python3.*/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@chr_fix
+RUN rm -rf /opt/conda/lib/python3.*/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@master
