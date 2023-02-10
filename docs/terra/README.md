@@ -1,6 +1,9 @@
 
 ## Starting with Terra
 
+*Note: Terra requires WDL imports through URL. Mondrian currently is setup to run imports through zip file. Please reach out
+to the developers to update imports before proceeding.*
+
 
 Please follow Terra documentation and ensure that you have access to Terra console.
 
@@ -9,7 +12,7 @@ Please follow Terra documentation and ensure that you have access to Terra conso
 
 We're going to setup a Terra workspace and name it `mondrian`
 
-![Terra Workspace](assets/terra_workspace.jpg)
+![Terra Workspace](../assets/terra_workspace.png)
 
 Please enter the relevant billing project information
 
@@ -18,7 +21,7 @@ Please enter the relevant billing project information
 Please track down the storage bucket assosciated with the workspace. This is the location where we will host all of our
 input and output data.
 
-![Terra Bucket](assets/terra_storage_bucket.jpg)
+![Terra Bucket](../assets/terra_storage_bucket.png)
 
 
 #### Upload Reference Data

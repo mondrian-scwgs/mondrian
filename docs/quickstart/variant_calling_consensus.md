@@ -26,6 +26,8 @@ singularity build variant_calling_<insert version>.sif docker://quay.io/mondrian
     
     ```
     {
+    "ConsensusWorkflow.normal_bam": "variant_testdata/normal_realign.bam",
+    "ConsensusWorkflow.tumour_bam": "variant_testdata/variants_realign.bam",
     "ConsensusWorkflow.museq_vcffile":"variant_testdata/SA123T_museq.vcf.gz",
     "ConsensusWorkflow.museq_vcffile_tbi":"variant_testdata/SA123T_museq.vcf.gz.tbi",
     "ConsensusWorkflow.mutect_vcffile":"variant_testdata/SA123T_mutect.vcf.gz",
@@ -35,13 +37,16 @@ singularity build variant_calling_<insert version>.sif docker://quay.io/mondrian
     "ConsensusWorkflow.strelka_indel_vcffile":"variant_testdata/SA123T_strelka_indel.vcf.gz",
     "ConsensusWorkflow.strelka_indel_vcffile_tbi":"variant_testdata/SA123T_strelka_indel.vcf.gz.tbi",
     "ConsensusWorkflow.chromosomes": ["22"],
-    "ConsensusWorkflow.normal_id": "SA123",
-    "ConsensusWorkflow.tumour_id": "SA123T",
+    "ConsensusWorkflow.sample_id": "SA123",
     "ConsensusWorkflow.reference": {
         "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
         "reference_dict":"<path-to-mondrian-ref>/human/GRCh37-lite.dict",
         "reference_fa_fai":"<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
         "vep_ref":"<path-to-mondrian-ref>/vep.tar",
+        "vep_fasta_suffix": "homo_sapiens/99_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz",
+        "ncbi_build": "GRCh37",
+        "cache_version": "99",
+        "species":"homo_sapiens",
         "panel_of_normals": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz",
         "panel_of_normals_idx": "<path-to-mondrian-ref>/human/somatic-b37_Mutect2-WGS-panel-b37.vcf.gz.tbi",
         "variants_for_contamination": "<path-to-mondrian-ref>/human/small_exac_common_3.vcf.gz",

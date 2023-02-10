@@ -29,7 +29,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "DestructWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "DestructWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "DestructWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
-"DestructWorkflow.tumour_id": "SA123",
+"DestructWorkflow.sample_id": "SA123",
 "DestructWorkflow.reference":{
     "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
     "reference_gtf":"<path-to-mondrian-ref>/human/GRCh37-lite.gtf",

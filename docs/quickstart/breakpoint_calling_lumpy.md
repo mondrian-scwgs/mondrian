@@ -30,7 +30,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "LumpyWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
 "LumpyWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "LumpyWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
-"LumpyWorkflow.tumour_id": "SA123",
+"LumpyWorkflow.sample_id": "SA123",
 "LumpyWorkflow.singularity_image": "<path-to-singularity-sif>"
 }
 ```

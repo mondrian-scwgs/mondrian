@@ -61,3 +61,5 @@ singularity build variant_calling_<insert version>.sif docker://quay.io/mondrian
     snv_genotyping.wdl \
     -i <path to input.json>  -o <path to options.json> --imports <path to imports zip>
     ```
+
+*Note: you can also use the snv_genotyping_vartrix.wdl file if you only want the vartrix outputs only.*

@@ -99,6 +99,12 @@ singularity run --bind $PWD reference_builder.sif wget https://raw.githubusercon
 singularity run --bind $PWD reference_builder.sif reference_utils repeats --rmsk_file rmsk.txt --chrom_map hg38_chr_map.tsv --repeats repeats.regions --satellites repeats.satellite.regions
 ```
 
+*Blacklist*
+```
+singularity run --bind $PWD reference_builder.sif wget https://github.com/Boyle-Lab/Blacklist/raw/master/lists/hg38-blacklist.v2.bed.gz
+singularity run --bind $PWD reference_builder.sif  gunzip hg38-blacklist.v2.bed.gz
+``` 
+
 ### RemixT/Haplotype Calling 
 
 *1000G impute data*

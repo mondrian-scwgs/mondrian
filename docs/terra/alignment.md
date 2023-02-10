@@ -1,6 +1,7 @@
 #### Upload Test Data to google storage
 
-Track down the test data from the quickstart guide [here](docs/quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/alignment.md).
+Please download, extract and upload the alignment test data Google storage
 
 
 For instance:
@@ -41,10 +42,10 @@ gsutil cp samplesheet.json gs://<bucket-id>/testdata/alignment_testdata/samplesh
 #### Setup sample in Terra Data
 
 Go to the Data section of Terra
-![Terra_Data](assets/terra_data_import_data.png)
+![Terra_Data](../assets/terra_data_import_data.png)
 
 and click on `Import Data` and then `upload tsv`. Go to `text import Tab`
-![Terra Alignment Data](assets/terra_data_import_data_alignment_1.png)
+![Terra Alignment Data](../assets/terra_data_import_data_alignment_1.png)
 
 and enter the participant id
 ```
@@ -54,29 +55,31 @@ alignment_testdata
 and click on import
 
 Once its imported, We'll add 2 columns to the table
-![Terra Alignment Data 2](assets/terra_data_import_data_alignment_2.png)
+![Terra Alignment Data 2](../assets/terra_data_import_data_alignment_2.png)
 
-For first column: put `metadata` as column name and `gs://<bucket-id>/testdata/alignment_testdata/metadata.yaml` as value. For second column: put `samplesheet` as column name and `gs://<bucket-id>/testdata/alignment_testdata/samplesheet.json` as value.
+For first column: put `metadata` as column name and `gs://<bucket-id>/testdata/alignment_testdata/metadata.yaml` as 
+value. For second column: put `samplesheet` as column name 
+and `gs://<bucket-id>/testdata/alignment_testdata/samplesheet.json` as value.
 
 The result should look similar to the following
-![Terra Alignment Data 3](assets/terra_data_import_data_alignment_3.png)
+![Terra Alignment Data 3](../assets/terra_data_import_data_alignment_3.png)
 
 
 ### Setup workflow in Terra Workflows
 
 Go to workflows -> Find a workflow
 
-![Terra Alignment Workflow 1](assets/terra_workflows_alignment_1.png)
+![Terra Alignment Workflow 1](../assets/terra_workflows_alignment_1.png)
 
-Track down the `mondrian-alignment` workflow under the Broad Methods repository and click on export
+Add the `alignment_terra.wdl` file to the Broad Methods repository and click on export
 
 choose 'Blank Configuration'
 Choose 'participant' as root entity type and choose your billing project
 
-![Terra Alignment Workflow 2](assets/terra_workflows_alignment_2.png)
+![Terra Alignment Workflow 2](../assets/terra_workflows_alignment_2.png)
 
 In the workflow configuration page
-![Terra Alignment Workflow 3](assets/terra_workflows_alignment_3.png)
+![Terra Alignment Workflow 3](../assets/terra_workflows_alignment_3.png)
 
 choose 
 `Run workflow(s) with inputs defined by data table`
@@ -97,6 +100,8 @@ Finish filling in the input entries as follows:
 
 
 Fill out the output entries as follows:
+
+
 | Field | Value |
 |-------|-------|
 | bai | this.bai |

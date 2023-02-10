@@ -2,10 +2,12 @@
 
 
 *Note: for this tutorial we are starting from a small test dataset that is imported and run through terra from scratch. 
-In production, the normal bam will come in as input from Google Storage and the tumour bam will be the `bam` output from `mondrian-alignment`.*
+In production, the normal bam will come in as input from Google Storage and the tumour bam will be the `bam` output 
+from `mondrian-alignment`.*
 
 
-Track down the test data from the quickstart guide [here](docs/quickstart/breakpoint_calling.md) Please download, extract and upload the test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/breakpoint_calling.md) Please download, 
+extract and upload the test data Google storage
 
 
 For instance:
@@ -19,10 +21,10 @@ gsutil cp -r breakpoint_testdata gs://<bucket-id>/testdata/
 #### Setup sample in Terra Data
 
 Go to the Data section of Terra
-![Terra_Data](assets/terra_data_import_data.png)
+![Terra_Data](../assets/terra_data_import_data.png)
 
 and click on `Import Data` and then `upload tsv`. Go to `text import Tab`
-![Terra Alignment Data](assets/terra_data_import_data_alignment_1.png)
+![Terra Alignment Data](../assets/terra_data_import_data_alignment_1.png)
 
 and enter the participant id
 ```
@@ -32,13 +34,13 @@ variant_testdata
 and click on import
 
 Once its imported, We'll add columns to the table to point to files we just uploaded into Google storage
-![Terra Breakpoint Data](assets/terra_data_import_data_breakpoints.png)
+![Terra Breakpoint Data](../assets/terra_data_import_data_breakpoints.png)
 
 
 Go to workflows -> Find a workflow
 
 
-Track down the `mondrian-breakpoints` workflow under the Broad Methods repository and click on export
+Add the `breakpoint_calling.wdl` from mondrian to the Broad Methods repository and click on export
 
 
 In the workflow configuration page
