@@ -39,3 +39,10 @@
   - [Python Conventions](contribute/python_conventions.md) 
   - [Issue Tracker](contribute/issue_tracker.md)
   - [Git](contribute/git_conventions.md)
+
+- [Terra](terra/README.md)
+  - [Alignment](terra/alignment.md)
+  - [Hmmcopy](terra/hmmcopy.md)
+  - [Breakpoint Calling](terra/breakpoint_calling.md)
+  - [Variant Calling](terra/variant_calling.md)
+  - [Haplotypes](terra/haplotypes.md)
