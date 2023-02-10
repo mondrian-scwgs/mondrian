@@ -1,6 +1,6 @@
 #### Upload Test Data to google storage
 
-Track down the test data from the quickstart guide [here](../quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
 
 
 For instance:
