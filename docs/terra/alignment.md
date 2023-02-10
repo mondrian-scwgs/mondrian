@@ -54,29 +54,29 @@ alignment_testdata
 and click on import
 
 Once its imported, We'll add 2 columns to the table
-![Terra Alignment Data 2](assets/terra_data_import_data_alignment_2.png)
+![Terra Alignment Data 2](../assets/terra_data_import_data_alignment_2.png)
 
 For first column: put `metadata` as column name and `gs://<bucket-id>/testdata/alignment_testdata/metadata.yaml` as value. For second column: put `samplesheet` as column name and `gs://<bucket-id>/testdata/alignment_testdata/samplesheet.json` as value.
 
 The result should look similar to the following
-![Terra Alignment Data 3](assets/terra_data_import_data_alignment_3.png)
+![Terra Alignment Data 3](../assets/terra_data_import_data_alignment_3.png)
 
 
 ### Setup workflow in Terra Workflows
 
 Go to workflows -> Find a workflow
 
-![Terra Alignment Workflow 1](assets/terra_workflows_alignment_1.png)
+![Terra Alignment Workflow 1](../assets/terra_workflows_alignment_1.png)
 
 Track down the `mondrian-alignment` workflow under the Broad Methods repository and click on export
 
 choose 'Blank Configuration'
 Choose 'participant' as root entity type and choose your billing project
 
-![Terra Alignment Workflow 2](assets/terra_workflows_alignment_2.png)
+![Terra Alignment Workflow 2](../assets/terra_workflows_alignment_2.png)
 
 In the workflow configuration page
-![Terra Alignment Workflow 3](assets/terra_workflows_alignment_3.png)
+![Terra Alignment Workflow 3](../assets/terra_workflows_alignment_3.png)
 
 choose 
 `Run workflow(s) with inputs defined by data table`

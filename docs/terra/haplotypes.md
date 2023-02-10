@@ -5,7 +5,7 @@
 
 
 
-Track down the test data from the quickstart guide [here](docs/quickstart/haplotype_calling.md) Please download, extract and upload the test data Google storage
+Track down the test data from the quickstart guide [here](../docs/quickstart/haplotype_calling.md) Please download, extract and upload the test data Google storage
 
 
 For instance:
@@ -19,10 +19,10 @@ gsutil cp -r haplotype_calling_testdata gs://<bucket-id>/testdata/
 #### Setup sample in Terra Data
 
 Go to the Data section of Terra
-![Terra_Data](assets/terra_data_import_data.png)
+![Terra_Data](../assets/terra_data_import_data.png)
 
 and click on `Import Data` and then `upload tsv`. Go to `text import Tab`
-![Terra Alignment Data](assets/terra_data_import_data_alignment_1.png)
+![Terra Alignment Data](../assets/terra_data_import_data_alignment_1.png)
 
 and enter the participant id
 ```
@@ -32,7 +32,7 @@ haplotype_testdata
 and click on import
 
 Once its imported, We'll add columns to the table to point to files we just uploaded into Google storage
-![Terra Haplotype Data](assets/terra_data_import_data_haplotypes.png)
+![Terra Haplotype Data](../assets/terra_data_import_data_haplotypes.png)
 
 
 Go to workflows -> Find a workflow
