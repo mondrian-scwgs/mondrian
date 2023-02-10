@@ -5,7 +5,7 @@ Go to workflows -> Find a workflow
 
 
 
-Track down the `mondrian-hmmcopy` workflow under the Broad Methods repository and click on export
+Add the `hmmcopy.wdl` file to the Broad Methods repository and click on export
 
 
 In the workflow configuration page

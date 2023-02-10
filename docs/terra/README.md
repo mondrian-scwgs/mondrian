@@ -1,6 +1,9 @@
 
 ## Starting with Terra
 
+*Note: Terra requires WDL imports through URL. Mondrian currently is setup to run imports through zip file. Please reach out
+to the developers to update imports before proceeding.*
+
 
 Please follow Terra documentation and ensure that you have access to Terra console.
 

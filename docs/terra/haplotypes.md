@@ -1,11 +1,14 @@
 #### Upload Test Data to google storage
 
 
-*Note: for this tutorial we are starting from a small test dataset that is imported and run through terra from scratch. In production, the normal bam will come in as input from Google Storage and the tumour bam will be the `bam` output from `mondrian-alignment`.*
+*Note: for this tutorial we are starting from a small test dataset that is imported and run through terra from scratch. 
+In production, the normal bam will come in as input from Google Storage and the tumour bam will be the `bam` output 
+from `mondrian-alignment`.*
 
 
 
-Track down the test data from the quickstart guide [here](quickstart/haplotype_calling.md) Please download, extract and upload the test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/haplotype_calling.md) Please download, 
+extract and upload the test data Google storage
 
 
 For instance:
@@ -38,7 +41,7 @@ Once its imported, We'll add columns to the table to point to files we just uplo
 Go to workflows -> Find a workflow
 
 
-Track down the `mondrian-haplotypes` workflow under the Broad Methods repository and click on export
+Add the `haplotype_calling.wdl` file to the Broad Methods repository and click on export
 
 
 In the workflow configuration page
