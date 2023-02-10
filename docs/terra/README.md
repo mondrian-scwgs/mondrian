@@ -9,7 +9,7 @@ Please follow Terra documentation and ensure that you have access to Terra conso
 
 We're going to setup a Terra workspace and name it `mondrian`
 
-![Terra Workspace](assets/terra_workspace.jpg)
+![Terra Workspace](../assets/terra_workspace.jpg)
 
 Please enter the relevant billing project information
 
@@ -18,12 +18,12 @@ Please enter the relevant billing project information
 Please track down the storage bucket assosciated with the workspace. This is the location where we will host all of our
 input and output data.
 
-![Terra Bucket](assets/terra_storage_bucket.jpg)
+![Terra Bucket](../assets/terra_storage_bucket.jpg)
 
 
 #### Upload Reference Data
 
-First, download the reference data from the S3 link provided in the quick start guide [Reference](quickstart/README.md) and untar it.
+First, download the reference data from the S3 link provided in the quick start guide [Reference](../quickstart/README.md) and untar it.
 
 For instance, to download reference for GRCh38,
 ```

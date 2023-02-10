@@ -1,6 +1,6 @@
 #### Upload Test Data to google storage
 
-Track down the test data from the quickstart guide [here](docs/quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
+Track down the test data from the quickstart guide [here](../quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
 
 
 For instance:
@@ -97,6 +97,8 @@ Finish filling in the input entries as follows:
 
 
 Fill out the output entries as follows:
+
+
 | Field | Value |
 |-------|-------|
 | bai | this.bai |
