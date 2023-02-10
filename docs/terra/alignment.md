@@ -41,10 +41,10 @@ gsutil cp samplesheet.json gs://<bucket-id>/testdata/alignment_testdata/samplesh
 #### Setup sample in Terra Data
 
 Go to the Data section of Terra
-![Terra_Data](assets/terra_data_import_data.png)
+![Terra_Data](../assets/terra_data_import_data.png)
 
 and click on `Import Data` and then `upload tsv`. Go to `text import Tab`
-![Terra Alignment Data](assets/terra_data_import_data_alignment_1.png)
+![Terra Alignment Data](../assets/terra_data_import_data_alignment_1.png)
 
 and enter the participant id
 ```
