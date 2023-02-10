@@ -5,7 +5,7 @@
 
 
 
-Track down the test data from the quickstart guide [here](../quickstart/haplotype_calling.md) Please download, extract and upload the test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/haplotype_calling.md) Please download, extract and upload the test data Google storage
 
 
 For instance:

@@ -5,7 +5,7 @@
 In production, the normal bam will come in as input from Google Storage and the tumour bam will be the `bam` output from `mondrian-alignment`.*
 
 
-Track down the test data from the quickstart guide [here](../quickstart/breakpoint_calling.md) Please download, extract and upload the test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/breakpoint_calling.md) Please download, extract and upload the test data Google storage
 
 
 For instance:

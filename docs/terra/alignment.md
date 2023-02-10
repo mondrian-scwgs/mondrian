@@ -1,6 +1,7 @@
 #### Upload Test Data to google storage
 
-Track down the test data from the quickstart guide [here](quickstart/alignment.md) Please download, extract and upload the alignment test data Google storage
+Track down the test data from the quickstart guide [here](quickstart/alignment.md).
+Please download, extract and upload the alignment test data Google storage
 
 
 For instance:
@@ -56,7 +57,9 @@ and click on import
 Once its imported, We'll add 2 columns to the table
 ![Terra Alignment Data 2](../assets/terra_data_import_data_alignment_2.png)
 
-For first column: put `metadata` as column name and `gs://<bucket-id>/testdata/alignment_testdata/metadata.yaml` as value. For second column: put `samplesheet` as column name and `gs://<bucket-id>/testdata/alignment_testdata/samplesheet.json` as value.
+For first column: put `metadata` as column name and `gs://<bucket-id>/testdata/alignment_testdata/metadata.yaml` as 
+value. For second column: put `samplesheet` as column name 
+and `gs://<bucket-id>/testdata/alignment_testdata/samplesheet.json` as value.
 
 The result should look similar to the following
 ![Terra Alignment Data 3](../assets/terra_data_import_data_alignment_3.png)
