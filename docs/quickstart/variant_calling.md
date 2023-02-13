@@ -46,7 +46,6 @@
         "gnomad_idx": "<path-to-mondrian-ref>/human/gnomad.vcf.gz.tbi"
     },
     "VariantWorkflow.chromosomes": ["22"],
-    "VariantWorkflow.normal_id": "SA123",
     "VariantWorkflow.samples": [{
         "sample_id": "SA123T",
         "tumour": "variant_testdata/variants_realign.bam",

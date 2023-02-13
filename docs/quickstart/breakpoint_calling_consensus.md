@@ -31,7 +31,9 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "ConsensusWorkflow.lumpy_vcf":"breakpoint_testdata/SA123_lumpy.vcf",
 "ConsensusWorkflow.svaba_vcf":"breakpoint_testdata/SA123.svaba.somatic.sv.vcf.gz",
 "ConsensusWorkflow.gridss_vcf":"breakpoint_testdata/SA123_gridss.vcf.gz",
-"ConsensusWorkflow.tumour_id":"SA123",
+"ConsensusWorkflow.sample_id":"SA123",
+"ConsensusWorkflow.reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
+"ConsensusWorkflow.chromosomes": ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
 "ConsensusWorkflow.singularity_image": "<path-to-singularity-sif>"
 }
 ```

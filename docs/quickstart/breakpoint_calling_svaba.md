@@ -32,7 +32,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "SvabaWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "SvabaWorkflow.tumour_bai": "breakpoint_testdata/medium.bam.bai",
 "SvabaWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
-"SvabaWorkflow.tumour_id": "SA123",
+"SvabaWorkflow.sample_id": "SA123",
 "SvabaWorkflow.reference":{
     "reference":"<path-to-mondrian-ref>/human/GRCh37-lite.fa",
     "reference_gtf":"<path-to-mondrian-ref>/human/GRCh37-lite.gtf",

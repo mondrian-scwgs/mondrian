@@ -28,7 +28,7 @@
       "CountHaplotypeWorkflow.singularity_image": "<path-to-singularity-sif>",
       "CountHaplotypeWorkflow.haplotypes": "haplotype_calling_testdata/data/haps.csv.gz",
       "CountHaplotypeWorkflow.haplotypes_yaml": "haplotype_calling_testdata/data/haps.csv.gz.yaml",
-      "CountHaplotypeWorkflow.tumour_id": "SA607",
+      "CountHaplotypeWorkflow.sample_id": "SA607",
       "CountHaplotypeWorkflow.tumour": "haplotype_calling_testdata/data/merged_reheader.bam",
       "CountHaplotypeWorkflow.tumour_bai": "haplotype_calling_testdata/data/merged_reheader.bam.bai",
       "CountHaplotypeWorkflow.metadata_input": "haplotype_calling_testdata/data/metadata.yaml",
