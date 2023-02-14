@@ -17,5 +17,6 @@ struct BreakpointRefdata{
     File reference_fa_sa
     File repeats_satellite_regions
     File dgv
+    File? blacklist_bed
 }
 

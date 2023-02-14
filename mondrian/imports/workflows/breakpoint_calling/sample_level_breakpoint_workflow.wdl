@@ -85,6 +85,7 @@ workflow SampleLevelBreakpointWorkflow {
             lumpy = lumpy.lumpy_vcf,
             gridss = gridss.output_vcf,
             svaba = svaba.output_vcf,
+            blacklist_bed = ref.blacklist_bed,
             filename_prefix = filename_prefix,
             sample_id = sample_id,
             reference = ref.reference,
@@ -95,7 +96,6 @@ workflow SampleLevelBreakpointWorkflow {
             walltime_override = walltime_override,
             chromosomes=chromosomes,
     }
-
 
     output{
         File consensus = cons.consensus
