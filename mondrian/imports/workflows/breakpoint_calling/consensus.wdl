@@ -12,7 +12,7 @@ workflow ConsensusWorkflow{
         File svaba
         File gridss
         File reference
-        File blacklist_bed
+        File? blacklist_bed
         Int? interval_size=10000000
         String? filename_prefix = "breakpoint_consensus"
         String sample_id
