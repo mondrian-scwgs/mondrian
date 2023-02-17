@@ -14,6 +14,7 @@ workflow SeparateNormalAndTumourBams{
         File bam
         File bai
         File metadata_input
+        File blacklist_file
         String reference_name
         Array[String] chromosomes
         String? filename_prefix = "separate_normal_and_tumour"
@@ -36,6 +37,7 @@ workflow SeparateNormalAndTumourBams{
             ploidy_threshold = ploidy_threshold,
             allowed_aneuploidy_score = allowed_aneuploidy_score,
             reference_name = reference_name,
+            blacklist_file = blacklist_file,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
