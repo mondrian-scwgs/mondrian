@@ -71,7 +71,7 @@ Go to workflows -> Find a workflow
 
 ![Terra Alignment Workflow 1](../assets/terra_workflows_alignment_1.png)
 
-Add the `alignment.wdl` file to the Broad Methods repository and click on export
+Add the `alignment_terra.wdl` file to the Broad Methods repository and click on export
 
 choose 'Blank Configuration'
 Choose 'participant' as root entity type and choose your billing project
