@@ -37,3 +37,9 @@ docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io
 
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_sv_genotyping \
     --genotyper $CODEBUILD_SRC_DIR/tests/sv_genotyping/outputs/results/sv_genotyping_genotyper.csv.gz --genotyper_ref result_reference/sv_genotyper.csv.gz
+
+
+
+
+docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta \
+python -c "import yaml;assert  yaml.safe_load(open('outputs/results/separate_normal_and_tumour_normals.yaml', 'rt'))['cells'] == ['SA1090-A96213A-R22-C43']"
