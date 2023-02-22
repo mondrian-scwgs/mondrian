@@ -19,7 +19,7 @@ phases:
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch38 $QUAY_USR $QUAY_PSW Y
   build:
     commands:
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources separate_normal_and_tumour_bams alignment normalizer_data
+      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources separate_normal_and_tumour_bams alignment normalizer
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources hmmcopy hmmcopy hmmcopy
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources breakpoint_calling breakpoint_calling breakpoint_calling
