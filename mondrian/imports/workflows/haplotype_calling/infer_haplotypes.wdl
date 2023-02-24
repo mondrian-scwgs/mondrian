@@ -11,6 +11,7 @@ workflow InferHaplotypes{
         File thousand_genomes_tar
         File snp_positions
         Array[String] chromosomes
+        String? data_type = 'normal'
         String? sex = 'female'
         String? filename_prefix = "infer_haps"
         String? singularity_image
@@ -32,10 +33,11 @@ workflow InferHaplotypes{
                 walltime_override = walltime_override
         }
 
-        call haplotypes.InferSnpGenotypeFromNormal as infer_genotype{
+        call haplotypes.InferSnpGenotype as infer_genotype{
             input:
                 seqdata = chrom_seqdata.seqdata,
                 chromosome = chromosome,
+                data_type = data_type,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,

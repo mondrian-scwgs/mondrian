@@ -23,6 +23,7 @@ workflow HaplotypeWorkflow{
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? sex = 'female'
+        String? data_type = 'normal'
         String? filename_prefix = "haplotype"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -39,6 +40,7 @@ workflow HaplotypeWorkflow{
             snp_positions = reference.snp_positions,
             chromosomes = chromosomes,
             sex = sex,
+            data_type = data_type,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             filename_prefix = 'infer_' + filename_prefix,
             singularity_image = singularity_image,

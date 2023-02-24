@@ -12,6 +12,7 @@ workflow InferHaplotypeWorkflow{
         File normal_bam
         File normal_bai
         String? sex = 'female'
+        String? data_type = 'normal'
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? filename_prefix = "infer_haps"
@@ -30,6 +31,7 @@ workflow InferHaplotypeWorkflow{
             snp_positions = reference.snp_positions,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             chromosomes = chromosomes,
+            data_type = data_type,
             sex = sex,
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
