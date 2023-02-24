@@ -6,8 +6,8 @@ import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 workflow InferHaplotypes{
     input{
-        File normal_bam
-        File normal_bai
+        File bam
+        File bai
         File thousand_genomes_tar
         File snp_positions
         Array[String] chromosomes
@@ -23,8 +23,8 @@ workflow InferHaplotypes{
     scatter(chromosome in chromosomes){
         call haplotypes.ExtractChromosomeSeqData as chrom_seqdata{
             input:
-                bam = normal_bam,
-                bai = normal_bai,
+                bam = bam,
+                bai = bai,
                 snp_positions = snp_positions,
                 chromosome = chromosome,
                 singularity_image = singularity_image,

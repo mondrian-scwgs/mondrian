@@ -17,8 +17,8 @@ struct Sample{
 
 workflow HaplotypeWorkflow{
     input{
-        File normal_bam
-        File normal_bai
+        File bam
+        File bai
         Array[Sample] samples
         HaplotypeRefdata reference
         Array[String] chromosomes
@@ -35,8 +35,8 @@ workflow HaplotypeWorkflow{
 
     call infer_haps.InferHaplotypes as infer_haps{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
+            bam = bam,
+            bai = bai,
             snp_positions = reference.snp_positions,
             chromosomes = chromosomes,
             sex = sex,

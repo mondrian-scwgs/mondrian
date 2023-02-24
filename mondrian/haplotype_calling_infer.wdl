@@ -9,8 +9,8 @@ import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 workflow InferHaplotypeWorkflow{
     input{
-        File normal_bam
-        File normal_bai
+        File bam
+        File bai
         String? sex = 'female'
         String? data_type = 'normal'
         HaplotypeRefdata reference
@@ -26,8 +26,8 @@ workflow InferHaplotypeWorkflow{
 
     call infer_haps.InferHaplotypes as infer_haps{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
+            bam = bam,
+            bai = bai,
             snp_positions = reference.snp_positions,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             chromosomes = chromosomes,
