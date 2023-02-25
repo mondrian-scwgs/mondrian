@@ -33,7 +33,7 @@ workflow HaplotypeWorkflow{
     }
 
 
-    call infer_haps.InferHaplotypesWorkflow as infer_haps{
+    call infer_haps.InferHaplotypesWorkflow as infer_haps_wf{
         input:
             bam = bam,
             bai = bai,
@@ -60,8 +60,8 @@ workflow HaplotypeWorkflow{
             input:
                 tumour_bam = bam,
                 tumour_bai = bai,
-                haplotypes_csv = infer_haps.haplotypes,
-                haplotypes_csv_yaml = infer_haps.haplotypes_yaml,
+                haplotypes_csv = infer_haps_wf.haplotypes,
+                haplotypes_csv_yaml = infer_haps_wf.haplotypes_yaml,
                 chromosomes = chromosomes,
                 snp_positions = reference.snp_positions,
                 reference_fai = reference.reference_fai,
@@ -89,7 +89,7 @@ workflow HaplotypeWorkflow{
         input:
             files = {
                 'haplotype_counts': [concat_csv.outfile, concat_csv.outfile_yaml],
-                'infer_haplotype': [infer_haps.haplotypes, infer_haps.haplotypes_yaml],
+                'infer_haplotype': [infer_haps_wf.haplotypes, infer_haps_wf.haplotypes_yaml],
             },
             metadata_yaml_files = metadata_input,
             samples = tumour_id,
@@ -103,8 +103,8 @@ workflow HaplotypeWorkflow{
         File metadata_output = haplotype_metadata.metadata_output
         File all_samples_readcounts = concat_csv.outfile
         File all_samples_readcounts_yaml = concat_csv.outfile_yaml
-        File haplotypes = infer_haps.haplotypes
-        File haplotypes_yaml = infer_haps.haplotypes_yaml
+        File haplotypes = infer_haps_wf.haplotypes
+        File haplotypes_yaml = infer_haps_wf.haplotypes_yaml
     }
 }
 
