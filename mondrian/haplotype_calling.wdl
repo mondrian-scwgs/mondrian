@@ -33,7 +33,7 @@ workflow HaplotypeWorkflow{
     }
 
 
-    call infer_haps.InferHaplotypes as infer_haps{
+    call infer_haps.InferHaplotypesWorkflow as infer_haps{
         input:
             bam = bam,
             bai = bai,

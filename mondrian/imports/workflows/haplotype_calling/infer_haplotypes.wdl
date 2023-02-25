@@ -4,7 +4,7 @@ import "../../mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as haplotypes
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
-workflow InferHaplotypes{
+workflow InferHaplotypesWorkflow{
     input{
         File bam
         File bai
