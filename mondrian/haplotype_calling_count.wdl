@@ -27,7 +27,7 @@ workflow CountHaplotypeWorkflow{
 
     call count_haps.CountHaplotypesWorkflow as counthaps{
         input:
-            tumour_bam = tumour,
+            tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
             haplotypes_csv = haplotypes,
             haplotypes_csv_yaml = haplotypes_yaml,
