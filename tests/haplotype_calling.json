@@ -5,7 +5,7 @@
   "HaplotypeWorkflow.samples": [
     {
       "sample_id": "SA607",
-      "tumour": "haplotype_calling_testdata/data/merged_reheader.bam",
+      "tumour_bam": "haplotype_calling_testdata/data/merged_reheader.bam",
       "tumour_bai": "haplotype_calling_testdata/data/merged_reheader.bam.bai",
       "metadata_input": "haplotype_calling_testdata/data/metadata.yaml"
     }

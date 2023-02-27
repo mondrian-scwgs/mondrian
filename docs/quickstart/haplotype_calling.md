@@ -26,12 +26,12 @@
     ```
     {
       "HaplotypeWorkflow.singularity_image": "<path-to-singularity-sif>",
-      "HaplotypeWorkflow.normal_bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
-      "HaplotypeWorkflow.normal_bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
+      "HaplotypeWorkflow.bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
+      "HaplotypeWorkflow.bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
       "HaplotypeWorkflow.samples": [
         {
           "sample_id": "SA607",
-          "tumour": "haplotype_calling_testdata/data/merged_reheader.bam",
+          "tumour_bam": "haplotype_calling_testdata/data/merged_reheader.bam",
           "tumour_bai": "haplotype_calling_testdata/data/merged_reheader.bam.bai",
           "metadata_input": "haplotype_calling_testdata/data/metadata.yaml"
         }

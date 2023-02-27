@@ -9,7 +9,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 struct Sample{
     String sample_id
-    File tumour
+    File tumour_bam
     File tumour_bai
     File metadata_input
 }
@@ -33,7 +33,7 @@ workflow HaplotypeWorkflow{
     }
 
 
-    call infer_haps.InferHaplotypesWorkflow as infer_haps_wf{
+    call infer_haps.InferHaplotypesWorkflow as inferhaps{
         input:
             bam = bam,
             bai = bai,
@@ -52,16 +52,16 @@ workflow HaplotypeWorkflow{
 
     scatter (sample in samples){
         String tumour_id = sample.sample_id
-        File bam = sample.tumour
-        File bai = sample.tumour_bai
+        File tumour_bam = sample.tumour_bam
+        File tumour_bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
 
-        call count_haps.CountHaplotypes as counthaps{
+        call count_haps.CountHaplotypesWorkflow as counthaps{
             input:
-                tumour_bam = bam,
-                tumour_bai = bai,
-                haplotypes_csv = infer_haps_wf.haplotypes,
-                haplotypes_csv_yaml = infer_haps_wf.haplotypes_yaml,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
+                haplotypes_csv = inferhaps.haplotypes_csv,
+                haplotypes_csv_yaml = inferhaps.haplotypes_csv_yaml,
                 chromosomes = chromosomes,
                 snp_positions = reference.snp_positions,
                 reference_fai = reference.reference_fai,
@@ -89,7 +89,7 @@ workflow HaplotypeWorkflow{
         input:
             files = {
                 'haplotype_counts': [concat_csv.outfile, concat_csv.outfile_yaml],
-                'infer_haplotype': [infer_haps_wf.haplotypes, infer_haps_wf.haplotypes_yaml],
+                'infer_haplotype': [inferhaps.haplotypes_csv, inferhaps.haplotypes_csv_yaml],
             },
             metadata_yaml_files = metadata_input,
             samples = tumour_id,
@@ -103,8 +103,8 @@ workflow HaplotypeWorkflow{
         File metadata_output = haplotype_metadata.metadata_output
         File all_samples_readcounts = concat_csv.outfile
         File all_samples_readcounts_yaml = concat_csv.outfile_yaml
-        File haplotypes = infer_haps_wf.haplotypes
-        File haplotypes_yaml = infer_haps_wf.haplotypes_yaml
+        File haplotypes = inferhaps.haplotypes_csv
+        File haplotypes_yaml = inferhaps.haplotypes_csv_yaml
     }
 }
 

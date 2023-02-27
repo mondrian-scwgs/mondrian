@@ -5,7 +5,7 @@ import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
 
 
-workflow CountHaplotypes{
+workflow CountHaplotypesWorkflow{
     input{
         File tumour_bam
         File tumour_bai

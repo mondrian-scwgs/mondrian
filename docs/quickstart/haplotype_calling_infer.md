@@ -26,8 +26,8 @@
     ```
     {
       "InferHaplotypeWorkflow.singularity_image": "<path-to-singularity-sif>",
-      "InferHaplotypeWorkflow.normal_bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
-      "InferHaplotypeWorkflow.normal_bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
+      "InferHaplotypeWorkflow.bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
+      "InferHaplotypeWorkflow.bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
       "InferHaplotypeWorkflow.reference": {
         "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
         "gap_table": "haplotype_calling_testdata/ref/hg19_gap.txt.gz",

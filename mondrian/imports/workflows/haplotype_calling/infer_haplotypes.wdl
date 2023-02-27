@@ -1,6 +1,6 @@
 version 1.0
 
-import "../../mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as haplotypes
+import "../../mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 
@@ -21,7 +21,7 @@ workflow InferHaplotypesWorkflow{
     }
 
     scatter(chromosome in chromosomes){
-        call haplotypes.ExtractChromosomeSeqData as chrom_seqdata{
+        call utils.ExtractChromosomeSeqData as chrom_seqdata{
             input:
                 bam = bam,
                 bai = bai,
@@ -33,7 +33,7 @@ workflow InferHaplotypesWorkflow{
                 walltime_override = walltime_override
         }
 
-        call haplotypes.InferSnpGenotype as infer_genotype{
+        call utils.InferSnpGenotype as infer_genotype{
             input:
                 seqdata = chrom_seqdata.seqdata,
                 chromosome = chromosome,
@@ -44,7 +44,7 @@ workflow InferHaplotypesWorkflow{
                 walltime_override = walltime_override
         }
 
-        call haplotypes.InferHaps as infer_haps{
+        call utils.InferHaps as infer_haps{
             input:
                 snp_genotype = infer_genotype.snp_genotype,
                 chromosome = chromosome,
@@ -58,7 +58,7 @@ workflow InferHaplotypesWorkflow{
         }
     }
 
-    call haplotypes.MergeHaps as merge_haps{
+    call utils.MergeHaps as merge_haps{
         input:
             infiles = infer_haps.haplotypes,
             singularity_image = singularity_image,
@@ -67,7 +67,7 @@ workflow InferHaplotypesWorkflow{
             walltime_override = walltime_override
     }
 
-    call haplotypes.AnnotateHaps as annotate_haps{
+    call utils.AnnotateHaps as annotate_haps{
         input:
             infile = merge_haps.merged_haps,
             thousand_genomes_snps = snp_positions,
@@ -79,8 +79,8 @@ workflow InferHaplotypesWorkflow{
     }
 
     output{
-        File haplotypes = annotate_haps.outfile
-        File haplotypes_yaml = annotate_haps.outfile_yaml
+        File haplotypes_csv = annotate_haps.outfile
+        File haplotypes_csv_yaml = annotate_haps.outfile_yaml
     }
 
 }

@@ -24,7 +24,7 @@ workflow InferHaplotypeWorkflow{
     }
 
 
-    call infer_haps.InferHaplotypes as infer_haps{
+    call infer_haps.InferHaplotypesWorkflow as infer_haps{
         input:
             bam = bam,
             bai = bai,
@@ -41,8 +41,8 @@ workflow InferHaplotypeWorkflow{
     }
 
     output{
-        File haplotypes = infer_haps.haplotypes
-        File haplotypes_yaml = infer_haps.haplotypes_yaml
+        File haplotypes = infer_haps.haplotypes_csv
+        File haplotypes_yaml = infer_haps.haplotypes_csv_yaml
     }
 }
 
