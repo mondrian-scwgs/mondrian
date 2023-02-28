@@ -77,8 +77,6 @@ workflow SeparateNormalAndTumourBams{
         }
     }
 
-
-
     call metadatautils.SeparateTumourAndNormalMetadata as generate_metadata{
         input:
             tumour_bam = separate_tumour_and_normal.tumour_bam,
@@ -87,6 +85,7 @@ workflow SeparateNormalAndTumourBams{
             normal_bai = separate_tumour_and_normal.normal_bai,
             heatmap = heatmap.heatmap_pdf,
             metadata_input = metadata_input,
+            normal_cells_yaml = identify_normal.normal_cells_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
