@@ -15,6 +15,7 @@ workflow SeparateNormalAndTumourBams{
         File bai
         File metadata_input
         File blacklist_file
+        Boolean qc_only = false
         String reference_name
         Array[String] chromosomes
         String? filename_prefix = "separate_normal_and_tumour"
@@ -43,17 +44,8 @@ workflow SeparateNormalAndTumourBams{
             memory_override = memory_override,
             walltime_override = walltime_override
     }
-    call bamutils.SeparateNormalAndTumourBams as separate_tumour_and_normal{
-        input:
-            bam = bam,
-            bai = bai,
-            normal_cells_yaml = identify_normal.normal_cells_yaml,
-            filename_prefix = filename_prefix,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
+
+
 
     call utils.PlotHeatmap as heatmap{
         input:
@@ -71,6 +63,22 @@ workflow SeparateNormalAndTumourBams{
     }
 
 
+    if(! qc_only){
+        call bamutils.SeparateNormalAndTumourBams as separate_tumour_and_normal{
+            input:
+                bam = bam,
+                bai = bai,
+                normal_cells_yaml = identify_normal.normal_cells_yaml,
+                filename_prefix = filename_prefix,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+    }
+
+
+
     call metadatautils.SeparateTumourAndNormalMetadata as generate_metadata{
         input:
             tumour_bam = separate_tumour_and_normal.tumour_bam,
@@ -86,10 +94,10 @@ workflow SeparateNormalAndTumourBams{
     }
 
     output{
-        File normal_bam = separate_tumour_and_normal.normal_bam
-        File normal_bai = separate_tumour_and_normal.normal_bai
-        File tumour_bam = separate_tumour_and_normal.tumour_bam
-        File tumour_bai = separate_tumour_and_normal.tumour_bai
+        File? normal_bam = separate_tumour_and_normal.normal_bam
+        File? normal_bai = separate_tumour_and_normal.normal_bai
+        File? tumour_bam = separate_tumour_and_normal.tumour_bam
+        File? tumour_bai = separate_tumour_and_normal.tumour_bai
         File normal_cells_yaml = identify_normal.normal_cells_yaml
         File heatmap_pdf = heatmap.heatmap_pdf
         File metadata = generate_metadata.metadata_output
