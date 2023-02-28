@@ -11,7 +11,7 @@ workflow CountHaplotypeWorkflow{
     input{
         File haplotypes
         File haplotypes_yaml
-        File tumour
+        File tumour_bam
         File tumour_bai
         File metadata_input
         File sample_id
@@ -25,9 +25,9 @@ workflow CountHaplotypeWorkflow{
         Int? walltime_override
     }
 
-    call count_haps.CountHaplotypes as counthaps{
+    call count_haps.CountHaplotypesWorkflow as counthaps{
         input:
-            tumour_bam = tumour,
+            tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
             haplotypes_csv = haplotypes,
             haplotypes_csv_yaml = haplotypes_yaml,

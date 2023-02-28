@@ -9,7 +9,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 
 struct Sample{
     String sample_id
-    File tumour
+    File tumour_bam
     File tumour_bai
     File metadata_input
 }
@@ -17,12 +17,13 @@ struct Sample{
 
 workflow HaplotypeWorkflow{
     input{
-        File normal_bam
-        File normal_bai
+        File bam
+        File bai
         Array[Sample] samples
         HaplotypeRefdata reference
         Array[String] chromosomes
         String? sex = 'female'
+        String? data_type = 'normal'
         String? filename_prefix = "haplotype"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -32,13 +33,14 @@ workflow HaplotypeWorkflow{
     }
 
 
-    call infer_haps.InferHaplotypes as infer_haps{
+    call infer_haps.InferHaplotypesWorkflow as inferhaps{
         input:
-            normal_bam = normal_bam,
-            normal_bai = normal_bai,
+            bam = bam,
+            bai = bai,
             snp_positions = reference.snp_positions,
             chromosomes = chromosomes,
             sex = sex,
+            data_type = data_type,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             filename_prefix = 'infer_' + filename_prefix,
             singularity_image = singularity_image,
@@ -50,16 +52,16 @@ workflow HaplotypeWorkflow{
 
     scatter (sample in samples){
         String tumour_id = sample.sample_id
-        File bam = sample.tumour
-        File bai = sample.tumour_bai
+        File tumour_bam = sample.tumour_bam
+        File tumour_bai = sample.tumour_bai
         File metadata_input = sample.metadata_input
 
-        call count_haps.CountHaplotypes as counthaps{
+        call count_haps.CountHaplotypesWorkflow as counthaps{
             input:
-                tumour_bam = bam,
-                tumour_bai = bai,
-                haplotypes_csv = infer_haps.haplotypes,
-                haplotypes_csv_yaml = infer_haps.haplotypes_yaml,
+                tumour_bam = tumour_bam,
+                tumour_bai = tumour_bai,
+                haplotypes_csv = inferhaps.haplotypes_csv,
+                haplotypes_csv_yaml = inferhaps.haplotypes_csv_yaml,
                 chromosomes = chromosomes,
                 snp_positions = reference.snp_positions,
                 reference_fai = reference.reference_fai,
@@ -87,7 +89,7 @@ workflow HaplotypeWorkflow{
         input:
             files = {
                 'haplotype_counts': [concat_csv.outfile, concat_csv.outfile_yaml],
-                'infer_haplotype': [infer_haps.haplotypes, infer_haps.haplotypes_yaml],
+                'infer_haplotype': [inferhaps.haplotypes_csv, inferhaps.haplotypes_csv_yaml],
             },
             metadata_yaml_files = metadata_input,
             samples = tumour_id,
@@ -101,8 +103,8 @@ workflow HaplotypeWorkflow{
         File metadata_output = haplotype_metadata.metadata_output
         File all_samples_readcounts = concat_csv.outfile
         File all_samples_readcounts_yaml = concat_csv.outfile_yaml
-        File haplotypes = infer_haps.haplotypes
-        File haplotypes_yaml = infer_haps.haplotypes_yaml
+        File haplotypes = inferhaps.haplotypes_csv
+        File haplotypes_yaml = inferhaps.haplotypes_csv_yaml
     }
 }
 
