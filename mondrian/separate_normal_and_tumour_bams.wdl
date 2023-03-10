@@ -21,7 +21,7 @@ workflow SeparateNormalAndTumourBams{
         String? filename_prefix = "separate_normal_and_tumour"
         Float? relative_aneuploidy_threshold = 0.05
         Float? ploidy_threshold = 2.5
-        Float? allowed_aneuploidy_score = 0.0
+        Float? allowed_aneuploidy_score = 0.005
         String? singularity_image
         String? docker_image = "quay.io/baselibrary/ubuntu"
         Int? memory_override
@@ -47,15 +47,32 @@ workflow SeparateNormalAndTumourBams{
 
 
 
-    call utils.PlotHeatmap as heatmap{
+    call utils.PlotHeatmap as heatmap_normal{
         input:
             metrics = identify_normal.normal_csv,
             metrics_yaml = identify_normal.normal_csv_yaml,
             reads = hmmcopy_reads,
             reads_yaml = hmmcopy_reads_yaml,
             chromosomes=chromosomes,
-            filename_prefix = filename_prefix + "_hmmcopy_heatmap",
+            filename_prefix = filename_prefix + "_hmmcopy_heatmap_normals",
             sidebar_column = 'is_normal',
+            disable_clustering=true,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call utils.PlotHeatmap as heatmap_aneuploidy{
+        input:
+            metrics = identify_normal.normal_csv,
+            metrics_yaml = identify_normal.normal_csv_yaml,
+            reads = hmmcopy_reads,
+            reads_yaml = hmmcopy_reads_yaml,
+            chromosomes=chromosomes,
+            filename_prefix = filename_prefix + "_hmmcopy_heatmap_aneuploidy",
+            sidebar_column = 'relative_aneuploidy_bin',
+            disable_clustering=true,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
@@ -83,7 +100,7 @@ workflow SeparateNormalAndTumourBams{
             tumour_bai = separate_tumour_and_normal.tumour_bai,
             normal_bam = separate_tumour_and_normal.normal_bam,
             normal_bai = separate_tumour_and_normal.normal_bai,
-            heatmap = heatmap.heatmap_pdf,
+            heatmap = [heatmap_normal.heatmap_pdf, heatmap_aneuploidy.heatmap_pdf],
             metadata_input = metadata_input,
             normal_cells_yaml = identify_normal.normal_cells_yaml,
             singularity_image = singularity_image,
@@ -98,7 +115,8 @@ workflow SeparateNormalAndTumourBams{
         File? tumour_bam = separate_tumour_and_normal.tumour_bam
         File? tumour_bai = separate_tumour_and_normal.tumour_bai
         File normal_cells_yaml = identify_normal.normal_cells_yaml
-        File heatmap_pdf = heatmap.heatmap_pdf
+        File heatmap_normal_pdf = heatmap_normal.heatmap_pdf
+        File heatmap_aneuploidy_pdf = heatmap_aneuploidy.heatmap_pdf
         File metadata = generate_metadata.metadata_output
     }
 }
