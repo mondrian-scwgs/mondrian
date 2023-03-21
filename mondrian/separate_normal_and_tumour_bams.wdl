@@ -93,7 +93,7 @@ workflow SeparateNormalAndTumourBams{
             tumour_bai = separate_tumour_and_normal.tumour_bai,
             normal_bam = separate_tumour_and_normal.normal_bam,
             normal_bai = separate_tumour_and_normal.normal_bai,
-            heatmap = [heatmap_normal.heatmap_pdf, heatmap_aneuploidy.heatmap_pdf],
+            heatmap = [heatmap_normal.output_png, heatmap_aneuploidy.output_png],
             metadata_input = metadata_input,
             normal_cells_yaml = identify_normal.normal_cells_yaml,
             singularity_image = singularity_image,
@@ -108,8 +108,8 @@ workflow SeparateNormalAndTumourBams{
         File? tumour_bam = separate_tumour_and_normal.tumour_bam
         File? tumour_bai = separate_tumour_and_normal.tumour_bai
         File normal_cells_yaml = identify_normal.normal_cells_yaml
-        File heatmap_normal_pdf = heatmap_normal.heatmap_pdf
-        File heatmap_aneuploidy_pdf = heatmap_aneuploidy.heatmap_pdf
+        File heatmap_normal_pdf = heatmap_normal.output_png
+        File heatmap_aneuploidy_pdf = heatmap_aneuploidy.output_png
         File metadata = generate_metadata.metadata_output
     }
 }
