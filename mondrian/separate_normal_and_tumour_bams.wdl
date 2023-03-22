@@ -1,6 +1,5 @@
 version 1.0
 
-import "imports/mondrian_tasks/mondrian_tasks/metadata/utils.wdl" as metadatautils
 import "imports/mondrian_tasks/mondrian_tasks/normalizer/utils.wdl" as utils
 
 
@@ -87,7 +86,7 @@ workflow SeparateNormalAndTumourBams{
         }
     }
 
-    call metadatautils.SeparateTumourAndNormalMetadata as generate_metadata{
+    call utils.SeparateTumourAndNormalMetadata as generate_metadata{
         input:
             tumour_bam = separate_tumour_and_normal.tumour_bam,
             tumour_bai = separate_tumour_and_normal.tumour_bai,
