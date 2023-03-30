@@ -45,19 +45,6 @@ workflow SeparateNormalAndTumourBams{
 
 
 
-    call utils.NormalHeatmap as heatmap_normal{
-        input:
-            metrics = identify_normal.normal_csv,
-            metrics_yaml = identify_normal.normal_csv_yaml,
-            reads = hmmcopy_reads,
-            reads_yaml = hmmcopy_reads_yaml,
-            filename_prefix = filename_prefix + "_hmmcopy_heatmap_normals",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
     call utils.AneuploidyHeatmap as heatmap_aneuploidy{
         input:
             metrics = identify_normal.normal_csv,
@@ -71,7 +58,6 @@ workflow SeparateNormalAndTumourBams{
             memory_override = memory_override,
             walltime_override = walltime_override
     }
-
 
     if(! qc_only){
         call utils.SeparateNormalAndTumourBams as separate_tumour_and_normal{
@@ -93,7 +79,7 @@ workflow SeparateNormalAndTumourBams{
             tumour_bai = separate_tumour_and_normal.tumour_bai,
             normal_bam = separate_tumour_and_normal.normal_bam,
             normal_bai = separate_tumour_and_normal.normal_bai,
-            heatmap = [heatmap_normal.output_png, heatmap_aneuploidy.output_png],
+            heatmap = [heatmap_aneuploidy.output_pdf],
             metadata_input = metadata_input,
             normal_cells_yaml = identify_normal.normal_cells_yaml,
             singularity_image = singularity_image,
@@ -108,8 +94,7 @@ workflow SeparateNormalAndTumourBams{
         File? tumour_bam = separate_tumour_and_normal.tumour_bam
         File? tumour_bai = separate_tumour_and_normal.tumour_bai
         File normal_cells_yaml = identify_normal.normal_cells_yaml
-        File heatmap_normal_pdf = heatmap_normal.output_png
-        File heatmap_aneuploidy_pdf = heatmap_aneuploidy.output_png
+        File heatmap_aneuploidy_pdf = heatmap_aneuploidy.output_pdf
         File metadata = generate_metadata.metadata_output
         File annotated_csv = identify_normal.normal_csv
         File annotated_csv_yaml = identify_normal.normal_csv_yaml
