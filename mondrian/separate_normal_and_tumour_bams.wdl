@@ -64,6 +64,7 @@ workflow SeparateNormalAndTumourBams{
             metrics_yaml = identify_normal.normal_csv_yaml,
             reads = hmmcopy_reads,
             reads_yaml = hmmcopy_reads_yaml,
+            aneuploidy_score = relative_aneuploidy_threshold,
             filename_prefix = filename_prefix + "_hmmcopy_heatmap_aneuploidy",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -110,6 +111,8 @@ workflow SeparateNormalAndTumourBams{
         File heatmap_normal_pdf = heatmap_normal.output_png
         File heatmap_aneuploidy_pdf = heatmap_aneuploidy.output_png
         File metadata = generate_metadata.metadata_output
+        File annotated_csv = identify_normal.normal_csv
+        File annotated_csv_yaml = identify_normal.normal_csv_yaml
     }
 }
 
