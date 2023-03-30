@@ -1,5 +1,11 @@
 # Change Log
 
+### v0.0.79
+ - updated GC correction code from Matthew
+
+### v0.0.78
+ -  added aneuploidy heatmap to normalizer
+
 ### v0.0.77
  - fixing empty bam file format in alignment when there are no cells in control/contaminated
 
