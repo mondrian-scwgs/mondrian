@@ -1,5 +1,9 @@
 # Change Log
 
+### v0.0.80
+ - added csv output to normalizer
+ - fixed hardcoded reference line in aneuploidy heatmap
+
 ### v0.0.79
  - updated GC correction code from Matthew
 
