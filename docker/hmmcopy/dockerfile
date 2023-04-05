@@ -2,6 +2,8 @@ FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
 ADD . /app
 ARG VERSION
 
+RUN apt-get update -y && apt install parallel -y && rm -rf /var/lib/apt/lists/*
+
 RUN conda install  --file /app/requirements.yml
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1 --no-deps

@@ -3,7 +3,7 @@ FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
 ADD . /app
 ARG VERSION
 
-RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && apt-get update -y && apt install libc-dev libz-dev build-essential -y && rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && apt-get update -y && apt install libc-dev libz-dev build-essential parallel -y && rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
 RUN apt update -y && apt install samtools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
 
 
