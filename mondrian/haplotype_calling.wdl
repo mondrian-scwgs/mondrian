@@ -66,6 +66,7 @@ workflow HaplotypeWorkflow{
                 snp_positions = reference.snp_positions,
                 reference_fai = reference.reference_fai,
                 gap_table = reference.gap_table,
+                num_threads = num_threads,
                 filename_prefix = 'count_haps_' + filename_prefix,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
