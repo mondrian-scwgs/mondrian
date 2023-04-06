@@ -20,11 +20,14 @@ workflow CountHaplotypesWorkflow{
         String? docker_image
         Int? memory_override
         Int? walltime_override
+        Int? num_threads=16
     }
 
     call bamutils.SplitBam as split_bam{
         input:
             bam = tumour_bam,
+            chromosomes=chromosomes,
+            num_threads=num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

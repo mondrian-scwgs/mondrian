@@ -21,6 +21,7 @@ workflow HmmcopyWorkflow{
         File metadata_input
         HmmcopyRefdata reference
         Array[String] chromosomes
+        Int num_threads = 12
         String? filename_prefix = "hmmcopy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -39,6 +40,7 @@ workflow HmmcopyWorkflow{
             control_baifile = control_bai,
             repeats_satellite_regions = reference.repeats_satellite_regions,
             chromosomes = chromosomes,
+            num_threads=num_threads,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
