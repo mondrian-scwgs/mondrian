@@ -43,6 +43,7 @@ workflow SampleLevelBreakpointWorkflow {
             normal_bam = normal_bam,
             tumour_bam = tumour_bam,
             ref = ref,
+            sample_id = sample_id,
             num_threads = num_threads,
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
@@ -103,6 +104,8 @@ workflow SampleLevelBreakpointWorkflow {
         File destruct_outfile = destruct.breakpoint_table
         File destruct_library_outfile = destruct.library_table
         File destruct_read_outfile = destruct.read_table
+        File breakpoint_vcf = destruct.breakpoint_vcf
+        File breakpoint_vcf_tbi = destruct.breakpoint_vcf_tbi
         File gridss_outfile = gridss.output_vcf
         File svaba_outfile = svaba.output_vcf
         File lumpy_outfile = lumpy.lumpy_vcf

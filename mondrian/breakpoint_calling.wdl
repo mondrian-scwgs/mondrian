@@ -95,6 +95,8 @@ workflow BreakpointWorkflow{
         Array[File] lumpy_vcf = breakpoint_wf.lumpy_outfile
         Array[File] gridss_vcf = breakpoint_wf.gridss_outfile
         Array[File] svaba_vcf = breakpoint_wf.svaba_outfile
+        Array[File] breakpoint_vcf = breakpoint_wf.breakpoint_vcf
+        Array[File] breakpoint_vcf_tbi = breakpoint_wf.breakpoint_vcf_tbi
         File metadata_output = breakpoint_metadata.metadata_output
     }
 }

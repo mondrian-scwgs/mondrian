@@ -9,6 +9,7 @@ workflow DestructWorkflow{
         File normal_bam
         File tumour_bam
         BreakpointRefdata ref
+        String sample_id
         String? singularity_image
         String? docker_image
         String? filename_prefix = 'destruct'
@@ -51,7 +52,22 @@ workflow DestructWorkflow{
             walltime_override = walltime_override
     }
 
+    call destruct.DestructCsvToVcf as destruct_csv_to_vcf{
+        input:
+            destruct_csv = extract_somatic.breakpoint_table,
+            reference_fasta = ref.reference,
+            sample_id = sample_id,
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
     output{
+        File breakpoint_vcf = destruct_csv_to_vcf.outfile
+        File breakpoint_vcf_tbi = destruct_csv_to_vcf.outfile_tbi
         File breakpoint_table = extract_somatic.breakpoint_table
         File library_table = extract_somatic.library_table
         File read_table = run_destruct.read_table
