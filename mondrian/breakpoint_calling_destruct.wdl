@@ -41,6 +41,7 @@ workflow DestructWorkflow{
                 'destruct_calls': [destruct.breakpoint_table],
                 'destruct_reads': [destruct.read_table],
                 'destruct_library': [destruct.library_table],
+                'destruct_vcf': [destruct.breakpoint_vcf, destruct.breakpoint_vcf_tbi],
             },
             metadata_yaml_files = [metadata_input],
             samples = [sample_id],
