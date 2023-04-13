@@ -3,6 +3,7 @@
 "GridssWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
 "GridssWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
 "GridssWorkflow.num_threads": 1,
+"GridssWorkflow.jvm_heap_gb": 10,
 "GridssWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_gtf":"mondrian-ref-path-here/human/GRCh37-lite.gtf",
