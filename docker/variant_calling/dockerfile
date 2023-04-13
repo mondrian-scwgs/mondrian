@@ -8,7 +8,7 @@ RUN apt-get --allow-releaseinfo-change update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN conda install --file /app/base_requirements.yml
-RUN pip install pyvcf pysam pyyaml click
+RUN pip install pyvcf pysam==0.20.0 pyyaml click
 
 RUN cp /app/run_strelka /opt/conda/bin && chmod 777 /opt/conda/bin/run_strelka
 RUN cp /app/vcf2maf /opt/conda/bin/ && chmod 777 /opt/conda/bin/vcf2maf

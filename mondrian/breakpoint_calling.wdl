@@ -21,7 +21,7 @@ workflow BreakpointWorkflow{
         BreakpointRefdata reference
         Array[String] chromosomes
         String? filename_prefix = "breakpoint"
-        Int? jvm_heap_gb = 10
+        Int? jvm_heap_gb = 25
         Int? consensus_interval_size=10000000
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
