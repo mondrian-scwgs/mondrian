@@ -21,7 +21,7 @@ workflow BreakpointWorkflow{
         BreakpointRefdata reference
         Array[String] chromosomes
         String? filename_prefix = "breakpoint"
-        Int? jvm_heap_gb = 10
+        Int? jvm_heap_gb = 25
         Int? consensus_interval_size=10000000
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -74,6 +74,7 @@ workflow BreakpointWorkflow{
                 'destruct_calls': breakpoint_wf.destruct_outfile,
                 'destruct_reads': breakpoint_wf.destruct_read_outfile,
                 'destruct_library': breakpoint_wf.destruct_library_outfile,
+                'destruct_vcf': flatten([breakpoint_wf.breakpoint_vcf, breakpoint_wf.breakpoint_vcf_tbi]),
                 'lumpy_vcf': breakpoint_wf.lumpy_outfile,
                 'svaba_vcf': breakpoint_wf.svaba_outfile,
                 'gridss_vcf': breakpoint_wf.gridss_outfile
@@ -95,6 +96,8 @@ workflow BreakpointWorkflow{
         Array[File] lumpy_vcf = breakpoint_wf.lumpy_outfile
         Array[File] gridss_vcf = breakpoint_wf.gridss_outfile
         Array[File] svaba_vcf = breakpoint_wf.svaba_outfile
+        Array[File] breakpoint_vcf = breakpoint_wf.breakpoint_vcf
+        Array[File] breakpoint_vcf_tbi = breakpoint_wf.breakpoint_vcf_tbi
         File metadata_output = breakpoint_metadata.metadata_output
     }
 }
