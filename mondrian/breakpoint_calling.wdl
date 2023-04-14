@@ -74,7 +74,7 @@ workflow BreakpointWorkflow{
                 'destruct_calls': breakpoint_wf.destruct_outfile,
                 'destruct_reads': breakpoint_wf.destruct_read_outfile,
                 'destruct_library': breakpoint_wf.destruct_library_outfile,
-#                'destruct_vcf': [breakpoint_wf.breakpoint_vcf, breakpoint_wf.breakpoint_vcf_tbi],
+                'destruct_vcf': flatten([breakpoint_wf.breakpoint_vcf, breakpoint_wf.breakpoint_vcf_tbi]),
                 'lumpy_vcf': breakpoint_wf.lumpy_outfile,
                 'svaba_vcf': breakpoint_wf.svaba_outfile,
                 'gridss_vcf': breakpoint_wf.gridss_outfile
