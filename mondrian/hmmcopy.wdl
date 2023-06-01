@@ -32,7 +32,7 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call utils.OverlappingFractionPerBin as overlapping_fraction{
+    call bamutils.OverlappingFractionPerBin as overlapping_fraction{
         input:
             bamfile = bam,
             baifile = bai,
@@ -45,7 +45,7 @@ workflow HmmcopyWorkflow{
             walltime_override = walltime_override
     }
 
-    call utils.OverlappingFractionPerBin as control_overlapping_fraction{
+    call bamutils.OverlappingFractionPerBin as control_overlapping_fraction{
         input:
             bamfile = control_bam,
             baifile = control_bai,
@@ -59,7 +59,7 @@ workflow HmmcopyWorkflow{
     }
 
 
-    call utils.OverlappingFractionPerBin as contaminated_overlapping_fraction{
+    call bamutils.OverlappingFractionPerBin as contaminated_overlapping_fraction{
         input:
             bamfile = contaminated_bam,
             baifile = contaminated_bai,
