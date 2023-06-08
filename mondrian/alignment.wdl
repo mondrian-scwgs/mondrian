@@ -120,7 +120,7 @@ workflow AlignmentWorkflow{
             inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
             inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
             how='outer',
-            on='cell_id',
+            on=['cell_id'],
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
