@@ -1,6 +1,7 @@
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
+import "imports/mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
 import "imports/mondrian_tasks/mondrian_tasks/io/pdf/pdf.wdl" as pdf
 import "imports/mondrian_tasks/mondrian_tasks/hmmcopy/utils.wdl" as utils
 import "imports/types/hmmcopy_refdata.wdl" as refdata_struct
@@ -22,6 +23,7 @@ workflow HmmcopyWorkflow{
         HmmcopyRefdata reference
         Array[String] chromosomes
         Int num_threads = 12
+        Int binsize = 500000
         String? filename_prefix = "hmmcopy"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -30,14 +32,62 @@ workflow HmmcopyWorkflow{
     }
 
 
+    call bamutils.OverlappingFractionPerBin as overlapping_fraction{
+        input:
+            bamfile = bam,
+            baifile = bai,
+            chromosomes = chromosomes,
+            binsize = binsize,
+            num_threads=num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call bamutils.OverlappingFractionPerBin as control_overlapping_fraction{
+        input:
+            bamfile = control_bam,
+            baifile = control_bai,
+            chromosomes = chromosomes,
+            binsize = binsize,
+            num_threads=num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+    call bamutils.OverlappingFractionPerBin as contaminated_overlapping_fraction{
+        input:
+            bamfile = contaminated_bam,
+            baifile = contaminated_bai,
+            chromosomes = chromosomes,
+            binsize = binsize,
+            num_threads=num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call csverve.ConcatenateCsv as concat_overlapping_fraction{
+        input:
+            inputfile = [overlapping_fraction.output_csv, control_overlapping_fraction.output_csv, contaminated_overlapping_fraction.output_csv],
+            inputyaml = [overlapping_fraction.output_yaml, control_overlapping_fraction.output_yaml, contaminated_overlapping_fraction.output_yaml],
+            filename_prefix = "overlapping_fraction",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
     call utils.RunReadCounter as readcounter{
         input:
             bamfile = bam,
             baifile = bai,
-            contaminated_bamfile = contaminated_bam,
-            contaminated_baifile = contaminated_bai,
-            control_bamfile = control_bam,
-            control_baifile = control_bai,
             repeats_satellite_regions = reference.repeats_satellite_regions,
             chromosomes = chromosomes,
             num_threads=num_threads,
@@ -47,7 +97,34 @@ workflow HmmcopyWorkflow{
             walltime_override = walltime_override
     }
 
-    scatter(wigfile in readcounter.wigs){
+    call utils.RunReadCounter as readcounter_contaminated{
+        input:
+            bamfile = contaminated_bam,
+            baifile = contaminated_bai,
+            repeats_satellite_regions = reference.repeats_satellite_regions,
+            chromosomes = chromosomes,
+            num_threads=num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call utils.RunReadCounter as readcounter_control{
+        input:
+            bamfile = control_bam,
+            baifile = control_bai,
+            repeats_satellite_regions = reference.repeats_satellite_regions,
+            chromosomes = chromosomes,
+            num_threads=num_threads,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+    scatter(wigfile in flatten([readcounter.wigs, readcounter_control.wigs, readcounter_contaminated.wigs])){
         call utils.Hmmcopy as hmmcopy{
             input:
                 readcount_wig = wigfile,
@@ -77,7 +154,7 @@ workflow HmmcopyWorkflow{
         input:
             inputfiles = [concat_metrics.outfile, alignment_metrics],
             inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
-            on = "cell_id",
+            on = ["cell_id"],
             how="outer",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -120,10 +197,24 @@ workflow HmmcopyWorkflow{
     }
 
 
+    call csverve.MergeCsv as merge_overlapping_fraction{
+        input:
+            inputfiles = [concat_reads.outfile, concat_overlapping_fraction.outfile],
+            inputyamls = [concat_reads.outfile_yaml, concat_overlapping_fraction.outfile_yaml],
+            on = ['chr','start','end','cell_id'],
+            how = 'outer',
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+
+
     call utils.AddMappability as add_mappability{
         input:
-            infile = concat_reads.outfile,
-            infile_yaml = concat_reads.outfile_yaml,
+            infile = merge_overlapping_fraction.outfile,
+            infile_yaml = merge_overlapping_fraction.outfile_yaml,
             filename_prefix = filename_prefix + "_hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -146,7 +237,7 @@ workflow HmmcopyWorkflow{
         input:
             inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
             inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
-            on = 'cell_id',
+            on = ['cell_id'],
             how = 'outer',
             singularity_image = singularity_image,
             docker_image = docker_image,

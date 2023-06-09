@@ -15,7 +15,7 @@ RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
 RUN pip install git+https://github.com/shahcompbio/pypeliner.git@v0.6.3
 RUN pip install setuptools==57.5.0
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.1 --no-deps
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5 --no-deps
 RUN pip install click
 RUN conda install --file /app/requirements.yml
 
