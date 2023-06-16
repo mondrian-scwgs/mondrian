@@ -79,6 +79,7 @@ workflow InferHaplotypesWorkflow{
         call utils.InferHaps as infer_haps{
             input:
                 snp_genotype = infer_genotype.snp_genotype,
+                snp_genotype_yaml = infer_genotype.snp_genotype_yaml,
                 chromosome = chromosome,
                 thousand_genomes_tar = thousand_genomes_tar,
                 snp_positions = snp_positions,
