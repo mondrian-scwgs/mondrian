@@ -10,7 +10,7 @@ RUN apt update -y && apt install samtools libbz2-dev -y && rm -rf /var/lib/apt/l
 RUN conda install --file /app/requirements.yml
 RUN pip install  pysam
 
-RUN pip install git+https://github.com/amcpherson/remixt.git@0.5.13r2
+RUN pip install git+https://github.com/amcpherson/remixt.git@haplotype_infer_refactor
 RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
