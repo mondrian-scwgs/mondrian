@@ -15,4 +15,4 @@ RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/ma
 
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5 --no-deps
-RUN pip install click
+RUN pip install click pyvcf
