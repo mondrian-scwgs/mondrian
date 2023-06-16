@@ -11,7 +11,7 @@ workflow InferHaplotypesWorkflow{
         File bai
         File thousand_genomes_tar
         File snp_positions
-        File reference
+        File reference_fai
         Array[String] chromosomes
         String? data_type = 'normal'
         String? sex = 'female'
@@ -25,7 +25,7 @@ workflow InferHaplotypesWorkflow{
 
     call pysam.GenerateIntervals as gen_int{
         input:
-            reference = reference,
+            reference = reference_fai,
             chromosomes = chromosomes,
             interval_size = interval_size,
             singularity_image = singularity_image,

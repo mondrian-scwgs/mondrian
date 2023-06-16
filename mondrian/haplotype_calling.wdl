@@ -41,6 +41,7 @@ workflow HaplotypeWorkflow{
             chromosomes = chromosomes,
             sex = sex,
             data_type = data_type,
+            reference_fai = reference.reference_fai,
             thousand_genomes_tar = reference.thousand_genomes_tar,
             filename_prefix = 'infer_' + filename_prefix,
             singularity_image = singularity_image,

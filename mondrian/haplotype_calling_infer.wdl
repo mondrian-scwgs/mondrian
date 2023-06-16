@@ -30,6 +30,7 @@ workflow InferHaplotypeWorkflow{
             bai = bai,
             snp_positions = reference.snp_positions,
             thousand_genomes_tar = reference.thousand_genomes_tar,
+            reference_fai = reference.reference_fai,
             chromosomes = chromosomes,
             data_type = data_type,
             sex = sex,
