@@ -11,14 +11,15 @@ workflow InferHaplotypeWorkflow{
     input{
         File bam
         File bai
-        String? sex = 'female'
-        String? data_type = 'normal'
-        HaplotypeRefdata reference
-        Array[String] chromosomes
+        InferHaplotypesReference reference
+        Boolean is_female = false
+        String phased_chromosome_x = 'chrX'
+        Int shapeit_num_samples = 100
+        Float shapeit_confidence_threshold = 0.95
+        Array[String] phased_chromosomes = ['chr1','chr2','chr3','chr4','chr5','chr6','chr7','chr8','chr9','chr10', 'chr11','chr12','chr13','chr14','chr15','chr16','chr17','chr18','chr19', 'chr20', 'chr21', 'chr22', 'chrX']
         String? filename_prefix = "infer_haps"
-        String? singularity_image = ""
+        String? singularity_image
         String? docker_image = "quay.io/baselibrary/ubuntu"
-        Int? num_threads = 8
         Int? memory_override
         Int? walltime_override
     }
@@ -28,12 +29,12 @@ workflow InferHaplotypeWorkflow{
         input:
             bam = bam,
             bai = bai,
-            snp_positions = reference.snp_positions,
-            thousand_genomes_tar = reference.thousand_genomes_tar,
-            reference_fai = reference.reference_fai,
-            chromosomes = chromosomes,
-            data_type = data_type,
-            sex = sex,
+            reference = reference,
+            is_female=is_female,
+            phased_chromosome_x=phased_chromosome_x,
+            shapeit_num_samples=shapeit_num_samples,
+            shapeit_confidence_threshold=shapeit_confidence_threshold,
+            phased_chromosomes=phased_chromosomes,
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
