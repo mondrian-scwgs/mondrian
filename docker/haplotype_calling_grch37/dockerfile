@@ -8,7 +8,7 @@ RUN apt update -y && apt install samtools libbz2-dev -y && rm -rf /var/lib/apt/l
 
 
 RUN conda install --file /app/requirements.yml
-RUN pip install  pysam
+RUN pip install pysam
 
 RUN pip install git+https://github.com/amcpherson/remixt.git@haplotype_infer_refactor
 RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
@@ -17,4 +17,9 @@ RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSIO
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5 --no-deps
 RUN pip install click pyvcf
 
+
+RUN conda create --name bcftools python=3.11
+SHELL ["conda", "run", "-n", "bcftools", "/bin/bash", "-c"]
 RUN conda install -c bioconda bcftools
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/bcftools/bin"
