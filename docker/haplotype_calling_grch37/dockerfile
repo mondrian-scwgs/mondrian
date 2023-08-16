@@ -3,7 +3,9 @@ FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
 ADD . /app
 ARG VERSION
 
-RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && apt-get update -y && apt install libc-dev libz-dev build-essential parallel -y && rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && \
+     apt-get update -y && apt install libc-dev libz-dev build-essential parallel libssl-dev -y && \
+     rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
 RUN apt update -y && apt install samtools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
 
 
@@ -20,6 +22,6 @@ RUN pip install click pyvcf
 
 RUN conda create --name bcftools python=3.11
 SHELL ["conda", "run", "-n", "bcftools", "/bin/bash", "-c"]
-RUN conda install -c bioconda bcftools openssl=1.0
+RUN conda install -c bioconda bcftools
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/bcftools/bin"
