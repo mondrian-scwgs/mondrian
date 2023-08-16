@@ -20,6 +20,6 @@ RUN pip install click pyvcf
 
 RUN conda create --name bcftools python=3.11
 SHELL ["conda", "run", "-n", "bcftools", "/bin/bash", "-c"]
-RUN conda install -c bioconda bcftools
+RUN conda install -c bioconda bcftools openssl=1.0
 SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
 ENV PATH="${PATH}:/opt/conda/envs/bcftools/bin"
