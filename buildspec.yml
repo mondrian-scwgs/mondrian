@@ -15,8 +15,8 @@ phases:
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch37 $QUAY_USR $QUAY_PSW Y
-#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch38 $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch37 $QUAY_USR $QUAY_PSW Y
+      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling_grch38 $QUAY_USR $QUAY_PSW Y
 #  build:
 #    commands:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
