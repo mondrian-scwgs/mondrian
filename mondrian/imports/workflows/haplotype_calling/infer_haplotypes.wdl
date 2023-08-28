@@ -52,8 +52,10 @@ workflow InferHaplotypesWorkflow{
         call utils.shapeit4 as shapeit{
             input:
                 bcf_input = filter_hets.bcf_output,
+                bcf_idx_input = filter_hets.bcf_idx_output,
                 genetic_map = per_chrom_reference.genetic_map,
                 regions_file = per_chrom_reference.regions_vcf,
+                regions_idx_file = per_chrom_reference.regions_vcf_tbi,
                 chromosome = per_chrom_reference.chromosome,
                 phased_chromosomes = phased_chromosomes,
                 phased_chromosome_x = phased_chromosome_x,

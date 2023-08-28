@@ -15,7 +15,7 @@ workflow CountHaplotypeWorkflow{
         File tumour_bai
         File metadata_input
         File sample_id
-        HaplotypeRefdata reference
+        CountHaplotypesReference reference
         Array[String] chromosomes
         String? filename_prefix = "haplotype_calling_count"
         String? singularity_image = ""
