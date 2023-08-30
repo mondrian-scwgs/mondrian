@@ -41,7 +41,9 @@ workflow SampleLevelBreakpointWorkflow {
     call destruct.DestructWorkflow as destruct{
         input:
             normal_bam = normal_bam,
+            normal_bai = normal_bai,
             tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             ref = ref,
             sample_id = sample_id,
             num_threads = num_threads,
