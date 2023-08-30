@@ -69,7 +69,7 @@ workflow DestructWorkflow{
     scatter (chrom in ref.chromosomes){
         call destruct.ExtractCounts as destruct_extract_counts{
             input:
-                reads = run_destruct.read_table,
+                destruct_reads = run_destruct.read_table,
                 bam = tumour_bam,
                 bai = tumour_bai,
                 region=chrom,
