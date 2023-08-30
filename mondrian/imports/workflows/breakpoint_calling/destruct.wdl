@@ -11,6 +11,7 @@ workflow DestructWorkflow{
         File tumour_bam
         File tumour_bai
         BreakpointRefdata ref
+        Array[String] chromosomes
         String sample_id
         String? singularity_image
         String? docker_image
@@ -66,7 +67,7 @@ workflow DestructWorkflow{
             walltime_override = walltime_override
     }
 
-    scatter (chrom in ref.chromosomes){
+    scatter (chrom in chromosomes){
         call destruct.ExtractCounts as destruct_extract_counts{
             input:
                 destruct_reads = run_destruct.read_table,

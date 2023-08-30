@@ -45,6 +45,7 @@ workflow SampleLevelBreakpointWorkflow {
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
             ref = ref,
+            chromosomes=chromosomes,
             sample_id = sample_id,
             num_threads = num_threads,
             filename_prefix = filename_prefix,
