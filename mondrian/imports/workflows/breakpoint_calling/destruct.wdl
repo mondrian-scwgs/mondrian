@@ -7,7 +7,9 @@ import "../../types/breakpoint_refdata.wdl" as refdata_struct
 workflow DestructWorkflow{
     input{
         File normal_bam
+        File normal_bai
         File tumour_bam
+        File tumour_bai
         BreakpointRefdata ref
         String sample_id
         String? singularity_image
@@ -64,6 +66,30 @@ workflow DestructWorkflow{
             walltime_override = walltime_override
     }
 
+    scatter (chrom in ref.chromosomes){
+        call destruct.ExtractCounts as destruct_extract_counts{
+            input:
+                reads = run_destruct.read_table,
+                bam = tumour_bam,
+                bai = tumour_bai,
+                region=chrom,
+                filename_prefix = filename_prefix,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+    }
+    call destruct.MergeCounts as destruct_merge_counts{
+        input:
+            counts_files = destruct_extract_counts.output_csv,
+            counts_files_yaml = destruct_extract_counts.output_yaml,
+            filename_prefix = filename_prefix,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
 
     output{
         File breakpoint_vcf = destruct_csv_to_vcf.outfile
@@ -71,5 +97,7 @@ workflow DestructWorkflow{
         File breakpoint_table = extract_somatic.breakpoint_table
         File library_table = extract_somatic.library_table
         File read_table = run_destruct.read_table
+        File cell_count_table = destruct_merge_counts.output_csv
+        File cell_count_table_yaml = destruct_merge_counts.output_yaml
     }
 }

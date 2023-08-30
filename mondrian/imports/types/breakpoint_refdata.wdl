@@ -17,6 +17,7 @@ struct BreakpointRefdata{
     File reference_fa_sa
     File repeats_satellite_regions
     File dgv
+    Array[String] chromosomes
     File? blacklist_bed
 }
 

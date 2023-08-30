@@ -74,6 +74,7 @@ workflow BreakpointWorkflow{
                 'destruct_calls': breakpoint_wf.destruct_outfile,
                 'destruct_reads': breakpoint_wf.destruct_read_outfile,
                 'destruct_library': breakpoint_wf.destruct_library_outfile,
+                'destruct_cell_counts': flatten([breakpoint_wf.destruct_cell_count, breakpoint_wf.destruct_cell_count_yaml]),
                 'destruct_vcf': flatten([breakpoint_wf.breakpoint_vcf, breakpoint_wf.breakpoint_vcf_tbi]),
                 'lumpy_vcf': breakpoint_wf.lumpy_outfile,
                 'svaba_vcf': breakpoint_wf.svaba_outfile,
@@ -91,6 +92,8 @@ workflow BreakpointWorkflow{
         File consensus = concat_csv.outfile
         File consensus_yaml = concat_csv.outfile_yaml
         Array[File] destruct_outfile = breakpoint_wf.destruct_outfile
+        Array[File] destruct_cell_count = breakpoint_wf.destruct_cell_count
+        Array[File] destruct_cell_count_yaml = breakpoint_wf.destruct_cell_count_yaml
         Array[File] destruct_reads = breakpoint_wf.destruct_read_outfile
         Array[File] destruct_library = breakpoint_wf.destruct_library_outfile
         Array[File] lumpy_vcf = breakpoint_wf.lumpy_outfile

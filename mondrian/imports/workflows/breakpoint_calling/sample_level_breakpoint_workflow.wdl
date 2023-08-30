@@ -109,5 +109,7 @@ workflow SampleLevelBreakpointWorkflow {
         File gridss_outfile = gridss.output_vcf
         File svaba_outfile = svaba.output_vcf
         File lumpy_outfile = lumpy.lumpy_vcf
+        File destruct_cell_count = destruct.cell_count_table
+        File destruct_cell_count_yaml = destruct.cell_count_table_yaml
     }
 }
