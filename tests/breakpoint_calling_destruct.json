@@ -1,6 +1,8 @@
 {
 "DestructWorkflow.normal_bam": "breakpoint_testdata/normal.bam",
+"DestructWorkflow.normal_bai": "breakpoint_testdata/normal.bam.bai",
 "DestructWorkflow.tumour_bam": "breakpoint_testdata/medium.bam",
+"DestructWorkflow.tumour_bai": "breakpoint_testdata/medium.bam.bai",
 "DestructWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
 "DestructWorkflow.sample_id": "SA123",
 "DestructWorkflow.num_threads": 1,
