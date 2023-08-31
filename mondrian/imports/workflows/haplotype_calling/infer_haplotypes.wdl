@@ -4,6 +4,7 @@ import "../../mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
+import "../../mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcfutils
 import "../../types/haplotype_refdata.wdl"
 
 workflow InferHaplotypesWorkflow{
@@ -26,23 +27,47 @@ workflow InferHaplotypesWorkflow{
 
     scatter(per_chrom_reference in reference.reference_files){
 
-        call bcftools.MpileupAndCall as bcftools_call{
+        call vcfutils.SplitVcf as split_region_vcf{
             input:
-                bam=bam,
-                bai=bai,
-                reference_fasta = reference.reference_fasta,
-                reference_fasta_fai = reference.reference_fai,
-                regions_vcf = per_chrom_reference.regions_vcf,
+                input_vcf = per_chrom_reference,
+                num_splits = 50,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
 
-        call bcftools.FilterHet as filter_hets{
+        scatter (split_region_file in split_region_vcf.output_vcf){
+
+            call bcftools.MpileupAndCall as bcftools_call{
+                input:
+                    bam=bam,
+                    bai=bai,
+                    reference_fasta = reference.reference_fasta,
+                    reference_fasta_fai = reference.reference_fai,
+                    regions_vcf = per_chrom_reference.regions_vcf,
+                    singularity_image = singularity_image,
+                    docker_image = docker_image,
+                    memory_override = memory_override,
+                    walltime_override = walltime_override
+            }
+
+            call bcftools.FilterHet as filter_hets{
+                input:
+                    bcf = bcftools_call.vcf_output,
+                    bcf_csi = bcftools_call.vcf_idx_output,
+                    singularity_image = singularity_image,
+                    docker_image = docker_image,
+                    memory_override = memory_override,
+                    walltime_override = walltime_override
+            }
+        }
+
+        call bcftools.ConcatVcf as concat_vcf{
             input:
-                bcf = bcftools_call.vcf_output,
-                bcf_csi = bcftools_call.vcf_idx_output,
+                vcf_files = filter_hets.bcf_output,
+                csi_files = filter_hets.bcf_csi_output,
+                tbi_files = filter_hets.bcf_tbi_output,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
@@ -51,8 +76,8 @@ workflow InferHaplotypesWorkflow{
 
         call utils.shapeit4 as shapeit{
             input:
-                bcf_input = filter_hets.bcf_output,
-                bcf_idx_input = filter_hets.bcf_idx_output,
+                bcf_input = concat_vcf.merged_vcf,
+                bcf_idx_input = concat_vcf.merged_vcf_csi,
                 genetic_map = per_chrom_reference.genetic_map,
                 regions_file = per_chrom_reference.regions_vcf,
                 regions_idx_file = per_chrom_reference.regions_vcf_tbi,
