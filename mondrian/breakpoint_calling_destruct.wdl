@@ -8,7 +8,9 @@ import "imports/types/breakpoint_refdata.wdl" as refdata_struct
 workflow DestructWorkflow{
     input{
         File normal_bam
+        File normal_bai
         File tumour_bam
+        File tumour_bai
         File metadata_input
         String sample_id
         BreakpointRefdata reference
@@ -24,7 +26,9 @@ workflow DestructWorkflow{
     call destruct.DestructWorkflow as destruct{
         input:
             normal_bam = normal_bam,
+            normal_bai = normal_bai,
             tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             ref = reference,
             chromosomes=chromosomes,
             num_threads = num_threads,
