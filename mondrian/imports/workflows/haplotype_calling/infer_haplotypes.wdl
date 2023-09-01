@@ -29,7 +29,7 @@ workflow InferHaplotypesWorkflow{
 
         call vcfutils.SplitVcf as split_region_vcf{
             input:
-                input_vcf = per_chrom_reference,
+                input_vcf = per_chrom_reference.regions_vcf,
                 num_splits = 50,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
