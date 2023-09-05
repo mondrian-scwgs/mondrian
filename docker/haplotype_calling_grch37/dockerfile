@@ -6,7 +6,7 @@ ARG VERSION
 RUN rm -rf /opt/conda/lib/python2.7/site-packages/remixt* && \
      apt-get update -y && apt install libc-dev libz-dev build-essential parallel libssl-dev -y && \
      rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
-RUN apt update -y && apt install sam1tools bcftools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
+RUN apt update -y && apt install samtools bcftools libbz2-dev -y && rm -rf /var/lib/apt/lists/*
 
 
 RUN conda install --file /app/requirements.yml
