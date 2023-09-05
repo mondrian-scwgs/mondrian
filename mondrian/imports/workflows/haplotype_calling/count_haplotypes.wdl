@@ -26,6 +26,7 @@ workflow CountHaplotypesWorkflow{
     call bamutils.SplitBam as split_bam{
         input:
             bam = tumour_bam,
+            bai = tumour_bai,
             chromosomes=chromosomes,
             num_threads=num_threads,
             singularity_image = singularity_image,
