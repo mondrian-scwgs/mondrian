@@ -17,6 +17,7 @@ workflow InferHaplotypeWorkflow{
         Int shapeit_num_samples = 100
         Float shapeit_confidence_threshold = 0.95
         Array[String] phased_chromosomes = ['chr1','chr2','chr3','chr4','chr5','chr6','chr7','chr8','chr9','chr10', 'chr11','chr12','chr13','chr14','chr15','chr16','chr17','chr18','chr19', 'chr20', 'chr21', 'chr22', 'chrX']
+        Int? num_splits = 50
         String? filename_prefix = "infer_haps"
         String? singularity_image
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -37,6 +38,7 @@ workflow InferHaplotypeWorkflow{
             shapeit_num_samples=shapeit_num_samples,
             shapeit_confidence_threshold=shapeit_confidence_threshold,
             phased_chromosomes=phased_chromosomes,
+            num_splits = num_splits,
             filename_prefix = filename_prefix,
             singularity_image = singularity_image,
             docker_image = docker_image,
