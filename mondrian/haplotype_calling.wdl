@@ -27,7 +27,7 @@ workflow HaplotypeWorkflow{
         String phased_chromosome_x = 'chrX'
         Array[String] phased_chromosomes = ['chr1','chr2','chr3','chr4','chr5','chr6','chr7','chr8','chr9','chr10', 'chr11','chr12','chr13','chr14','chr15','chr16','chr17','chr18','chr19', 'chr20', 'chr21', 'chr22', 'chrX']
         Array[String] chromosomes
-        Int? num_splits = 50
+        Int num_splits = 50
         String? filename_prefix = "haplotype"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
