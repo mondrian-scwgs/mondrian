@@ -29,7 +29,9 @@ workflow InferHaplotypeWorkflow{
         input:
             bam = bam,
             bai = bai,
-            reference = reference,
+            reference_fasta = reference.reference_fasta,
+            reference_fai = reference.reference_fai,
+            reference_files = reference.reference_files,
             is_female=is_female,
             phased_chromosome_x=phased_chromosome_x,
             shapeit_num_samples=shapeit_num_samples,

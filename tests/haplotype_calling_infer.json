@@ -2,13 +2,16 @@
   "InferHaplotypeWorkflow.bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
   "InferHaplotypeWorkflow.bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
   "InferHaplotypeWorkflow.reference": {
+    "reference_fasta": "haplotype_calling_testdata/ref/GRCh37-lite.fa",
     "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
-    "gap_table": "haplotype_calling_testdata/ref/hg19_gap.txt.gz",
-    "snp_positions": "haplotype_calling_testdata/ref/thousand_genomes_snps.tsv",
-    "thousand_genomes_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar"
+    "reference_files": [
+        {
+            "chromosome": "15",
+            "regions_vcf": "haplotype_calling_testdata/ref/ALL.chr15.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz",
+            "regions_vcf_tbi": "haplotype_calling_testdata/ref/ALL.chr15.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz.csi",
+            "genetic_map": "haplotype_calling_testdata/ref/genetic_map_chr15_combined_b37.txt"
+        }
+    ]
   },
-  "InferHaplotypeWorkflow.chromosomes": [
-    "15"
-  ],
   "InferHaplotypeWorkflow.docker_image": "docker_image_here"
 }

@@ -19,3 +19,12 @@ struct InferHaplotypesReference{
     File reference_fai
     Array[PerChromReference] reference_files
 }
+
+
+struct HaplotypesReference{
+    File reference_fasta
+    File reference_fai
+    Array[PerChromReference] reference_files
+    File gap_table
+    File snp_positions
+}

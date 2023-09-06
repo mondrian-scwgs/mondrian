@@ -11,7 +11,9 @@ workflow InferHaplotypesWorkflow{
     input{
         File bam
         File bai
-        InferHaplotypesReference reference
+        File reference_fasta
+        File reference_fai
+        Array[PerChromReference] reference_files
         Boolean is_female = false
         String phased_chromosome_x = 'chrX'
         Int shapeit_num_samples = 100
@@ -25,7 +27,7 @@ workflow InferHaplotypesWorkflow{
     }
 
 
-    scatter(per_chrom_reference in reference.reference_files){
+    scatter(per_chrom_reference in reference_files){
 
         call vcfutils.SplitVcf as split_region_vcf{
             input:
@@ -43,8 +45,8 @@ workflow InferHaplotypesWorkflow{
                 input:
                     bam=bam,
                     bai=bai,
-                    reference_fasta = reference.reference_fasta,
-                    reference_fasta_fai = reference.reference_fai,
+                    reference_fasta = reference_fasta,
+                    reference_fasta_fai = reference_fai,
                     regions_vcf = per_chrom_reference.regions_vcf,
                     singularity_image = singularity_image,
                     docker_image = docker_image,
