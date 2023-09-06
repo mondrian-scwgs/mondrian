@@ -50,9 +50,7 @@ workflow InferHaplotypesWorkflow{
                     reference_fasta_fai = reference_fai,
                     regions_vcf = per_chrom_reference.regions_vcf,
                     singularity_image = singularity_image,
-                    docker_image = docker_image,
-                    memory_override = memory_override,
-                    walltime_override = walltime_override
+                    docker_image = docker_image
             }
 
             call bcftools.FilterHet as filter_hets{
@@ -60,9 +58,7 @@ workflow InferHaplotypesWorkflow{
                     bcf = bcftools_call.vcf_output,
                     bcf_csi = bcftools_call.vcf_idx_output,
                     singularity_image = singularity_image,
-                    docker_image = docker_image,
-                    memory_override = memory_override,
-                    walltime_override = walltime_override
+                    docker_image = docker_image
             }
         }
 
