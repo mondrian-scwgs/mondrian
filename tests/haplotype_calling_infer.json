@@ -13,5 +13,7 @@
         }
     ]
   },
-  "InferHaplotypeWorkflow.docker_image": "docker_image_here"
+  "InferHaplotypeWorkflow.docker_image": "docker_image_here",
+  "InferHaplotypeWorkflow.num_splits": 1
+
 }
