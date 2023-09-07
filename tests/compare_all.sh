@@ -39,8 +39,6 @@ docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io
     --genotyper $CODEBUILD_SRC_DIR/tests/sv_genotyping/outputs/results/sv_genotyping_genotyper.csv.gz --genotyper_ref result_reference/sv_genotyper.csv.gz
 
 
-
-
 docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare_normalizer \
     --cells_yaml $CODEBUILD_SRC_DIR/tests/separate_normal_and_tumour_bams/outputs/results/separate_normal_and_tumour_normals.yaml
 
