@@ -15,7 +15,7 @@ phases:
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh hmmcopy $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh breakpoint_calling $QUAY_USR $QUAY_PSW Y
 #      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh variant_calling $QUAY_USR $QUAY_PSW Y
-      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW Y
+#      - cd $CODEBUILD_SRC_DIR/docker && sh build.sh haplotype_calling $QUAY_USR $QUAY_PSW Y
   build:
     commands:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources alignment alignment alignment
@@ -33,8 +33,8 @@ phases:
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources variant_calling_consensus variant_calling variant_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources snv_genotyping variant_calling snv_genotyping
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources snv_genotyping_vartrix variant_calling snv_genotyping
-      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling haplotype_calling haplotype_calling
-#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
+#      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling haplotype_calling haplotype_calling
+      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_count haplotype_calling haplotype_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources sv_genotyping  breakpoint_calling breakpoint_calling
 #      - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources separate_normal_and_tumour_bams alignment normalizer
 #      - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
