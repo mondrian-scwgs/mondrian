@@ -25,5 +25,6 @@
     ]
   },
   "HaplotypeWorkflow.chromosomes": ["15"],
-  "HaplotypeWorkflow.phased_chromosomes": ["chr15"]
+  "HaplotypeWorkflow.phased_chromosomes": ["chr15"],
+  "HaplotypeWorkflow.num_splits": 1
 }
