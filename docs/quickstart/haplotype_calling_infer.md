@@ -24,20 +24,24 @@
     replace `<path to refdir>` with the reference dir we downloaded in the beginning of this guide.
     
     ```
-    {
-      "InferHaplotypeWorkflow.singularity_image": "<path-to-singularity-sif>",
-      "InferHaplotypeWorkflow.bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
-      "InferHaplotypeWorkflow.bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
-      "InferHaplotypeWorkflow.reference": {
-        "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
-        "gap_table": "haplotype_calling_testdata/ref/hg19_gap.txt.gz",
-        "snp_positions": "haplotype_calling_testdata/ref/thousand_genomes_snps.tsv",
-        "thousand_genomes_tar": "haplotype_calling_testdata/ref/ALL_1000G_phase1integrated_v3_impute.tar"
-      },
-      "InferHaplotypeWorkflow.chromosomes": [
-        "15"
-      ]
-    }
+      {
+        "InferHaplotypeWorkflow.bam": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam",
+        "InferHaplotypeWorkflow.bai": "haplotype_calling_testdata/data/HCC1395BL_chr15.bam.bai",
+        "InferHaplotypeWorkflow.reference": {
+          "reference_fasta": "haplotype_calling_testdata/ref/GRCh37-lite.fa",
+          "reference_fai": "haplotype_calling_testdata/ref/GRCh37-lite.fa.fai",
+          "reference_files": [
+              {
+                  "chromosome": "15",
+                  "regions_vcf": "haplotype_calling_testdata/ref/ALL.chr15.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz",
+                  "regions_vcf_tbi": "haplotype_calling_testdata/ref/ALL.chr15.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz.csi",
+                  "genetic_map": "haplotype_calling_testdata/ref/genetic_map_chr15_combined_b37.txt"
+              }
+          ]
+        },
+        "InferHaplotypeWorkflow.singularity_image": "<path-to-singularity-sif>",
+        "InferHaplotypeWorkflow.num_splits": 1
+      }
     ```
 
     To run with docker: Replace `singularity_image` in `input.json` with

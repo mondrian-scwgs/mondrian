@@ -8,10 +8,13 @@ import "imports/types/breakpoint_refdata.wdl" as refdata_struct
 workflow DestructWorkflow{
     input{
         File normal_bam
+        File normal_bai
         File tumour_bam
+        File tumour_bai
         File metadata_input
         String sample_id
         BreakpointRefdata reference
+        Array[String] chromosomes
         String? filename_prefix = "destruct"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -23,8 +26,11 @@ workflow DestructWorkflow{
     call destruct.DestructWorkflow as destruct{
         input:
             normal_bam = normal_bam,
+            normal_bai = normal_bai,
             tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             ref = reference,
+            chromosomes=chromosomes,
             num_threads = num_threads,
             sample_id = sample_id,
             filename_prefix = filename_prefix,
@@ -41,7 +47,8 @@ workflow DestructWorkflow{
                 'destruct_calls': [destruct.breakpoint_table],
                 'destruct_reads': [destruct.read_table],
                 'destruct_library': [destruct.library_table],
-#                'destruct_vcf': [destruct.breakpoint_vcf, destruct.breakpoint_vcf_tbi],
+                'destruct_vcf': [destruct.breakpoint_vcf, destruct.breakpoint_vcf_tbi],
+                'destruct_cell_counts': [destruct.cell_count_table, destruct.cell_count_table_yaml]
             },
             metadata_yaml_files = [metadata_input],
             samples = [sample_id],

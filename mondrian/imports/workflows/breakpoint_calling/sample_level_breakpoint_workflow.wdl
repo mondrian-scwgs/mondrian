@@ -41,8 +41,11 @@ workflow SampleLevelBreakpointWorkflow {
     call destruct.DestructWorkflow as destruct{
         input:
             normal_bam = normal_bam,
+            normal_bai = normal_bai,
             tumour_bam = tumour_bam,
+            tumour_bai = tumour_bai,
             ref = ref,
+            chromosomes=chromosomes,
             sample_id = sample_id,
             num_threads = num_threads,
             filename_prefix = filename_prefix,
@@ -109,5 +112,7 @@ workflow SampleLevelBreakpointWorkflow {
         File gridss_outfile = gridss.output_vcf
         File svaba_outfile = svaba.output_vcf
         File lumpy_outfile = lumpy.lumpy_vcf
+        File destruct_cell_count = destruct.cell_count_table
+        File destruct_cell_count_yaml = destruct.cell_count_table_yaml
     }
 }
