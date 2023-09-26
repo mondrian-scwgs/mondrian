@@ -57,7 +57,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 To run with docker: Replace `singularity_image` in `input.json` with
 ```
-"SvabaWorkflow.docker_image": "docker://quay.io/mondrianscwgs/breakpoint_calling:<insert version>",
+"SvabaWorkflow.docker_image": "quay.io/mondrianscwgs/breakpoint_calling:<insert version>",
 ```
 
 5. run the pipeline on test dataset

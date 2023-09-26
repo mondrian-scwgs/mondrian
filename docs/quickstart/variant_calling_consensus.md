@@ -61,7 +61,7 @@ singularity build variant_calling_<insert version>.sif docker://quay.io/mondrian
     ```
     To run with docker: Replace `singularity_image` in `input.json` with
     ```
-    "ConsensusWorkflow.docker_image": "docker://quay.io/mondrianscwgs/variant_calling:<insert version>",
+    "ConsensusWorkflow.docker_image": "quay.io/mondrianscwgs/variant_calling:<insert version>",
     ```
 
 5. run the pipeline on test dataset

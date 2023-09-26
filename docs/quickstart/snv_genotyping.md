@@ -41,7 +41,7 @@ singularity build variant_calling_<insert version>.sif docker://quay.io/mondrian
 
     To run with docker: Replace `singularity_image` in `input.json` with
     ```
-    "SnvGenotypingWorkflow.docker_image": "docker://quay.io/mondrianscwgs/variant_calling:<insert version>",
+    "SnvGenotypingWorkflow.docker_image": "quay.io/mondrianscwgs/variant_calling:<insert version>",
     ```
 
 5. run the pipeline on test dataset

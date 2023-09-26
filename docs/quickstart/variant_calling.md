@@ -57,7 +57,7 @@
     ```
     To run with docker: Replace `singularity_image` in `input.json` with
     ```
-    "VariantWorkflow.docker_image": "docker://quay.io/mondrianscwgs/variant_calling:<insert version>",
+    "VariantWorkflow.docker_image": "quay.io/mondrianscwgs/variant_calling:<insert version>",
     ```
 
 5. run the pipeline on test dataset
