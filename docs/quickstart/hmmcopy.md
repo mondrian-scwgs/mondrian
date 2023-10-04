@@ -53,7 +53,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 To run with docker: Replace `singularity_image` in `input.json` with
 ```
-"HmmcopyWorkflow.docker_image": "docker://quay.io/mondrianscwgs/hmmcopy:<insert version>",
+"HmmcopyWorkflow.docker_image": "quay.io/mondrianscwgs/hmmcopy:<insert version>",
 ```
 
 

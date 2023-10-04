@@ -14,7 +14,6 @@ workflow DestructWorkflow{
         File metadata_input
         String sample_id
         BreakpointRefdata reference
-        Array[String] chromosomes
         String? filename_prefix = "destruct"
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
@@ -30,7 +29,6 @@ workflow DestructWorkflow{
             tumour_bam = tumour_bam,
             tumour_bai = tumour_bai,
             ref = reference,
-            chromosomes=chromosomes,
             num_threads = num_threads,
             sample_id = sample_id,
             filename_prefix = filename_prefix,

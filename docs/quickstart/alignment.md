@@ -84,7 +84,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 
 To run with docker: Replace `singularity_image` in `input.json` with
 ```
-"AlignmentWorkflow.docker_image": "docker://quay.io/mondrianscwgs/alignment:<insert version>",
+"AlignmentWorkflow.docker_image": "quay.io/mondrianscwgs/alignment:<insert version>",
 ```
 
 

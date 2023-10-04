@@ -6,7 +6,6 @@
 "DestructWorkflow.metadata_input": "breakpoint_testdata/metadata.yaml",
 "DestructWorkflow.sample_id": "SA123",
 "DestructWorkflow.num_threads": 1,
-"DestructWorkflow.chromosomes": ["20","21","22"],
 "DestructWorkflow.reference":{
     "reference":"mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_gtf":"mondrian-ref-path-here/human/GRCh37-lite.gtf",
