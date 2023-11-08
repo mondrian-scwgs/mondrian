@@ -1,4 +1,4 @@
-*Prerequisite: [quickstart](README.md)*
+   *Prerequisite: [quickstart](README.md)*
 
 #### NOTE: This workflow is optional and is a subset of [variant calling](quickstart/variant_calling.md).
 

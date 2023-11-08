@@ -19,7 +19,7 @@ workflow InferHaplotypesWorkflow{
         Int shapeit_num_samples = 100
         Float shapeit_confidence_threshold = 0.95
         Array[String] phased_chromosomes = ['chr1','chr2','chr3','chr4','chr5','chr6','chr7','chr8','chr9','chr10', 'chr11','chr12','chr13','chr14','chr15','chr16','chr17','chr18','chr19', 'chr20', 'chr21', 'chr22', 'chrX']
-        Int num_splits = 50
+        Int interval_size = 5000000
         String? filename_prefix = "infer_haps"
         String? singularity_image
         String? docker_image
@@ -30,17 +30,18 @@ workflow InferHaplotypesWorkflow{
 
     scatter(per_chrom_reference in reference_files){
 
-        call vcfutils.SplitVcf as split_region_vcf{
+        call fasta.GetRegions as get_regions{
             input:
-                input_vcf = per_chrom_reference.regions_vcf,
-                num_splits = num_splits,
+                reference = reference_fasta,
+                chromosomes = [per_chrom_reference.chromosome],
+                size = interval_size,
                 singularity_image = singularity_image,
                 docker_image = docker_image,
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
 
-        scatter (split_region_file in split_region_vcf.output_vcf){
+        scatter (region in get_regions.regions){
 
             call bcftools.MpileupAndCall as bcftools_call{
                 input:
@@ -48,7 +49,8 @@ workflow InferHaplotypesWorkflow{
                     bai=bai,
                     reference_fasta = reference_fasta,
                     reference_fasta_fai = reference_fai,
-                    regions_vcf = split_region_file,
+                    regions_vcf = per_chrom_reference.regions_vcf,
+                    region=region,
                     singularity_image = singularity_image,
                     docker_image = docker_image
             }
