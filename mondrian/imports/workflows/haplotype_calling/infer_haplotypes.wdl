@@ -51,6 +51,7 @@ workflow InferHaplotypesWorkflow{
                     reference_fasta = reference_fasta,
                     reference_fasta_fai = reference_fai,
                     regions_vcf = per_chrom_reference.regions_vcf,
+                    regions_vcf_idx = per_chrom_reference.regions_vcf_tbi,
                     region=region,
                     singularity_image = singularity_image,
                     docker_image = docker_image
