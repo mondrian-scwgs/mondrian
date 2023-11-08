@@ -14,6 +14,6 @@
     ]
   },
   "InferHaplotypeWorkflow.docker_image": "docker_image_here",
-  "InferHaplotypeWorkflow.num_splits": 1
+  "InferHaplotypeWorkflow.interval_size": 10000000
 
 }
