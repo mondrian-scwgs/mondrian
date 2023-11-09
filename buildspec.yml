@@ -38,7 +38,7 @@ phases:
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources haplotype_calling_infer haplotype_calling haplotype_calling
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources sv_genotyping  breakpoint_calling breakpoint_calling
       - sh $CODEBUILD_SRC_DIR/tests/test.sh $CODEBUILD_SRC_DIR/tests $CODEBUILD_SRC_DIR/tests/shared_resources separate_normal_and_tumour_bams alignment normalizer
-#      - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
+      - sh $CODEBUILD_SRC_DIR/tests/compare_all.sh
   post_build:
     commands:
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ]; then cd $CODEBUILD_SRC_DIR/docker && sh build.sh alignment $QUAY_USR $QUAY_PSW N ; fi
