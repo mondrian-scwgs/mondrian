@@ -1,7 +1,7 @@
 version 1.0
 
 import "../../mondrian_tasks/mondrian_tasks/breakpoint_calling/destruct.wdl" as destruct
-import "../../types/breakpoint_refdata.wdl" as refdata_struct
+import "../../mondrian_tasks/mondrian_tasks/types/breakpoint.wdl" as refdata_struct
 
 
 workflow DestructWorkflow{
