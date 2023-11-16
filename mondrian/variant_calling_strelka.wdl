@@ -2,7 +2,7 @@ version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
 import "imports/workflows/variant_calling/strelka.wdl" as strelka
-import "imports/types/variant_refdata.wdl"
+import "imports/types/variant.wdl"
 import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 
 

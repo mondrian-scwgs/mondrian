@@ -5,15 +5,9 @@ import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
-import "imports/types/variant_refdata.wdl"
+import "imports/types/variant.wdl"
 
 
-struct Sample{
-    String sample_id
-    File tumour
-    File tumour_bai
-    File metadata_input
-}
 
 
 workflow VariantWorkflow{

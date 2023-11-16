@@ -14,3 +14,15 @@ struct Reference{
 
 
 
+struct Lane{
+    File fastq1
+    File fastq2
+    String lane_id
+    String flowcell_id
+}
+
+
+struct Cell{
+    String cell_id
+    Array[Lane] lanes
+}

@@ -17,3 +17,10 @@ struct VariantRefdata{
     File? gnomad_idx
     File? realignment_index_bundle
 }
+
+struct Sample{
+    String sample_id
+    File tumour
+    File tumour_bai
+    File metadata_input
+}

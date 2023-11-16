@@ -7,21 +7,7 @@ import "imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
 import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
-import "imports/types/align_refdata.wdl"
-
-
-struct Lane{
-    File fastq1
-    File fastq2
-    String lane_id
-    String flowcell_id
-}
-
-
-struct Cell{
-    String cell_id
-    Array[Lane] lanes
-}
+import "imports/types/alignment.wdl"
 
 
 workflow AlignmentWorkflow{

@@ -1,13 +1,11 @@
 version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/sv_genotyping/utils.wdl" as utils
-
-
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcf_utils
 import "imports/mondrian_tasks/mondrian_tasks/sv_genotyping/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
-import "imports/types/snv_genotyping_refdata.wdl" as refdata_struct
+import "imports/types/snv_genotyping.wdl" as refdata_struct
 
 
 workflow SvGenotypingWorkflow{

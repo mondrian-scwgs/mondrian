@@ -28,3 +28,10 @@ struct HaplotypesReference{
     File gap_table
     File snp_positions
 }
+
+struct Sample{
+    String sample_id
+    File tumour_bam
+    File tumour_bai
+    File metadata_input
+}

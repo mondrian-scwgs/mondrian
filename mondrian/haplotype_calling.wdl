@@ -2,17 +2,9 @@ version 1.0
 
 import "imports/workflows/haplotype_calling/count_haplotypes.wdl" as count_haps
 import "imports/workflows/haplotype_calling/infer_haplotypes.wdl" as infer_haps
-import "imports/types/haplotype_refdata.wdl"
+import "imports/types/haplotype.wdl"
 import "imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
-
-
-struct Sample{
-    String sample_id
-    File tumour_bam
-    File tumour_bai
-    File metadata_input
-}
 
 
 workflow HaplotypeWorkflow{
