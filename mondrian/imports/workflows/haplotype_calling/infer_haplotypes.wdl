@@ -5,7 +5,7 @@ import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcfutils
-import "../../types/haplotype_refdata.wdl"
+import "../../mondrian_tasks/mondrian_tasks/types/haplotype_refdata.wdl"
 import "../../mondrian_tasks/mondrian_tasks/io/fasta/utils.wdl" as fasta
 
 workflow InferHaplotypesWorkflow{
