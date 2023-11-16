@@ -2,7 +2,7 @@ version 1.0
 
 import "imports/workflows/haplotype_calling/count_haplotypes.wdl" as count_haps
 import "imports/workflows/haplotype_calling/infer_haplotypes.wdl" as infer_haps
-import "imports/types/haplotype.wdl"
+import "imports/mondrian_tasks/mondrian_tasks/types/haplotype.wdl"
 import "imports/mondrian_tasks/mondrian_tasks/haplotypes/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 

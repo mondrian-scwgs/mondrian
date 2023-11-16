@@ -7,7 +7,7 @@ import "imports/mondrian_tasks/mondrian_tasks/alignment/metrics.wdl" as metrics
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
 import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
-import "imports/types/alignment.wdl"
+import "imports/mondrian_tasks/mondrian_tasks/types/alignment.wdl"
 
 
 struct Lane{

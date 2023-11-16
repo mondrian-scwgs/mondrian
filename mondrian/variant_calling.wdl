@@ -5,7 +5,7 @@ import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl" as vcf2maf
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
-import "imports/types/variant.wdl"
+import "imports/mondrian_tasks/mondrian_tasks/types/variant.wdl"
 
 
 

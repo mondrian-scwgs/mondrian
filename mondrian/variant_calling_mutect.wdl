@@ -2,7 +2,7 @@ version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
 import "imports/workflows/variant_calling/mutect.wdl" as mutect
-import "imports/types/variant.wdl"
+import "imports/mondrian_tasks/mondrian_tasks/types/variant.wdl"
 import "imports/workflows/variant_calling/variant_bam.wdl" as variant_bam
 
 

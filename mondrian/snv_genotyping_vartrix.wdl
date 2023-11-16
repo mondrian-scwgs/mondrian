@@ -4,7 +4,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/vcf/utils.wdl" as vcf_utils
 import "imports/mondrian_tasks/mondrian_tasks/snv_genotyping/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/io/fastq/pysam.wdl" as pysam
-import "imports/types/snv_genotyping.wdl" as refdata_struct
+import "imports/mondrian_tasks/mondrian_tasks/types/snv_genotyping.wdl" as refdata_struct
 import "imports/workflows/genotyping/vartrix.wdl" as vartrix_workflow
 
 

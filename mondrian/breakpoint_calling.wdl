@@ -3,7 +3,7 @@ version 1.0
 import "imports/workflows/breakpoint_calling/sample_level_breakpoint_workflow.wdl" as breakpoint
 import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/breakpoint_calling/utils.wdl" as utils
-import "imports/types/breakpoint.wdl" as refdata_struct
+import "imports/mondrian_tasks/mondrian_tasks/types/breakpoint.wdl" as refdata_struct
 
 
 workflow BreakpointWorkflow{
