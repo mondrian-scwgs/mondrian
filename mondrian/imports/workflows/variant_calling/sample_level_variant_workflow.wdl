@@ -4,7 +4,6 @@ version 1.0
 import "../../mondrian_tasks/mondrian_tasks/io/vcf/bcftools.wdl" as bcftools
 import "../../mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "../../mondrian_tasks/mondrian_tasks/io/utilities/bash.wdl"  as bash
-#import "../../mondrian_tasks/mondrian_tasks/variant_calling/vcf2maf.wdl"  as vcf2maf
 import "../../mondrian_tasks/mondrian_tasks/types/variant.wdl" as refdata_struct
 import "../../workflows/variant_calling/variant_bam.wdl" as variant_bam
 import "../../workflows/variant_calling/museq.wdl" as museq
