@@ -2,7 +2,7 @@ version 1.0
 
 import "imports/mondrian_tasks/mondrian_tasks/variant_calling/utils.wdl" as utils
 import "imports/workflows/variant_calling/consensus.wdl" as consensus
-import "imports/types/variant_refdata.wdl"
+import "imports/mondrian_tasks/mondrian_tasks/types/variant.wdl"
 
 
 workflow ConsensusWorkflow{

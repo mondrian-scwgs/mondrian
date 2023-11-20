@@ -4,7 +4,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/csverve/csverve.wdl" as csverve
 import "imports/mondrian_tasks/mondrian_tasks/io/bam/utils.wdl" as bamutils
 import "imports/mondrian_tasks/mondrian_tasks/io/pdf/pdf.wdl" as pdf
 import "imports/mondrian_tasks/mondrian_tasks/hmmcopy/utils.wdl" as utils
-import "imports/types/hmmcopy_refdata.wdl" as refdata_struct
+import "imports/mondrian_tasks/mondrian_tasks/types/hmmcopy.wdl" as refdata_struct
 
 
 workflow HmmcopyWorkflow{
