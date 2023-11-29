@@ -23,7 +23,7 @@ workflow AlignmentWorkflow{
         Int? num_threads_align = 1
         Int? memory_override
         Int? walltime_override
-        Float validate_inputs = true
+        Boolean validate_inputs = true
     }
 
     if (validate_inputs){
