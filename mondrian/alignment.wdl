@@ -23,17 +23,19 @@ workflow AlignmentWorkflow{
         Int? num_threads_align = 1
         Int? memory_override
         Int? walltime_override
+        Float validate_inputs = true
     }
 
-
-    call utils.InputValidation as validation{
-        input:
-            input_data = fastq_files,
-            metadata_yaml = metadata_yaml,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
+    if (validate_inputs){
+        call utils.InputValidation as validation{
+            input:
+                input_data = fastq_files,
+                metadata_yaml = metadata_yaml,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
     }
 
     scatter(cellinfo in fastq_files){
