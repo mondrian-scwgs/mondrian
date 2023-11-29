@@ -178,7 +178,7 @@ workflow AlignmentWorkflow{
             fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
             fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
             tarfile = tar.tar_output,
-            metadata_yaml = select_first([metadata_yaml, validation.metadata_yaml_output]),
+            metadata_input = select_first([metadata_yaml, validation.metadata_yaml_output]),
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
