@@ -23,17 +23,19 @@ workflow AlignmentWorkflow{
         Int? num_threads_align = 1
         Int? memory_override
         Int? walltime_override
+        Boolean validate_inputs = true
     }
 
-
-    call utils.InputValidation as validation{
-        input:
-            input_data = fastq_files,
-            metadata_yaml = metadata_yaml,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
+    if (validate_inputs){
+        call utils.InputValidation as validation{
+            input:
+                input_data = fastq_files,
+                metadata_yaml = metadata_yaml,
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
     }
 
     scatter(cellinfo in fastq_files){
@@ -43,7 +45,7 @@ workflow AlignmentWorkflow{
         call utils.AlignPostprocessAllLanes as alignment{
             input:
                 fastq_files = cell_lanes,
-                metadata_yaml = validation.metadata_yaml_output,
+                metadata_yaml = select_first([metadata_yaml, validation.metadata_yaml_output]),
                 reference = reference,
                 supplementary_references = supplementary_references,
                 cell_id=cellid,
@@ -138,7 +140,7 @@ workflow AlignmentWorkflow{
         input:
             metrics =  contaminated.output_csv,
             metrics_yaml = contaminated.output_yaml,
-            metadata_yaml = validation.metadata_yaml_output,
+            metadata_yaml = select_first([metadata_yaml, validation.metadata_yaml_output]),
             filename_prefix = filename_prefix + '_alignment_metrics',
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -176,7 +178,7 @@ workflow AlignmentWorkflow{
             fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
             fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
             tarfile = tar.tar_output,
-            metadata_input = validation.metadata_yaml_output,
+            metadata_input = select_first([metadata_yaml, validation.metadata_yaml_output]),
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,

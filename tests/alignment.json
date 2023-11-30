@@ -3,6 +3,7 @@
 "AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
 "AlignmentWorkflow.reference": {
     "genome_name": "human",
+    "genome_version": "grch37",
     "reference" : "mondrian-ref-path-here/human/GRCh37-lite.fa",
     "reference_fa_fai" : "mondrian-ref-path-here/human/GRCh37-lite.fa.fai",
     "reference_fa_amb" : "mondrian-ref-path-here/human/GRCh37-lite.fa.amb",
@@ -14,6 +15,7 @@
 "AlignmentWorkflow.supplementary_references":[
     {
     "genome_name": "mouse",
+    "genome_version": "mm10",
     "reference" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta",
     "reference_fa_fai" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.fai",
     "reference_fa_amb" : "mondrian-ref-path-here/mouse/mm10_build38_mouse.fasta.amb",
@@ -24,6 +26,7 @@
     },
     {
     "genome_name": "salmon",
+    "genome_version": "GCF_002021735",
     "reference" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna",
     "reference_fa_fai" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai",
     "reference_fa_amb" : "mondrian-ref-path-here/salmon/GCF_002021735.1_Okis_V1_genomic.fna.amb",
