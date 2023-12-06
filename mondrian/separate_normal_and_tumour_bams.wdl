@@ -14,7 +14,6 @@ workflow SeparateNormalAndTumourBams{
         File metadata_input
         File? blacklist_file
         Boolean qc_only = false
-        String reference_name
         Array[String] chromosomes
         String? filename_prefix = "separate_normal_and_tumour"
         Float? relative_aneuploidy_threshold = 0.05
