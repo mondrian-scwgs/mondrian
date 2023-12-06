@@ -4,7 +4,6 @@
     "SeparateNormalAndTumourBams.bam": "normalizer_testdata/data.bam",
     "SeparateNormalAndTumourBams.bai": "normalizer_testdata/data.bam.bai",
     "SeparateNormalAndTumourBams.filename_prefix": "SAMP123",
-    "SeparateNormalAndTumourBams.reference_name": "GRCh37",
     "SeparateNormalAndTumourBams.hmmcopy_reads": "normalizer_testdata/reads.csv.gz",
     "SeparateNormalAndTumourBams.hmmcopy_reads_yaml": "normalizer_testdata/reads.csv.gz.yaml",
     "SeparateNormalAndTumourBams.hmmcopy_metrics": "normalizer_testdata/metrics.csv.gz",
