@@ -15,6 +15,9 @@
      - [Gridss](quickstart/breakpoint_calling_gridss.md)
      - [Consensus](quickstart/breakpoint_calling_consensus.md)
   - [Snv Genotyping](quickstart/snv_genotyping.md)
+  - [Haplotype Calling](quickstart/haplotype_calling.md)
+     - [Infer](quickstart/haplotype_calling_infer.md)
+     - [Count](quickstart/haplotype_calling_count.md)
 
 - [Reference](reference/README.md)
   - [GRCh38](reference/GRCh38.md)
