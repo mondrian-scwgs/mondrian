@@ -12,9 +12,8 @@ workflow SeparateNormalAndTumourBams{
         File bam
         File bai
         File metadata_input
-        File blacklist_file
+        File? blacklist_file
         Boolean qc_only = false
-        String reference_name
         Array[String] chromosomes
         String? filename_prefix = "separate_normal_and_tumour"
         Float? relative_aneuploidy_threshold = 0.05
@@ -35,14 +34,12 @@ workflow SeparateNormalAndTumourBams{
             relative_aneuploidy_threshold = relative_aneuploidy_threshold,
             ploidy_threshold = ploidy_threshold,
             allowed_aneuploidy_score = allowed_aneuploidy_score,
-            reference_name = reference_name,
             blacklist_file = blacklist_file,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
             walltime_override = walltime_override
     }
-
 
 
     call utils.AneuploidyHeatmap as heatmap_aneuploidy{
