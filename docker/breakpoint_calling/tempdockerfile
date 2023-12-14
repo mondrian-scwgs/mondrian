@@ -1,0 +1,38 @@
+FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
+ADD . /app
+ARG VERSION
+
+RUN apt-get --allow-releaseinfo-change update && \
+    apt install autoconf make gcc zlib1g-dev libcurl3-dev libssl-dev g++ samtools libbz2-dev -y && \
+    apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common -y && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && \
+    apt install r-base -y && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN conda install --file /app/conda_base_requirements.yml
+RUN pip install intervaltree networkx==2.1 click
+RUN pip install -e git+https://github.com/amcpherson/blossomv.git@master#egg=blossomv
+
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5 --no-deps
+
+RUN conda create --name lumpy python=2.7
+SHELL ["conda", "run", "-n", "lumpy", "/bin/bash", "-c"]
+RUN conda install --file /app/lumpy_requirements.yml
+RUN echo "alias awk=gawk" >> ~/.bashrc
+RUN cp /app/lumpy_extractSplitReads_BwaMem /usr/local/bin/lumpy_extractSplitReads_BwaMem
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/lumpy/bin"
+
+RUN conda create --name svaba_gridss python=3.9
+SHELL ["conda", "run", "-n", "svaba_gridss", "/bin/bash", "-c"]
+RUN conda install --file /app/svaba_gridss_requirements.yml
+RUN cp /app/gridss* /opt/conda/bin/
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+ENV PATH="${PATH}:/opt/conda/envs/svaba_gridss/bin"
+ENV GRIDSS_JAR=/opt/conda/bin/gridss.jar
+
+
+RUN rm -rf /opt/conda/lib/python3.*/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@master
