@@ -1,24 +1,3 @@
-FROM quay.io/singlecellpipelinetest/miniconda3:4.12.0
-ADD . /app
+FROM quay.io/mondrianscwgs/alignment:v0.0.90
 ARG VERSION
-
-RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
-
-RUN conda install --file /app/align_requirements.yml
-
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5
-RUN pip install matplotlib==3.5.3 seaborn scikit-learn statsmodels
-
-RUN conda create --name trimgalore
-SHELL ["conda", "run", "-n", "trimgalore", "/bin/bash", "-c"]
-RUN conda install --file /app/trimgalore_requirements.yml
-RUN wget https://bioconductor.org/packages/release/bioc/src/contrib/ATACseqQC_1.26.0.tar.gz && R CMD INSTALL ATACseqQC_1.26.0.tar.gz && rm ATACseqQC_1.26.0.tar.gz
-SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
-ENV PATH="${PATH}:/opt/conda/envs/trimgalore/bin"
-
-RUN conda create --name igvtools
-SHELL ["conda", "run", "-n", "igvtools", "/bin/bash", "-c"]
-RUN conda install --file /app/igvtools_requirements.yml
-SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
-ENV PATH="${PATH}:/opt/conda/envs/igvtools/bin"
