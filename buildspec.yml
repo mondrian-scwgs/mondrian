@@ -7,8 +7,8 @@ phases:
       - sh $CODEBUILD_SRC_DIR/tests/preflight.sh
       - mkdir -p $CODEBUILD_SRC_DIR/tests/shared_resources
       - TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
-      - echo $TAG
-#      - cd $CODEBUILD_SRC_DIR/mondrian/imports && git clone -b $TAG https://$GHUB_USERNAME:$GHUB_PASSWORD@github.com/mondrian-scwgs/mondrian_tasks.git
+      - cd $CODEBUILD_SRC_DIR/mondrian/imports && git clone -b $TAG https://$GHUB_USERNAME:$GHUB_PASSWORD@github.com/mondrian-scwgs/mondrian_tasks.git
+      - cat $CODEBUILD_SRC_DIR/mondrian/imports/mondrian_tasks/mondrian_tasks/io/bam/utils.wdl
 #      - cd $CODEBUILD_SRC_DIR/mondrian && zip -r $CODEBUILD_SRC_DIR/tests/shared_resources/imports_${TAG}.zip imports
 #      - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv https://mondriantestdata.s3.amazonaws.com/mondrian-ref-20-22.tar.gz && tar -xvf mondrian-ref-20-22.tar.gz
 #      - cd $CODEBUILD_SRC_DIR/tests/shared_resources && wget -nv -O cromwell.jar https://github.com/broadinstitute/cromwell/releases/download/66/cromwell-66.jar
