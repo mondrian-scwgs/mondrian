@@ -1,0 +1,35 @@
+FROM quay.io/singlecellpipelinetest/miniconda3:4.8.2
+
+ADD . /app
+ARG VERSION
+
+RUN apt-get --allow-releaseinfo-change update && \
+    apt-get install -y parallel samtools libbz2-dev build-essential zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN conda install --file /app/base_requirements.yml
+RUN pip install pyvcf pysam==0.20.0 pyyaml click
+
+RUN cp /app/run_strelka /opt/conda/bin && chmod 777 /opt/conda/bin/run_strelka
+RUN cp /app/vcf2maf /opt/conda/bin/ && chmod 777 /opt/conda/bin/vcf2maf
+
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/pypeliner*
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.5 --no-deps
+
+RUN wget -nv https://github.com/10XGenomics/vartrix/releases/download/v1.1.22/vartrix_linux && \
+    mv vartrix_linux /opt/conda/bin/vartrix_linux && \
+    chmod -R 777 /opt/conda/bin/vartrix_linux
+
+RUN conda create --name museq python=2.7
+SHELL ["conda", "run", "-n", "museq", "/bin/bash", "-c"]
+RUN conda install --file /app/museq_requirements.yml
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+
+RUN conda create --name strelka python=2.7
+SHELL ["conda", "run", "-n", "strelka", "/bin/bash", "-c"]
+RUN conda install --file /app/strelka_requirements.yml
+SHELL ["conda", "run", "-n", "base", "/bin/bash", "-c"]
+
+ENV PATH="${PATH}:/opt/conda/envs/museq/bin:/opt/conda/envs/strelka/share/strelka-2.8.2-0/libexec/"
+ENV STRELKA_SHARE_DIR '/opt/conda/envs/strelka/share/strelka-2.8.2-0/'
