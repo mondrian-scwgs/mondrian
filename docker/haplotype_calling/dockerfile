@@ -1,3 +1,4 @@
 FROM quay.io/mondrianscwgs/haplotype_calling:v0.0.90
 ARG VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN rm -rf /opt/conda/lib/python3.9/site-packages/mondrianutils* && pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+
