@@ -31,6 +31,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "AlignmentWorkflow.metadata_yaml": "alignment_testdata/metadata.yaml",
 "AlignmentWorkflow.reference": {
     "genome_name": "human",
+    "genome_version": "grch37",
     "reference" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa",
     "reference_fa_fai" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.fai",
     "reference_fa_amb" : "<path-to-mondrian-ref>/human/GRCh37-lite.fa.amb",
@@ -42,6 +43,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
 "AlignmentWorkflow.supplementary_references":[
     {
     "genome_name": "mouse",
+    "genome_version": "mm10",
     "reference" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta",
     "reference_fa_fai" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.fai",
     "reference_fa_amb" : "<path-to-mondrian-ref>/mouse/mm10_build38_mouse.fasta.amb",
@@ -52,6 +54,7 @@ replace `<path to refdir>` with the reference dir we downloaded in the beginning
     },
     {
     "genome_name": "salmon",
+    "genome_version": "GCF_002021735",
     "reference" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna",
     "reference_fa_fai" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.fai",
     "reference_fa_amb" : "<path-to-mondrian-ref>/salmon/GCF_002021735.1_Okis_V1_genomic.fna.amb",
