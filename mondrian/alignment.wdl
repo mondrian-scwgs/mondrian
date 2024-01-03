@@ -81,18 +81,6 @@ workflow AlignmentWorkflow{
             walltime_override = walltime_override,
     }
 
-
-    call utils.AddContaminationStatus as contaminated{
-        input:
-            input_csv = concat_metrics.outfile,
-            input_yaml = concat_metrics.outfile_yaml,
-            reference_genome = reference.genome_name,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override,
-    }
-
     call tar.TarFiles as tar{
         input:
             inputs = alignment.tar_output,
@@ -105,8 +93,8 @@ workflow AlignmentWorkflow{
 
     call metrics.AddMetadata as add_metadata{
         input:
-            metrics =  contaminated.output_csv,
-            metrics_yaml = contaminated.output_yaml,
+            metrics =  concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
             metadata_yaml = select_first([metadata_yaml, validation.metadata_yaml_output]),
             filename_prefix = filename_prefix + '_alignment_metrics',
             singularity_image = singularity_image,
