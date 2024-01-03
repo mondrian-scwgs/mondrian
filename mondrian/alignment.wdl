@@ -58,28 +58,6 @@ workflow AlignmentWorkflow{
         }
     }
 
-    call csverve.ConcatenateCsv as concat_fastqscreen_detailed{
-        input:
-            inputfile = alignment.fastqscreen_detailed_metrics,
-            inputyaml = alignment.fastqscreen_detailed_metrics_yaml,
-            filename_prefix = filename_prefix + '_detailed_fastqscreen_breakdown',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override,
-    }
-
-    call csverve.ConcatenateCsv as concat_fastqscreen_summary{
-        input:
-            inputfile = alignment.fastqscreen_summary_metrics,
-            inputyaml = alignment.fastqscreen_summary_metrics_yaml,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override,
-    }
-
-
     call csverve.ConcatenateCsv as concat_gc_metrics{
         input:
             inputfile = alignment.gc_metrics,
@@ -103,22 +81,11 @@ workflow AlignmentWorkflow{
             walltime_override = walltime_override,
     }
 
-    call csverve.MergeCsv as annotate_with_fastqscreen{
-        input:
-            inputfiles = [concat_fastqscreen_summary.outfile, concat_metrics.outfile],
-            inputyamls = [concat_fastqscreen_summary.outfile_yaml, concat_metrics.outfile_yaml],
-            how='outer',
-            on=['cell_id'],
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override,
-    }
 
     call utils.AddContaminationStatus as contaminated{
         input:
-            input_csv = annotate_with_fastqscreen.outfile,
-            input_yaml = annotate_with_fastqscreen.outfile_yaml,
+            input_csv = concat_metrics.outfile,
+            input_yaml = concat_metrics.outfile_yaml,
             reference_genome = reference.genome_name,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -175,8 +142,6 @@ workflow AlignmentWorkflow{
             metrics_yaml = add_metadata.output_csv_yaml,
             gc_metrics = concat_gc_metrics.outfile,
             gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
-            fastqscreen_detailed = concat_fastqscreen_detailed.outfile,
-            fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml,
             tarfile = tar.tar_output,
             metadata_input = select_first([metadata_yaml, validation.metadata_yaml_output]),
             singularity_image = singularity_image,
@@ -199,8 +164,6 @@ workflow AlignmentWorkflow{
         File metrics_yaml = add_metadata.output_csv_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
-        File fastqscreen_detailed = concat_fastqscreen_detailed.outfile
-        File fastqscreen_detailed_yaml = concat_fastqscreen_detailed.outfile_yaml
         File tarfile = tar.tar_output
         File metadata = alignment_metadata.metadata_output
     }
