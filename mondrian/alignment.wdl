@@ -91,25 +91,13 @@ workflow AlignmentWorkflow{
             walltime_override = walltime_override,
     }
 
-    call metrics.AddMetadata as add_metadata{
-        input:
-            metrics =  concat_metrics.outfile,
-            metrics_yaml = concat_metrics.outfile_yaml,
-            metadata_yaml = select_first([metadata_yaml, validation.metadata_yaml_output]),
-            filename_prefix = filename_prefix + '_alignment_metrics',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override,
-    }
-
     call utils.BamMerge as merge_bam_files{
         input:
             input_bams = alignment.bam,
             cell_ids = cellid,
             reference = reference.reference,
-            metrics = add_metadata.output_csv,
-            metrics_yaml = add_metadata.output_csv_yaml,
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
             filename_prefix = filename_prefix + "_all_cells_bulk",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -126,8 +114,8 @@ workflow AlignmentWorkflow{
             contaminated_bai = merge_bam_files.contaminated_outfile_bai,
             control_bam = merge_bam_files.control_outfile,
             control_bai = merge_bam_files.control_outfile_bai,
-            metrics = add_metadata.output_csv,
-            metrics_yaml = add_metadata.output_csv_yaml,
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
             gc_metrics = concat_gc_metrics.outfile,
             gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
             tarfile = tar.tar_output,
@@ -148,8 +136,8 @@ workflow AlignmentWorkflow{
         File control_bam = merge_bam_files.control_outfile
         File control_bai = merge_bam_files.control_outfile_bai
         File control_tdf = merge_bam_files.control_outfile_tdf
-        File metrics = add_metadata.output_csv
-        File metrics_yaml = add_metadata.output_csv_yaml
+        File metrics = concat_metrics.outfile
+        File metrics_yaml = concat_metrics.outfile_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
         File tarfile = tar.tar_output
