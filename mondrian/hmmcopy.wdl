@@ -211,20 +211,20 @@ workflow HmmcopyWorkflow{
 
 
 
-    call utils.AddMappability as add_mappability{
-        input:
-            infile = merge_overlapping_fraction.outfile,
-            infile_yaml = merge_overlapping_fraction.outfile_yaml,
-            filename_prefix = filename_prefix + "_hmmcopy_reads",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
+#    call utils.AddMappability as add_mappability{
+#        input:
+#            infile = merge_overlapping_fraction.outfile,
+#            infile_yaml = merge_overlapping_fraction.outfile_yaml,
+#            filename_prefix = filename_prefix + "_hmmcopy_reads",
+#            singularity_image = singularity_image,
+#            docker_image = docker_image,
+#            memory_override = memory_override,
+#            walltime_override = walltime_override
+#    }
 
     call utils.CellCycleClassifier as cell_cycle_classifier{
         input:
-            hmmcopy_reads = add_mappability.outfile,
+            hmmcopy_reads = merge_overlapping_fraction.outfile,
             hmmcopy_metrics = merge_alignment_metrics.outfile,
             alignment_metrics = alignment_metrics,
             singularity_image = singularity_image,
@@ -249,8 +249,8 @@ workflow HmmcopyWorkflow{
         input:
             metrics = merge_cell_cycle.outfile,
             metrics_yaml = merge_cell_cycle.outfile_yaml,
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes = chromosomes,
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -258,19 +258,19 @@ workflow HmmcopyWorkflow{
             walltime_override = walltime_override
     }
 
-    call utils.AddQuality as add_quality{
-        input:
-            hmmcopy_metrics = add_order.output_csv,
-            hmmcopy_metrics_yaml = add_order.output_yaml,
-            alignment_metrics = alignment_metrics,
-            alignment_metrics_yaml = alignment_metrics_yaml,
-            classifier_training_data = reference.classifier_training_data,
-            filename_prefix = filename_prefix + "_hmmcopy_metrics",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
+#    call utils.AddQuality as add_quality{
+#        input:
+#            hmmcopy_metrics = add_order.output_csv,
+#            hmmcopy_metrics_yaml = add_order.output_yaml,
+#            alignment_metrics = alignment_metrics,
+#            alignment_metrics_yaml = alignment_metrics_yaml,
+#            classifier_training_data = reference.classifier_training_data,
+#            filename_prefix = filename_prefix + "_hmmcopy_metrics",
+#            singularity_image = singularity_image,
+#            docker_image = docker_image,
+#            memory_override = memory_override,
+#            walltime_override = walltime_override
+#    }
 
     call utils.CreateSegmentsTar as merge_segments{
         input:
@@ -289,8 +289,8 @@ workflow HmmcopyWorkflow{
         input:
             metrics = add_quality.outfile,
             metrics_yaml = add_quality.outfile_yaml,
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes=chromosomes,
             filename_prefix = filename_prefix + "_hmmcopy_heatmap",
             singularity_image = singularity_image,
@@ -314,8 +314,8 @@ workflow HmmcopyWorkflow{
 
     call utils.HmmcopyMetadata as hmmcopy_metadata{
         input:
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             segments = concat_segments.outfile,
             segments_yaml = concat_segments.outfile_yaml,
             params = concat_params.outfile,
@@ -333,8 +333,8 @@ workflow HmmcopyWorkflow{
     }
 
     output{
-        File reads = add_mappability.outfile
-        File reads_yaml = add_mappability.outfile_yaml
+        File reads = merge_overlapping_fraction.outfile
+        File reads_yaml = merge_overlapping_fraction.outfile_yaml
         File segments = concat_segments.outfile
         File segments_yaml = concat_segments.outfile_yaml
         File params = concat_params.outfile
