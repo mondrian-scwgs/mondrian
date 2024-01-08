@@ -132,6 +132,7 @@ workflow HmmcopyWorkflow{
                 map_wig = reference.map_wig,
                 reference = reference.reference,
                 reference_fai = reference.reference_fai,
+                quality_classifier_training_data = reference.classifier_training_data,
                 map_cutoff = '0.9',
                 singularity_image = singularity_image,
                 docker_image = docker_image,
