@@ -130,6 +130,7 @@ workflow HmmcopyWorkflow{
                 readcount_wig = wigfile,
                 gc_wig = reference.gc_wig,
                 map_wig = reference.map_wig,
+                alignment_metrics=alignment_metrics,
                 reference = reference.reference,
                 reference_fai = reference.reference_fai,
                 quality_classifier_training_data = reference.classifier_training_data,
