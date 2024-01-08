@@ -274,8 +274,8 @@ workflow HmmcopyWorkflow{
 
     call utils.CreateSegmentsTar as merge_segments{
         input:
-            hmmcopy_metrics = add_quality.outfile,
-            hmmcopy_metrics_yaml = add_quality.outfile_yaml,
+            hmmcopy_metrics = add_order.output_csv,
+            hmmcopy_metrics_yaml = add_order.output_yaml,
             segments_plot = hmmcopy.segments_pdf,
             segments_plot_sample = hmmcopy.segments_sample,
             filename_prefix = filename_prefix + "_hmmcopy_segments",
@@ -287,8 +287,8 @@ workflow HmmcopyWorkflow{
 
     call utils.PlotHeatmap as heatmap{
         input:
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
             reads = merge_overlapping_fraction.outfile,
             reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes=chromosomes,
@@ -301,8 +301,8 @@ workflow HmmcopyWorkflow{
 
     call utils.GenerateHtmlReport as html_report{
         input:
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
             filename_prefix = filename_prefix + "_qc_html",
@@ -320,8 +320,8 @@ workflow HmmcopyWorkflow{
             segments_yaml = concat_segments.outfile_yaml,
             params = concat_params.outfile,
             params_yaml = concat_params.outfile_yaml,
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
             heatmap = heatmap.heatmap_pdf,
             segments_pass = merge_segments.segments_pass,
             segments_fail = merge_segments.segments_fail,
@@ -339,8 +339,8 @@ workflow HmmcopyWorkflow{
         File segments_yaml = concat_segments.outfile_yaml
         File params = concat_params.outfile
         File params_yaml = concat_params.outfile_yaml
-        File metrics = add_quality.outfile
-        File metrics_yaml = add_quality.outfile_yaml
+        File metrics = add_order.output_csv
+        File metrics_yaml = add_order.output_yaml
         File segments_pass = merge_segments.segments_pass
         File segments_fail = merge_segments.segments_fail
         File heatmap_pdf = heatmap.heatmap_pdf
