@@ -2,4 +2,4 @@ FROM quay.io/mondrianscwgs/hmmcopy:v0.0.91
 ARG VERSION
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
 RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@master
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.6 --no-deps
+RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@dont_validate_inner_merge --no-deps
