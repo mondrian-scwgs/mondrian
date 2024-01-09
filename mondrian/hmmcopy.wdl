@@ -153,17 +153,17 @@ workflow HmmcopyWorkflow{
             walltime_override = walltime_override
     }
 
-    call csverve.MergeCsv as merge_alignment_metrics{
-        input:
-            inputfiles = [concat_metrics.outfile, alignment_metrics],
-            inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
-            on = ["cell_id"],
-            how="outer",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
+#    call csverve.MergeCsv as merge_alignment_metrics{
+#        input:
+#            inputfiles = [concat_metrics.outfile, alignment_metrics],
+#            inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
+#            on = ["cell_id"],
+#            how="outer",
+#            singularity_image = singularity_image,
+#            docker_image = docker_image,
+#            memory_override = memory_override,
+#            walltime_override = walltime_override
+#    }
 
 
     call csverve.ConcatenateCsv as concat_params{
@@ -225,33 +225,33 @@ workflow HmmcopyWorkflow{
 #            walltime_override = walltime_override
 #    }
 
-    call utils.CellCycleClassifier as cell_cycle_classifier{
-        input:
-            hmmcopy_reads = merge_overlapping_fraction.outfile,
-            hmmcopy_metrics = merge_alignment_metrics.outfile,
-            alignment_metrics = alignment_metrics,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
-    call csverve.MergeCsv as merge_cell_cycle{
-        input:
-            inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
-            inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
-            on = ['cell_id'],
-            how = 'outer',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
+#    call utils.CellCycleClassifier as cell_cycle_classifier{
+#        input:
+#            hmmcopy_reads = merge_overlapping_fraction.outfile,
+#            hmmcopy_metrics = merge_alignment_metrics.outfile,
+#            alignment_metrics = alignment_metrics,
+#            singularity_image = singularity_image,
+#            docker_image = docker_image,
+#            memory_override = memory_override,
+#            walltime_override = walltime_override
+#    }
+#
+#    call csverve.MergeCsv as merge_cell_cycle{
+#        input:
+#            inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
+#            inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
+#            on = ['cell_id'],
+#            how = 'outer',
+#            singularity_image = singularity_image,
+#            docker_image = docker_image,
+#            memory_override = memory_override,
+#            walltime_override = walltime_override
+#    }
 
     call utils.AddClusteringOrder as add_order{
         input:
-            metrics = merge_cell_cycle.outfile,
-            metrics_yaml = merge_cell_cycle.outfile_yaml,
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
             reads = merge_overlapping_fraction.outfile,
             reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes = chromosomes,
