@@ -17,6 +17,11 @@ workflow AlignmentWorkflow{
         Array[Reference] supplementary_references
         Reference reference
         File metadata_yaml
+        File gc_wig
+        File map_wig
+        File repeats_satellite_regions
+        File quality_classifier_training_data
+        Array[String] chromosomes
         String? singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
         String? filename_prefix = "alignment_workflow"
@@ -57,6 +62,25 @@ workflow AlignmentWorkflow{
                 memory_override = memory_override,
                 walltime_override = walltime_override
         }
+        call hmmcopy_utils.CellHmmcopy as cell_hmmcopy{
+            input:
+                bamfile = alignment.bam,
+                gc_wig = gc_wig,
+                map_wig = map_wig,
+                reference= reference.reference,
+                reference_fai = reference.reference_fa_fai,
+                alignment_metrics = alignment.metrics,
+                alignment_metrics_yaml = alignment.metrics_yaml,
+                repeats_satellite_regions = repeats_satellite_regions,
+                chromosomes=chromosomes,
+                quality_classifier_training_data = quality_classifier_training_data,
+                map_cutoff = '0.9',
+                singularity_image = singularity_image,
+                docker_image = docker_image,
+                memory_override = memory_override,
+                walltime_override = walltime_override
+        }
+
     }
 
     call csverve.ConcatenateCsv as concat_gc_metrics{
@@ -74,8 +98,8 @@ workflow AlignmentWorkflow{
 
     call csverve.ConcatenateCsv as concat_metrics{
         input:
-            inputfile = alignment.metrics,
-            inputyaml = alignment.metrics_yaml,
+            inputfile = cell_hmmcopy.metrics,
+            inputyaml = cell_hmmcopy.metrics_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
