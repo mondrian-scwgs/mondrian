@@ -65,6 +65,7 @@ workflow AlignmentWorkflow{
         call hmmcopy_utils.CellHmmcopy as cell_hmmcopy{
             input:
                 bamfile = alignment.bam,
+                baifile = alignment.bai,
                 gc_wig = gc_wig,
                 map_wig = map_wig,
                 reference= reference.reference,
