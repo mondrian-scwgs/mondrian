@@ -107,14 +107,37 @@ workflow AlignmentWorkflow{
             walltime_override = walltime_override,
     }
 
-    call tar.TarFiles as tar{
+    call csverve.ConcatenateCsv as concat_params{
         input:
-            inputs = alignment.tar_output,
-            filename_prefix = filename_prefix + '_alignment_metrics',
+            inputfile = cell_hmmcopy.params,
+            inputyaml = cell_hmmcopy.params_yaml,
+            filename_prefix = filename_prefix + "_hmmcopy_params",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
-            walltime_override = walltime_override,
+            walltime_override = walltime_override
+    }
+
+    call csverve.ConcatenateCsv as concat_segments{
+        input:
+            inputfile = cell_hmmcopy.segments,
+            inputyaml = cell_hmmcopy.segments_yaml,
+            filename_prefix = filename_prefix + "_hmmcopy_segments",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call csverve.ConcatenateCsv as concat_reads{
+        input:
+            inputfile = cell_hmmcopy.reads,
+            inputyaml = cell_hmmcopy.reads_yaml,
+            filename_prefix = filename_prefix + "_hmmcopy_reads",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.BamMerge as merge_bam_files{
@@ -130,6 +153,69 @@ workflow AlignmentWorkflow{
             num_threads=num_threads,
             memory_override = memory_override,
             walltime_override = walltime_override,
+    }
+
+    call hmmcopy_utils.AddClusteringOrder as add_order{
+        input:
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
+            reads = concat_reads.outfile,
+            reads_yaml = concat_reads.outfile_yaml,
+            chromosomes = chromosomes,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call hmmcopy_utils.PlotHeatmap as heatmap{
+        input:
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
+            reads = concat_reads.outfile,
+            reads_yaml = concat_reads.outfile_yaml,
+            chromosomes=chromosomes,
+            filename_prefix = filename_prefix + "_hmmcopy_heatmap",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call hmmcopy_utils.GenerateHtmlReport as html_report{
+        input:
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
+            gc_metrics = concat_gc_metrics.outfile,
+            gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
+            filename_prefix = filename_prefix + "_qc_html",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
+    call tar.TarFiles as tar{
+        input:
+            inputs = alignment.tar_output,
+            filename_prefix = filename_prefix + '_alignment_metrics',
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override,
+    }
+
+    call hmmcopy_utils.CreateSegmentsTar as merge_segments{
+        input:
+            hmmcopy_metrics = concat_metrics.outfile,
+            hmmcopy_metrics_yaml = concat_metrics.outfile_yaml,
+            segments_plot = cell_hmmcopy.segments_pdf,
+            segments_plot_sample = cell_hmmcopy.segments_sample,
+            filename_prefix = filename_prefix + "_hmmcopy_segments",
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
     }
 
     call utils.AlignmentMetadata as alignment_metadata{
@@ -162,11 +248,21 @@ workflow AlignmentWorkflow{
         File control_bam = merge_bam_files.control_outfile
         File control_bai = merge_bam_files.control_outfile_bai
         File control_tdf = merge_bam_files.control_outfile_tdf
-        File metrics = concat_metrics.outfile
-        File metrics_yaml = concat_metrics.outfile_yaml
+        File metrics = add_order.output_csv
+        File metrics_yaml = add_order.output_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
+        File reads = concat_reads.outfile
+        File reads_yaml = concat_reads.outfile_yaml
+        File segments = concat_segments.outfile
+        File segments_yaml = concat_segments.outfile_yaml
+        File params = concat_params.outfile
+        File params_yaml = concat_params.outfile_yaml
         File tarfile = tar.tar_output
         File metadata = alignment_metadata.metadata_output
+        File segments_pass = merge_segments.segments_pass
+        File segments_fail = merge_segments.segments_fail
+        File heatmap_pdf = heatmap.heatmap_pdf
+        File final_html_report = html_report.html_report
     }
 }
