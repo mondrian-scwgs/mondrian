@@ -200,11 +200,22 @@ workflow HmmcopyWorkflow{
             walltime_override = walltime_override
     }
 
+    call utils.CellCycleClassifier as cell_cycle_classifier{
+        input:
+            hmmcopy_reads = merge_overlapping_fraction.outfile,
+            hmmcopy_metrics = concat_metrics.outfile,
+            alignment_metrics = alignment_metrics,
+            singularity_image = singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override
+    }
+
 
     call utils.AddClusteringOrder as add_order{
         input:
-            metrics = concat_metrics.outfile,
-            metrics_yaml = concat_metrics.outfile_yaml,
+            metrics = cell_cycle_classifier.outfile,
+            metrics_yaml = cell_cycle_classifier.outfile_yaml,
             reads = merge_overlapping_fraction.outfile,
             reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes = chromosomes,
