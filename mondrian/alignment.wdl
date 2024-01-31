@@ -75,6 +75,7 @@ workflow AlignmentWorkflow{
         input:
             inputfile = alignment.metrics,
             inputyaml = alignment.metrics_yaml,
+            filename_prefix = filename_prefix + "_alignment_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
