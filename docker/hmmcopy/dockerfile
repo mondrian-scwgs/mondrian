@@ -1,3 +1,3 @@
 FROM quay.io/mondrianscwgs/hmmcopy:v0.0.92beta
 ARG VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/mondrianutils && pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
