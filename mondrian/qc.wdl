@@ -25,7 +25,7 @@ workflow QcWorkflow{
         String? alignment_singularity_image = ""
         String? hmmcopy_singularity_image = ""
         String? docker_image = "quay.io/baselibrary/ubuntu"
-        String? filename_prefix = "alignment_workflow"
+        String? filename_prefix = "qc_workflow"
         Int? num_threads = 8
         Int? num_threads_align = 1
         Int? memory_override
