@@ -138,7 +138,7 @@ workflow AlignmentWorkflow{
         File control_bai = merge_bam_files.control_outfile_bai
         File control_tdf = merge_bam_files.control_outfile_tdf
         File metrics = concat_metrics.outfile
-        File metrics_yaml = concat_metrics.outfile
+        File metrics_yaml = concat_metrics.outfile_yaml
         File gc_metrics = concat_gc_metrics.outfile
         File gc_metrics_yaml = concat_gc_metrics.outfile_yaml
         File tarfile = tar.tar_output
