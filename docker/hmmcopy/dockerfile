@@ -1,11 +1,2 @@
-FROM quay.io/singlecellpipelinetest/miniconda3:4.10.3
-ADD . /app
-ARG VERSION
-
-RUN apt-get update -y && apt install parallel -y && rm -rf /var/lib/apt/lists/*
-
-RUN conda install  --file /app/requirements.yml
+FROM quay.io/mondrianscwgs/hmmcopy:v0.0.92beta
 RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
-RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.7 --no-deps
-RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@v0.0.4
-RUN pip install tables jinja2 statsmodels==0.13.1 awscli
