@@ -7,14 +7,14 @@ wget -nv https://mondriantestdata.s3.amazonaws.com/result_reference.tar.gz
 tar -xvf result_reference.tar.gz
 
 
-docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare-alignment \
-    --metrics $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/alignment_workflow_alignment_metrics.csv.gz --metrics_ref result_reference/alignment_metrics.csv.gz \
-    --gc_metrics $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/alignment_workflow_alignment_gc_metrics.csv.gz --gc_metrics_ref result_reference/alignment_gc_metrics.csv.gz
+#docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare-alignment \
+#    --metrics $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/alignment_workflow_alignment_metrics.csv.gz --metrics_ref result_reference/alignment_metrics.csv.gz \
+#    --gc_metrics $CODEBUILD_SRC_DIR/tests/alignment/outputs/results/alignment_workflow_alignment_gc_metrics.csv.gz --gc_metrics_ref result_reference/alignment_gc_metrics.csv.gz
 
 
-#docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/hmmcopy:${TAG}beta mondrian_build_utils compare-hmmcopy \
-#    --reads $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/merged.csv.gz --reads_ref result_reference/hmmcopy_reads.csv.gz \
-#    --metrics $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/added_clustering_order.csv.gz --metrics_ref result_reference/hmmcopy_metrics.csv.gz
+docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/hmmcopy:${TAG}beta mondrian_build_utils compare-hmmcopy \
+    --reads $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/merged.csv.gz --reads_ref result_reference/hmmcopy_reads.csv.gz \
+    --metrics $CODEBUILD_SRC_DIR/tests/hmmcopy/outputs/results/added_clustering_order.csv.gz --metrics_ref result_reference/hmmcopy_metrics.csv.gz
 #
 #docker run -w $PWD -v $PWD:$PWD -v $CODEBUILD_SRC_DIR:$CODEBUILD_SRC_DIR quay.io/mondrianscwgs/alignment:${TAG}beta mondrian_build_utils compare-breakpoint-calling \
 #    --destruct $CODEBUILD_SRC_DIR/tests/breakpoint_calling/outputs/results/breakpoint_destruct_somatic_breakpoints.csv --destruct_ref result_reference/destruct.csv \
