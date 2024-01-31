@@ -156,11 +156,14 @@ workflow QcWorkflow{
             walltime_override = walltime_override,
     }
 
-    call utils.CellCycleClassifier as cell_cycle_classifier{
+    call hmmcopy_utils.CellCycleClassifier as cell_cycle_classifier{
         input:
             hmmcopy_reads = concat_reads.outfile,
+            hmmcopy_reads_yaml = concat_reads.outfile_yaml,
             hmmcopy_metrics = concat_metrics.outfile,
+            hmmcopy_metrics_yaml = concat_metrics.outfile_yaml,
             alignment_metrics = concat_metrics.outfile,
+            alignment_metrics_yaml = concat_metrics.outfile_yaml,
             singularity_image = hmmcopy_singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
