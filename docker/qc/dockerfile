@@ -1,14 +1,16 @@
 FROM quay.io/singlecellpipelinetest/miniconda3:4.12.0
 ADD . /app
-ARG VERSION
 
 RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
 
 RUN conda install --file /app/align_requirements.yml
 
-RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@$VERSION
+RUN pip install git+https://github.com/mondrian-scwgs/mondrian_utils.git@v0.0.92
 RUN pip install git+https://github.com/mondrian-scwgs/csverve.git@v0.3.7
-RUN pip install matplotlib==3.5.3 seaborn scikit-learn statsmodels awscli
+RUN pip install matplotlib==3.5.3 seaborn scikit-learn statsmodels
+RUN pip install git+https://github.com/shahcompbio/cell_cycle_classifier.git@v0.0.4
+RUN pip install tables jinja2 statsmodels pypdf2
+
 
 RUN conda create --name trimgalore
 SHELL ["conda", "run", "-n", "trimgalore", "/bin/bash", "-c"]

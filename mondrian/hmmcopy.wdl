@@ -130,8 +130,12 @@ workflow HmmcopyWorkflow{
                 readcount_wig = wigfile,
                 gc_wig = reference.gc_wig,
                 map_wig = reference.map_wig,
+                alignment_metrics=alignment_metrics,
+                alignment_metrics_yaml=alignment_metrics_yaml,
                 reference = reference.reference,
                 reference_fai = reference.reference_fai,
+                quality_classifier_training_data = reference.classifier_training_data,
+                quality_classifier_model = reference.classifier_model,
                 map_cutoff = '0.9',
                 singularity_image = singularity_image,
                 docker_image = docker_image,
@@ -149,19 +153,6 @@ workflow HmmcopyWorkflow{
             memory_override = memory_override,
             walltime_override = walltime_override
     }
-
-    call csverve.MergeCsv as merge_alignment_metrics{
-        input:
-            inputfiles = [concat_metrics.outfile, alignment_metrics],
-            inputyamls = [concat_metrics.outfile_yaml, alignment_metrics_yaml],
-            on = ["cell_id"],
-            how="outer",
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
 
     call csverve.ConcatenateCsv as concat_params{
         input:
@@ -203,18 +194,6 @@ workflow HmmcopyWorkflow{
             inputyamls = [concat_reads.outfile_yaml, concat_overlapping_fraction.outfile_yaml],
             on = ['chr','start','end','cell_id'],
             how = 'outer',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
-
-
-    call utils.AddMappability as add_mappability{
-        input:
-            infile = merge_overlapping_fraction.outfile,
-            infile_yaml = merge_overlapping_fraction.outfile_yaml,
             filename_prefix = filename_prefix + "_hmmcopy_reads",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -224,47 +203,26 @@ workflow HmmcopyWorkflow{
 
     call utils.CellCycleClassifier as cell_cycle_classifier{
         input:
-            hmmcopy_reads = add_mappability.outfile,
-            hmmcopy_metrics = merge_alignment_metrics.outfile,
+            hmmcopy_reads = merge_overlapping_fraction.outfile,
+            hmmcopy_reads_yaml = merge_overlapping_fraction.outfile_yaml,
+            hmmcopy_metrics = concat_metrics.outfile,
+            hmmcopy_metrics_yaml = concat_metrics.outfile_yaml,
             alignment_metrics = alignment_metrics,
+            alignment_metrics_yaml = alignment_metrics_yaml,
             singularity_image = singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
             walltime_override = walltime_override
     }
 
-    call csverve.MergeCsv as merge_cell_cycle{
-        input:
-            inputfiles = [merge_alignment_metrics.outfile, cell_cycle_classifier.outfile],
-            inputyamls = [merge_alignment_metrics.outfile_yaml, cell_cycle_classifier.outfile_yaml],
-            on = ['cell_id'],
-            how = 'outer',
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
 
     call utils.AddClusteringOrder as add_order{
         input:
-            metrics = merge_cell_cycle.outfile,
-            metrics_yaml = merge_cell_cycle.outfile_yaml,
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            metrics = cell_cycle_classifier.outfile,
+            metrics_yaml = cell_cycle_classifier.outfile_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes = chromosomes,
-            singularity_image = singularity_image,
-            docker_image = docker_image,
-            memory_override = memory_override,
-            walltime_override = walltime_override
-    }
-
-    call utils.AddQuality as add_quality{
-        input:
-            hmmcopy_metrics = add_order.output_csv,
-            hmmcopy_metrics_yaml = add_order.output_yaml,
-            alignment_metrics = alignment_metrics,
-            alignment_metrics_yaml = alignment_metrics_yaml,
-            classifier_training_data = reference.classifier_training_data,
             filename_prefix = filename_prefix + "_hmmcopy_metrics",
             singularity_image = singularity_image,
             docker_image = docker_image,
@@ -274,8 +232,8 @@ workflow HmmcopyWorkflow{
 
     call utils.CreateSegmentsTar as merge_segments{
         input:
-            hmmcopy_metrics = add_quality.outfile,
-            hmmcopy_metrics_yaml = add_quality.outfile_yaml,
+            hmmcopy_metrics = add_order.output_csv,
+            hmmcopy_metrics_yaml = add_order.output_yaml,
             segments_plot = hmmcopy.segments_pdf,
             segments_plot_sample = hmmcopy.segments_sample,
             filename_prefix = filename_prefix + "_hmmcopy_segments",
@@ -287,10 +245,10 @@ workflow HmmcopyWorkflow{
 
     call utils.PlotHeatmap as heatmap{
         input:
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             chromosomes=chromosomes,
             filename_prefix = filename_prefix + "_hmmcopy_heatmap",
             singularity_image = singularity_image,
@@ -301,8 +259,8 @@ workflow HmmcopyWorkflow{
 
     call utils.GenerateHtmlReport as html_report{
         input:
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
             gc_metrics = gc_metrics,
             gc_metrics_yaml = gc_metrics_yaml,
             filename_prefix = filename_prefix + "_qc_html",
@@ -314,14 +272,14 @@ workflow HmmcopyWorkflow{
 
     call utils.HmmcopyMetadata as hmmcopy_metadata{
         input:
-            reads = add_mappability.outfile,
-            reads_yaml = add_mappability.outfile_yaml,
+            reads = merge_overlapping_fraction.outfile,
+            reads_yaml = merge_overlapping_fraction.outfile_yaml,
             segments = concat_segments.outfile,
             segments_yaml = concat_segments.outfile_yaml,
             params = concat_params.outfile,
             params_yaml = concat_params.outfile_yaml,
-            metrics = add_quality.outfile,
-            metrics_yaml = add_quality.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_yaml,
             heatmap = heatmap.heatmap_pdf,
             segments_pass = merge_segments.segments_pass,
             segments_fail = merge_segments.segments_fail,
@@ -333,14 +291,14 @@ workflow HmmcopyWorkflow{
     }
 
     output{
-        File reads = add_mappability.outfile
-        File reads_yaml = add_mappability.outfile_yaml
+        File reads = merge_overlapping_fraction.outfile
+        File reads_yaml = merge_overlapping_fraction.outfile_yaml
         File segments = concat_segments.outfile
         File segments_yaml = concat_segments.outfile_yaml
         File params = concat_params.outfile
         File params_yaml = concat_params.outfile_yaml
-        File metrics = add_quality.outfile
-        File metrics_yaml = add_quality.outfile_yaml
+        File metrics = add_order.output_csv
+        File metrics_yaml = add_order.output_yaml
         File segments_pass = merge_segments.segments_pass
         File segments_fail = merge_segments.segments_fail
         File heatmap_pdf = heatmap.heatmap_pdf
