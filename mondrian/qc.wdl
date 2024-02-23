@@ -9,6 +9,7 @@ import "imports/mondrian_tasks/mondrian_tasks/io/tar/utils.wdl" as tar
 import "imports/mondrian_tasks/mondrian_tasks/alignment/utils.wdl" as utils
 import "imports/mondrian_tasks/mondrian_tasks/types/alignment.wdl"
 import "imports/mondrian_tasks/mondrian_tasks/hmmcopy/utils.wdl" as hmmcopy_utils
+import "imports/mondrian_tasks/mondrian_tasks/qc/utils.wdl" as qc_utils
 
 
 workflow QcWorkflow{
@@ -211,7 +212,7 @@ workflow QcWorkflow{
             walltime_override = walltime_override
     }
 
-    call tar.TarFiles as tar{
+    call tar.TarFiles as alignment_tar{
         input:
             inputs = alignment.tar_output,
             filename_prefix = filename_prefix + '_alignment_metrics',
@@ -221,18 +222,46 @@ workflow QcWorkflow{
             walltime_override = walltime_override,
     }
 
-    call hmmcopy_utils.CreateSegmentsTar as merge_segments{
+    call tar.TarFiles as hmmcopy_tar{
         input:
-            hmmcopy_metrics = concat_metrics.outfile,
-            hmmcopy_metrics_yaml = concat_metrics.outfile_yaml,
-            segments_plot = cell_hmmcopy.segments_pdf,
-            segments_plot_sample = cell_hmmcopy.segments_sample,
-            filename_prefix = filename_prefix + "_hmmcopy_segments",
+            inputs = cell_hmmcopy.tarball,
+            filename_prefix = filename_prefix + '_hmmcopy_metrics',
             singularity_image = hmmcopy_singularity_image,
             docker_image = docker_image,
             memory_override = memory_override,
-            walltime_override = walltime_override
+            walltime_override = walltime_override,
     }
+
+
+    call utils.QcMetadata as qc_metadata{
+        input:
+            bam = merge_bam_files.pass_outfile,
+            bai = merge_bam_files.pass_outfile_bai,
+            contaminated_bam = merge_bam_files.contaminated_outfile,
+            contaminated_bai = merge_bam_files.contaminated_outfile_bai,
+            control_bam = merge_bam_files.control_outfile,
+            control_bai = merge_bam_files.control_outfile_bai,
+            gc_metrics = concat_gc_metrics.outfile,
+            gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
+            metrics = concat_metrics.outfile,
+            metrics_yaml = concat_metrics.outfile_yaml,
+            params = concat_params.outfile,
+            params_yaml = concat_params.outfile_yaml,
+            segments = concat_segments.outfile,
+            segments_yaml = concat_segments.outfile_yaml,
+            reads = concat_reads.outfile,
+            reads_yaml = concat_reads.outfile_yaml,
+            heatmap = heatmap.heatmap_pdf,
+            qc_report = html_report.html_report,
+            alignment_tar = alignment_tar.tar_output,
+            hmmcopy_tar = hmmcopy_tar.tar_output,
+            metadata_input = select_first([metadata_yaml, validation.metadata_yaml_output]),
+            singularity_image = hmmcopy_singularity_image,
+            docker_image = docker_image,
+            memory_override = memory_override,
+            walltime_override = walltime_override,
+    }
+
 
     output{
         File bam = merge_bam_files.pass_outfile
@@ -254,10 +283,10 @@ workflow QcWorkflow{
         File segments_yaml = concat_segments.outfile_yaml
         File params = concat_params.outfile
         File params_yaml = concat_params.outfile_yaml
-        File tarfile = tar.tar_output
-        File segments_pass = merge_segments.segments_pass
-        File segments_fail = merge_segments.segments_fail
+        File alignment_tarfile = alignment_tar.tar_output
+        File hmmcopy_tarfile = hmmcopy_tar.tar_output
         File heatmap_pdf = heatmap.heatmap_pdf
         File final_html_report = html_report.html_report
+        File metadata = qc_metadata.metadata_output
     }
 }
