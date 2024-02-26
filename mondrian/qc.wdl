@@ -233,7 +233,7 @@ workflow QcWorkflow{
     }
 
 
-    call utils.QcMetadata as qc_metadata{
+    call qc_utils.QcMetadata as qc_metadata{
         input:
             bam = merge_bam_files.pass_outfile,
             bai = merge_bam_files.pass_outfile_bai,
@@ -243,8 +243,8 @@ workflow QcWorkflow{
             control_bai = merge_bam_files.control_outfile_bai,
             gc_metrics = concat_gc_metrics.outfile,
             gc_metrics_yaml = concat_gc_metrics.outfile_yaml,
-            metrics = concat_metrics.outfile,
-            metrics_yaml = concat_metrics.outfile_yaml,
+            metrics = add_order.output_csv,
+            metrics_yaml = add_order.output_csv_yaml,
             params = concat_params.outfile,
             params_yaml = concat_params.outfile_yaml,
             segments = concat_segments.outfile,
@@ -253,8 +253,8 @@ workflow QcWorkflow{
             reads_yaml = concat_reads.outfile_yaml,
             heatmap = heatmap.heatmap_pdf,
             qc_report = html_report.html_report,
-            alignment_tar = alignment_tar.tar_output,
-            hmmcopy_tar = hmmcopy_tar.tar_output,
+            alignment_tarfile = alignment_tar.tar_output,
+            hmmcopy_tarfile = hmmcopy_tar.tar_output,
             metadata_input = select_first([metadata_yaml, validation.metadata_yaml_output]),
             singularity_image = hmmcopy_singularity_image,
             docker_image = docker_image,
