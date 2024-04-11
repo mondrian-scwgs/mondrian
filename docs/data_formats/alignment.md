@@ -99,9 +99,9 @@ meta:
 |total_duplicate_reads| number of duplicate reads|
 |standard_deviation_insert_size| standard deviation of the insert size between paired reads|
 |total_reads| total number of reads, regardless of mapping status|
-|overlap_with_dups| ratio of genome that is covered by at least one read excluding duplicate reads|
+|overlap_with_dups| ratio of genome that is covered by at least one read|
 |coverage_depth| average reads per nucleotide position in the genome|
-|overlap_without_dups| ratio of genome that is covered by at least one read|
+|overlap_without_dups| ratio of genome that is covered by at least one read excluding duplicate reads|
 |coverage_breadth| percentage of genome covered by some read|
 |expected| Expected coverage based on raw read count ((read_count * average_read_length)/genome_size )|
 |total_properly_paired| |
@@ -113,7 +113,7 @@ meta:
 |paired_mapped_reads| number of mapped reads that were properly paired|
 |median_insert_size| median insert size between paired reads|
 |overlap_with_all_filters_and_qual| ratio of genome that is covered by at least one read excluding unpaired, duplicate, supplementary and secondary reads|
-|overlap_with_all_filters| ratio of genome that is covered by at least one read excluding unpaired, duplicate, supplementary and secondary reads, and over 10 mapping quality and 10 base quality|
+|overlap_with_all_filters| ratio of genome that is covered by at least one read excluding unpaired, duplicate, supplementary and secondary reads, reads under 10 mapping quality and 10 base quality|
 |is_contaminated| boolean to denote contaminated cells|
 |fastqscreen_nohit_ratio| ratio of reads with no organism match|
 |fastqscreen_grch37_ratio| ratio of reads classified as human|
